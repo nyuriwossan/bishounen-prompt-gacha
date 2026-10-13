@@ -201,6 +201,41 @@ describe('競合と候補不足', () => {
     expect(r.ok).toBe(false);
     expect(r.state).toBe(s);
   });
+  it('衣装を手で選ぶと、自動で出た色は新しい服に合わせて引き直される', () => {
+    const s = fresh('follow');
+    const mains = new Set<string>();
+    for (let i = 0; i < 20; i++) {
+      const r = adopt(s, 'outfit', 'three_piece', true, { seed: 'f' + i });
+      expect(r.ok).toBe(true);
+      expect(r.state.fields.outfit).toEqual({ id: 'three_piece', source: 'manual', locked: true });
+      expect(r.state.fields.mainColor.source).toBe('random');
+      expect(r.changed).toEqual(expect.arrayContaining(['outfit']));
+      expect(r.state.fields.mainColor.id).not.toBe(r.state.fields.accentColor.id);
+      mains.add(r.state.fields.mainColor.id!);
+    }
+    expect(mains.size).toBeGreaterThan(1);
+  });
+  it('衣装を手で選んでも、固定した色と手で選んだ色は変わらない', () => {
+    let s = set(fresh('follow2'), 'mainColor', 'jet_black', true);
+    s = adopt(s, 'accentColor', 'deep_crimson', false).state;
+    for (let i = 0; i < 10; i++) {
+      const r = adopt(s, 'outfit', 'three_piece', true, { seed: 'g' + i });
+      expect(r.state.fields.mainColor).toEqual(s.fields.mainColor);
+      expect(r.state.fields.accentColor).toEqual(s.fields.accentColor);
+      const w = drawWithin(s, 'outfit', ['three_piece', 'slim_suit'], true);
+      expect(w.state.fields.mainColor).toEqual(s.fields.mainColor);
+      expect(w.state.fields.accentColor).toEqual(s.fields.accentColor);
+    }
+  });
+  it('衣装以外を手で選んでも色は引き直さない／一覧から引く衣装では自動の色も合わせる', () => {
+    const s = fresh('follow3');
+    const r = adopt(s, 'eyeColor', 'gold', true, { seed: 'h' });
+    expect(r.state.fields.mainColor).toEqual(s.fields.mainColor);
+    expect(r.state.fields.accentColor).toEqual(s.fields.accentColor);
+    const mains = new Set<string>();
+    for (let i = 0; i < 20; i++) mains.add(drawWithin(s, 'outfit', ['three_piece'], true).state.fields.mainColor.id!);
+    expect(mains.size).toBeGreaterThan(1);
+  });
   it('手動で選んだ値は、ロックしなければ次の錬成で変わり得る', () => {
     let s = fresh('manual');
     s = adopt(s, 'eyeColor', 'gold', false).state;

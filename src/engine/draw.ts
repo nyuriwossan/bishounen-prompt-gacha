@@ -204,7 +204,14 @@ export function checkAdopt(state: ForgeState, field: FieldId, id: string): Adopt
   };
 }
 
-/** 手動採用。競合する未固定項目があれば、それらだけを引き直す（ロック項目は変えない） */
+/** 衣装を手で選んだとき、新しい服に合わせて引き直す色。固定しておらず、手で選んでもいない（自動で出た）色だけ */
+export function followColors(state: ForgeState, field: FieldId): FieldId[] {
+  if (field !== 'outfit') return [];
+  return (['mainColor', 'accentColor'] as FieldId[]).filter((f) => !state.fields[f].locked && state.fields[f].source !== 'manual' && isActive(state, f));
+}
+const FOLLOW_NOTICE = '自動で出た衣装の色を、選んだ服に合わせて引き直しました。';
+
+/** 手動採用。競合する未固定項目があれば、それらだけを引き直す（ロック項目は変えない）。衣装なら自動で出た色も服に合わせる */
 export function adopt(state: ForgeState, field: FieldId, id: string, lock: boolean, opts: { seed?: string; recent?: RecentMap } = {}): DrawOutcome {
   const check = checkAdopt(state, field, id);
   const seed = opts.seed ?? newSeed();
@@ -217,12 +224,21 @@ export function adopt(state: ForgeState, field: FieldId, id: string, lock: boole
   }
   const s = cloneState(state);
   s.fields[field] = { id, source: 'manual', locked: lock };
-  if (!check.conflictingUnlocked.length) return { ok: true, state: s, notices: [], conflicts: [], changed: [field], recent: opts.recent ?? {}, stuck: [], seed };
-  const res = draw(s, { targets: check.conflictingUnlocked, hold: [field], seed, recent: opts.recent });
+  const plain: DrawOutcome = { ok: true, state: s, notices: [], conflicts: [], changed: [field], recent: opts.recent ?? {}, stuck: [], seed };
+  const follow = followColors(s, field).filter((f) => !check.conflictingUnlocked.includes(f));
+  if (!check.conflictingUnlocked.length && !follow.length) return plain;
+  const res = draw(s, { targets: [...check.conflictingUnlocked, ...follow], hold: [field], seed, recent: opts.recent });
   if (!res.ok || res.stuck.length) {
+    // 色を合わせられなかっただけなら、色はそのままで採用する
+    if (!check.conflictingUnlocked.length) return plain;
     return { ...res, ok: false, state, notices: ['この候補と両立する組み合わせが見つかりませんでした。', ...res.notices] };
   }
-  return { ...res, changed: [field, ...res.changed], notices: [`「${check.conflictingUnlocked.map(label).join('・')}」を、採用した候補に合わせて引き直しました。`, ...res.notices] };
+  const notices = [
+    ...(check.conflictingUnlocked.length ? [`「${check.conflictingUnlocked.map(label).join('・')}」を、採用した候補に合わせて引き直しました。`] : []),
+    ...(follow.length ? [FOLLOW_NOTICE] : []),
+    ...res.notices
+  ];
+  return { ...res, changed: [field, ...res.changed], notices };
 }
 
 export function toggleLock(state: ForgeState, field: FieldId): ForgeState {
@@ -276,7 +292,7 @@ export function drawWithin(state: ForgeState, field: FieldId, ids: string[], loc
   const unlocked = cloneState(state);
   unlocked.fields[field].locked = false;
   const preset: StylePreset = { id: 'within', ja: '', desc: '', icon: '', filters: { [field]: ids } };
-  const res = draw(unlocked, { targets: [field], preset, strictFilter: true, recent });
+  const res = draw(unlocked, { targets: [field, ...followColors(unlocked, field)], preset, strictFilter: true, recent });
   if (!res.ok) return { ...res, state };
   if (res.stuck.length) return { ...res, ok: false, state, notices: ['この一覧には、他の項目と両立する候補がありません。'] };
   res.state.fields[field] = { ...res.state.fields[field], source: 'manual', locked: lock };

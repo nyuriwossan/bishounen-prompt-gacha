@@ -1,7 +1,7 @@
 {
   "engine": "chromium",
-  "at": "2026-10-13T22:53:29.451Z",
-  "total": 83,
+  "at": "2026-10-13T23:03:49.419Z",
+  "total": 84,
   "failed": 0,
   "results": [
     {
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "白髪の吸血鬼の伯爵 / 銀髪の花街の色男"
+      "detail": "白髪の人ならざる美 / 深紅髪の人ならざる美"
     },
     {
       "name": "進むでやり直せる",
@@ -211,6 +211,11 @@
     },
     {
       "name": "服だけ着せ替えで衣装が変わり、固定した髪色は残る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "衣装を手で選ぶと、自動で出た色を服に合わせて引き直す",
       "ok": true,
       "detail": ""
     },
@@ -382,7 +387,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:46047/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
+      "detail": "http://127.0.0.1:39903/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

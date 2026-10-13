@@ -148,6 +148,7 @@ try {
     };
     const colorKeys = async () => (await page.$$eval('.frow .fcolors .ckey', (els) => els.map((e) => e.textContent))).join(',');
     await adopt('.formula > .rows > .frow:has-text("衣装") .fmain', 'スリーピース', 'スリーピーススーツ');
+    check('衣装を手で選ぶと、自動で出た色を服に合わせて引き直す', await page.isVisible('.toast >> text=服に合わせて引き直しました'));
     await page.click('details.group summary:has-text("ポーズ・構図")');
     await adopt('.frow:has-text("構図（画角）") .fmain', '全身', '全身');
     check('衣装の◯に「メイン・差し色」の名前が付く', (await colorKeys()) === 'メイン,差し色', await colorKeys());
