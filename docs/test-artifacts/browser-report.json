@@ -1,0 +1,323 @@
+{
+  "engine": "chromium",
+  "at": "2026-10-13T12:35:31.905Z",
+  "total": 63,
+  "failed": 0,
+  "results": [
+    {
+      "name": "320px：初回から完成した美青年が表示される",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320px：横スクロールが起きない",
+      "ok": true,
+      "detail": "overflow=0"
+    },
+    {
+      "name": "320px：詳細をすべて開いても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320px：全項目を固定しても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320px：主要なタップ領域が40px以上",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320px：実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "375px：初回から完成した美青年が表示される",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "375px：横スクロールが起きない",
+      "ok": true,
+      "detail": "overflow=0"
+    },
+    {
+      "name": "375px：詳細をすべて開いても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "375px：全項目を固定しても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "375px：主要なタップ領域が40px以上",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "375px：実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390px：初回から完成した美青年が表示される",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390px：横スクロールが起きない",
+      "ok": true,
+      "detail": "overflow=0"
+    },
+    {
+      "name": "390px：詳細をすべて開いても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390px：全項目を固定しても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390px：主要なタップ領域が40px以上",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390px：実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "768px：初回から完成した美青年が表示される",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "768px：横スクロールが起きない",
+      "ok": true,
+      "detail": "overflow=0"
+    },
+    {
+      "name": "768px：詳細をすべて開いても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "768px：全項目を固定しても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "768px：主要なタップ領域が40px以上",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "768px：実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280px：初回から完成した美青年が表示される",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280px：横スクロールが起きない",
+      "ok": true,
+      "detail": "overflow=0"
+    },
+    {
+      "name": "1280px：詳細をすべて開いても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280px：全項目を固定しても横スクロールなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280px：主要なタップ領域が40px以上",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280px：実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "錬成ボタンで結果が変わる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "戻すで直前の結果に戻る",
+      "ok": true,
+      "detail": "紺色髪の夏空の青年 / 濃い茶髪の高慢な貴公子"
+    },
+    {
+      "name": "進むでやり直せる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "固定した項目は錬成しても変わらない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "固定件数が表示される",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "固定中の項目のサイコロで解除を促す",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ロック全解除で値を残して固定だけ外れる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1項目再抽選は他の基本項目を変えない",
+      "ok": true,
+      "detail": "changed=10"
+    },
+    {
+      "name": "候補選択で採用でき、採用後に固定される",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "検索結果0件の案内が出る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "候補選択を閉じても結果は変わらない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "服だけ着せ替えで衣装が変わり、固定した髪色は残る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "おまかせスタイルは選んだだけでは結果を変えない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "プロンプトに男性1名・美形アンカーが含まれる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "出力形式「NovelAI」に切り替えられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "出力形式「汎用タグ」に切り替えられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "出力形式「自然な英文」に切り替えられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "出力形式「日本語設定」に切り替えられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "お気に入りに保存できる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "再読込しても現在の美青年が残る（自動保存）",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "再読込してもお気に入りが残る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "キーボードで錬成できる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "主要操作で実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "コピー不可の環境では、全文を選択した手動コピー欄を出す（iOS向け退避）",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "コピー退避で実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "共有URLを作れる",
+      "ok": true,
+      "detail": "http://127.0.0.1:44757/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
+    },
+    {
+      "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "共有URLの読み込み後、URLから状態が外れる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "共有URLで実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "prefers-reduced-motion では錬成の演出を止める",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "明るい表示に切り替えられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "保存領域が使えなくてもアプリは落ちず、保存失敗を伝える",
+      "ok": true,
+      "detail": "保存領域が不足しています。履歴やお気に入りを整理してください。"
+    },
+    {
+      "name": "容量不足でも実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -157,7 +157,7 @@ export const LIGHT: Option[] = [
   l('chiaroscuro', '明暗の強い光', 'chiaroscuro, dramatic lighting', undefined, ['dramatic', 'dark']),
   l('studio_soft', 'スタジオの柔らかな光', 'studio lighting, soft lighting', undefined, ['soft'], { src: 'bg:primaryLights' }),
   l('spotlight', 'スポットライト', 'spotlight', undefined, ['stage', 'dramatic'], { worlds: ['stage', 'modern', 'urban', 'noir', 'victorian'] }),
-  l('stained_glass', 'ステンドグラスの光', 'stained glass light, colorful light', DAY, ['sacred', 'indoor'], { worlds: ['western', 'gothic', 'fantasy', 'sacred', 'court', 'retro'] }),
+  l('stained_glass', 'ステンドグラスの光', 'stained glass light, colorful light', DAY, ['sacred', 'indoor'], { worlds: ['western', 'gothic', 'court', 'retro', 'high_fantasy', 'dark_fantasy'] }),
   l('magic_glow', '魔法の光', 'magical glow, glowing particles', undefined, ['mystic'], { src: 'bg:primaryLights', worlds: ['fantasy', 'myth', 'supernatural', 'sacred', 'dark'] }),
   l('bioluminescence', '発光する花と光の粒', 'bioluminescence, glowing flowers', ['night', 'twilight'], ['mystic', 'nature'], { worlds: ['fantasy', 'myth', 'supernatural'] }),
   l('holographic', 'ホログラムの光', 'holographic light, blue glow', undefined, ['tech', 'night'], { worlds: ['sf'] }),

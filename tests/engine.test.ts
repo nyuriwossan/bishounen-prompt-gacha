@@ -1,0 +1,303 @@
+import { describe, expect, it } from 'vitest';
+import { allViolations } from '../src/advisor/hard';
+import { DRAW_ORDER, fieldDef, optionOf } from '../src/data/fields';
+import { STYLE_PRESETS } from '../src/data/presets';
+import { adopt, checkAdopt, draw, drawWithin, GROUPS, lockCount, nucleus, relatedTargets, toggleLock, unlockAll, valuesOf } from '../src/engine/draw';
+import { hashSeed, seededRandom, weightedPick } from '../src/engine/rng';
+import { cloneState, emptyState, isActive } from '../src/engine/state';
+import { applyShares, softWeight } from '../src/engine/weights';
+import type { FieldId, ForgeState } from '../src/types';
+
+const fresh = (seed = 'base', mode: ForgeState['settings']['coherence'] = 'coherent') => {
+  const s = emptyState(); s.settings.coherence = mode;
+  const r = draw(s, { seed });
+  expect(r.ok).toBe(true);
+  return r.state;
+};
+const set = (s: ForgeState, f: FieldId, id: string, locked = true) => { const t = cloneState(s); t.fields[f] = { id, source: 'manual', locked }; return t; };
+
+describe('乱数', () => {
+  it('同じシードは同じ乱数列', () => {
+    const a = seededRandom('x'), b = seededRandom('x');
+    for (let i = 0; i < 20; i++) expect(a()).toBe(b());
+    expect(hashSeed('a')).not.toBe(hashSeed('b'));
+  });
+  it('重み付き抽選は重み0を選ばず、重み合計0なら null', () => {
+    const r = seededRandom('w');
+    for (let i = 0; i < 200; i++) expect(weightedPick(['a', 'b'], [0, 1], r)).toBe('b');
+    expect(weightedPick(['a'], [0], r)).toBeNull();
+  });
+  it('nucleus は上位の累積 p だけを残す', () => {
+    expect(nucleus([50, 30, 15, 5], 0.9)).toEqual([50, 30, 15, 0]);
+    expect(nucleus([1, 1], 1)).toEqual([1, 1]);
+  });
+});
+
+describe('初回の錬成', () => {
+  it('全項目が埋まり、hard 矛盾がない', () => {
+    const s = fresh();
+    for (const f of DRAW_ORDER) if (isActive(s, f) && fieldDef(f).randomizable !== false) expect(s.fields[f].id, f).toBeTruthy();
+    expect(allViolations(valuesOf(s))).toEqual([]);
+    expect(s.lastSeed).toBe('base');
+    expect(s.drawCount).toBe(1);
+  });
+});
+
+describe('ロック', () => {
+  it('全ロック状態で再錬成しても、値／IDが1件も変わらない', () => {
+    let s = fresh('lockall');
+    for (const f of DRAW_ORDER) s.fields[f].locked = true;
+    const before = JSON.stringify(s.fields);
+    const r = draw(s, { seed: 'again' });
+    expect(r.ok).toBe(true);
+    expect(JSON.stringify(r.state.fields)).toBe(before);
+    expect(r.changed).toEqual([]);
+    expect(r.notices.join()).toContain('固定中');
+    s = r.state;
+  });
+  it('非ロック項目の再抽選は、ロック済み項目を変えない（50回）', () => {
+    let s = fresh('partial');
+    const locked: FieldId[] = ['archetype', 'hairColor', 'world', 'outfit', 'expression', 'shot'];
+    for (const f of locked) s.fields[f].locked = true;
+    const snap = Object.fromEntries(locked.map((f) => [f, s.fields[f].id]));
+    for (let i = 0; i < 50; i++) {
+      const r = draw(s, { seed: `p${i}` });
+      expect(r.ok).toBe(true);
+      for (const f of locked) expect(r.state.fields[f].id).toBe(snap[f]);
+      s = r.state;
+    }
+  });
+  it('1項目の再抽選で、無関係の値は変わらない', () => {
+    const s = fresh('single');
+    for (const target of ['eyeColor', 'expression', 'outfit', 'hairColor', 'scene'] as FieldId[]) {
+      const r = draw(s, { targets: [target], seed: 'one' + target });
+      expect(r.ok).toBe(true);
+      for (const f of DRAW_ORDER) if (f !== target) expect(r.state.fields[f].id, `${target}→${f}`).toBe(s.fields[f].id);
+    }
+  });
+  it('ロック全解除は固定だけを外し、値を消さない', () => {
+    let s = fresh('unlock');
+    for (const f of ['age', 'outfit', 'hairStyle'] as FieldId[]) s = toggleLock(s, f);
+    expect(lockCount(s)).toBe(3);
+    const u = unlockAll(s);
+    expect(lockCount(u)).toBe(0);
+    for (const f of DRAW_ORDER) expect(u.fields[f].id).toBe(s.fields[f].id);
+  });
+  it('同じ方向性で引く：年齢・美形タイプ・容姿傾向・世界観・意匠を保つ', () => {
+    const s = fresh('direction');
+    const r = draw(s, { targets: GROUPS.direction, seed: 'dir2' });
+    for (const f of ['age', 'archetype', 'presentation', 'world', 'culture'] as FieldId[]) expect(r.state.fields[f].id).toBe(s.fields[f].id);
+  });
+  it('服だけ着せ替え：衣装と色以外は変わらない', () => {
+    const s = fresh('outfitonly');
+    const r = draw(s, { targets: GROUPS.outfit, seed: 'o2' });
+    for (const f of DRAW_ORDER) if (!GROUPS.outfit.includes(f)) expect(r.state.fields[f].id).toBe(s.fields[f].id);
+  });
+});
+
+describe('hard 制約', () => {
+  it('短髪に長髪専用の髪型は出ない（髪の長さを固定して200回）', () => {
+    for (const len of ['very_short', 'short']) {
+      let s = set(fresh('hair' + len), 'hairLength', len);
+      for (let i = 0; i < 100; i++) {
+        s = draw(s, { seed: `${len}${i}` }).state;
+        expect(optionOf('hairStyle', s.fields.hairStyle.id)!.lengths).toContain(len);
+      }
+    }
+  });
+  it('髪型を固定すると、髪の長さはその髪型が成立する長さから選ばれる', () => {
+    let s = set(fresh('style'), 'hairStyle', 'very_long_straight');
+    for (let i = 0; i < 30; i++) { s = draw(s, { seed: 'vl' + i }).state; expect(s.fields.hairLength.id).toBe('very_long'); }
+  });
+  it('構図を顔アップで固定すると、全身の動きが必要なポーズは出ない', () => {
+    let s = set(fresh('shot'), 'shot', 'close_up');
+    for (let i = 0; i < 80; i++) { s = draw(s, { seed: 'c' + i }).state; expect(optionOf('pose', s.fields.pose.id)!.minShot).toBe(0); }
+  });
+  it('両手を使うポーズでは、手を占有する持ち物は手の数を超えない', () => {
+    let s = set(fresh('hands'), 'pose', 'arms_crossed');
+    for (let i = 0; i < 60; i++) { s = draw(s, { seed: 'h' + i }).state; expect(optionOf('prop', s.fields.prop.id)!.hands).toBe(0); }
+  });
+  it('持ち物が必要なポーズは、必要な持ち物とセットになる', () => {
+    let s = set(fresh('req'), 'pose', 'draw_sword');
+    for (let i = 0; i < 40; i++) { s = draw(s, { seed: 'r' + i }).state; expect(optionOf('prop', s.fields.prop.id)!.tags).toContain('blade'); }
+  });
+  it('文化モチーフを固定すると、別文化の伝統衣装は出ない', () => {
+    let s = set(fresh('culture'), 'culture', 'japan');
+    for (let i = 0; i < 80; i++) {
+      s = draw(s, { seed: 'j' + i }).state;
+      const o = optionOf('outfit', s.fields.outfit.id)!;
+      if (o.culture) expect(o.culture).toBe('japan');
+    }
+  });
+  it('夜には直射の日光系の光が出ない／屋内では雨・雪が出ない', () => {
+    let s = set(fresh('night'), 'time', 'night');
+    for (let i = 0; i < 60; i++) { s = draw(s, { seed: 'n' + i }).state; const l = optionOf('light', s.fields.light.id)!; if (l.needs) expect(l.needs).toContain('night'); }
+    let t = set(fresh('indoor'), 'scene', 'library');
+    for (let i = 0; i < 60; i++) { t = draw(t, { seed: 'i' + i }).state; expect(optionOf('time', t.fields.time.id)!.outdoorOnly).toBeFalsy(); }
+  });
+  it('獣人モードOFFでは獣人項目を抽選しない／ONで埋まる', () => {
+    const s = fresh('kemono');
+    expect(s.fields.kemonoSpecies.id).toBeNull();
+    const on = cloneState(s); on.optionalModules.kemonoEnabled = true;
+    const r = draw(on, { seed: 'k' });
+    expect(r.state.fields.kemonoSpecies.id).toBeTruthy();
+    expect(r.state.fields.marks.id).not.toBe('pointy_ears');
+  });
+  it('名前に年齢を含む美形タイプは、矛盾する年齢層と組み合わない', () => {
+    let s = set(fresh('agearch'), 'age', 'a60p');
+    for (let i = 0; i < 60; i++) { s = draw(s, { seed: 'aa' + i }).state; expect(['young_general', 'cold_monarch', 'young_duke', 'refreshing_youth']).not.toContain(s.fields.archetype.id); }
+  });
+});
+
+describe('競合と候補不足', () => {
+  it('固定どうしが矛盾していれば錬成せず、理由と解除候補を返す（無限ループしない）', () => {
+    let s = fresh('conflict');
+    s = set(s, 'hairLength', 'very_short'); s = set(s, 'hairStyle', 'very_long_straight');
+    const before = JSON.stringify(s);
+    const r = draw(s, { seed: 'x' });
+    expect(r.ok).toBe(false);
+    expect(JSON.stringify(r.state)).toBe(before);
+    expect(r.conflicts[0].fields).toEqual(['hairLength', 'hairStyle']);
+    expect(r.conflicts[0].unlockCandidates).toEqual(['hairLength', 'hairStyle']);
+    expect(r.conflicts[0].reasonJa).toContain('腰まで届くストレート');
+  });
+  it('1項目再抽選で両立する候補が0件なら、元の値を保って知らせる', () => {
+    let s = fresh('stuck');
+    s = set(s, 'pose', 'reading'); s = set(s, 'prop', 'book', false);
+    const r = draw(s, { targets: ['prop'], seed: 's' });
+    expect(r.ok).toBe(true);
+    // 本が必要なポーズに固定 → 本・魔導書以外は候補にならない
+    expect(['book', 'grimoire']).toContain(r.state.fields.prop.id);
+    const s2 = set(set(fresh('stuck2'), 'pose', 'arms_crossed', false), 'prop', 'none', false);
+    const lockedShot = set(s2, 'shot', 'close_up');
+    const r2 = draw(lockedShot, { targets: ['pose'], seed: 'p' });
+    expect(r2.ok).toBe(true);
+    expect(optionOf('pose', r2.state.fields.pose.id)!.minShot).toBe(0);
+  });
+  it('両立する候補がない項目は stuck として返り、関連項目の引き直し対象を提示できる', () => {
+    let s = fresh('stuck3');
+    s = set(s, 'expression', 'smile_eyes_closed'); // 目を閉じる
+    s = set(s, 'shot', 'close_up');
+    s = set(s, 'glasses', 'none');
+    // 顔アップで成立し、目を閉じた表情と両立し、眼鏡不要のポーズは「横顔」だけ
+    const r = draw(s, { targets: ['pose'], seed: 'q' });
+    expect(r.ok).toBe(true);
+    expect(r.state.fields.pose.id).toBe('side_profile');
+    expect(relatedTargets(s, ['pose'])).toEqual(expect.arrayContaining(['pose', 'prop']));
+  });
+  it('手動採用：未固定の項目と競合したら、その項目だけを合わせて引き直す', () => {
+    const s = set(fresh('adopt'), 'hairLength', 'short', false);
+    const chk = checkAdopt(s, 'hairStyle', 'floor_length');
+    expect(chk.ok).toBe(false);
+    expect(chk.conflictingUnlocked).toEqual(['hairLength']);
+    const r = adopt(s, 'hairStyle', 'floor_length', true, { seed: 'z' });
+    expect(r.ok).toBe(true);
+    expect(r.state.fields.hairStyle).toEqual({ id: 'floor_length', source: 'manual', locked: true });
+    expect(r.state.fields.hairLength.id).toBe('very_long');
+  });
+  it('手動採用：固定中の項目と競合したら採用せず、状態を変えない', () => {
+    const s = set(fresh('adopt2'), 'hairLength', 'short', true);
+    const r = adopt(s, 'hairStyle', 'floor_length', true);
+    expect(r.ok).toBe(false);
+    expect(r.state).toBe(s);
+  });
+  it('手動で選んだ値は、ロックしなければ次の錬成で変わり得る', () => {
+    let s = fresh('manual');
+    s = adopt(s, 'eyeColor', 'gold', false).state;
+    expect(s.fields.eyeColor.source).toBe('manual');
+    const ids = new Set<string>();
+    for (let i = 0; i < 20; i++) ids.add(draw(s, { seed: 'm' + i }).state.fields.eyeColor.id!);
+    expect(ids.size).toBeGreaterThan(1);
+  });
+  it('一覧から引く（drawWithin）は一覧の中だけから選ぶ', () => {
+    const s = fresh('within');
+    for (let i = 0; i < 20; i++) {
+      const r = drawWithin(s, 'hairColor', ['silver', 'white', 'black'], false);
+      expect(['silver', 'white', 'black']).toContain(r.state.fields.hairColor.id);
+    }
+  });
+});
+
+describe('シードと重複回避', () => {
+  it('同じseed＋同じ条件は同じ結果（3モード）', () => {
+    for (const mode of ['coherent', 'balanced', 'wild'] as const) {
+      const a = fresh('repro', mode), b = fresh('repro', mode);
+      expect(JSON.stringify(a.fields)).toBe(JSON.stringify(b.fields));
+    }
+  });
+  it('固定シード設定でも同じ結果になり、シード無しなら毎回変わる', () => {
+    const s = emptyState(); s.settings.seed = 'fixed-1';
+    const a = draw(s).state, b = draw(s).state;
+    expect(JSON.stringify(a.fields)).toBe(JSON.stringify(b.fields));
+    expect(a.lastSeed).toBe('fixed-1');
+    const c = draw(emptyState()).state, d = draw(emptyState()).state;
+    expect(JSON.stringify(c.fields)).not.toBe(JSON.stringify(d.fields));
+  });
+  it('直近履歴を避ける（同じ項目が連続しにくい）', () => {
+    let s = fresh('recent', 'balanced');
+    s.settings.seed = '';
+    let recent = {};
+    let same = 0;
+    for (let i = 0; i < 60; i++) {
+      const prev = s.fields.archetype.id;
+      const r = draw(s, { targets: ['archetype'], recent });
+      recent = r.recent; s = r.state;
+      if (s.fields.archetype.id === prev) same++;
+    }
+    expect(same).toBeLessThanOrEqual(2);
+  });
+  it('候補不足のときは重複回避をゆるめる（候補が直近だけでも止まらない）', () => {
+    const s = set(fresh('relax'), 'hairStyle', 'very_long_straight');
+    s.settings.seed = '';
+    const recent = { hairLength: ['very_long'] };
+    const r = draw(s, { targets: ['hairLength'], recent });
+    expect(r.ok).toBe(true);
+    expect(r.state.fields.hairLength.id).toBe('very_long');
+  });
+});
+
+describe('モードとおまかせスタイル', () => {
+  it('まとまり重視は世界観に合う衣装の割合が高く、カオスは低い', () => {
+    const rate = (mode: 'coherent' | 'balanced' | 'wild') => {
+      let hit = 0;
+      for (let i = 0; i < 150; i++) {
+        const s = fresh('m' + i, mode);
+        const w = optionOf('world', s.fields.world.id)!, o = optionOf('outfit', s.fields.outfit.id)!;
+        if (w.id === 'world_mix' || (o.worlds || []).some((x) => x === w.id || (w.tags || []).includes(x))) hit++;
+      }
+      return hit / 150;
+    };
+    const c = rate('coherent'), b = rate('balanced'), w = rate('wild');
+    expect(c).toBeGreaterThan(b);
+    expect(b).toBeGreaterThan(w);
+    expect(c).toBeGreaterThan(0.85);
+  });
+  it('おまかせスタイルは条件の範囲で抽選し、固定を優先する', () => {
+    const silver = STYLE_PRESETS.find((p) => p.id === 'silver')!;
+    for (let i = 0; i < 20; i++) {
+      const r = draw(fresh('ps' + i), { preset: silver, seed: 'ps' + i });
+      expect(silver.filters.hairColor).toContain(r.state.fields.hairColor.id);
+    }
+    const locked = set(fresh('psl'), 'hairColor', 'black');
+    const r = draw(locked, { preset: silver, seed: 'psl' });
+    expect(r.state.fields.hairColor.id).toBe('black');
+  });
+  it('ケモミミのおまかせは獣人モードを有効にする', () => {
+    const k = STYLE_PRESETS.find((p) => p.id === 'kemono')!;
+    const r = draw(fresh('kp'), { preset: k, seed: 'kp' });
+    expect(r.state.optionalModules.kemonoEnabled).toBe(true);
+    expect(['lv1', 'lv2']).toContain(r.state.fields.kemonoLevel.id);
+  });
+  it('群の下限：好みに合う候補群は指定の確率を確保する', () => {
+    const pool = fieldDef('outfit').options;
+    const w = pool.map(() => 1);
+    const out = applyShares(pool, w, [{ label: 't', match: (o) => o.id === 'butler', share: 0.5 }]);
+    const total = out.reduce((a, b) => a + b, 0);
+    expect(out[pool.findIndex((o) => o.id === 'butler')] / total).toBeCloseTo(0.5, 5);
+  });
+  it('カオスでは現実寄りの世界観でも幻想色の髪が下がらない', () => {
+    const v = { world: optionOf('world', 'business')! };
+    const pink = optionOf('hairColor', 'pastel_blue')!;
+    expect(softWeight('hairColor', pink, v, 'coherent')).toBeLessThan(softWeight('hairColor', pink, v, 'wild') * 1.01);
+  });
+});

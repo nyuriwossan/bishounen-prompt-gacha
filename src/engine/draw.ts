@@ -32,9 +32,15 @@ export interface DrawOptions {
 }
 export interface DrawOutcome extends DrawResult { recent: RecentMap; stuck: FieldId[]; seed: string }
 
-const RECENT_FACTOR = 0.12;
-/** 上位の候補だけで累積確率 p に達する範囲から引く（まとまり重視ほど、相性の悪い長い裾を切る） */
-const TOP_P: Record<ForgeState['settings']['coherence'], number> = { coherent: 0.9, balanced: 0.97, wild: 1 };
+/** 裾の切り方：top-p（累積確率）と min-p（最有力候補の何割未満を切るか）。まとまり重視ほど、相性の悪い長い裾を切る */
+const TOP_P: Record<ForgeState['settings']['coherence'], number> = { coherent: 0.95, balanced: 0.99, wild: 1 };
+const MIN_P: Record<ForgeState['settings']['coherence'], number> = { coherent: 0.1, balanced: 0.03, wild: 0 };
+export function minP(weights: number[], ratio: number): number[] {
+  if (ratio <= 0) return weights;
+  const max = Math.max(...weights);
+  if (!(max > 0)) return weights;
+  return weights.map((w) => (w >= max * ratio ? w : 0));
+}
 export function nucleus(weights: number[], p: number): number[] {
   if (p >= 1) return weights;
   const total = weights.reduce((a, b) => a + b, 0);
@@ -160,13 +166,21 @@ function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: P
   if (!pool.length) return null;
   if (pool.length <= 2 && def.options.length > 6) ctx.notices.push(`「${label(f)}」は今の条件だと候補が少なめです（${pool.length}件）。`);
 
-  const recentIds = ctx.useRecent ? ctx.recent[f] || [] : [];
-  const allRecent = recentIds.length > 0 && pool.every((o) => recentIds.includes(o.id));
-  if (allRecent && pool.length > 1) ctx.notices.push(`「${label(f)}」は直近と同じ候補しか残っていないため、重複回避をゆるめました。`);
+  // 避ける直近の数は候補数の半分まで（年齢層5種などの小さな候補で行き詰まらないように）
+  const keep = Math.floor(pool.length / 2);
+  const recentIds = ctx.useRecent && keep > 0 ? (ctx.recent[f] || []).slice(-keep) : [];
   const mode = s.settings.coherence;
   const base = pool.map((o) => softWeight(f, o, determined, mode));
   const boosted = applyShares(pool, base, shareBoosts(f, determined, mode));
-  const weights = nucleus(boosted.map((w, i) => w * (!allRecent && recentIds.includes(pool[i].id) ? RECENT_FACTOR : 1)), TOP_P[mode]);
+  const trimmed = nucleus(minP(boosted, MIN_P[mode]), TOP_P[mode]);
+  // 直近の重複回避は段階的にゆるめる：①相性の良い候補から直近を除く → ②全候補から直近を除く → ③直近も許可
+  const notRecent = (w: number[]) => w.map((x, i) => (recentIds.includes(pool[i].id) ? 0 : x));
+  let weights = notRecent(trimmed);
+  if (!weights.some((w) => w > 0)) weights = notRecent(boosted);
+  if (!weights.some((w) => w > 0)) {
+    weights = trimmed;
+    if (recentIds.length && pool.length > 1) ctx.notices.push(`「${label(f)}」は直近と同じ候補しか残っていないため、重複回避をゆるめました。`);
+  }
   return weightedPick(pool, weights, rng);
 }
 

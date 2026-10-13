@@ -29,7 +29,9 @@ const AGE_REQUIRES: Record<string, string> = {
   charming_professor: 'age:a25_34|a35_44|a45_59|a60p', reliable_senpai: 'age:a18_24|a25_34|a35_44', big_brother: 'age:a18_24|a25_34|a35_44',
   sunny_athlete: 'age:a18_24|a25_34|a35_44', radiant_idol: 'age:a18_24|a25_34', summer_youth: 'age:a18_24|a25_34', earnest_youth: 'age:a18_24|a25_34|a35_44',
   pastoral_youth: 'age:a18_24|a25_34|a35_44', florist_youth: 'age:a18_24|a25_34|a35_44', imperial_prince: 'age:a18_24|a25_34', gentle_prince: 'age:a18_24|a25_34',
-  old_family_heir: 'age:a18_24|a25_34|a35_44', jaded_heir: 'age:a18_24|a25_34|a35_44', window_patient: 'age:a18_24|a25_34|a35_44'
+  old_family_heir: 'age:a18_24|a25_34', jaded_heir: 'age:a18_24|a25_34|a35_44', window_patient: 'age:a18_24|a25_34|a35_44',
+  pure_acolyte: 'age:a18_24|a25_34', gentleman: 'age:a18_24|a25_34|a35_44', ill_fated: 'age:a18_24|a25_34|a35_44', snow_prince: 'age:a18_24|a25_34|a35_44',
+  rain_soaked: 'age:a18_24|a25_34|a35_44', bewitching: 'age:a18_24|a25_34|a35_44', immortal_sage: 'age:a18_24|a25_34|a35_44'
 };
 const A = (id: string, ja: string, desc: string, cat: string, en: string, nat: string, prefs: string, w = 1): Option =>
   ({ id, ja, desc, cat, en: en.split(/\s*,\s*/), nat, prefs: parsePrefs(prefs), w, ...(AGE_REQUIRES[id] ? { requires: [AGE_REQUIRES[id]] } : {}) });

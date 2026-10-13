@@ -1,0 +1,18 @@
+{
+  "total": 158,
+  "byRule": {
+    "hair_length_style": 14,
+    "pose_shot": 14,
+    "prop_hands": 14,
+    "eyes_gaze": 14,
+    "light_time": 14,
+    "weather_indoor": 14,
+    "culture_outfit": 14,
+    "color_duplicate": 14,
+    "hair_accent_duplicate": 14,
+    "ears_kemono": 14,
+    "eyepatch_monocle": 1,
+    "requires": 17
+  },
+  "failures": []
+}

@@ -31,7 +31,7 @@ const SHARE: Record<string, Record<Mode, number>> = {
   name: { coherent: 0.95, balanced: 0.8, wild: 0.3 },
   cultureTied: { coherent: 0.45, balanced: 0.3, wild: 0 },
   cultureNone: { coherent: 0.85, balanced: 0.7, wild: 0 },
-  occupationNone: { coherent: 0.35, balanced: 0.2, wild: 0 }
+  occupationNone: { coherent: 0.55, balanced: 0.3, wild: 0 }
 };
 
 const WORLD_FIT_FIELDS = new Set<FieldId>(['outfit', 'scene', 'occupation', 'prop', 'pose', 'culture', 'light']);
@@ -187,6 +187,11 @@ export function shareBoosts(field: FieldId, v: Values, mode: Mode): ShareBoost[]
   const refs = v.archetype?.prefs?.[field];
   if (field !== 'archetype' && refs?.length) add('archetype', 'archetype', (o) => matchAny(o, refs));
   if (field === 'archetype' && v.world) add('archetypeWorld', 'archetypeWorld', (o) => !!o.prefs?.world && (matchAny(v.world, o.prefs.world) || o.prefs.world.some((x) => v.world!.tags?.includes(x) && !GENERIC_WORLD_TAGS.has(x))));
+  // 美形タイプが好む衣装を着る職業を優先（例：サイバーパンクの運び屋 → ハッカー・賞金稼ぎ）
+  if (field === 'occupation' && v.archetype?.prefs?.outfit && !v.archetype.prefs.occupation) {
+    const outs = fieldDef('outfit').options.filter((o) => matchAny(o, v.archetype!.prefs!.outfit));
+    add('archetypeOcc', 'archetype', (o) => !!o.outfitPrefs && outs.some((x) => matchAny(x, o.outfitPrefs)));
+  }
   // 美形タイプが職業を想定しないなら「指定しない」を厚めに
   if (field === 'occupation' && v.archetype && !v.archetype.prefs?.occupation) add('occupationNone', 'occupationNone', (o) => o.id === 'none');
   // 先に決まる項目で、美形タイプの好む髪型・ポーズが成立する余地を残す
@@ -217,11 +222,14 @@ export function shareBoosts(field: FieldId, v: Values, mode: Mode): ShareBoost[]
   }
   // 世界観に固有一致する候補群（最後に適用）
   if (WORLD_FIT_FIELDS.has(field) && field !== 'culture' && field !== 'light' && field !== 'prop' && field !== 'pose') {
-    add('world', 'world', (o) => (worldStrength(o, v.world) ?? 0) >= 1);
+    // 世界観を問わない候補（指定しない・シンプル背景など）は一致側に数える
+    add('world', 'world', (o) => { const ws = worldStrength(o, v.world); return ws === null || ws >= 1; });
   }
   // 世界観 → 呼び名の系統
   if (field === 'name' && v.world?.nameSystem && v.world.nameSystem !== 'mixed') { const sys = v.world.nameSystem; add('name', 'name', (o) => o.nameSystem === sys); }
-  return out;
+  // 適用順：職業・文化・色 → 美形タイプ → 世界観（後に適用したものほど優先される）
+  const ORDER: Record<string, number> = { occupation: 1, culture: 1, color: 1, archetype: 2, archetypeHair: 2, archetypeShot: 2, archetypeWorld: 2, archetypeOcc: 2, occupationNone: 1, cultureTied: 2, cultureNone: 2, world: 3, name: 3 };
+  return out.sort((a, b) => (ORDER[a.label] ?? 2) - (ORDER[b.label] ?? 2));
 }
 
 /** 群の合計確率が share 未満なら、群の重みを持ち上げる */

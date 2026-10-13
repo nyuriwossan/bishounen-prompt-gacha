@@ -66,12 +66,13 @@ export function outfitParts(outfit: Option | undefined, c1: Option | undefined, 
   if (!outfit) return { tags: [], nat: '', ja: '' };
   const fillC = (s: string) => s.replace(/\{c1\}/g, c1?.en[0] ?? '').replace(/\{c2\}/g, c2?.en[0] ?? '').replace(/\s+/g, ' ').trim();
   let upper = (outfit.upper ?? '').split(/\s*,\s*/).map(fillC).filter(Boolean);
-  const lowerAll = (outfit.lower ?? '').split(/\s*,\s*/).filter(Boolean);
+  const lowerAll = (outfit.lower ?? '').split(/\s*,\s*/).map(fillC).filter(Boolean);
   const lower = shotLevel >= 4 ? lowerAll : shotLevel === 3 ? lowerAll.slice(0, 1) : [];
   if (shotLevel === 0) upper = upper.slice(0, 1);
   const tags = [...upper, ...lower];
-  const colorJa = [c1 && outfit.upper?.includes('{c1}') ? c1.ja : '', c2 && outfit.upper?.includes('{c2}') ? c2.ja : ''].filter(Boolean).join('×');
-  return { tags, nat: joinNat(tags.map((t, i) => (i === 0 ? (/^[aeiou]/i.test(t) ? 'an ' : 'a ') + t : t))), ja: colorJa ? `${outfit.ja}（${colorJa}）` : outfit.ja };
+  const tpl = `${outfit.upper ?? ''} ${outfit.lower ?? ''}`;
+  const colorJa = [c1 && tpl.includes('{c1}') ? c1.ja : '', c2 && tpl.includes('{c2}') ? c2.ja : ''].filter(Boolean).join('×');
+  return { tags, nat: joinNat(tags.map((t, i) => (i === 0 ? (/^[aeiou]/i.test(t) ? 'an ' : 'a ') + t : t))), ja: colorJa ? `${outfit.ja}［${colorJa}］` : outfit.ja };
 }
 
 /** タイトルを意味の切れ目ごとに分ける（画面で語の途中改行を防ぐ） */
@@ -79,7 +80,9 @@ export function titleParts(state: ForgeState): string[] {
   const hair = optionOf('hairColor', state.fields.hairColor.id);
   const arch = optionOf('archetype', state.fields.archetype.id);
   const species = state.optionalModules.kemonoEnabled ? optionOf('kemonoSpecies', state.fields.kemonoSpecies.id) : undefined;
-  return [species ? `${species.ja}耳の` : '', hair ? `${hairColorShort(hair)}の` : '', arch?.ja ?? '美青年'].filter(Boolean);
+  const archName = arch?.ja ?? '美青年';
+  const hairPart = hair && !/髪/.test(archName) ? `${hairColorShort(hair)}の` : '';
+  return [species ? `${species.ja}耳の` : '', hairPart, archName].filter(Boolean);
 }
 export function titleOf(state: ForgeState): string {
   return titleParts(state).join('');

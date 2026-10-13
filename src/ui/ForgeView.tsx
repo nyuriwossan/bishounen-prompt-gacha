@@ -52,7 +52,7 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
       <article class="label" ref={labelRef} aria-live="polite">
         <div class="label-head"><span>錬成 第{forge.drawCount}号</span><span>seed {forge.lastSeed || '—'}</span></div>
         <h2 class="label-title" aria-label={title}>{titleParts(forge).map((t, i) => <span key={i} class="phrase">{t}</span>)}</h2>
-        {name && <p class="label-name">呼び名　{name.ja}</p>}
+        {name && <p class="label-name"><span class="label-name-key">呼び名</span>{name.ja}</p>}
         <ul class="label-traits">
           {traits.map((t) => <li key={t}>{t}</li>)}
           {o('hairColor') && <li><span class="swatch" style={{ background: o('hairColor')!.hex }} />{o('hairColor')!.ja}</li>}

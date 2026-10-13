@@ -33,6 +33,7 @@ export function download(text: string, filename: string, type: string): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
+  // eslint-disable-next-line no-control-regex -- ファイル名に使えない制御文字を除く
   a.download = filename.replace(/[\\/:*?"<>|\x00-\x1f]/g, '_').slice(0, 80);
   document.body.appendChild(a);
   a.click();
