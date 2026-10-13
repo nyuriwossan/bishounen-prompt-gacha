@@ -1,7 +1,7 @@
 {
   "engine": "chromium",
-  "at": "2026-10-13T22:05:23.846Z",
-  "total": 79,
+  "at": "2026-10-13T22:53:29.451Z",
+  "total": 83,
   "failed": 0,
   "results": [
     {
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "チャコールの花街の色男 / 青み黒髪の夜型のハッカー"
+      "detail": "白髪の吸血鬼の伯爵 / 銀髪の花街の色男"
     },
     {
       "name": "進むでやり直せる",
@@ -211,6 +211,26 @@
     },
     {
       "name": "服だけ着せ替えで衣装が変わり、固定した髪色は残る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "衣装の◯に「メイン・差し色」の名前が付く",
+      "ok": true,
+      "detail": "メイン,差し色"
+    },
+    {
+      "name": "差し色の◯をタップすると差し色の候補が開き、選んだ色が◯に反映される",
+      "ok": true,
+      "detail": "差し色を選ぶ"
+    },
+    {
+      "name": "顔アップでは出力されない差し色の◯を出さない",
+      "ok": true,
+      "detail": "メイン"
+    },
+    {
+      "name": "顔アップの白シャツでは色の◯を出さない",
       "ok": true,
       "detail": ""
     },
@@ -362,7 +382,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:37813/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
+      "detail": "http://127.0.0.1:46047/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

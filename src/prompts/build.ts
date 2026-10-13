@@ -61,17 +61,34 @@ function dedupe(tags: string[]): string[] {
   return tags.map((t) => t.trim()).filter((t) => { const k = t.toLowerCase(); if (!t || seen.has(k)) return false; seen.add(k); return true; });
 }
 
+/** 画角で残る衣装テンプレートの断片（色を埋める前）。顔アップは上半身の先頭だけ、腰上は下半身の先頭まで、膝上以上で下半身すべて */
+function visibleOutfitSegments(outfit: Option, shotLevel: number): string[] {
+  const upperAll = (outfit.upper ?? '').split(/\s*,\s*/).filter(Boolean);
+  const lowerAll = (outfit.lower ?? '').split(/\s*,\s*/).filter(Boolean);
+  const upper = shotLevel === 0 ? upperAll.slice(0, 1) : upperAll;
+  const lower = shotLevel >= 4 ? lowerAll : shotLevel === 3 ? lowerAll.slice(0, 1) : [];
+  return [...upper, ...lower];
+}
+
+/** その衣装・画角で、メインカラー（{c1}）と差し色（{c2}）が実際にプロンプトへ出るか。画面の◯と出力で同じ判定を使う */
+export function outfitColorUse(outfit: Option | undefined, shotLevel: number): { main: boolean; accent: boolean } {
+  if (!outfit) return { main: false, accent: false };
+  const tpl = visibleOutfitSegments(outfit, shotLevel).join(' ');
+  return { main: tpl.includes('{c1}'), accent: tpl.includes('{c2}') };
+}
+
+/** 状態から画角の段階を得る（既定は上半身 = 2） */
+export function shotLevelOf(state: ForgeState): number {
+  return valuesOf(state).shot?.level ?? 2;
+}
+
 /** 衣装の色を埋め、画角に応じて下半身を省く */
 export function outfitParts(outfit: Option | undefined, c1: Option | undefined, c2: Option | undefined, shotLevel: number): { tags: string[]; nat: string; ja: string } {
   if (!outfit) return { tags: [], nat: '', ja: '' };
   const fillC = (s: string) => s.replace(/\{c1\}/g, c1?.en[0] ?? '').replace(/\{c2\}/g, c2?.en[0] ?? '').replace(/\s+/g, ' ').trim();
-  let upper = (outfit.upper ?? '').split(/\s*,\s*/).map(fillC).filter(Boolean);
-  const lowerAll = (outfit.lower ?? '').split(/\s*,\s*/).map(fillC).filter(Boolean);
-  const lower = shotLevel >= 4 ? lowerAll : shotLevel === 3 ? lowerAll.slice(0, 1) : [];
-  if (shotLevel === 0) upper = upper.slice(0, 1);
-  const tags = [...upper, ...lower];
-  const tpl = `${outfit.upper ?? ''} ${outfit.lower ?? ''}`;
-  const colorJa = [c1 && tpl.includes('{c1}') ? c1.ja : '', c2 && tpl.includes('{c2}') ? c2.ja : ''].filter(Boolean).join('×');
+  const tags = visibleOutfitSegments(outfit, shotLevel).map(fillC).filter(Boolean);
+  const use = outfitColorUse(outfit, shotLevel);
+  const colorJa = [c1 && use.main ? c1.ja : '', c2 && use.accent ? c2.ja : ''].filter(Boolean).join('×');
   return { tags, nat: joinNat(tags.map((t, i) => (i === 0 ? (/^[aeiou]/i.test(t) ? 'an ' : 'a ') + t : t))), ja: colorJa ? `${outfit.ja}［${colorJa}］` : outfit.ja };
 }
 
@@ -91,7 +108,7 @@ export function titleOf(state: ForgeState): string {
 export function buildPrompt(state: ForgeState, target: OutputTarget = state.settings.outputTarget): PromptOutput {
   const v = valuesOf(state);
   const S = state.settings, M = state.optionalModules;
-  const shotLevel = v.shot?.level ?? 2;
+  const shotLevel = shotLevelOf(state);
   const bgOn = M.backgroundEnabled;
   const simpleBg = v.scene?.place === 'simple';
   const accentOn = isEffective(state, 'hairAccentColor') && !!v.hairAccent && v.hairAccent.id !== 'none';

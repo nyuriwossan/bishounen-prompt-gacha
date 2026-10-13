@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { draw } from '../src/engine/draw';
 import { cloneState, emptyState } from '../src/engine/state';
-import { buildPrompt, checkFreeTags, outfitParts, parseFree, titleOf, toMarkdown } from '../src/prompts/build';
-import { optionOf } from '../src/data/fields';
+import { buildPrompt, checkFreeTags, outfitColorUse, outfitParts, parseFree, titleOf, toMarkdown } from '../src/prompts/build';
+import { FIELDS, optionOf } from '../src/data/fields';
 import type { FieldId, ForgeState, OutputTarget } from '../src/types';
 
 const make = (seed: string, patch: Partial<Record<FieldId, string>> = {}, mods: Partial<ForgeState['optionalModules']> = {}) => {
@@ -75,6 +75,31 @@ describe('出力：画角・背景・モジュール', () => {
     expect(r.tags[0]).toBe('jet black three-piece suit');
     expect(r.tags).toContain('deep crimson necktie');
     expect(r.ja).toBe('スリーピーススーツ［漆黒×深紅］');
+  });
+  it('実際に出る衣装の色は画角で決まる（画面の◯と同じ判定）', () => {
+    const use = (id: string, lv: number) => outfitColorUse(optionOf('outfit', id), lv);
+    expect(use('three_piece', 5)).toEqual({ main: true, accent: true });
+    expect(use('three_piece', 0)).toEqual({ main: true, accent: false });
+    expect(use('white_shirt', 2)).toEqual({ main: true, accent: false });
+    expect(use('white_shirt', 3)).toEqual({ main: true, accent: true });
+    expect(use('white_shirt', 0)).toEqual({ main: false, accent: false });
+    for (const lv of [0, 1, 2, 3, 4, 5]) expect(use('doctor_scrubs', lv).accent).toBe(false);
+    expect(outfitColorUse(undefined, 2)).toEqual({ main: false, accent: false });
+  });
+  it('◯の判定と出力タグ・日本語表記が全衣装・全画角で一致する', () => {
+    const c1 = optionOf('mainColor', 'jet_black')!, c2 = optionOf('accentColor', 'deep_crimson')!;
+    const outfits = FIELDS.find((f) => f.id === 'outfit')!.options;
+    for (const o of outfits) {
+      for (const lv of [0, 1, 2, 3, 4, 5]) {
+        const use = outfitColorUse(o, lv);
+        const r = outfitParts(o, c1, c2, lv);
+        const text = r.tags.join(', ');
+        expect(text.includes(c1.en[0]), `${o.id}@${lv}:main`).toBe(use.main);
+        expect(text.includes(c2.en[0]), `${o.id}@${lv}:accent`).toBe(use.accent);
+        expect(r.ja.includes(c1.ja), `${o.id}@${lv}:ja main`).toBe(use.main);
+        expect(r.ja.includes(c2.ja), `${o.id}@${lv}:ja accent`).toBe(use.accent);
+      }
+    }
   });
   it('シンプル背景では時間帯を出力しない／背景OFFでは背景を出さない', () => {
     const s = make('simple', { scene: 'simple_white', time: 'night' });

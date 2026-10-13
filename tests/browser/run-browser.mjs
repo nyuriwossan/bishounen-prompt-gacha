@@ -138,6 +138,36 @@ try {
     }
     check('服だけ着せ替えで衣装が変わり、固定した髪色は残る', outfitChanged && (await hairRow.textContent()).includes('銀髪'));
 
+    // 衣装の色◯：名前付きで、実際に出力される色だけを出し、タップでその色の候補が開く
+    const adopt = async (opener, query, ja) => {
+      await page.click(opener);
+      await page.waitForSelector('dialog.sheet[open]');
+      await page.fill('dialog.sheet input[type=search]', query);
+      await page.click(`dialog.sheet button.pick[aria-label^="${ja}を採用"]`);
+      await page.waitForSelector('dialog.sheet', { state: 'detached' });
+    };
+    const colorKeys = async () => (await page.$$eval('.frow .fcolors .ckey', (els) => els.map((e) => e.textContent))).join(',');
+    await adopt('.formula > .rows > .frow:has-text("衣装") .fmain', 'スリーピース', 'スリーピーススーツ');
+    await page.click('details.group summary:has-text("ポーズ・構図")');
+    await adopt('.frow:has-text("構図（画角）") .fmain', '全身', '全身');
+    check('衣装の◯に「メイン・差し色」の名前が付く', (await colorKeys()) === 'メイン,差し色', await colorKeys());
+    await page.click('.fcolors button[data-color-field="accentColor"]');
+    await page.waitForSelector('dialog.sheet[open]');
+    const sheetTitle = await page.textContent('#picker-title');
+    await page.fill('dialog.sheet input[type=search]', '深紅');
+    await page.click('dialog.sheet button.pick[aria-label^="深紅を採用"]');
+    await page.waitForSelector('dialog.sheet', { state: 'detached' });
+    const accentChip = page.locator('.fcolors button[data-color-field="accentColor"]');
+    check('差し色の◯をタップすると差し色の候補が開き、選んだ色が◯に反映される',
+      sheetTitle === '差し色を選ぶ' && (await accentChip.textContent()).includes('深紅') && (await accentChip.getAttribute('class')).includes('on'), sheetTitle);
+    await page.evaluate(() => document.querySelector('.frow .fcolors').scrollIntoView({ block: 'center' }));
+    await page.screenshot({ path: path.join(SHOTS, 'outfit-colors-390.jpg'), type: 'jpeg', quality: 70 });
+    await adopt('.frow:has-text("構図（画角）") .fmain', '顔アップ', '顔アップ');
+    check('顔アップでは出力されない差し色の◯を出さない', (await colorKeys()) === 'メイン', await colorKeys());
+    await adopt('.formula > .rows > .frow:has-text("衣装") .fmain', '白シャツ', '白シャツとスラックス');
+    check('顔アップの白シャツでは色の◯を出さない', (await colorKeys()) === '', await colorKeys());
+    await page.click('text=ロック全解除');
+
     // おまかせスタイル：選ぶだけでは変わらない
     const tBefore = await title(page);
     await page.click('.presets .chip:has-text("銀髪特集")');

@@ -1,4 +1,4 @@
-# 引き継ぎ資料（2026-10-14）
+# 引き継ぎ資料（2026-10-14 更新）
 
 新しい会話では、このファイルを最初に読んでから作業を始めてください。
 
@@ -11,14 +11,14 @@
 | 公開URL | https://nyuriwossan.github.io/bishounen-prompt-gacha/ |
 | 構成 | Vite 6 + TypeScript 5.8 + Preact 10.29.8／Vitest 3.2／playwright-core 1.56（`/opt/pw-browsers` の Chromium） |
 | 公開方式 | `main` に push すると GitHub Actions が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` へ force-push する。Pages API はこの環境から使えないため、この方式にしている |
-| 最新コミット | `67f2a57` 候補選択シートの修正（iPhoneで×が隠れる問題）。ユーザーが実機で修正を確認済み |
+| 最新の変更 | 衣装の色◯の改善（案1＋3、§4）。iPhone 実機での確認はまだ。その前は `67f2a57` 候補選択シートの修正（実機確認済み） |
 | git の作者 | `user.name nyuriwossan` / `user.email nyuriwo@gmail.com`（リポジトリのローカル設定） |
 
 コミットメッセージの末尾には、次の2行を付けています。
 
 ```
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_014Vqw7hJivBoE4cqdqf2WEV
+Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ```
 
 新しい会話では、セッションURLをその会話のものに差し替えてください。
@@ -26,9 +26,9 @@ Claude-Session: https://claude.ai/code/session_014Vqw7hJivBoE4cqdqf2WEV
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 130件、約60秒
+npm run typecheck && npm run lint && npm test   # 132件、約45秒
 npm run build
-npm run test:browser                            # 79項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 83項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
@@ -90,40 +90,17 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
   - PromptView / SavedView / HelpView
 - 文書（`docs/`）：SOURCE-AUDIT・DATA-CATALOG・TEST-REPORT・EXAMPLES。
 
-## 4. 未解決：衣装の行にある色の◯ふたつ
+## 4. 解決済み：衣装の行にある色の◯（2026-10-14、案1＋3を実装）
 
-ユーザーからの質問：「衣装を変えても◯の色が変わらないのは仕様？」
+ユーザーからの質問「衣装を変えても◯の色が変わらないのは仕様？」を受け、ユーザーの選択で案1＋3を入れた。案2（服を手で選んだら未固定の色を引き直す）は好みが分かれるため見送り。
 
-### 回答済みの内容
-
-- 2つの◯は、衣装メインカラー（`mainColor`）と差し色（`accentColor`）。
-  - 表示しているのは `ForgeView.tsx` の FieldRow（`field === 'outfit'` の分岐）。
-- 色は衣装とは別の項目。衣装を手動で選び直しても色は残る（意図した仕様）。
-- 色ごと変える方法：
-  - 「服だけ着せ替え」で、衣装と2色をまとめて引き直す（`GROUPS.outfit`）
-  - 「詳細な調合 → 職業・雰囲気・色彩」で個別に選ぶ
-
-### 改善案（ユーザーの返事待ち）
-
-1. **◯に名前を付ける**
-   - 「メイン・差し色」と小さく表示する。
-   - ◯をタップすると、その色の候補シートが開くようにする案もある。
-2. **服を手で選んだら、固定していない色を新しい服に合わせて引き直す**
-   - 固定中の色は残す。
-   - 「色を残したい」人もいるので、好みが分かれる。
-3. **その服が実際に使う色だけ◯を出す**
-   - 調査結果：132件中、`{c2}` を使わないのは `doctor_scrubs` の1件だけ。
-   - `white_shirt` は差し色を下半身にしか使わない。寄りの画角では下半身を省くため、差し色がプロンプトに出ない。
-   - そのため、画角も考慮して「実際にプロンプトへ出る色」で判定するのが正確。
-
-推奨として伝えたのは「1 + 3」。2 は好みが分かれると伝えた。
-
-### 実装時の注意
-
-- 1 を入れる場合：ブラウザ検証に「◯のラベル表示」「タップで色の候補が開く」を追加する。
-- 2 を入れる場合：手動採用（`adopt`）のあと、固定されていない `mainColor` / `accentColor` を `drawWithin` などで引き直す。
-  - `engine.test.ts` に「固定した色は変わらない」「固定していない色は変わりうる」を追加する。
-- 3 を入れる場合：`build.ts` の outfitParts と同じ判定（寄りの画角では下半身を省く）を共有関数にまとめ、表示と出力で判定がずれないようにする。
+- **案1**：衣装の行の下に、色を名前付きのチップで出す（「◯ メイン 漆黒」「◯ 差し色 深紅」）。タップでその色の候補シートが開く。固定中の色はチップの枠が金になり、錠前が付く。
+  - `ForgeView.tsx` の FieldRow（`field === 'outfit'`）。CSS は `.fcolors` / `.cchip`。
+- **案3**：その服・その画角で実際にプロンプトへ出る色だけチップを出す。
+  - 判定は `build.ts` の `outfitColorUse(outfit, shotLevel)`。`outfitParts` も同じ内部関数（`visibleOutfitSegments`）を使うので、表示と出力がずれない。`shotLevelOf(state)` も共有。
+  - 日本語表記（`スリーピーススーツ［漆黒×深紅］`）も同じ判定に揃えた。以前は画角に関係なく両色を書いていた。
+  - 調査結果：顔アップ（level 0）では132件中129件で差し色が出ず、`white_shirt`・`bartender` はメインも出ない。`doctor_scrubs` は全画角で差し色なし。
+- テスト：`prompts.test.ts` に判定の2件（全衣装×全画角で表示判定と出力タグ・日本語表記が一致）、ブラウザ検証に4項目（ラベル表示、タップで差し色の候補が開き反映、顔アップで差し色の◯が消える、顔アップの白シャツで◯なし）。スクリーンショット `outfit-colors-390.jpg`。
 
 ## 5. 既知の制限
 

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'preact/hooks';
 import { BASIC_FIELDS, fieldDef, FIELDS, optionOf } from '../data/fields';
 import { lockCount } from '../engine/draw';
 import { isActive } from '../engine/state';
-import { titleParts } from '../prompts/build';
+import { outfitColorUse, shotLevelOf, titleParts } from '../prompts/build';
 import type { FieldGroup, FieldId, ForgeModules, ForgeState, Issue, Mode, StylePreset } from '../types';
 import { IconDice, IconLock } from './icons';
 import type { AppActions } from './types';
@@ -189,9 +189,14 @@ function FieldRow({ field, forge, actions, changed }: { field: FieldId; forge: F
   const active = isActive(forge, field);
   const accentIdle = field === 'hairAccentColor' && forge.fields.hairAccent.id === 'none';
   const randomizable = def.randomizable !== false;
-  let swatches: string[] = [];
-  if (opt?.hex) swatches = [opt.hex];
-  if (field === 'outfit') swatches = [optionOf('mainColor', forge.fields.mainColor.id)?.hex, optionOf('accentColor', forge.fields.accentColor.id)?.hex].filter(Boolean) as string[];
+  const swatches: string[] = opt?.hex ? [opt.hex] : [];
+  // 衣装の行：この服・この画角で実際にプロンプトへ出る色だけを、名前付きの◯として出す。タップでその色の候補を開く
+  const outfitColors: Array<{ f: FieldId; key: string }> = [];
+  if (field === 'outfit' && active) {
+    const use = outfitColorUse(opt, shotLevelOf(forge));
+    if (use.main) outfitColors.push({ f: 'mainColor', key: 'メイン' });
+    if (use.accent) outfitColors.push({ f: 'accentColor', key: '差し色' });
+  }
   const status = !active ? '出力しない' : accentIdle ? '単色のため未使用' : sel.source === 'manual' ? '手動' : sel.source === 'preset' ? 'おまかせ' : '';
   return (
     <li class={`frow${sel.locked ? ' locked' : ''}${!active || accentIdle ? ' inactive' : ''}${changed ? ' changed' : ''}`}>
@@ -209,6 +214,23 @@ function FieldRow({ field, forge, actions, changed }: { field: FieldId; forge: F
         onClick={() => actions.reroll(field)} style={!randomizable || !active ? { opacity: 0.3 } : undefined}>
         <IconDice />
       </button>
+      {outfitColors.length > 0 && (
+        <div class="fcolors" role="group" aria-label="衣装の色">
+          {outfitColors.map(({ f, key }) => {
+            const c = optionOf(f, forge.fields[f].id);
+            const locked = forge.fields[f].locked;
+            return (
+              <button key={f} type="button" class={`cchip${locked ? ' on' : ''}`} data-color-field={f} onClick={() => actions.openPicker(f)}
+                aria-label={`${key}：${c?.ja ?? '未設定'}${locked ? '（固定中）' : ''}。色の候補から選ぶ`}>
+                {c?.hex && <span class="swatch" style={{ background: c.hex }} />}
+                <span class="ckey">{key}</span>
+                <span class="cname">{c?.ja ?? '未設定'}</span>
+                {locked && <IconLock on />}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </li>
   );
 }
