@@ -93,4 +93,4 @@ hard ルールから矛盾する候補の組を機械的に列挙し、両方を
 - Google Fonts（Shippori Mincho）は検証環境では取得できず、システム明朝で表示した状態を確認した。
 - PixAI・NovelAI での実際の生成結果は検証していない（画像生成はこのアプリの範囲外）。
 - 開発用依存（vitest・typescript-eslint 配下）に `npm audit` の指摘が残る。配信物には含まれない。
-- GitHub Pages の公開後の動作確認は README と最終報告を参照。
+- **公開状況**：GitHub Actions（型検査・lint・テスト130件・ビルド）が成功し、`gh-pages` へ反映。GitHub の deployment status は `success`（`https://nyuriwossan.github.io/bishounen-prompt-gacha/`）。`gh-pages` の配信ファイル5点は、上記ブラウザ検証に使ったビルドとハッシュが一致することを確認した。ただし、この作業環境からは github.io に接続できないため、**公開URLを直接開いての表示確認は未実施**。
