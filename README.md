@@ -69,6 +69,10 @@ npm run report:examples  # docs/EXAMPLES.md の10名を再生成
 
 `vite.config.ts` は `base: './'` で相対パス出力にしており、GitHub Pages のサブパス（`/bishounen-prompt-gacha/`）でも動きます。
 
+### 公開（GitHub Pages）
+
+`main` へ push すると `.github/workflows/deploy-pages.yml` が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` ブランチへ反映します。Pages の公開元は **Settings → Pages → Build and deployment → Deploy from a branch：`gh-pages` / `(root)`** です（`gh-pages` ブランチの作成時に自動で有効になります。表示されない場合だけ手動で選んでください）。
+
 ### 構成
 
 ```text
