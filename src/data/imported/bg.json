@@ -1,0 +1,1455 @@
+{
+ "source": "background-prompt-workshop",
+ "commit": "121f33553ae3dd515898d0a8de8af89c4316d514",
+ "scene": {
+  "relations": [
+   {
+    "id": "character_focus",
+    "label": "人物重視",
+    "en": "the scene is designed to support the character"
+   },
+   {
+    "id": "balanced",
+    "label": "バランス",
+    "en": "the environment remains detailed yet secondary to the character"
+   },
+   {
+    "id": "background_focus",
+    "label": "背景重視",
+    "en": "the environment is richly detailed"
+   },
+   {
+    "id": "background_only",
+    "label": "背景のみ",
+    "en": "the background is the main visual focus"
+   }
+  ],
+  "environmentTypes": [
+   {
+    "id": "indoor",
+    "label": "屋内",
+    "en": "interior"
+   },
+   {
+    "id": "outdoor",
+    "label": "屋外",
+    "en": "outdoor setting"
+   },
+   {
+    "id": "semi_outdoor",
+    "label": "半屋外",
+    "en": "sheltered open-air setting"
+   },
+   {
+    "id": "special",
+    "label": "特殊空間",
+    "en": "otherworldly space"
+   }
+  ],
+  "categories": [
+   {
+    "id": "living",
+    "label": "住居・生活",
+    "en": "lived-in",
+    "group": "indoor"
+   },
+   {
+    "id": "study",
+    "label": "学校・研究",
+    "en": "scholarly",
+    "group": "indoor"
+   },
+   {
+    "id": "public",
+    "label": "仕事・公共",
+    "en": "public",
+    "group": "indoor"
+   },
+   {
+    "id": "sacred",
+    "label": "宗教・儀式",
+    "en": "sacred",
+    "group": "indoor"
+   },
+   {
+    "id": "palace",
+    "label": "城・宮殿",
+    "en": "palatial",
+    "group": "indoor"
+   },
+   {
+    "id": "industrial",
+    "label": "工業・地下施設",
+    "en": "industrial",
+    "group": "indoor"
+   },
+   {
+    "id": "forest",
+    "label": "森林・植物",
+    "en": "verdant",
+    "group": "outdoor"
+   },
+   {
+    "id": "waterfront",
+    "label": "水辺・海",
+    "en": "waterside",
+    "group": "outdoor"
+   },
+   {
+    "id": "urban_street",
+    "label": "都市・街路",
+    "en": "urban",
+    "group": "outdoor"
+   },
+   {
+    "id": "ruins",
+    "label": "遺跡・廃墟",
+    "en": "ancient",
+    "group": "outdoor"
+   },
+   {
+    "id": "fantasy_landscape",
+    "label": "幻想景観",
+    "en": "fantastical",
+    "group": "outdoor"
+   },
+   {
+    "id": "space_landscape",
+    "label": "SF・宇宙景観",
+    "en": "futuristic",
+    "group": "outdoor"
+   },
+   {
+    "id": "terrace",
+    "label": "テラス・回廊",
+    "en": "open-air",
+    "group": "semi_outdoor"
+   },
+   {
+    "id": "station",
+    "label": "駅・屋上",
+    "en": "transitional",
+    "group": "semi_outdoor"
+   },
+   {
+    "id": "entrance",
+    "label": "洞窟・神殿入口",
+    "en": "threshold",
+    "group": "semi_outdoor"
+   },
+   {
+    "id": "surreal",
+    "label": "夢・記憶",
+    "en": "surreal",
+    "group": "special"
+   },
+   {
+    "id": "cosmic",
+    "label": "宇宙・異次元",
+    "en": "cosmic",
+    "group": "special"
+   },
+   {
+    "id": "abstract",
+    "label": "抽象・無限空間",
+    "en": "abstract",
+    "group": "special"
+   }
+  ],
+  "stages": [
+   {
+    "id": "quiet_room",
+    "label": "静かな部屋",
+    "en": "a quiet room",
+    "group": "living"
+   },
+   {
+    "id": "bedroom",
+    "label": "寝室",
+    "en": "an intimate bedroom",
+    "group": "living"
+   },
+   {
+    "id": "library",
+    "label": "図書館",
+    "en": "a grand library",
+    "group": "study"
+   },
+   {
+    "id": "laboratory",
+    "label": "研究室",
+    "en": "a refined laboratory",
+    "group": "study"
+   },
+   {
+    "id": "office",
+    "label": "オフィス",
+    "en": "a modern office",
+    "group": "public"
+   },
+   {
+    "id": "theater",
+    "label": "劇場",
+    "en": "an ornate theater",
+    "group": "public"
+   },
+   {
+    "id": "temple",
+    "label": "神殿",
+    "en": "a sacred temple",
+    "group": "sacred"
+   },
+   {
+    "id": "cathedral",
+    "label": "大聖堂",
+    "en": "a soaring cathedral",
+    "group": "sacred"
+   },
+   {
+    "id": "throne_room",
+    "label": "玉座の間",
+    "en": "a vast throne room",
+    "group": "palace"
+   },
+   {
+    "id": "palace_hall",
+    "label": "宮殿の大広間",
+    "en": "a palatial great hall",
+    "group": "palace"
+   },
+   {
+    "id": "underground_facility",
+    "label": "地下施設",
+    "en": "an underground facility",
+    "group": "industrial"
+   },
+   {
+    "id": "abandoned_factory",
+    "label": "廃工場",
+    "en": "an abandoned factory",
+    "group": "industrial"
+   },
+   {
+    "id": "deep_forest",
+    "label": "深い森",
+    "en": "a deep forest",
+    "group": "forest"
+   },
+   {
+    "id": "flower_field",
+    "label": "花畑",
+    "en": "a broad flower field",
+    "group": "forest"
+   },
+   {
+    "id": "seaside",
+    "label": "海辺",
+    "en": "a windswept seaside",
+    "group": "waterfront"
+   },
+   {
+    "id": "lakeshore",
+    "label": "湖畔",
+    "en": "a tranquil lakeshore",
+    "group": "waterfront"
+   },
+   {
+    "id": "bright_sandy_beach",
+    "label": "明るい砂浜",
+    "en": "a sunlit sandy beach beside clear blue water",
+    "group": "waterfront"
+   },
+   {
+    "id": "rocky_coast",
+    "label": "岩のある海岸",
+    "en": "a rugged coast lined with weathered rocks",
+    "group": "waterfront"
+   },
+   {
+    "id": "back_alley",
+    "label": "路地裏",
+    "en": "a narrow back alley",
+    "group": "urban_street"
+   },
+   {
+    "id": "city_street",
+    "label": "街路",
+    "en": "a lively city street",
+    "group": "urban_street"
+   },
+   {
+    "id": "ancient_ruins",
+    "label": "古代遺跡",
+    "en": "ancient ruins",
+    "group": "ruins"
+   },
+   {
+    "id": "ruined_garden",
+    "label": "廃庭園",
+    "en": "an overgrown ruined garden",
+    "group": "ruins"
+   },
+   {
+    "id": "floating_island",
+    "label": "浮遊島",
+    "en": "a floating island",
+    "group": "fantasy_landscape"
+   },
+   {
+    "id": "crystal_valley",
+    "label": "水晶の谷",
+    "en": "a crystal valley",
+    "group": "fantasy_landscape"
+   },
+   {
+    "id": "future_city",
+    "label": "未来都市",
+    "en": "a vast futuristic city",
+    "group": "space_landscape"
+   },
+   {
+    "id": "space_station",
+    "label": "宇宙ステーション",
+    "en": "an orbital space station",
+    "group": "space_landscape"
+   },
+   {
+    "id": "balcony",
+    "label": "ベランダ",
+    "en": "an open balcony",
+    "group": "terrace"
+   },
+   {
+    "id": "cloister",
+    "label": "回廊",
+    "en": "a covered cloister",
+    "group": "terrace"
+   },
+   {
+    "id": "station_platform",
+    "label": "駅ホーム",
+    "en": "a quiet station platform",
+    "group": "station"
+   },
+   {
+    "id": "rooftop",
+    "label": "屋上",
+    "en": "an urban rooftop",
+    "group": "station"
+   },
+   {
+    "id": "cafe",
+    "label": "カフェ",
+    "en": "a welcoming cafe with warm wooden finishes",
+    "group": "public"
+   },
+   {
+    "id": "classroom",
+    "label": "教室",
+    "en": "a quiet classroom with broad windows",
+    "group": "study"
+   },
+   {
+    "id": "old_town_street",
+    "label": "古い街並み",
+    "en": "a lived-in old town street paved with stone",
+    "group": "urban_street"
+   },
+   {
+    "id": "cave_entrance",
+    "label": "洞窟入口",
+    "en": "a shadowed cave entrance",
+    "group": "entrance"
+   },
+   {
+    "id": "temple_gate",
+    "label": "神殿入口",
+    "en": "a monumental temple entrance",
+    "group": "entrance"
+   },
+   {
+    "id": "dreamscape",
+    "label": "夢の中",
+    "en": "a fluid dreamscape",
+    "group": "surreal"
+   },
+   {
+    "id": "memory_space",
+    "label": "記憶の空間",
+    "en": "a fragmented memory space",
+    "group": "surreal"
+   },
+   {
+    "id": "deep_space",
+    "label": "宇宙",
+    "en": "the depths of space",
+    "group": "cosmic"
+   },
+   {
+    "id": "other_dimension",
+    "label": "異次元",
+    "en": "an impossible other dimension",
+    "group": "cosmic"
+   },
+   {
+    "id": "infinite_space",
+    "label": "無限空間",
+    "en": "an endless abstract space",
+    "group": "abstract"
+   },
+   {
+    "id": "minimal_void",
+    "label": "抽象空間",
+    "en": "a minimal luminous void",
+    "group": "abstract"
+   }
+  ],
+  "stageStates": [
+   {
+    "id": "pristine",
+    "label": "端正",
+    "en": "pristine"
+   },
+   {
+    "id": "lived_in",
+    "label": "使い込まれた",
+    "en": "lived-in"
+   },
+   {
+    "id": "rainy",
+    "label": "雨に濡れた",
+    "en": "rain-soaked"
+   },
+   {
+    "id": "snow_covered",
+    "label": "雪に覆われた",
+    "en": "snow-covered"
+   },
+   {
+    "id": "abandoned",
+    "label": "放棄された",
+    "en": "abandoned"
+   },
+   {
+    "id": "ruined",
+    "label": "崩れかけた",
+    "en": "crumbling"
+   },
+   {
+    "id": "overgrown",
+    "label": "植物に覆われた",
+    "en": "overgrown"
+   },
+   {
+    "id": "ceremonial",
+    "label": "儀式の最中",
+    "en": "ceremonial"
+   }
+  ],
+  "worlds": [
+   {
+    "id": "modern",
+    "label": "現代",
+    "en": "modern"
+   },
+   {
+    "id": "historical",
+    "label": "歴史世界",
+    "en": "historical"
+   },
+   {
+    "id": "fantasy",
+    "label": "ファンタジー",
+    "en": "fantasy"
+   },
+   {
+    "id": "scifi",
+    "label": "SF",
+    "en": "science-fiction"
+   },
+   {
+    "id": "post_apocalyptic",
+    "label": "終末世界",
+    "en": "post-apocalyptic"
+   }
+  ],
+  "eras": [
+   {
+    "id": "contemporary",
+    "label": "現代",
+    "en": "contemporary"
+   },
+   {
+    "id": "ancient",
+    "label": "古代",
+    "en": "ancient"
+   },
+   {
+    "id": "medieval",
+    "label": "中世",
+    "en": "medieval"
+   },
+   {
+    "id": "victorian",
+    "label": "ヴィクトリア時代",
+    "en": "Victorian-era"
+   },
+   {
+    "id": "near_future",
+    "label": "近未来",
+    "en": "near-future"
+   },
+   {
+    "id": "far_future",
+    "label": "遠未来",
+    "en": "far-future"
+   }
+  ],
+  "architecture": [
+   {
+    "id": "japanese",
+    "label": "和風",
+    "en": "Japanese architecture"
+   },
+   {
+    "id": "gothic",
+    "label": "ゴシック",
+    "en": "Gothic architecture"
+   },
+   {
+    "id": "classical",
+    "label": "クラシカル",
+    "en": "classical architecture"
+   },
+   {
+    "id": "islamic",
+    "label": "イスラム風",
+    "en": "Islamic architecture"
+   },
+   {
+    "id": "art_deco",
+    "label": "アール・デコ",
+    "en": "Art Deco architecture"
+   },
+   {
+    "id": "brutalist",
+    "label": "ブルータリズム",
+    "en": "Brutalist architecture"
+   },
+   {
+    "id": "futuristic",
+    "label": "未来建築",
+    "en": "futuristic architecture"
+   }
+  ],
+  "landmarks": [
+   {
+    "id": "none",
+    "label": "指定なし",
+    "en": ""
+   },
+   {
+    "id": "giant_tree",
+    "label": "巨大樹",
+    "en": "a monumental ancient tree"
+   },
+   {
+    "id": "throne",
+    "label": "玉座",
+    "en": "an imposing throne"
+   },
+   {
+    "id": "spiral_staircase",
+    "label": "螺旋階段",
+    "en": "a sweeping spiral staircase"
+   },
+   {
+    "id": "giant_window",
+    "label": "巨大な窓",
+    "en": "a monumental arched window"
+   },
+   {
+    "id": "clock_tower",
+    "label": "時計塔",
+    "en": "a distant clock tower"
+   },
+   {
+    "id": "waterfall",
+    "label": "滝",
+    "en": "a cascading waterfall"
+   },
+   {
+    "id": "altar",
+    "label": "祭壇",
+    "en": "an illuminated altar"
+   },
+   {
+    "id": "distant_lighthouse",
+    "label": "遠くの灯台",
+    "en": "a lighthouse standing far along the shoreline"
+   }
+  ],
+  "secondary": [
+   {
+    "id": "bookshelves",
+    "label": "本棚",
+    "en": "towering bookshelves"
+   },
+   {
+    "id": "columns",
+    "label": "柱",
+    "en": "rows of columns"
+   },
+   {
+    "id": "street_lamps",
+    "label": "街灯",
+    "en": "old street lamps"
+   },
+   {
+    "id": "tables",
+    "label": "テーブル",
+    "en": "weathered tables"
+   },
+   {
+    "id": "arches",
+    "label": "アーチ",
+    "en": "repeating arches"
+   },
+   {
+    "id": "statues",
+    "label": "石像",
+    "en": "stone statues"
+   },
+   {
+    "id": "bridge",
+    "label": "橋",
+    "en": "a slender bridge"
+   },
+   {
+    "id": "signs",
+    "label": "看板",
+    "en": "layered street signs"
+   },
+   {
+    "id": "rocks",
+    "label": "岩",
+    "en": "scattered rocks"
+   },
+   {
+    "id": "wall_pipes",
+    "label": "配管",
+    "en": "exposed wall pipes"
+   },
+   {
+    "id": "large_windows",
+    "label": "大きな窓",
+    "en": "large windows"
+   },
+   {
+    "id": "pier",
+    "label": "桟橋",
+    "en": "a slender pier reaching across the water"
+   },
+   {
+    "id": "coastal_rocks",
+    "label": "海岸の岩",
+    "en": "weathered rocks scattered along the shore"
+   },
+   {
+    "id": "palm_trees",
+    "label": "ヤシの木",
+    "en": "a few palm trees framing the shoreline"
+   }
+  ],
+  "accents": [
+   {
+    "id": "scattered_books",
+    "label": "散らばった本",
+    "en": "scattered books"
+   },
+   {
+    "id": "fallen_leaves",
+    "label": "落ち葉",
+    "en": "drifting fallen leaves"
+   },
+   {
+    "id": "wet_ground",
+    "label": "濡れた地面",
+    "en": "wet pavement"
+   },
+   {
+    "id": "petals",
+    "label": "花びら",
+    "en": "floating petals"
+   },
+   {
+    "id": "candles",
+    "label": "ろうそく",
+    "en": "scattered candles"
+   },
+   {
+    "id": "light_particles",
+    "label": "光の粒",
+    "en": "delicate light particles"
+   },
+   {
+    "id": "mist",
+    "label": "薄霧",
+    "en": "low-lying mist"
+   },
+   {
+    "id": "moss",
+    "label": "苔",
+    "en": "soft moss"
+   },
+   {
+    "id": "neon_reflections",
+    "label": "ネオン反射",
+    "en": "neon reflections"
+   },
+   {
+    "id": "fabric",
+    "label": "布・旗",
+    "en": "trailing fabric banners"
+   },
+   {
+    "id": "debris",
+    "label": "破片・瓦礫",
+    "en": "scattered debris"
+   },
+   {
+    "id": "gentle_waves",
+    "label": "穏やかな波",
+    "en": "gentle waves rolling toward the shore"
+   },
+   {
+    "id": "white_sea_spray",
+    "label": "白い波しぶき",
+    "en": "white spray breaking against the rocks"
+   },
+   {
+    "id": "wet_sand",
+    "label": "濡れた砂",
+    "en": "wet sand reflecting the sky"
+   },
+   {
+    "id": "water_sparkle",
+    "label": "水面のきらめき",
+    "en": "sunlight glittering across the water"
+   },
+   {
+    "id": "seashells",
+    "label": "貝殻",
+    "en": "a few shells resting near the tide line"
+   },
+   {
+    "id": "cobblestones",
+    "label": "石畳",
+    "en": "worn cobblestones carrying a gentle lived-in texture"
+   }
+  ],
+  "times": [
+   {
+    "id": "dawn",
+    "label": "夜明け",
+    "en": "at dawn"
+   },
+   {
+    "id": "morning",
+    "label": "朝",
+    "en": "in the morning"
+   },
+   {
+    "id": "day",
+    "label": "昼",
+    "en": "during the day"
+   },
+   {
+    "id": "sunset",
+    "label": "夕方",
+    "en": "at sunset"
+   },
+   {
+    "id": "dusk",
+    "label": "薄暮",
+    "en": "at dusk"
+   },
+   {
+    "id": "night",
+    "label": "夜",
+    "en": "at night"
+   }
+  ],
+  "seasons": [
+   {
+    "id": "spring",
+    "label": "春",
+    "en": "in spring"
+   },
+   {
+    "id": "summer",
+    "label": "夏",
+    "en": "in summer"
+   },
+   {
+    "id": "autumn",
+    "label": "秋",
+    "en": "in autumn"
+   },
+   {
+    "id": "winter",
+    "label": "冬",
+    "en": "in winter"
+   }
+  ],
+  "weather": [
+   {
+    "id": "clear",
+    "label": "晴れ",
+    "en": "under clear skies"
+   },
+   {
+    "id": "cloudy",
+    "label": "曇り",
+    "en": "under an overcast sky"
+   },
+   {
+    "id": "rain",
+    "label": "雨",
+    "en": "in steady rain"
+   },
+   {
+    "id": "snow",
+    "label": "雪",
+    "en": "in falling snow"
+   },
+   {
+    "id": "storm",
+    "label": "嵐",
+    "en": "during a distant storm"
+   }
+  ],
+  "phenomena": [
+   {
+    "id": "fog",
+    "label": "霧",
+    "en": "rolling fog"
+   },
+   {
+    "id": "snow_drift",
+    "label": "雪煙",
+    "en": "windblown snow"
+   },
+   {
+    "id": "falling_petals",
+    "label": "舞う花びら",
+    "en": "drifting petals"
+   },
+   {
+    "id": "falling_leaves",
+    "label": "舞う落ち葉",
+    "en": "swirling autumn leaves"
+   },
+   {
+    "id": "dust",
+    "label": "光る塵",
+    "en": "dust motes in the air"
+   },
+   {
+    "id": "rain_haze",
+    "label": "雨霞",
+    "en": "rain haze"
+   },
+   {
+    "id": "sea_mist",
+    "label": "海霧",
+    "en": "sea mist drifting low over the water"
+   },
+   {
+    "id": "salt_spray",
+    "label": "潮風の飛沫",
+    "en": "salt spray carried through the air by the wind"
+   },
+   {
+    "id": "drifting_clouds",
+    "label": "流れる雲",
+    "en": "broad clouds drifting through the distance"
+   }
+  ],
+  "primaryLights": [
+   {
+    "id": "natural",
+    "label": "自然光",
+    "en": "natural light"
+   },
+   {
+    "id": "direct_sunlight",
+    "label": "直射日光",
+    "en": "direct sunlight"
+   },
+   {
+    "id": "moonlight",
+    "label": "月明かり",
+    "en": "pale moonlight"
+   },
+   {
+    "id": "neon",
+    "label": "ネオン",
+    "en": "colored neon light"
+   },
+   {
+    "id": "candlelight",
+    "label": "ろうそく",
+    "en": "warm candlelight"
+   },
+   {
+    "id": "studio",
+    "label": "スタジオ光",
+    "en": "clean studio lighting"
+   },
+   {
+    "id": "magic",
+    "label": "魔法光",
+    "en": "ethereal magical light"
+   },
+   {
+    "id": "ambient_artificial",
+    "label": "柔らかい人工光",
+    "en": "soft ambient artificial illumination"
+   }
+  ],
+  "secondaryLights": [
+   {
+    "id": "none",
+    "label": "なし",
+    "en": ""
+   },
+   {
+    "id": "streetlight",
+    "label": "街灯",
+    "en": "scattered streetlight"
+   },
+   {
+    "id": "window_light",
+    "label": "窓からの光",
+    "en": "light filtering through the windows"
+   },
+   {
+    "id": "rim_light",
+    "label": "リムライト",
+    "en": "a subtle rim light"
+   },
+   {
+    "id": "reflected_light",
+    "label": "反射光",
+    "en": "soft reflected light"
+   },
+   {
+    "id": "embers",
+    "label": "火の粉",
+    "en": "a faint ember glow"
+   }
+  ],
+  "directions": [
+   {
+    "id": "front",
+    "label": "正面",
+    "en": "front-lit"
+   },
+   {
+    "id": "side",
+    "label": "横",
+    "en": "side-lit"
+   },
+   {
+    "id": "back",
+    "label": "逆光",
+    "en": "backlit"
+   },
+   {
+    "id": "top",
+    "label": "上方",
+    "en": "lit from above"
+   },
+   {
+    "id": "scattered",
+    "label": "分散",
+    "en": "with scattered illumination"
+   }
+  ],
+  "qualities": [
+   {
+    "id": "soft",
+    "label": "柔らかい",
+    "en": "soft"
+   },
+   {
+    "id": "diffused",
+    "label": "拡散",
+    "en": "diffused"
+   },
+   {
+    "id": "dramatic",
+    "label": "ドラマチック",
+    "en": "dramatic"
+   },
+   {
+    "id": "hazy",
+    "label": "霞んだ",
+    "en": "hazy"
+   },
+   {
+    "id": "crisp",
+    "label": "くっきり",
+    "en": "crisp"
+   }
+  ],
+  "tones": [
+   {
+    "id": "neutral",
+    "label": "ニュートラル",
+    "en": "balanced neutral tones"
+   },
+   {
+    "id": "warm",
+    "label": "暖色",
+    "en": "warm amber tones"
+   },
+   {
+    "id": "cool",
+    "label": "寒色",
+    "en": "cool blue tones"
+   },
+   {
+    "id": "blue_purple",
+    "label": "青紫",
+    "en": "muted blue and violet tones"
+   },
+   {
+    "id": "pastel",
+    "label": "パステル",
+    "en": "gentle pastel tones"
+   },
+   {
+    "id": "monochrome",
+    "label": "モノトーン",
+    "en": "restrained monochrome tones"
+   }
+  ],
+  "contrasts": [
+   {
+    "id": "low",
+    "label": "低め",
+    "en": "low contrast"
+   },
+   {
+    "id": "medium",
+    "label": "標準",
+    "en": "balanced contrast"
+   },
+   {
+    "id": "high",
+    "label": "高め",
+    "en": "high contrast"
+   }
+  ],
+  "moods": [
+   {
+    "id": "calm",
+    "label": "穏やか",
+    "en": "calm"
+   },
+   {
+    "id": "quiet",
+    "label": "静か",
+    "en": "quiet"
+   },
+   {
+    "id": "romantic",
+    "label": "ロマンチック",
+    "en": "romantic"
+   },
+   {
+    "id": "dreamlike",
+    "label": "幻想的",
+    "en": "dreamlike"
+   },
+   {
+    "id": "mysterious",
+    "label": "神秘的",
+    "en": "mysterious"
+   },
+   {
+    "id": "solemn",
+    "label": "厳か",
+    "en": "solemn"
+   },
+   {
+    "id": "melancholic",
+    "label": "アンニュイ",
+    "en": "melancholic"
+   },
+   {
+    "id": "decadent",
+    "label": "退廃的",
+    "en": "decadent"
+   },
+   {
+    "id": "cinematic",
+    "label": "映画的",
+    "en": "cinematic"
+   },
+   {
+    "id": "open_air",
+    "label": "開放的",
+    "en": "open and airy"
+   },
+   {
+    "id": "wild",
+    "label": "荒々しい",
+    "en": "wild and turbulent"
+   },
+   {
+    "id": "serene",
+    "label": "静謐",
+    "en": "serene"
+   },
+   {
+    "id": "nostalgic",
+    "label": "懐かしい",
+    "en": "gently nostalgic"
+   },
+   {
+    "id": "majestic",
+    "label": "壮大",
+    "en": "majestic"
+   }
+  ],
+  "perspectives": [
+   {
+    "id": "eye_level",
+    "label": "目線の高さ",
+    "en": "eye-level perspective"
+   },
+   {
+    "id": "low_angle",
+    "label": "低い視点",
+    "en": "low-angle perspective"
+   },
+   {
+    "id": "high_angle",
+    "label": "高い視点",
+    "en": "high-angle perspective"
+   },
+   {
+    "id": "wide",
+    "label": "広角",
+    "en": "wide establishing view"
+   }
+  ],
+  "depth": [
+   {
+    "id": "flat",
+    "label": "浅い",
+    "en": "shallow spatial depth"
+   },
+   {
+    "id": "moderate",
+    "label": "標準",
+    "en": "clear spatial depth"
+   },
+   {
+    "id": "layered",
+    "label": "前・中・遠景",
+    "en": "layered foreground, midground, and distance"
+   },
+   {
+    "id": "deep",
+    "label": "深い遠近感",
+    "en": "deep receding perspective"
+   }
+  ],
+  "densities": [
+   {
+    "id": "minimal",
+    "label": "ミニマル",
+    "en": "minimal environmental detail"
+   },
+   {
+    "id": "standard",
+    "label": "標準",
+    "en": "balanced environmental detail"
+   },
+   {
+    "id": "rich",
+    "label": "豊か",
+    "en": "rich environmental detail"
+   },
+   {
+    "id": "intricate",
+    "label": "緻密",
+    "en": "intricate environmental detail"
+   }
+  ],
+  "fantasies": [
+   {
+    "id": "floating_lights",
+    "label": "浮遊する光",
+    "en": "floating lights"
+   },
+   {
+    "id": "levitating_ruins",
+    "label": "浮遊遺跡",
+    "en": "levitating ruins"
+   },
+   {
+    "id": "impossible_scale",
+    "label": "非現実的な巨大さ",
+    "en": "impossible monumental scale"
+   },
+   {
+    "id": "time_distortion",
+    "label": "時間の歪み",
+    "en": "subtle distortions of time"
+   }
+  ],
+  "blends": [
+   {
+    "id": "soft_blur",
+    "label": "柔らかく馴染ませる",
+    "en": "with gently softened background edges"
+   },
+   {
+    "id": "atmospheric",
+    "label": "空気遠近で馴染ませる",
+    "en": "with atmospheric perspective"
+   },
+   {
+    "id": "clear",
+    "label": "輪郭を保つ",
+    "en": "with clearly defined environmental forms"
+   }
+  ]
+ },
+ "simple": {
+  "relations": [
+   {
+    "id": "character_focus",
+    "label": "人物を目立たせる",
+    "en": "unobtrusive behind the character"
+   },
+   {
+    "id": "soft_blend",
+    "label": "やさしく馴染ませる",
+    "en": "gently blending around the character"
+   },
+   {
+    "id": "slight_presence",
+    "label": "背景も少し見せる",
+    "en": "with a subtle visual presence"
+   },
+   {
+    "id": "background_only",
+    "label": "背景だけで使う",
+    "en": "as a standalone background"
+   }
+  ],
+  "styles": [
+   {
+    "id": "plain",
+    "label": "プレーン",
+    "en": "clean and understated"
+   },
+   {
+    "id": "soft",
+    "label": "ソフト",
+    "en": "soft and airy"
+   },
+   {
+    "id": "purikura",
+    "label": "プリクラ風",
+    "en": "cute and playful"
+   }
+  ],
+  "types": [
+   {
+    "id": "solid",
+    "label": "単色",
+    "en": "solid color backdrop"
+   },
+   {
+    "id": "gradient",
+    "label": "グラデーション",
+    "en": "gradient backdrop"
+   },
+   {
+    "id": "soft_abstract",
+    "label": "やわらかい抽象背景",
+    "en": "soft abstract backdrop"
+   },
+   {
+    "id": "studio",
+    "label": "スタジオ背景",
+    "en": "clean studio backdrop"
+   }
+  ],
+  "colors": [
+   {
+    "id": "white",
+    "label": "ホワイト",
+    "en": "white"
+   },
+   {
+    "id": "warm_gray",
+    "label": "ウォームグレー",
+    "en": "warm gray"
+   },
+   {
+    "id": "pastel_pink",
+    "label": "パステルピンク",
+    "en": "pastel pink"
+   },
+   {
+    "id": "lavender",
+    "label": "ラベンダー",
+    "en": "lavender"
+   },
+   {
+    "id": "mint",
+    "label": "ミント",
+    "en": "soft mint"
+   },
+   {
+    "id": "powder_blue",
+    "label": "くすみブルー",
+    "en": "powder blue"
+   },
+   {
+    "id": "cream",
+    "label": "クリーム",
+    "en": "soft cream"
+   },
+   {
+    "id": "peach",
+    "label": "ピーチ",
+    "en": "peach"
+   },
+   {
+    "id": "deep_navy",
+    "label": "ディープネイビー",
+    "en": "deep navy"
+   }
+  ],
+  "intensities": [
+   {
+    "id": "very_light",
+    "label": "とても淡い",
+    "en": "very pale"
+   },
+   {
+    "id": "soft",
+    "label": "淡い",
+    "en": "soft"
+   },
+   {
+    "id": "medium",
+    "label": "標準",
+    "en": "balanced"
+   },
+   {
+    "id": "deep",
+    "label": "深め",
+    "en": "deep"
+   },
+   {
+    "id": "dark",
+    "label": "暗め",
+    "en": "dark"
+   }
+  ],
+  "renderings": [
+   {
+    "id": "flat",
+    "label": "フラット",
+    "en": "even flat color"
+   },
+   {
+    "id": "subtle_variation",
+    "label": "少し濃淡",
+    "en": "subtle tonal variation"
+   },
+   {
+    "id": "vignette",
+    "label": "周辺を少し暗く",
+    "en": "a gentle edge vignette"
+   },
+   {
+    "id": "center_glow",
+    "label": "中央を少し明るく",
+    "en": "a soft central glow"
+   },
+   {
+    "id": "vertical_gradient",
+    "label": "上下グラデ",
+    "en": "a smooth vertical transition"
+   },
+   {
+    "id": "horizontal_gradient",
+    "label": "左右グラデ",
+    "en": "a smooth horizontal transition"
+   },
+   {
+    "id": "diagonal_gradient",
+    "label": "斜めグラデ",
+    "en": "a smooth diagonal transition"
+   },
+   {
+    "id": "radial_gradient",
+    "label": "放射状グラデ",
+    "en": "a subtle radial transition"
+   },
+   {
+    "id": "gentle_blur",
+    "label": "やわらかいぼかし",
+    "en": "gentle blur"
+   },
+   {
+    "id": "soft_glow",
+    "label": "ふんわり発光",
+    "en": "soft luminous glow"
+   },
+   {
+    "id": "light_bloom",
+    "label": "軽い光のにじみ",
+    "en": "delicate light bloom"
+   }
+  ],
+  "motifs": [
+   {
+    "id": "tiny_hearts",
+    "label": "ハート",
+    "en": "tiny heart motifs"
+   },
+   {
+    "id": "small_stars",
+    "label": "星",
+    "en": "small star motifs"
+   },
+   {
+    "id": "subtle_sparkles",
+    "label": "きらきら",
+    "en": "subtle sparkles"
+   },
+   {
+    "id": "soft_dots",
+    "label": "ドット",
+    "en": "soft dot accents"
+   },
+   {
+    "id": "tiny_flowers",
+    "label": "小花",
+    "en": "tiny floral motifs"
+   }
+  ]
+ }
+}

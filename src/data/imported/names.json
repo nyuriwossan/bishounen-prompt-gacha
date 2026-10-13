@@ -1,0 +1,2257 @@
+{
+ "source": "creative-oc-maker",
+ "commit": "906ae89fb85d57f90fc37a2039df682ee0178706",
+ "systems": {
+  "japanese": {
+   "given": [
+    {
+     "ja": "丞",
+     "reading": "たすく",
+     "roman": "Tasuku",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "蒼真",
+     "reading": "そうま",
+     "roman": "Soma",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "慧",
+     "reading": "けい",
+     "roman": "Kei",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "尚哉",
+     "reading": "なおや",
+     "roman": "Naoya",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "玲司",
+     "reading": "れいじ",
+     "roman": "Reiji",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "悠人",
+     "reading": "ゆうと",
+     "roman": "Yuto",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "篤",
+     "reading": "あつし",
+     "roman": "Atsushi",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "迅",
+     "reading": "じん",
+     "roman": "Jin",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "遼",
+     "reading": "りょう",
+     "roman": "Ryo",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "圭吾",
+     "reading": "けいご",
+     "roman": "Keigo",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "直紀",
+     "reading": "なおき",
+     "roman": "Naoki",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "匡",
+     "reading": "ただす",
+     "roman": "Tadasu",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "燈真",
+     "reading": "とうま",
+     "roman": "Toma",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "志貴",
+     "reading": "しき",
+     "roman": "Shiki",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "頼人",
+     "reading": "よりと",
+     "roman": "Yorito",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "紘",
+     "reading": "ひろ",
+     "roman": "Hiro",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "泰生",
+     "reading": "たいせい",
+     "roman": "Taisei",
+     "tags": [
+      "陽気"
+     ]
+    },
+    {
+     "ja": "修吾",
+     "reading": "しゅうご",
+     "roman": "Shugo",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "幸人",
+     "reading": "ゆきと",
+     "roman": "Yukito",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "雅臣",
+     "reading": "まさおみ",
+     "roman": "Masaomi",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "恭介",
+     "reading": "きょうすけ",
+     "roman": "Kyosuke",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "澄人",
+     "reading": "すみと",
+     "roman": "Sumito",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "皓",
+     "reading": "こう",
+     "roman": "Ko",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "岳",
+     "reading": "がく",
+     "roman": "Gaku",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "隼人",
+     "reading": "はやと",
+     "roman": "Hayato",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "亘",
+     "reading": "わたる",
+     "roman": "Wataru",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "智弘",
+     "reading": "ともひろ",
+     "roman": "Tomohiro",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "玄",
+     "reading": "げん",
+     "roman": "Gen",
+     "tags": [
+      "圧がある"
+     ]
+    },
+    {
+     "ja": "秀爾",
+     "reading": "しゅうじ",
+     "roman": "Shuji",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "涼真",
+     "reading": "りょうま",
+     "roman": "Ryoma",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "東吾",
+     "reading": "とうご",
+     "roman": "Togo",
+     "tags": [
+      "圧がある"
+     ]
+    },
+    {
+     "ja": "剛志",
+     "reading": "つよし",
+     "roman": "Tsuyoshi",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "文人",
+     "reading": "ふみと",
+     "roman": "Fumito",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "亮佑",
+     "reading": "りょうすけ",
+     "roman": "Ryosuke",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "晴嗣",
+     "reading": "はるつぐ",
+     "roman": "Harutsugu",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "要",
+     "reading": "かなめ",
+     "roman": "Kaname",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "惣一",
+     "reading": "そういち",
+     "roman": "Soichi",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "柾樹",
+     "reading": "まさき",
+     "roman": "Masaki",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "暁人",
+     "reading": "あきと",
+     "roman": "Akito",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "路生",
+     "reading": "みちお",
+     "roman": "Michio",
+     "tags": [
+      "影が薄い"
+     ]
+    },
+    {
+     "ja": "律",
+     "reading": "りつ",
+     "roman": "Ritsu",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "伊織",
+     "reading": "いおり",
+     "roman": "Iori",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "環",
+     "reading": "たまき",
+     "roman": "Tamaki",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "朔",
+     "reading": "さく",
+     "roman": "Saku",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "千秋",
+     "reading": "ちあき",
+     "roman": "Chiaki",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "湊",
+     "reading": "みなと",
+     "roman": "Minato",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "蒼",
+     "reading": "あおい",
+     "roman": "Aoi",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "一葉",
+     "reading": "かずは",
+     "roman": "Kazuha",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "光",
+     "reading": "ひかる",
+     "roman": "Hikaru",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "薫",
+     "reading": "かおる",
+     "roman": "Kaoru",
+     "tags": [
+      "色気がある"
+     ]
+    },
+    {
+     "ja": "忍",
+     "reading": "しのぶ",
+     "roman": "Shinobu",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "渚",
+     "reading": "なぎさ",
+     "roman": "Nagisa",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "睦月",
+     "reading": "むつき",
+     "roman": "Mutsuki",
+     "tags": [
+      "儚い"
+     ]
+    },
+    {
+     "ja": "真白",
+     "reading": "ましろ",
+     "roman": "Mashiro",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "玲",
+     "reading": "れい",
+     "roman": "Rei",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "司",
+     "reading": "つかさ",
+     "roman": "Tsukasa",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "汐",
+     "reading": "うしお",
+     "roman": "Ushio",
+     "tags": [
+      "儚い"
+     ]
+    },
+    {
+     "ja": "泉",
+     "reading": "いずみ",
+     "roman": "Izumi",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "奏",
+     "reading": "かなで",
+     "roman": "Kanade",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "千歳",
+     "reading": "ちとせ",
+     "roman": "Chitose",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "真尋",
+     "reading": "まひろ",
+     "roman": "Mahiro",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "依吹",
+     "reading": "いぶき",
+     "roman": "Ibuki",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "灯",
+     "reading": "あかり",
+     "roman": "Akari",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "十和",
+     "reading": "とわ",
+     "roman": "Towa",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "遥",
+     "reading": "はるか",
+     "roman": "Haruka",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "雪路",
+     "reading": "ゆきじ",
+     "roman": "Yukiji",
+     "tags": [
+      "儚い"
+     ]
+    },
+    {
+     "ja": "縁",
+     "reading": "ゆかり",
+     "roman": "Yukari",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "椋",
+     "reading": "むく",
+     "roman": "Muku",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "透",
+     "reading": "とおる",
+     "roman": "Toru",
+     "tags": [
+      "影が薄い"
+     ]
+    },
+    {
+     "ja": "叶多",
+     "reading": "かなた",
+     "roman": "Kanata",
+     "tags": [
+      "明るい"
+     ]
+    }
+   ],
+   "surnames": [
+    {
+     "ja": "佐伯",
+     "reading": "さえき",
+     "roman": "Saeki"
+    },
+    {
+     "ja": "氷室",
+     "reading": "ひむろ",
+     "roman": "Himuro"
+    },
+    {
+     "ja": "桐生",
+     "reading": "きりゅう",
+     "roman": "Kiryu"
+    },
+    {
+     "ja": "高遠",
+     "reading": "たかとお",
+     "roman": "Takato"
+    },
+    {
+     "ja": "一ノ瀬",
+     "reading": "いちのせ",
+     "roman": "Ichinose"
+    },
+    {
+     "ja": "綾瀬",
+     "reading": "あやせ",
+     "roman": "Ayase"
+    },
+    {
+     "ja": "東雲",
+     "reading": "しののめ",
+     "roman": "Shinonome"
+    },
+    {
+     "ja": "御影",
+     "reading": "みかげ",
+     "roman": "Mikage"
+    },
+    {
+     "ja": "九条",
+     "reading": "くじょう",
+     "roman": "Kujo"
+    },
+    {
+     "ja": "白瀬",
+     "reading": "しらせ",
+     "roman": "Shirase"
+    },
+    {
+     "ja": "黒川",
+     "reading": "くろかわ",
+     "roman": "Kurokawa"
+    },
+    {
+     "ja": "藤堂",
+     "reading": "とうどう",
+     "roman": "Todo"
+    },
+    {
+     "ja": "橘",
+     "reading": "たちばな",
+     "roman": "Tachibana"
+    },
+    {
+     "ja": "真壁",
+     "reading": "まかべ",
+     "roman": "Makabe"
+    },
+    {
+     "ja": "霧島",
+     "reading": "きりしま",
+     "roman": "Kirishima"
+    },
+    {
+     "ja": "遠野",
+     "reading": "とおの",
+     "roman": "Tono"
+    },
+    {
+     "ja": "有栖川",
+     "reading": "ありすがわ",
+     "roman": "Arisugawa"
+    },
+    {
+     "ja": "早乙女",
+     "reading": "さおとめ",
+     "roman": "Saotome"
+    },
+    {
+     "ja": "神代",
+     "reading": "かみしろ",
+     "roman": "Kamishiro"
+    },
+    {
+     "ja": "若槻",
+     "reading": "わかつき",
+     "roman": "Wakatsuki"
+    },
+    {
+     "ja": "芹沢",
+     "reading": "せりざわ",
+     "roman": "Serizawa"
+    },
+    {
+     "ja": "篠宮",
+     "reading": "しのみや",
+     "roman": "Shinomiya"
+    },
+    {
+     "ja": "楠木",
+     "reading": "くすのき",
+     "roman": "Kusunoki"
+    },
+    {
+     "ja": "榊",
+     "reading": "さかき",
+     "roman": "Sakaki"
+    },
+    {
+     "ja": "円城寺",
+     "reading": "えんじょうじ",
+     "roman": "Enjoji"
+    },
+    {
+     "ja": "深山",
+     "reading": "みやま",
+     "roman": "Miyama"
+    },
+    {
+     "ja": "水原",
+     "reading": "みずはら",
+     "roman": "Mizuhara"
+    },
+    {
+     "ja": "春日",
+     "reading": "かすが",
+     "roman": "Kasuga"
+    },
+    {
+     "ja": "夏目",
+     "reading": "なつめ",
+     "roman": "Natsume"
+    },
+    {
+     "ja": "秋津",
+     "reading": "あきつ",
+     "roman": "Akitsu"
+    },
+    {
+     "ja": "冬野",
+     "reading": "ふゆの",
+     "roman": "Fuyuno"
+    },
+    {
+     "ja": "柊",
+     "reading": "ひいらぎ",
+     "roman": "Hiiragi"
+    },
+    {
+     "ja": "真行寺",
+     "reading": "しんぎょうじ",
+     "roman": "Shingyoji"
+    },
+    {
+     "ja": "八雲",
+     "reading": "やくも",
+     "roman": "Yakumo"
+    },
+    {
+     "ja": "七瀬",
+     "reading": "ななせ",
+     "roman": "Nanase"
+    },
+    {
+     "ja": "三枝",
+     "reading": "さえぐさ",
+     "roman": "Saegusa"
+    },
+    {
+     "ja": "五十嵐",
+     "reading": "いがらし",
+     "roman": "Igarashi"
+    },
+    {
+     "ja": "百瀬",
+     "reading": "ももせ",
+     "roman": "Momose"
+    },
+    {
+     "ja": "千早",
+     "reading": "ちはや",
+     "roman": "Chihaya"
+    },
+    {
+     "ja": "久遠",
+     "reading": "くおん",
+     "roman": "Kuon"
+    },
+    {
+     "ja": "新堂",
+     "reading": "しんどう",
+     "roman": "Shindo"
+    },
+    {
+     "ja": "鷹村",
+     "reading": "たかむら",
+     "roman": "Takamura"
+    },
+    {
+     "ja": "瀬名",
+     "reading": "せな",
+     "roman": "Sena"
+    },
+    {
+     "ja": "帯刀",
+     "reading": "たてわき",
+     "roman": "Tatewaki"
+    },
+    {
+     "ja": "宇佐美",
+     "reading": "うさみ",
+     "roman": "Usami"
+    },
+    {
+     "ja": "栗林",
+     "reading": "くりばやし",
+     "roman": "Kuribayashi"
+    },
+    {
+     "ja": "戸叶",
+     "reading": "とかの",
+     "roman": "Tokano"
+    },
+    {
+     "ja": "真木",
+     "reading": "まき",
+     "roman": "Maki"
+    },
+    {
+     "ja": "小田切",
+     "reading": "おだぎり",
+     "roman": "Odagiri"
+    },
+    {
+     "ja": "南雲",
+     "reading": "なぐも",
+     "roman": "Nagumo"
+    }
+   ]
+  },
+  "wafu": {
+   "given": [
+    {
+     "ja": "隼之介",
+     "reading": "はやのすけ",
+     "roman": "Hayanosuke",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "右京",
+     "reading": "うきょう",
+     "roman": "Ukyo",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "左近",
+     "reading": "さこん",
+     "roman": "Sakon",
+     "tags": [
+      "圧がある"
+     ]
+    },
+    {
+     "ja": "尚之",
+     "reading": "なおゆき",
+     "roman": "Naoyuki",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "兵吾",
+     "reading": "ひょうご",
+     "roman": "Hyogo",
+     "tags": [
+      "陽気"
+     ]
+    },
+    {
+     "ja": "燕次",
+     "reading": "えんじ",
+     "roman": "Enji",
+     "tags": [
+      "生意気"
+     ]
+    },
+    {
+     "ja": "佐吉",
+     "reading": "さきち",
+     "roman": "Sakichi",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "甚八",
+     "reading": "じんぱち",
+     "roman": "Jinpachi",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "玄哉",
+     "reading": "げんや",
+     "roman": "Genya",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "宗玄",
+     "reading": "そうげん",
+     "roman": "Sogen",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "雪嗣",
+     "reading": "ゆきつぐ",
+     "roman": "Yukitsugu",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "千早丸",
+     "reading": "ちはやまる",
+     "roman": "Chihayamaru",
+     "tags": [
+      "無邪気"
+     ]
+    },
+    {
+     "ja": "影正",
+     "reading": "かげまさ",
+     "roman": "Kagemasa",
+     "tags": [
+      "忠実"
+     ]
+    },
+    {
+     "ja": "時貞",
+     "reading": "ときさだ",
+     "roman": "Tokisada",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "伊武樹",
+     "reading": "いぶき",
+     "roman": "Ibuki",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "清嗣",
+     "reading": "きよつぐ",
+     "roman": "Kiyotsugu",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "鷹嶺",
+     "reading": "たかね",
+     "roman": "Takane",
+     "tags": [
+      "圧がある"
+     ]
+    },
+    {
+     "ja": "竜臣",
+     "reading": "たつおみ",
+     "roman": "Tatsuomi",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "周防",
+     "reading": "すおう",
+     "roman": "Suo",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "要人",
+     "reading": "かなめ",
+     "roman": "Kaname",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "霞",
+     "reading": "かすみ",
+     "roman": "Kasumi",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "雫",
+     "reading": "しずく",
+     "roman": "Shizuku",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "宵",
+     "reading": "よい",
+     "roman": "Yoi",
+     "tags": [
+      "色気がある"
+     ]
+    },
+    {
+     "ja": "暁",
+     "reading": "あかつき",
+     "roman": "Akatsuki",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "琥珀",
+     "reading": "こはく",
+     "roman": "Kohaku",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "竜胆",
+     "reading": "りんどう",
+     "roman": "Rindo",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "水琴",
+     "reading": "みこと",
+     "roman": "Mikoto",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "真葛",
+     "reading": "まくず",
+     "roman": "Makuzu",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "玻璃",
+     "reading": "はり",
+     "roman": "Hari",
+     "tags": [
+      "儚い"
+     ]
+    },
+    {
+     "ja": "榛",
+     "reading": "はしばみ",
+     "roman": "Hashibami",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "燈",
+     "reading": "ともり",
+     "roman": "Tomori",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "椋鳥",
+     "reading": "むくどり",
+     "roman": "Mukudori",
+     "tags": [
+      "陽気"
+     ]
+    }
+   ],
+   "surnames": [
+    {
+     "ja": "綾小路",
+     "reading": "あやのこうじ",
+     "roman": "Ayanokoji"
+    },
+    {
+     "ja": "一条",
+     "reading": "いちじょう",
+     "roman": "Ichijo"
+    },
+    {
+     "ja": "二階堂",
+     "reading": "にかいどう",
+     "roman": "Nikaido"
+    },
+    {
+     "ja": "西園寺",
+     "reading": "さいおんじ",
+     "roman": "Saionji"
+    },
+    {
+     "ja": "花菱",
+     "reading": "はなびし",
+     "roman": "Hanabishi"
+    },
+    {
+     "ja": "鬼灯",
+     "reading": "ほおずき",
+     "roman": "Hozuki"
+    },
+    {
+     "ja": "天音",
+     "reading": "あまね",
+     "roman": "Amane"
+    },
+    {
+     "ja": "玉置",
+     "reading": "たまき",
+     "roman": "Tamaki"
+    },
+    {
+     "ja": "常盤",
+     "reading": "ときわ",
+     "roman": "Tokiwa"
+    },
+    {
+     "ja": "篝",
+     "reading": "かがり",
+     "roman": "Kagari"
+    },
+    {
+     "ja": "時雨",
+     "reading": "しぐれ",
+     "roman": "Shigure"
+    },
+    {
+     "ja": "白妙",
+     "reading": "しろたえ",
+     "roman": "Shirotae"
+    },
+    {
+     "ja": "久我",
+     "reading": "こが",
+     "roman": "Koga"
+    },
+    {
+     "ja": "朧",
+     "reading": "おぼろ",
+     "roman": "Oboro"
+    },
+    {
+     "ja": "葛葉",
+     "reading": "くずのは",
+     "roman": "Kuzunoha"
+    },
+    {
+     "ja": "伏見",
+     "reading": "ふしみ",
+     "roman": "Fushimi"
+    },
+    {
+     "ja": "桜庭",
+     "reading": "さくらば",
+     "roman": "Sakuraba"
+    },
+    {
+     "ja": "弓削",
+     "reading": "ゆげ",
+     "roman": "Yuge"
+    },
+    {
+     "ja": "犬飼",
+     "reading": "いぬかい",
+     "roman": "Inukai"
+    },
+    {
+     "ja": "鵜飼",
+     "reading": "うかい",
+     "roman": "Ukai"
+    },
+    {
+     "ja": "巴",
+     "reading": "ともえ",
+     "roman": "Tomoe"
+    },
+    {
+     "ja": "綺堂",
+     "reading": "きどう",
+     "roman": "Kido"
+    },
+    {
+     "ja": "陰山",
+     "reading": "かげやま",
+     "roman": "Kageyama"
+    },
+    {
+     "ja": "大鳥",
+     "reading": "おおとり",
+     "roman": "Otori"
+    },
+    {
+     "ja": "御門",
+     "reading": "みかど",
+     "roman": "Mikado"
+    },
+    {
+     "ja": "錦",
+     "reading": "にしき",
+     "roman": "Nishiki"
+    },
+    {
+     "ja": "縹",
+     "reading": "はなだ",
+     "roman": "Hanada"
+    },
+    {
+     "ja": "椿宮",
+     "reading": "つばきみや",
+     "roman": "Tsubakimiya"
+    },
+    {
+     "ja": "立花",
+     "reading": "たちばな",
+     "roman": "Tachibana"
+    },
+    {
+     "ja": "忌部",
+     "reading": "いんべ",
+     "roman": "Inbe"
+    }
+   ]
+  },
+  "western": {
+   "given": [
+    {
+     "ja": "エリアス",
+     "roman": "Elias",
+     "tags": [
+      "高貴",
+      "知的"
+     ]
+    },
+    {
+     "ja": "ルシアン",
+     "roman": "Lucian",
+     "tags": [
+      "色気がある"
+     ]
+    },
+    {
+     "ja": "セオドア",
+     "roman": "Theodore",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "アルドリック",
+     "roman": "Aldric",
+     "tags": [
+      "圧がある"
+     ]
+    },
+    {
+     "ja": "カジミール",
+     "roman": "Casimir",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "ギデオン",
+     "roman": "Gideon",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "フェリクス",
+     "roman": "Felix",
+     "tags": [
+      "陽気"
+     ]
+    },
+    {
+     "ja": "エドガー",
+     "roman": "Edgar",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "ユリウス",
+     "roman": "Julius",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "コンラート",
+     "roman": "Conrad",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "シルヴァン",
+     "roman": "Sylvain",
+     "tags": [
+      "気だるい"
+     ]
+    },
+    {
+     "ja": "レアンドル",
+     "roman": "Leandre",
+     "tags": [
+      "色気がある"
+     ]
+    },
+    {
+     "ja": "バジル",
+     "roman": "Basil",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "アラリック",
+     "roman": "Alaric",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "ドリアン",
+     "roman": "Dorian",
+     "tags": [
+      "危うい"
+     ]
+    },
+    {
+     "ja": "パーシヴァル",
+     "roman": "Percival",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "トリスタン",
+     "roman": "Tristan",
+     "tags": [
+      "闇がある"
+     ]
+    },
+    {
+     "ja": "ヴェルナー",
+     "roman": "Werner",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "クラウス",
+     "roman": "Klaus",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "マイロ",
+     "roman": "Milo",
+     "tags": [
+      "無邪気"
+     ]
+    },
+    {
+     "ja": "オズリック",
+     "roman": "Osric",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "ルナール",
+     "roman": "Renard",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "アンセル",
+     "roman": "Ansel",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "エヴラール",
+     "roman": "Everard",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "ダミアン",
+     "roman": "Damian",
+     "tags": [
+      "危うい"
+     ]
+    },
+    {
+     "ja": "ラウル",
+     "roman": "Raoul",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "ノア",
+     "roman": "Noah",
+     "tags": [
+      "神秘的",
+      "透明感"
+     ]
+    },
+    {
+     "ja": "サーシャ",
+     "roman": "Sasha",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "ロビン",
+     "roman": "Robin",
+     "tags": [
+      "陽気"
+     ]
+    },
+    {
+     "ja": "モルガン",
+     "roman": "Morgan",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "クイン",
+     "roman": "Quinn",
+     "tags": [
+      "生意気"
+     ]
+    },
+    {
+     "ja": "アイリス",
+     "roman": "Iris",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "アッシュ",
+     "roman": "Ash",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "リオル",
+     "roman": "Lior",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "エデン",
+     "roman": "Eden",
+     "tags": [
+      "儚い"
+     ]
+    },
+    {
+     "ja": "ソル",
+     "roman": "Sol",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "ルー",
+     "roman": "Lou",
+     "tags": [
+      "気だるい"
+     ]
+    },
+    {
+     "ja": "シエル",
+     "roman": "Ciel",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "ニカ",
+     "roman": "Nika",
+     "tags": [
+      "無邪気"
+     ]
+    },
+    {
+     "ja": "レン",
+     "roman": "Wren",
+     "tags": [
+      "影が薄い"
+     ]
+    }
+   ],
+   "surnames": []
+  },
+  "chinese": {
+   "given": [
+    {
+     "ja": "明軒",
+     "reading": "ミンシュエン",
+     "roman": "Mingxuan",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "子墨",
+     "reading": "ズーモー",
+     "roman": "Zimo",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "雲嵐",
+     "reading": "ユンラン",
+     "roman": "Yunlan",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "少卿",
+     "reading": "シャオチン",
+     "roman": "Shaoqing",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "敬亭",
+     "reading": "ジンティン",
+     "roman": "Jingting",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "凌霄",
+     "reading": "リンシャオ",
+     "roman": "Lingxiao",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "慕言",
+     "reading": "ムーイェン",
+     "roman": "Muyan",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "硯之",
+     "reading": "イェンヂー",
+     "roman": "Yanzhi",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "泊遠",
+     "reading": "ボーユエン",
+     "roman": "Boyuan",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "景行",
+     "reading": "ジンシン",
+     "roman": "Jingxing",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "暁風",
+     "reading": "シャオフォン",
+     "roman": "Xiaofeng",
+     "tags": [
+      "気だるい"
+     ]
+    },
+    {
+     "ja": "承徽",
+     "reading": "チョンフイ",
+     "roman": "Chenghui",
+     "tags": [
+      "忠実"
+     ]
+    },
+    {
+     "ja": "鶴鳴",
+     "reading": "ホーミン",
+     "roman": "Heming",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "翊安",
+     "reading": "イーアン",
+     "roman": "Yian",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "寒山",
+     "reading": "ハンシャン",
+     "roman": "Hanshan",
+     "tags": [
+      "冷たい"
+     ]
+    },
+    {
+     "ja": "烈",
+     "reading": "リエ",
+     "roman": "Lie",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "青玄",
+     "reading": "チンシュエン",
+     "roman": "Qingxuan",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "文昭",
+     "reading": "ウェンヂャオ",
+     "roman": "Wenzhao",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "清風",
+     "reading": "チンフォン",
+     "roman": "Qingfeng",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "聞笛",
+     "reading": "ウェンディー",
+     "roman": "Wendi",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "望舒",
+     "reading": "ワンシュー",
+     "roman": "Wangshu",
+     "tags": [
+      "儚い"
+     ]
+    },
+    {
+     "ja": "懐瑾",
+     "reading": "ホワイジン",
+     "roman": "Huaijin",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "知秋",
+     "reading": "ヂーチウ",
+     "roman": "Zhiqiu",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "星河",
+     "reading": "シンホー",
+     "roman": "Xinghe",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "聴雨",
+     "reading": "ティンユー",
+     "roman": "Tingyu",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "問渠",
+     "reading": "ウェンチュー",
+     "roman": "Wenqu",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "泠音",
+     "reading": "リンイン",
+     "roman": "Lingyin",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "归鴻",
+     "reading": "グイホン",
+     "roman": "Guihong",
+     "tags": [
+      "孤独"
+     ]
+    },
+    {
+     "ja": "雲起",
+     "reading": "ユンチー",
+     "roman": "Yunqi",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "抱朴",
+     "reading": "バオプー",
+     "roman": "Baopu",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "疏桐",
+     "reading": "シュートン",
+     "roman": "Shutong",
+     "tags": [
+      "孤独"
+     ]
+    },
+    {
+     "ja": "暮雪",
+     "reading": "ムーシュエ",
+     "roman": "Muxue",
+     "tags": [
+      "儚い"
+     ]
+    }
+   ],
+   "surnames": [
+    {
+     "ja": "李",
+     "reading": "リー",
+     "roman": "Li"
+    },
+    {
+     "ja": "王",
+     "reading": "ワン",
+     "roman": "Wang"
+    },
+    {
+     "ja": "張",
+     "reading": "チャン",
+     "roman": "Zhang"
+    },
+    {
+     "ja": "陳",
+     "reading": "チェン",
+     "roman": "Chen"
+    },
+    {
+     "ja": "楊",
+     "reading": "ヤン",
+     "roman": "Yang"
+    },
+    {
+     "ja": "趙",
+     "reading": "ヂャオ",
+     "roman": "Zhao"
+    },
+    {
+     "ja": "周",
+     "reading": "ヂョウ",
+     "roman": "Zhou"
+    },
+    {
+     "ja": "呉",
+     "reading": "ウー",
+     "roman": "Wu"
+    },
+    {
+     "ja": "徐",
+     "reading": "シュー",
+     "roman": "Xu"
+    },
+    {
+     "ja": "沈",
+     "reading": "シェン",
+     "roman": "Shen"
+    },
+    {
+     "ja": "韓",
+     "reading": "ハン",
+     "roman": "Han"
+    },
+    {
+     "ja": "秦",
+     "reading": "チン",
+     "roman": "Qin"
+    },
+    {
+     "ja": "白",
+     "reading": "バイ",
+     "roman": "Bai"
+    },
+    {
+     "ja": "藍",
+     "reading": "ラン",
+     "roman": "Lan"
+    },
+    {
+     "ja": "蘇",
+     "reading": "スー",
+     "roman": "Su"
+    },
+    {
+     "ja": "顧",
+     "reading": "グー",
+     "roman": "Gu"
+    },
+    {
+     "ja": "江",
+     "reading": "ジャン",
+     "roman": "Jiang"
+    },
+    {
+     "ja": "温",
+     "reading": "ウェン",
+     "roman": "Wen"
+    },
+    {
+     "ja": "霍",
+     "reading": "フオ",
+     "roman": "Huo"
+    },
+    {
+     "ja": "慕容",
+     "reading": "ムーロン",
+     "roman": "Murong"
+    },
+    {
+     "ja": "司馬",
+     "reading": "スーマー",
+     "roman": "Sima"
+    },
+    {
+     "ja": "欧陽",
+     "reading": "オウヤン",
+     "roman": "Ouyang"
+    },
+    {
+     "ja": "上官",
+     "reading": "シャングァン",
+     "roman": "Shangguan"
+    },
+    {
+     "ja": "夏",
+     "reading": "シア",
+     "roman": "Xia"
+    },
+    {
+     "ja": "雲",
+     "reading": "ユン",
+     "roman": "Yun"
+    },
+    {
+     "ja": "花",
+     "reading": "ホワ",
+     "roman": "Hua"
+    },
+    {
+     "ja": "燕",
+     "reading": "イェン",
+     "roman": "Yan"
+    },
+    {
+     "ja": "柳",
+     "reading": "リウ",
+     "roman": "Liu"
+    },
+    {
+     "ja": "賀",
+     "reading": "ホー",
+     "roman": "He"
+    },
+    {
+     "ja": "段",
+     "reading": "ドゥアン",
+     "roman": "Duan"
+    }
+   ]
+  },
+  "desert": {
+   "given": [
+    {
+     "ja": "ラシード",
+     "roman": "Rashid",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "カリーム",
+     "roman": "Karim",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "ザイード",
+     "roman": "Zayed",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "タリク",
+     "roman": "Tariq",
+     "tags": [
+      "余裕がある"
+     ]
+    },
+    {
+     "ja": "サミール",
+     "roman": "Samir",
+     "tags": [
+      "陽気"
+     ]
+    },
+    {
+     "ja": "ナディム",
+     "roman": "Nadim",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "イドリース",
+     "roman": "Idris",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "ハキーム",
+     "roman": "Hakim",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "アズハル",
+     "roman": "Azhar",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "ラフィク",
+     "roman": "Rafiq",
+     "tags": [
+      "忠実"
+     ]
+    },
+    {
+     "ja": "マリク",
+     "roman": "Malik",
+     "tags": [
+      "圧がある"
+     ]
+    },
+    {
+     "ja": "ユースフ",
+     "roman": "Yusuf",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "オマール",
+     "roman": "Omar",
+     "tags": [
+      "強気"
+     ]
+    },
+    {
+     "ja": "バシル",
+     "roman": "Bashir",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "サレム",
+     "roman": "Salem",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "ナジーブ",
+     "roman": "Najib",
+     "tags": [
+      "高貴"
+     ]
+    },
+    {
+     "ja": "ジブリール",
+     "roman": "Jibril",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "ムラード",
+     "roman": "Murad",
+     "tags": [
+      "闇がある"
+     ]
+    },
+    {
+     "ja": "ノール",
+     "roman": "Noor",
+     "tags": [
+      "透明感"
+     ]
+    },
+    {
+     "ja": "アマル",
+     "roman": "Amal",
+     "tags": [
+      "優しい"
+     ]
+    },
+    {
+     "ja": "イマーン",
+     "roman": "Iman",
+     "tags": [
+      "真面目"
+     ]
+    },
+    {
+     "ja": "サバ",
+     "roman": "Saba",
+     "tags": [
+      "穏やか"
+     ]
+    },
+    {
+     "ja": "シャムス",
+     "roman": "Shams",
+     "tags": [
+      "明るい"
+     ]
+    },
+    {
+     "ja": "ハヤート",
+     "roman": "Hayat",
+     "tags": [
+      "神秘的"
+     ]
+    },
+    {
+     "ja": "ジハーン",
+     "roman": "Jihan",
+     "tags": [
+      "知的"
+     ]
+    },
+    {
+     "ja": "ナシーム",
+     "roman": "Naseem",
+     "tags": [
+      "気だるい"
+     ]
+    },
+    {
+     "ja": "ディヤー",
+     "roman": "Diya",
+     "tags": [
+      "儚い"
+     ]
+    },
+    {
+     "ja": "サラーブ",
+     "roman": "Sarab",
+     "tags": [
+      "ミステリアス"
+     ]
+    },
+    {
+     "ja": "リハーン",
+     "roman": "Rihan",
+     "tags": [
+      "影が薄い"
+     ]
+    },
+    {
+     "ja": "ワルド",
+     "roman": "Ward",
+     "tags": [
+      "無口"
+     ]
+    },
+    {
+     "ja": "バハル",
+     "roman": "Bahar",
+     "tags": [
+      "陽気"
+     ]
+    },
+    {
+     "ja": "カマル",
+     "roman": "Kamal",
+     "tags": [
+      "高貴"
+     ]
+    }
+   ],
+   "surnames": []
+  },
+  "scifi": {
+   "given": [
+    {
+     "ja": "カイ",
+     "roman": "Kai",
+     "tags": []
+    },
+    {
+     "ja": "テオ",
+     "roman": "Theo",
+     "tags": []
+    },
+    {
+     "ja": "ルカ",
+     "roman": "Luca",
+     "tags": []
+    },
+    {
+     "ja": "ゼン",
+     "roman": "Zen",
+     "tags": []
+    },
+    {
+     "ja": "リオ",
+     "roman": "Rio",
+     "tags": []
+    },
+    {
+     "ja": "シリル",
+     "roman": "Cyril",
+     "tags": []
+    },
+    {
+     "ja": "ダンテ",
+     "roman": "Dante",
+     "tags": []
+    },
+    {
+     "ja": "イーサン",
+     "roman": "Ethan",
+     "tags": []
+    },
+    {
+     "ja": "ノエ",
+     "roman": "Noe",
+     "tags": []
+    },
+    {
+     "ja": "ヴィクター",
+     "roman": "Victor",
+     "tags": []
+    },
+    {
+     "ja": "アクセル",
+     "roman": "Axel",
+     "tags": []
+    },
+    {
+     "ja": "ジュード",
+     "roman": "Jude",
+     "tags": []
+    },
+    {
+     "ja": "レイ",
+     "roman": "Ray",
+     "tags": []
+    },
+    {
+     "ja": "シオン",
+     "roman": "Sion",
+     "tags": []
+    },
+    {
+     "ja": "ユナ",
+     "roman": "Yuna",
+     "tags": []
+    },
+    {
+     "ja": "アオ",
+     "roman": "Ao",
+     "tags": []
+    },
+    {
+     "ja": "キリ",
+     "roman": "Kiri",
+     "tags": []
+    },
+    {
+     "ja": "ハル",
+     "roman": "Hal",
+     "tags": []
+    }
+   ],
+   "surnames": []
+  }
+ }
+}

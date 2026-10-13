@@ -1,0 +1,1650 @@
+{
+ "source": "kemono-prompt-workshop",
+ "commit": "ac5e16fb061b44cefe4cc48732f5335c4a230cdb",
+ "groups": {
+  "mammal": {
+   "ja": "哺乳類",
+   "icon": "🐾",
+   "cover": "fur",
+   "coverJa": "毛並み",
+   "head": "ears",
+   "tailNoun": "tail",
+   "tailJa": "尾",
+   "kin": "{s} beastkin",
+   "jaKin": "獣人",
+   "partial": "partial {c}{cov}",
+   "lv3cover": "body {cov}",
+   "mouth": "muzzle",
+   "shortMouth": "short muzzle",
+   "nose": "animal nose",
+   "legs": "digitigrade legs",
+   "hands4": "paw-like hands and feet",
+   "limbs5": "paws",
+   "claws": "claws",
+   "teeth": "fangs",
+   "mouthJa": "マズル（突き出た鼻づら）",
+   "limbJa": "肉球のある手足"
+  },
+  "bird": {
+   "ja": "鳥類",
+   "icon": "🪶",
+   "cover": "feathers",
+   "coverJa": "羽毛",
+   "head": "crest",
+   "tailNoun": "tail feathers",
+   "tailJa": "尾羽",
+   "kin": "{s} birdfolk",
+   "jaKin": "の鳥人",
+   "partial": "{c}feathers on forearms",
+   "lv3cover": "visible feathers",
+   "mouth": "beak",
+   "shortMouth": "small beak",
+   "nose": null,
+   "legs": "bird legs",
+   "hands4": "talons",
+   "limbs5": "talons",
+   "claws": "talon-like nails",
+   "teeth": null,
+   "wings": true,
+   "mouthJa": "くちばし",
+   "limbJa": "鉤爪の足"
+  },
+  "reptile": {
+   "ja": "爬虫類・竜",
+   "icon": "🐉",
+   "cover": "scales",
+   "coverJa": "鱗",
+   "head": "horn",
+   "tailNoun": "tail",
+   "tailJa": "尾",
+   "kin": "{s}folk",
+   "jaKin": "の獣人",
+   "partial": "patches of {c}scales on arms",
+   "lv3cover": "visible scales",
+   "mouth": "snout",
+   "shortMouth": "short snout",
+   "nose": null,
+   "legs": "digitigrade legs",
+   "hands4": "clawed reptilian hands",
+   "limbs5": "clawed hands and feet",
+   "claws": "claws",
+   "teeth": "fangs",
+   "mouthJa": "突き出た鼻先",
+   "limbJa": "鉤爪のある手足"
+  },
+  "aquatic": {
+   "ja": "水棲",
+   "icon": "🌊",
+   "cover": "skin",
+   "coverJa": "肌",
+   "head": "fin",
+   "tailNoun": "tail",
+   "tailJa": "尾",
+   "kin": "{s}folk",
+   "jaKin": "の獣人",
+   "partial": "patches of {c}{cov} on arms",
+   "lv3cover": "{cov} on arms and back",
+   "mouth": "snout",
+   "shortMouth": "short snout",
+   "nose": null,
+   "legs": null,
+   "hands4": "webbed clawed hands",
+   "limbs5": "webbed hands",
+   "claws": "claws",
+   "teeth": "sharp teeth",
+   "mouthJa": "突き出た鼻先",
+   "limbJa": "水かきのある手"
+  }
+ },
+ "species": [
+  {
+   "id": "wolf",
+   "t": "carn",
+   "ja": "狼",
+   "en": "wolf",
+   "em": "🐺",
+   "g": "mammal",
+   "ears": [
+    "pointed"
+   ],
+   "tails": [
+    "long",
+    "fluffy"
+   ],
+   "pats": [
+    "belly",
+    "twotone"
+   ]
+  },
+  {
+   "id": "fox",
+   "t": "carn",
+   "ja": "狐",
+   "en": "fox",
+   "em": "🦊",
+   "g": "mammal",
+   "ears": [
+    "pointed",
+    "big"
+   ],
+   "tails": [
+    "fluffy",
+    "thick",
+    "multi"
+   ],
+   "pats": [
+    "belly",
+    "twotone"
+   ]
+  },
+  {
+   "id": "dog",
+   "t": "carn",
+   "ja": "犬",
+   "en": "dog",
+   "em": "🐶",
+   "g": "mammal",
+   "ears": [
+    "floppy",
+    "pointed"
+   ],
+   "tails": [
+    "long"
+   ],
+   "pats": [
+    "twotone",
+    "solid"
+   ]
+  },
+  {
+   "id": "cat",
+   "t": "carn",
+   "ja": "猫",
+   "en": "cat",
+   "em": "🐱",
+   "g": "mammal",
+   "ears": [
+    "pointed"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "solid",
+    "stripes"
+   ]
+  },
+  {
+   "id": "tiger",
+   "t": "carn",
+   "ja": "虎",
+   "en": "tiger",
+   "em": "🐯",
+   "g": "mammal",
+   "ears": [
+    "round"
+   ],
+   "tails": [
+    "long",
+    "thick"
+   ],
+   "pats": [
+    "stripes"
+   ]
+  },
+  {
+   "id": "leopard",
+   "t": "carn",
+   "ja": "豹",
+   "en": "leopard",
+   "em": "🐆",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "long"
+   ],
+   "pats": [
+    "spots"
+   ]
+  },
+  {
+   "id": "panther",
+   "t": "carn",
+   "ja": "黒豹",
+   "en": "black panther",
+   "em": "🐈‍⬛",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "solid"
+   ]
+  },
+  {
+   "id": "snowleopard",
+   "t": "carn",
+   "ja": "雪豹",
+   "en": "snow leopard",
+   "em": "❄️",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "long",
+    "thick",
+    "fluffy"
+   ],
+   "pats": [
+    "spots"
+   ]
+  },
+  {
+   "id": "lion",
+   "t": "carn",
+   "ja": "獅子",
+   "en": "lion",
+   "em": "🦁",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "long",
+    "tufted"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "feat": [
+    {
+     "en": "lion mane",
+     "ja": "たてがみ",
+     "min": 4
+    }
+   ]
+  },
+  {
+   "id": "bear",
+   "t": "carn",
+   "ja": "熊",
+   "en": "bear",
+   "em": "🐻",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "o": {
+    "legs": null
+   }
+  },
+  {
+   "id": "panda",
+   "t": "carn",
+   "ja": "パンダ",
+   "en": "panda",
+   "em": "🐼",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "twotone"
+   ],
+   "o": {
+    "legs": null
+   }
+  },
+  {
+   "id": "tanuki",
+   "t": "carn",
+   "ja": "狸",
+   "en": "tanuki",
+   "em": "🦝",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "fluffy",
+    "thick"
+   ],
+   "pats": [
+    "twotone"
+   ]
+  },
+  {
+   "id": "hyena",
+   "t": "carn",
+   "ja": "ハイエナ",
+   "en": "hyena",
+   "em": "🐾",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "big"
+   ],
+   "tails": [
+    "short",
+    "tufted"
+   ],
+   "pats": [
+    "spots"
+   ]
+  },
+  {
+   "id": "rabbit",
+   "t": "small",
+   "ja": "兎",
+   "en": "rabbit",
+   "em": "🐰",
+   "g": "mammal",
+   "ears": [
+    "long",
+    "floppy"
+   ],
+   "tails": [
+    "short",
+    "fluffy"
+   ],
+   "pats": [
+    "solid"
+   ]
+  },
+  {
+   "id": "deer",
+   "t": "herb",
+   "ja": "鹿",
+   "en": "deer",
+   "em": "🦌",
+   "g": "mammal",
+   "ears": [
+    "pointed"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "spots"
+   ],
+   "feat": [
+    {
+     "en": "deer antlers",
+     "ja": "鹿の角",
+     "min": 1
+    }
+   ],
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "sheep",
+   "t": "herb",
+   "ja": "羊",
+   "en": "sheep",
+   "em": "🐑",
+   "g": "mammal",
+   "ears": [
+    "floppy",
+    "small"
+   ],
+   "tails": [
+    "short",
+    "fluffy"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "feat": [
+    {
+     "en": "curled ram horns",
+     "ja": "巻き角",
+     "min": 1
+    }
+   ],
+   "o": {
+    "cover": "wool",
+    "coverJa": "羊毛",
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "goat",
+   "t": "herb",
+   "ja": "山羊",
+   "en": "goat",
+   "em": "🐐",
+   "g": "mammal",
+   "ears": [
+    "floppy"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "feat": [
+    {
+     "en": "goat horns",
+     "ja": "山羊の角",
+     "min": 1
+    }
+   ],
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "cow",
+   "t": "herb",
+   "ja": "牛",
+   "en": "cow",
+   "em": "🐮",
+   "g": "mammal",
+   "ears": [
+    "floppy"
+   ],
+   "tails": [
+    "long",
+    "tufted"
+   ],
+   "pats": [
+    "spots"
+   ],
+   "feat": [
+    {
+     "en": "cow horns",
+     "ja": "牛の角",
+     "min": 1
+    }
+   ],
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "horse",
+   "t": "herb",
+   "ja": "馬",
+   "en": "horse",
+   "em": "🐴",
+   "g": "mammal",
+   "ears": [
+    "pointed"
+   ],
+   "tails": [
+    "long"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "feat": [
+    {
+     "en": "flowing horse mane",
+     "ja": "たてがみ",
+     "min": 4
+    }
+   ],
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "boar",
+   "t": "herb",
+   "ja": "猪",
+   "en": "boar",
+   "em": "🐗",
+   "g": "mammal",
+   "ears": [
+    "pointed",
+    "small"
+   ],
+   "tails": [
+    "short",
+    "thin"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "feat": [
+    {
+     "en": "small tusks",
+     "ja": "小さな牙",
+     "min": 2
+    }
+   ],
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "mouse",
+   "t": "small",
+   "ja": "鼠",
+   "en": "mouse",
+   "em": "🐭",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "big"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "solid"
+   ]
+  },
+  {
+   "id": "squirrel",
+   "t": "small",
+   "ja": "栗鼠",
+   "en": "squirrel",
+   "em": "🐿️",
+   "g": "mammal",
+   "ears": [
+    "pointed"
+   ],
+   "tails": [
+    "fluffy",
+    "thick"
+   ],
+   "pats": [
+    "belly"
+   ]
+  },
+  {
+   "id": "otter",
+   "t": "carn",
+   "ja": "カワウソ",
+   "en": "otter",
+   "em": "🦦",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "long",
+    "thick"
+   ],
+   "pats": [
+    "belly"
+   ]
+  },
+  {
+   "id": "bat",
+   "t": "small",
+   "ja": "蝙蝠",
+   "en": "bat",
+   "em": "🦇",
+   "g": "mammal",
+   "ears": [
+    "pointed",
+    "big"
+   ],
+   "tails": [
+    "short",
+    "thin"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "feat": [
+    {
+     "en": "bat wings",
+     "ja": "コウモリの翼",
+     "min": 1
+    }
+   ]
+  },
+  {
+   "id": "raccoon",
+   "t": "carn",
+   "ja": "アライグマ",
+   "en": "raccoon",
+   "em": "🦝",
+   "g": "mammal",
+   "ears": [
+    "round"
+   ],
+   "tails": [
+    "thick",
+    "fluffy"
+   ],
+   "pats": [
+    "stripes",
+    "twotone"
+   ]
+  },
+  {
+   "id": "badger",
+   "t": "carn",
+   "ja": "アナグマ",
+   "en": "badger",
+   "em": "🦡",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "stripes",
+    "twotone"
+   ],
+   "weak": true
+  },
+  {
+   "id": "skunk",
+   "t": "carn",
+   "ja": "スカンク",
+   "en": "skunk",
+   "em": "🦨",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "thick",
+    "fluffy"
+   ],
+   "pats": [
+    "stripes",
+    "twotone"
+   ],
+   "weak": true
+  },
+  {
+   "id": "ferret",
+   "t": "carn",
+   "ja": "フェレット",
+   "en": "ferret",
+   "em": "🐾",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "twotone",
+    "belly"
+   ],
+   "weak": true
+  },
+  {
+   "id": "zebra",
+   "t": "herb",
+   "ja": "シマウマ",
+   "en": "zebra",
+   "em": "🦓",
+   "g": "mammal",
+   "ears": [
+    "pointed"
+   ],
+   "tails": [
+    "long",
+    "tufted"
+   ],
+   "pats": [
+    "stripes"
+   ],
+   "weak": true,
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "giraffe",
+   "t": "herb",
+   "ja": "キリン",
+   "en": "giraffe",
+   "em": "🦒",
+   "g": "mammal",
+   "ears": [
+    "pointed",
+    "small"
+   ],
+   "tails": [
+    "long",
+    "tufted"
+   ],
+   "pats": [
+    "spots"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "ossicones",
+     "ja": "短い角（オシコーン）",
+     "min": 1
+    }
+   ],
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "camel",
+   "t": "herb",
+   "ja": "ラクダ",
+   "en": "camel",
+   "em": "🐫",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "short",
+    "tufted"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "camel hump",
+     "ja": "背中のこぶ",
+     "min": 4
+    }
+   ],
+   "o": {
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "alpaca",
+   "t": "herb",
+   "ja": "アルパカ",
+   "en": "alpaca",
+   "em": "🦙",
+   "g": "mammal",
+   "ears": [
+    "pointed"
+   ],
+   "tails": [
+    "short",
+    "fluffy"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "o": {
+    "cover": "wool",
+    "coverJa": "羊毛",
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "elephant",
+   "t": "herb",
+   "ja": "ゾウ",
+   "en": "elephant",
+   "em": "🐘",
+   "g": "mammal",
+   "ears": [
+    "big"
+   ],
+   "tails": [
+    "thin",
+    "tufted"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "small tusks",
+     "ja": "小さな牙",
+     "min": 3
+    }
+   ],
+   "o": {
+    "cover": "skin",
+    "coverJa": "皮膚",
+    "partial": "patches of {c}{cov} on arms",
+    "lv3cover": "tough {cov}",
+    "claws": null,
+    "teeth": null,
+    "mouth": "trunk",
+    "shortMouth": "trunk",
+    "nose": null,
+    "mouthJa": "長い鼻",
+    "hands4": "large padded feet",
+    "limbs5": "large padded feet",
+    "limbJa": "大きな足"
+   }
+  },
+  {
+   "id": "rhino",
+   "t": "herb",
+   "ja": "サイ",
+   "en": "rhino",
+   "em": "🦏",
+   "g": "mammal",
+   "ears": [
+    "small",
+    "round"
+   ],
+   "tails": [
+    "thin",
+    "tufted"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "rhino horn",
+     "ja": "サイの角",
+     "min": 1
+    }
+   ],
+   "o": {
+    "cover": "skin",
+    "coverJa": "皮膚",
+    "partial": "patches of {c}{cov} on arms",
+    "lv3cover": "tough {cov}",
+    "hands4": "hoofed feet",
+    "limbs5": "hooves",
+    "limbJa": "蹄のある足",
+    "claws": null,
+    "teeth": null
+   }
+  },
+  {
+   "id": "hedgehog",
+   "t": "small",
+   "ja": "ハリネズミ",
+   "en": "hedgehog",
+   "em": "🦔",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "belly"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "spiky quills",
+     "ja": "背中の針",
+     "min": 2
+    }
+   ]
+  },
+  {
+   "id": "beaver",
+   "t": "small",
+   "ja": "ビーバー",
+   "en": "beaver",
+   "em": "🦫",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [
+    "flat"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "o": {
+    "teeth": "buck teeth"
+   }
+  },
+  {
+   "id": "capybara",
+   "t": "small",
+   "ja": "カピバラ",
+   "en": "capybara",
+   "em": "🐹",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "o": {
+    "noTail": true,
+    "teeth": "buck teeth"
+   }
+  },
+  {
+   "id": "monkey",
+   "t": "prim",
+   "ja": "サル",
+   "en": "monkey",
+   "em": "🐵",
+   "g": "mammal",
+   "ears": [
+    "round"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "twotone",
+    "solid"
+   ]
+  },
+  {
+   "id": "gorilla",
+   "t": "prim",
+   "ja": "ゴリラ",
+   "en": "gorilla",
+   "em": "🦍",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "small"
+   ],
+   "tails": [],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "o": {
+    "noTail": true
+   }
+  },
+  {
+   "id": "kangaroo",
+   "t": "prim",
+   "ja": "カンガルー",
+   "en": "kangaroo",
+   "em": "🦘",
+   "g": "mammal",
+   "ears": [
+    "long",
+    "pointed"
+   ],
+   "tails": [
+    "long",
+    "thick"
+   ],
+   "pats": [
+    "belly",
+    "solid"
+   ],
+   "weak": true,
+   "o": {
+    "teeth": null
+   }
+  },
+  {
+   "id": "koala",
+   "t": "prim",
+   "ja": "コアラ",
+   "en": "koala",
+   "em": "🐨",
+   "g": "mammal",
+   "ears": [
+    "round",
+    "big"
+   ],
+   "tails": [],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "o": {
+    "noTail": true,
+    "teeth": null
+   }
+  },
+  {
+   "id": "bird",
+   "ja": "小鳥",
+   "en": "bird",
+   "em": "🐦",
+   "g": "bird",
+   "ears": [
+    "crest"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "belly"
+   ]
+  },
+  {
+   "id": "hawk",
+   "ja": "鷹",
+   "en": "hawk",
+   "em": "🦅",
+   "g": "bird",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "long",
+    "fan"
+   ],
+   "pats": [
+    "belly"
+   ]
+  },
+  {
+   "id": "owl",
+   "ja": "梟",
+   "en": "owl",
+   "em": "🦉",
+   "g": "bird",
+   "ears": [
+    "tufts"
+   ],
+   "tails": [
+    "short",
+    "fan"
+   ],
+   "pats": [
+    "mottled"
+   ]
+  },
+  {
+   "id": "crow",
+   "ja": "鴉",
+   "en": "crow",
+   "em": "🪶",
+   "g": "bird",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "long"
+   ],
+   "pats": [
+    "solid"
+   ]
+  },
+  {
+   "id": "peacock",
+   "ja": "孔雀",
+   "en": "peacock",
+   "em": "🦚",
+   "g": "bird",
+   "ears": [
+    "crest"
+   ],
+   "tails": [
+    "ornate",
+    "fan"
+   ],
+   "pats": [
+    "gradient"
+   ]
+  },
+  {
+   "id": "swan",
+   "ja": "白鳥",
+   "en": "swan",
+   "em": "🦢",
+   "g": "bird",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "solid"
+   ]
+  },
+  {
+   "id": "parrot",
+   "ja": "オウム",
+   "en": "parrot",
+   "em": "🦜",
+   "g": "bird",
+   "ears": [
+    "crest"
+   ],
+   "tails": [
+    "long"
+   ],
+   "pats": [
+    "gradient"
+   ]
+  },
+  {
+   "id": "dove",
+   "ja": "鳩",
+   "en": "dove",
+   "em": "🕊️",
+   "g": "bird",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "fan"
+   ],
+   "pats": [
+    "solid"
+   ]
+  },
+  {
+   "id": "penguin",
+   "ja": "ペンギン",
+   "en": "penguin",
+   "em": "🐧",
+   "g": "bird",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "belly",
+    "twotone"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "penguin flippers",
+     "ja": "フリッパー（短い翼）",
+     "min": 1
+    }
+   ],
+   "o": {
+    "wings": false
+   }
+  },
+  {
+   "id": "flamingo",
+   "ja": "フラミンゴ",
+   "en": "flamingo",
+   "em": "🦩",
+   "g": "bird",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "short",
+    "fan"
+   ],
+   "pats": [
+    "gradient",
+    "solid"
+   ],
+   "weak": true
+  },
+  {
+   "id": "crane",
+   "ja": "鶴",
+   "en": "red-crowned crane",
+   "em": "🦢",
+   "g": "bird",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "twotone"
+   ],
+   "weak": true
+  },
+  {
+   "id": "snake",
+   "ja": "蛇",
+   "en": "snake",
+   "em": "🐍",
+   "g": "reptile",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "stripes",
+    "spots"
+   ],
+   "o": {
+    "legs": null
+   }
+  },
+  {
+   "id": "lizard",
+   "ja": "トカゲ",
+   "en": "lizard",
+   "em": "🦎",
+   "g": "reptile",
+   "ears": [
+    "spines"
+   ],
+   "tails": [
+    "long"
+   ],
+   "pats": [
+    "spots"
+   ]
+  },
+  {
+   "id": "crocodile",
+   "ja": "ワニ",
+   "en": "crocodile",
+   "em": "🐊",
+   "g": "reptile",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "long",
+    "thick"
+   ],
+   "pats": [
+    "belly"
+   ]
+  },
+  {
+   "id": "turtle",
+   "ja": "亀",
+   "en": "turtle",
+   "em": "🐢",
+   "g": "reptile",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "mottled"
+   ],
+   "feat": [
+    {
+     "en": "turtle shell on back",
+     "ja": "背中の甲羅",
+     "min": 2
+    }
+   ],
+   "o": {
+    "legs": null,
+    "mouth": "beak",
+    "shortMouth": "small beak",
+    "mouthJa": "くちばし"
+   }
+  },
+  {
+   "id": "raptor",
+   "ja": "ラプトル",
+   "en": "raptor",
+   "em": "🦖",
+   "g": "reptile",
+   "ears": [
+    "spines"
+   ],
+   "tails": [
+    "long"
+   ],
+   "pats": [
+    "stripes"
+   ]
+  },
+  {
+   "id": "dragon",
+   "ja": "ドラゴン",
+   "en": "dragon",
+   "em": "🐉",
+   "g": "reptile",
+   "ears": [
+    "auto"
+   ],
+   "tails": [
+    "long",
+    "spiked"
+   ],
+   "pats": [
+    "belly"
+   ],
+   "feat": [
+    {
+     "en": "dragon horns",
+     "ja": "竜の角",
+     "min": 1
+    },
+    {
+     "en": "dragon wings",
+     "ja": "竜の翼",
+     "min": 1
+    }
+   ],
+   "o": {
+    "kin": "{s}kin",
+    "jaKinFull": "竜人"
+   }
+  },
+  {
+   "id": "eastdragon",
+   "ja": "東洋龍",
+   "en": "eastern dragon",
+   "em": "🐲",
+   "g": "reptile",
+   "ears": [
+    "auto"
+   ],
+   "tails": [
+    "long",
+    "finned"
+   ],
+   "pats": [
+    "gradient"
+   ],
+   "feat": [
+    {
+     "en": "antler-like dragon horns",
+     "ja": "鹿のような角",
+     "min": 1
+    }
+   ],
+   "o": {
+    "kin": "{s}kin",
+    "jaKinFull": "龍人"
+   }
+  },
+  {
+   "id": "chameleon",
+   "ja": "カメレオン",
+   "en": "chameleon",
+   "em": "🦎",
+   "g": "reptile",
+   "ears": [
+    "spines"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "mottled",
+    "gradient"
+   ],
+   "weak": true
+  },
+  {
+   "id": "gecko",
+   "ja": "ヤモリ",
+   "en": "gecko",
+   "em": "🦎",
+   "g": "reptile",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "long",
+    "thin"
+   ],
+   "pats": [
+    "spots",
+    "mottled"
+   ],
+   "weak": true
+  },
+  {
+   "id": "iguana",
+   "ja": "イグアナ",
+   "en": "iguana",
+   "em": "🦎",
+   "g": "reptile",
+   "ears": [
+    "spines"
+   ],
+   "tails": [
+    "long",
+    "thick"
+   ],
+   "pats": [
+    "solid",
+    "spots"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "dorsal spines",
+     "ja": "背中のトゲ",
+     "min": 3
+    }
+   ]
+  },
+  {
+   "id": "shark",
+   "ja": "サメ",
+   "en": "shark",
+   "em": "🦈",
+   "g": "aquatic",
+   "ears": [
+    "finears"
+   ],
+   "tails": [
+    "thick"
+   ],
+   "pats": [
+    "belly"
+   ],
+   "feat": [
+    {
+     "en": "dorsal fin",
+     "ja": "背びれ",
+     "min": 3
+    }
+   ],
+   "o": {
+    "cover": "shark skin",
+    "coverJa": "鮫肌"
+   }
+  },
+  {
+   "id": "orca",
+   "ja": "シャチ",
+   "en": "orca",
+   "em": "🐋",
+   "g": "aquatic",
+   "ears": [
+    "finears"
+   ],
+   "tails": [
+    "thick",
+    "finned"
+   ],
+   "pats": [
+    "twotone"
+   ],
+   "feat": [
+    {
+     "en": "dorsal fin",
+     "ja": "背びれ",
+     "min": 3
+    }
+   ],
+   "o": {
+    "cover": "smooth skin",
+    "coverJa": "なめらかな肌"
+   }
+  },
+  {
+   "id": "dolphin",
+   "ja": "イルカ",
+   "en": "dolphin",
+   "em": "🐬",
+   "g": "aquatic",
+   "ears": [
+    "none"
+   ],
+   "tails": [
+    "finned"
+   ],
+   "pats": [
+    "belly"
+   ],
+   "feat": [
+    {
+     "en": "dorsal fin",
+     "ja": "背びれ",
+     "min": 3
+    }
+   ],
+   "o": {
+    "cover": "smooth skin",
+    "coverJa": "なめらかな肌"
+   }
+  },
+  {
+   "id": "seal",
+   "t": "aquatic",
+   "ja": "アザラシ",
+   "en": "seal",
+   "em": "🦭",
+   "g": "mammal",
+   "ears": [
+    "small"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "spots",
+    "belly"
+   ],
+   "weak": true,
+   "o": {
+    "legs": null,
+    "claws": null,
+    "teeth": null,
+    "hands4": "flipper-like hands and feet",
+    "limbs5": "flippers",
+    "limbJa": "ひれ状の手足"
+   }
+  },
+  {
+   "id": "walrus",
+   "t": "aquatic",
+   "ja": "セイウチ",
+   "en": "walrus",
+   "em": "🦭",
+   "g": "mammal",
+   "ears": [
+    "small"
+   ],
+   "tails": [
+    "short"
+   ],
+   "pats": [
+    "solid"
+   ],
+   "weak": true,
+   "feat": [
+    {
+     "en": "long tusks",
+     "ja": "長い牙",
+     "min": 2
+    }
+   ],
+   "o": {
+    "legs": null,
+    "claws": null,
+    "teeth": null,
+    "hands4": "flipper-like hands and feet",
+    "limbs5": "flippers",
+    "limbJa": "ひれ状の手足"
+   }
+  }
+ ]
+}

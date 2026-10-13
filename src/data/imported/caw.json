@@ -1,0 +1,1545 @@
+{
+ "source": "character-appearance-prompt-workshop",
+ "commit": "a8d2074bc58cc04eabb871640093b42cb908e954",
+ "total": 1162,
+ "fields": {
+  "faceShape": [
+   {
+    "id": "oval",
+    "ja": "卵型",
+    "en": "oval face"
+   },
+   {
+    "id": "round",
+    "ja": "丸顔",
+    "en": "round face"
+   },
+   {
+    "id": "long",
+    "ja": "面長",
+    "en": "long face"
+   },
+   {
+    "id": "square",
+    "ja": "四角い顔",
+    "en": "square face"
+   },
+   {
+    "id": "heart",
+    "ja": "ハート型",
+    "en": "heart-shaped face"
+   },
+   {
+    "id": "inverted_triangle",
+    "ja": "逆三角形",
+    "en": "inverted triangular face"
+   },
+   {
+    "id": "diamond",
+    "ja": "ひし形",
+    "en": "diamond-shaped face"
+   }
+  ],
+  "jawline": [
+   {
+    "id": "soft",
+    "ja": "柔らかな顎線",
+    "en": "soft jawline"
+   },
+   {
+    "id": "defined",
+    "ja": "明瞭な顎線",
+    "en": "defined jawline"
+   },
+   {
+    "id": "angular",
+    "ja": "角張った顎線",
+    "en": "angular jawline"
+   },
+   {
+    "id": "tapered",
+    "ja": "細くなる顎線",
+    "en": "tapered jawline"
+   }
+  ],
+  "cheekbones": [
+   {
+    "id": "subtle",
+    "ja": "目立たない頬骨",
+    "en": "subtle cheekbones"
+   },
+   {
+    "id": "high",
+    "ja": "高い頬骨",
+    "en": "high cheekbones"
+   },
+   {
+    "id": "wide",
+    "ja": "幅のある頬骨",
+    "en": "wide cheekbones"
+   },
+   {
+    "id": "defined",
+    "ja": "明瞭な頬骨",
+    "en": "defined cheekbones"
+   }
+  ],
+  "eyeShape": [
+   {
+    "id": "round",
+    "ja": "丸い目",
+    "en": "round eyes"
+   },
+   {
+    "id": "almond",
+    "ja": "アーモンド型の目",
+    "en": "almond-shaped eyes"
+   },
+   {
+    "id": "narrow",
+    "ja": "細い目",
+    "en": "narrow eyes"
+   },
+   {
+    "id": "upturned",
+    "ja": "つり目",
+    "en": "upturned eyes"
+   },
+   {
+    "id": "downturned",
+    "ja": "たれ目",
+    "en": "downturned eyes"
+   },
+   {
+    "id": "half_lidded",
+    "ja": "半目がち",
+    "en": "half-lidded eyes"
+   },
+   {
+    "id": "monolid",
+    "ja": "一重らしい目元",
+    "en": "monolid eyes"
+   }
+  ],
+  "eyeWidth": [
+   {
+    "id": "short",
+    "ja": "横幅が短い",
+    "en": "short eyes"
+   },
+   {
+    "id": "balanced",
+    "ja": "標準的な横幅",
+    "en": "balanced eye width"
+   },
+   {
+    "id": "long",
+    "ja": "切れ長",
+    "en": "elongated eyes"
+   }
+  ],
+  "outerCorner": [
+   {
+    "id": "down",
+    "ja": "下がった目尻",
+    "en": "downturned outer eye corners"
+   },
+   {
+    "id": "level",
+    "ja": "水平な目尻",
+    "en": "level outer eye corners"
+   },
+   {
+    "id": "up",
+    "ja": "上がった目尻",
+    "en": "upturned outer eye corners"
+   }
+  ],
+  "eyelidFold": [
+   {
+    "id": "monolid",
+    "ja": "一重",
+    "en": "monolid"
+   },
+   {
+    "id": "inner_double",
+    "ja": "末広型の二重",
+    "en": "tapered double eyelids"
+   },
+   {
+    "id": "parallel_double",
+    "ja": "平行型の二重",
+    "en": "parallel double eyelids"
+   },
+   {
+    "id": "hidden_double",
+    "ja": "奥二重",
+    "en": "hidden double eyelids"
+   }
+  ],
+  "irisColor": [
+   {
+    "id": "black",
+    "ja": "黒い瞳",
+    "en": "black eyes",
+    "hex": "#151515"
+   },
+   {
+    "id": "dark_brown",
+    "ja": "濃い茶色の瞳",
+    "en": "dark brown eyes",
+    "hex": "#3B2418"
+   },
+   {
+    "id": "brown",
+    "ja": "茶色の瞳",
+    "en": "brown eyes",
+    "hex": "#6B452C"
+   },
+   {
+    "id": "amber",
+    "ja": "琥珀色の瞳",
+    "en": "amber eyes",
+    "hex": "#C4862A"
+   },
+   {
+    "id": "hazel",
+    "ja": "ヘーゼルの瞳",
+    "en": "hazel eyes",
+    "hex": "#8A7B3F"
+   },
+   {
+    "id": "gold",
+    "ja": "金色の瞳",
+    "en": "golden eyes",
+    "hex": "#D5A72E"
+   },
+   {
+    "id": "yellow",
+    "ja": "黄色の瞳",
+    "en": "yellow eyes",
+    "hex": "#E1C64A"
+   },
+   {
+    "id": "gray",
+    "ja": "灰色の瞳",
+    "en": "gray eyes",
+    "hex": "#858B92"
+   },
+   {
+    "id": "silver",
+    "ja": "銀色の瞳",
+    "en": "silver eyes",
+    "hex": "#C1C7CF"
+   },
+   {
+    "id": "blue_gray",
+    "ja": "青灰色の瞳",
+    "en": "blue-gray eyes",
+    "hex": "#667F96"
+   },
+   {
+    "id": "sky_blue",
+    "ja": "空色の瞳",
+    "en": "sky blue eyes",
+    "hex": "#76B8E8"
+   },
+   {
+    "id": "blue",
+    "ja": "青い瞳",
+    "en": "blue eyes",
+    "hex": "#376CA8"
+   },
+   {
+    "id": "navy",
+    "ja": "紺色の瞳",
+    "en": "navy blue eyes",
+    "hex": "#283C68"
+   },
+   {
+    "id": "teal",
+    "ja": "青緑の瞳",
+    "en": "teal eyes",
+    "hex": "#2F898A"
+   },
+   {
+    "id": "green",
+    "ja": "緑の瞳",
+    "en": "green eyes",
+    "hex": "#4E8A52"
+   },
+   {
+    "id": "olive",
+    "ja": "オリーブ色の瞳",
+    "en": "olive eyes",
+    "hex": "#7E803E"
+   },
+   {
+    "id": "red",
+    "ja": "赤い瞳",
+    "en": "red eyes",
+    "hex": "#A33C42"
+   },
+   {
+    "id": "crimson",
+    "ja": "深紅の瞳",
+    "en": "crimson eyes",
+    "hex": "#7E2232"
+   },
+   {
+    "id": "violet",
+    "ja": "紫色の瞳",
+    "en": "violet eyes",
+    "hex": "#73558F"
+   },
+   {
+    "id": "lavender",
+    "ja": "ラベンダー色の瞳",
+    "en": "lavender eyes",
+    "hex": "#A38CC2"
+   },
+   {
+    "id": "pink",
+    "ja": "桃色の瞳",
+    "en": "pink eyes",
+    "hex": "#D77D9C"
+   },
+   {
+    "id": "rose",
+    "ja": "ローズ色の瞳",
+    "en": "rose eyes",
+    "hex": "#B85672"
+   },
+   {
+    "id": "white",
+    "ja": "白い瞳",
+    "en": "white eyes",
+    "hex": "#E9EDF2"
+   },
+   {
+    "id": "heterochromatic",
+    "ja": "左右で異なる瞳色",
+    "en": "heterochromatic eyes",
+    "hex": "#8C719F"
+   },
+   {
+    "id": "gray_green",
+    "ja": "灰緑の瞳",
+    "en": "gray-green eyes",
+    "hex": "#819487"
+   },
+   {
+    "id": "ice_blue",
+    "ja": "氷青の瞳",
+    "en": "ice blue eyes",
+    "hex": "#B1D8E8"
+   },
+   {
+    "id": "steel_blue",
+    "ja": "鋼青の瞳",
+    "en": "steel blue eyes",
+    "hex": "#64849B"
+   },
+   {
+    "id": "emerald",
+    "ja": "エメラルドの瞳",
+    "en": "emerald eyes",
+    "hex": "#288761"
+   },
+   {
+    "id": "mint",
+    "ja": "ミントの瞳",
+    "en": "mint green eyes",
+    "hex": "#9ACCB5"
+   },
+   {
+    "id": "turquoise",
+    "ja": "ターコイズの瞳",
+    "en": "turquoise eyes",
+    "hex": "#4CAFAF"
+   },
+   {
+    "id": "seafoam",
+    "ja": "淡い青緑の瞳",
+    "en": "seafoam green eyes",
+    "hex": "#A4C8BB"
+   },
+   {
+    "id": "sapphire",
+    "ja": "サファイアの瞳",
+    "en": "sapphire blue eyes",
+    "hex": "#2D55A5"
+   },
+   {
+    "id": "honey",
+    "ja": "蜂蜜色の瞳",
+    "en": "honey-colored eyes",
+    "hex": "#BE9849"
+   },
+   {
+    "id": "gold_brown",
+    "ja": "金茶の瞳",
+    "en": "golden brown eyes",
+    "hex": "#9F793E"
+   },
+   {
+    "id": "copper",
+    "ja": "銅色の瞳",
+    "en": "copper-colored eyes",
+    "hex": "#AA6B47"
+   },
+   {
+    "id": "burgundy",
+    "ja": "ワイン色の瞳",
+    "en": "burgundy eyes",
+    "hex": "#773D50"
+   },
+   {
+    "id": "amethyst",
+    "ja": "アメジストの瞳",
+    "en": "amethyst eyes",
+    "hex": "#9571AD"
+   },
+   {
+    "id": "lilac",
+    "ja": "薄紫の瞳",
+    "en": "lilac eyes",
+    "hex": "#BDABD2"
+   },
+   {
+    "id": "peach",
+    "ja": "淡い桃色の瞳",
+    "en": "peach-colored eyes",
+    "hex": "#DCA69A"
+   },
+   {
+    "id": "pale_gray",
+    "ja": "淡い灰色の瞳",
+    "en": "pale gray eyes",
+    "hex": "#B9C1C5"
+   }
+  ],
+  "browShape": [
+   {
+    "id": "straight",
+    "ja": "直線眉",
+    "en": "straight eyebrows"
+   },
+   {
+    "id": "parallel",
+    "ja": "平行眉",
+    "en": "parallel eyebrows"
+   },
+   {
+    "id": "soft_arch",
+    "ja": "緩やかなアーチ眉",
+    "en": "softly arched eyebrows"
+   },
+   {
+    "id": "high_arch",
+    "ja": "高いアーチ眉",
+    "en": "high-arched eyebrows"
+   },
+   {
+    "id": "angled",
+    "ja": "角度のある眉",
+    "en": "angled eyebrows"
+   },
+   {
+    "id": "rounded",
+    "ja": "丸みのある眉",
+    "en": "rounded eyebrows"
+   },
+   {
+    "id": "upward",
+    "ja": "上がり眉",
+    "en": "upward-slanting eyebrows"
+   },
+   {
+    "id": "downward",
+    "ja": "下がり眉",
+    "en": "downward-slanting eyebrows"
+   },
+   {
+    "id": "worried",
+    "ja": "困り眉",
+    "en": "slightly drooping eyebrows"
+   }
+  ],
+  "browThickness": [
+   {
+    "id": "very_thin",
+    "ja": "とても細い眉",
+    "en": "very thin eyebrows"
+   },
+   {
+    "id": "thin",
+    "ja": "細い眉",
+    "en": "thin eyebrows"
+   },
+   {
+    "id": "medium",
+    "ja": "自然な太さの眉",
+    "en": "medium-thick eyebrows"
+   },
+   {
+    "id": "thick",
+    "ja": "太い眉",
+    "en": "thick eyebrows"
+   }
+  ],
+  "noseBridge": [
+   {
+    "id": "low",
+    "ja": "低い鼻筋",
+    "en": "low nose bridge"
+   },
+   {
+    "id": "soft",
+    "ja": "柔らかな鼻筋",
+    "en": "soft nose bridge"
+   },
+   {
+    "id": "straight",
+    "ja": "通った鼻筋",
+    "en": "straight nose bridge"
+   },
+   {
+    "id": "defined",
+    "ja": "明瞭な鼻筋",
+    "en": "defined nose bridge"
+   }
+  ],
+  "lipFullness": [
+   {
+    "id": "very_thin",
+    "ja": "とても薄い唇",
+    "en": "very thin lips"
+   },
+   {
+    "id": "thin",
+    "ja": "薄い唇",
+    "en": "thin lips"
+   },
+   {
+    "id": "medium",
+    "ja": "自然な厚みの唇",
+    "en": "medium-full lips"
+   },
+   {
+    "id": "full",
+    "ja": "厚い唇",
+    "en": "full lips"
+   },
+   {
+    "id": "plump",
+    "ja": "ふっくらした唇",
+    "en": "plump lips"
+   }
+  ],
+  "bangs": [
+   {
+    "id": "none",
+    "ja": "前髪なし",
+    "en": "no bangs"
+   },
+   {
+    "id": "short",
+    "ja": "短い前髪",
+    "en": "short bangs"
+   },
+   {
+    "id": "straight",
+    "ja": "ぱっつん前髪",
+    "en": "blunt bangs"
+   },
+   {
+    "id": "wispy",
+    "ja": "薄い前髪",
+    "en": "wispy bangs"
+   },
+   {
+    "id": "long",
+    "ja": "長い前髪",
+    "en": "long bangs"
+   },
+   {
+    "id": "curtain",
+    "ja": "カーテンバング",
+    "en": "curtain bangs"
+   },
+   {
+    "id": "side_swept",
+    "ja": "流し前髪",
+    "en": "side-swept bangs"
+   },
+   {
+    "id": "split",
+    "ja": "分けた前髪",
+    "en": "split bangs"
+   },
+   {
+    "id": "eye_covering",
+    "ja": "目にかかる前髪",
+    "en": "eye-covering bangs"
+   },
+   {
+    "id": "one_eye",
+    "ja": "片目を隠す前髪",
+    "en": "bangs covering one eye"
+   },
+   {
+    "id": "asymmetrical",
+    "ja": "左右非対称の前髪",
+    "en": "asymmetrical bangs"
+   }
+  ],
+  "baseCut": [
+   {
+    "id": "crop",
+    "ja": "クロップ",
+    "en": "cropped haircut"
+   },
+   {
+    "id": "pixie",
+    "ja": "ピクシーカット",
+    "en": "pixie cut"
+   },
+   {
+    "id": "mushroom",
+    "ja": "マッシュ",
+    "en": "mushroom cut"
+   },
+   {
+    "id": "layered_short",
+    "ja": "レイヤーショート",
+    "en": "layered short haircut"
+   },
+   {
+    "id": "bob",
+    "ja": "ボブ",
+    "en": "bob cut"
+   },
+   {
+    "id": "lob",
+    "ja": "ロングボブ",
+    "en": "long bob"
+   },
+   {
+    "id": "wolf",
+    "ja": "ウルフカット",
+    "en": "wolf cut"
+   },
+   {
+    "id": "shag",
+    "ja": "シャギーカット",
+    "en": "shag haircut"
+   },
+   {
+    "id": "straight",
+    "ja": "ストレートロング",
+    "en": "straight hairstyle"
+   },
+   {
+    "id": "layered_long",
+    "ja": "ロングレイヤー",
+    "en": "long layered hair"
+   },
+   {
+    "id": "undercut",
+    "ja": "アンダーカット",
+    "en": "undercut"
+   },
+   {
+    "id": "ponytail",
+    "ja": "ポニーテール",
+    "en": "ponytail"
+   },
+   {
+    "id": "low_ponytail",
+    "ja": "低いポニーテール",
+    "en": "low ponytail"
+   },
+   {
+    "id": "bun",
+    "ja": "まとめ髪",
+    "en": "hair bun"
+   },
+   {
+    "id": "braid",
+    "ja": "編み髪",
+    "en": "braided hairstyle"
+   },
+   {
+    "id": "high_ponytail",
+    "ja": "高いポニーテール",
+    "en": "high ponytail"
+   },
+   {
+    "id": "side_ponytail",
+    "ja": "サイドポニーテール",
+    "en": "side ponytail"
+   },
+   {
+    "id": "twin_tails",
+    "ja": "ツインテール",
+    "en": "twin tails"
+   },
+   {
+    "id": "low_twin_tails",
+    "ja": "低いツインテール",
+    "en": "low twin tails"
+   },
+   {
+    "id": "twin_braids",
+    "ja": "ツイン三つ編み",
+    "en": "twin braids"
+   },
+   {
+    "id": "double_buns",
+    "ja": "ツインお団子",
+    "en": "double hair buns"
+   },
+   {
+    "id": "half_up",
+    "ja": "ハーフアップ",
+    "en": "half-up hairstyle"
+   },
+   {
+    "id": "half_up_bun",
+    "ja": "ハーフアップお団子",
+    "en": "half-up hair bun"
+   },
+   {
+    "id": "side_braid",
+    "ja": "サイド三つ編み",
+    "en": "side braid"
+   },
+   {
+    "id": "fishtail",
+    "ja": "フィッシュボーン",
+    "en": "fishtail braid"
+   },
+   {
+    "id": "french_braid",
+    "ja": "フレンチブレイド",
+    "en": "French braid"
+   },
+   {
+    "id": "dutch_braid",
+    "ja": "ダッチブレイド",
+    "en": "Dutch braid"
+   },
+   {
+    "id": "crown_braid",
+    "ja": "編み込みの冠",
+    "en": "crown braid"
+   },
+   {
+    "id": "braided_bun",
+    "ja": "編み込みお団子",
+    "en": "braided bun"
+   },
+   {
+    "id": "messy_bun",
+    "ja": "無造作なお団子",
+    "en": "messy hair bun"
+   },
+   {
+    "id": "chignon",
+    "ja": "低いシニヨン",
+    "en": "low chignon"
+   },
+   {
+    "id": "slicked_back",
+    "ja": "オールバック",
+    "en": "slicked-back hair"
+   },
+   {
+    "id": "two_block",
+    "ja": "ツーブロック",
+    "en": "two-block haircut"
+   },
+   {
+    "id": "hime",
+    "ja": "姫カット",
+    "en": "hime cut"
+   },
+   {
+    "id": "jellyfish",
+    "ja": "クラゲカット",
+    "en": "jellyfish haircut"
+   },
+   {
+    "id": "butterfly",
+    "ja": "バタフライカット",
+    "en": "butterfly haircut"
+   },
+   {
+    "id": "asym_bob",
+    "ja": "アシンメトリーボブ",
+    "en": "asymmetrical bob"
+   },
+   {
+    "id": "a_line_bob",
+    "ja": "前下がりボブ",
+    "en": "A-line bob"
+   },
+   {
+    "id": "inverted_bob",
+    "ja": "後ろ短めのボブ",
+    "en": "inverted bob"
+   },
+   {
+    "id": "french_bob",
+    "ja": "フレンチボブ",
+    "en": "French bob"
+   },
+   {
+    "id": "pageboy",
+    "ja": "ページボーイ",
+    "en": "pageboy haircut"
+   },
+   {
+    "id": "pompadour",
+    "ja": "ポンパドール",
+    "en": "pompadour"
+   },
+   {
+    "id": "quiff",
+    "ja": "クイッフ",
+    "en": "quiff hairstyle"
+   },
+   {
+    "id": "dreadlocks",
+    "ja": "ドレッドロックス",
+    "en": "dreadlocks"
+   },
+   {
+    "id": "cornrows",
+    "ja": "コーンロウ",
+    "en": "cornrows"
+   },
+   {
+    "id": "afro",
+    "ja": "アフロ",
+    "en": "afro hairstyle"
+   },
+   {
+    "id": "bowl",
+    "ja": "ボウルカット",
+    "en": "bowl cut"
+   }
+  ],
+  "hairColor": [
+   {
+    "id": "black",
+    "ja": "黒髪",
+    "en": "black hair",
+    "hex": "#17171A"
+   },
+   {
+    "id": "blue_black",
+    "ja": "青みの黒髪",
+    "en": "blue-black hair",
+    "hex": "#151B27"
+   },
+   {
+    "id": "soft_black",
+    "ja": "柔らかな黒髪",
+    "en": "soft black hair",
+    "hex": "#2C292B"
+   },
+   {
+    "id": "dark_brown",
+    "ja": "濃い茶髪",
+    "en": "dark brown hair",
+    "hex": "#3B281F"
+   },
+   {
+    "id": "brown",
+    "ja": "茶髪",
+    "en": "brown hair",
+    "hex": "#6B4831"
+   },
+   {
+    "id": "light_brown",
+    "ja": "明るい茶髪",
+    "en": "light brown hair",
+    "hex": "#A5754E"
+   },
+   {
+    "id": "ash_brown",
+    "ja": "アッシュブラウン",
+    "en": "ash brown hair",
+    "hex": "#81756D"
+   },
+   {
+    "id": "chestnut",
+    "ja": "栗色の髪",
+    "en": "chestnut hair",
+    "hex": "#70402E"
+   },
+   {
+    "id": "auburn",
+    "ja": "赤褐色の髪",
+    "en": "auburn hair",
+    "hex": "#7B352B"
+   },
+   {
+    "id": "copper",
+    "ja": "銅色の髪",
+    "en": "copper hair",
+    "hex": "#B55F38"
+   },
+   {
+    "id": "red",
+    "ja": "赤髪",
+    "en": "red hair",
+    "hex": "#A63C3B"
+   },
+   {
+    "id": "crimson",
+    "ja": "深紅の髪",
+    "en": "crimson hair",
+    "hex": "#7C2333"
+   },
+   {
+    "id": "orange",
+    "ja": "橙色の髪",
+    "en": "orange hair",
+    "hex": "#D97939"
+   },
+   {
+    "id": "gold",
+    "ja": "金髪",
+    "en": "golden blonde hair",
+    "hex": "#D8B35E"
+   },
+   {
+    "id": "blonde",
+    "ja": "ブロンド",
+    "en": "blonde hair",
+    "hex": "#DCC17B"
+   },
+   {
+    "id": "platinum",
+    "ja": "プラチナブロンド",
+    "en": "platinum blonde hair",
+    "hex": "#E5E0D2"
+   },
+   {
+    "id": "white",
+    "ja": "白髪",
+    "en": "white hair",
+    "hex": "#EEECE7"
+   },
+   {
+    "id": "silver",
+    "ja": "銀髪",
+    "en": "silver hair",
+    "hex": "#BFC3C9"
+   },
+   {
+    "id": "gray",
+    "ja": "灰色の髪",
+    "en": "gray hair",
+    "hex": "#777A80"
+   },
+   {
+    "id": "navy",
+    "ja": "紺色の髪",
+    "en": "navy blue hair",
+    "hex": "#26395D"
+   },
+   {
+    "id": "blue",
+    "ja": "青髪",
+    "en": "blue hair",
+    "hex": "#3567A8"
+   },
+   {
+    "id": "cyan",
+    "ja": "水色の髪",
+    "en": "cyan hair",
+    "hex": "#67B9C8"
+   },
+   {
+    "id": "teal",
+    "ja": "青緑の髪",
+    "en": "teal hair",
+    "hex": "#2D8581"
+   },
+   {
+    "id": "green",
+    "ja": "緑髪",
+    "en": "green hair",
+    "hex": "#49834C"
+   },
+   {
+    "id": "olive",
+    "ja": "オリーブ色の髪",
+    "en": "olive hair",
+    "hex": "#71773F"
+   },
+   {
+    "id": "purple",
+    "ja": "紫髪",
+    "en": "purple hair",
+    "hex": "#6E4C88"
+   },
+   {
+    "id": "lavender",
+    "ja": "ラベンダー色の髪",
+    "en": "lavender hair",
+    "hex": "#A28DC0"
+   },
+   {
+    "id": "pink",
+    "ja": "桃色の髪",
+    "en": "pink hair",
+    "hex": "#D986A5"
+   },
+   {
+    "id": "rose",
+    "ja": "ローズ色の髪",
+    "en": "rose hair",
+    "hex": "#B95773"
+   },
+   {
+    "id": "beige",
+    "ja": "ベージュの髪",
+    "en": "beige hair",
+    "hex": "#BFA98A"
+   },
+   {
+    "id": "ash_blonde",
+    "ja": "アッシュブロンド",
+    "en": "ash blonde hair",
+    "hex": "#B9AA8D"
+   },
+   {
+    "id": "honey_blonde",
+    "ja": "ハニーブロンド",
+    "en": "honey blonde hair",
+    "hex": "#C9A365"
+   },
+   {
+    "id": "strawberry_blonde",
+    "ja": "ストロベリーブロンド",
+    "en": "strawberry blonde hair",
+    "hex": "#D39B7A"
+   },
+   {
+    "id": "champagne",
+    "ja": "シャンパンブロンド",
+    "en": "champagne blonde hair",
+    "hex": "#E3D1AD"
+   },
+   {
+    "id": "rose_gold",
+    "ja": "ローズゴールド",
+    "en": "rose gold hair",
+    "hex": "#CD9F90"
+   },
+   {
+    "id": "silver_blue",
+    "ja": "青みの銀髪",
+    "en": "silver-blue hair",
+    "hex": "#A9BACA"
+   },
+   {
+    "id": "silver_lavender",
+    "ja": "藤色の銀髪",
+    "en": "silver-lavender hair",
+    "hex": "#B8ACCD"
+   },
+   {
+    "id": "pearl_white",
+    "ja": "真珠色の白髪",
+    "en": "pearl white hair",
+    "hex": "#EAE6DC"
+   },
+   {
+    "id": "smoky_gray",
+    "ja": "スモーキーグレー",
+    "en": "smoky gray hair",
+    "hex": "#91909A"
+   },
+   {
+    "id": "charcoal",
+    "ja": "チャコール",
+    "en": "charcoal gray hair",
+    "hex": "#46464D"
+   },
+   {
+    "id": "dusty_pink",
+    "ja": "くすみピンク",
+    "en": "dusty pink hair",
+    "hex": "#B68F9F"
+   },
+   {
+    "id": "peach",
+    "ja": "ピーチ",
+    "en": "peach hair",
+    "hex": "#E9B29F"
+   },
+   {
+    "id": "pastel_blue",
+    "ja": "パステルブルー",
+    "en": "pastel blue hair",
+    "hex": "#A7CCEA"
+   },
+   {
+    "id": "mint",
+    "ja": "ミント",
+    "en": "mint green hair",
+    "hex": "#A9D2BE"
+   },
+   {
+    "id": "pastel_green",
+    "ja": "パステルグリーン",
+    "en": "pastel green hair",
+    "hex": "#B5D4AE"
+   },
+   {
+    "id": "lilac",
+    "ja": "ライラック",
+    "en": "lilac hair",
+    "hex": "#C4B0DB"
+   },
+   {
+    "id": "burgundy",
+    "ja": "ワインレッド",
+    "en": "burgundy hair",
+    "hex": "#773748"
+   },
+   {
+    "id": "dark_purple",
+    "ja": "深い紫",
+    "en": "dark purple hair",
+    "hex": "#453553"
+   }
+  ],
+  "skinTone": [
+   {
+    "id": "porcelain",
+    "ja": "とても明るい肌",
+    "en": "porcelain skin"
+   },
+   {
+    "id": "fair",
+    "ja": "明るい肌",
+    "en": "fair skin"
+   },
+   {
+    "id": "light",
+    "ja": "淡い肌色",
+    "en": "light skin"
+   },
+   {
+    "id": "light_beige",
+    "ja": "明るいベージュ肌",
+    "en": "light beige skin"
+   },
+   {
+    "id": "beige",
+    "ja": "ベージュ肌",
+    "en": "beige skin"
+   },
+   {
+    "id": "olive",
+    "ja": "オリーブ肌",
+    "en": "olive skin"
+   },
+   {
+    "id": "tan",
+    "ja": "小麦色の肌",
+    "en": "tan skin"
+   },
+   {
+    "id": "brown",
+    "ja": "褐色肌",
+    "en": "brown skin"
+   },
+   {
+    "id": "deep_brown",
+    "ja": "濃い褐色肌",
+    "en": "deep brown skin"
+   },
+   {
+    "id": "dark",
+    "ja": "深い肌色",
+    "en": "dark skin"
+   },
+   {
+    "id": "ebony",
+    "ja": "黒檀色の肌",
+    "en": "ebony skin"
+   },
+   {
+    "id": "rosy_fair",
+    "ja": "赤みのある明るい肌",
+    "en": "rosy fair skin"
+   }
+  ],
+  "height": [
+   {
+    "id": "short",
+    "ja": "小柄",
+    "en": "short stature"
+   },
+   {
+    "id": "slightly_short",
+    "ja": "やや低め",
+    "en": "slightly short stature"
+   },
+   {
+    "id": "average",
+    "ja": "標準的な身長",
+    "en": "average height"
+   },
+   {
+    "id": "tall",
+    "ja": "高身長",
+    "en": "tall stature"
+   }
+  ],
+  "silhouette": [
+   {
+    "id": "petite",
+    "ja": "華奢",
+    "en": "petite build"
+   },
+   {
+    "id": "slender",
+    "ja": "細身",
+    "en": "slender build"
+   },
+   {
+    "id": "lean",
+    "ja": "しなやか",
+    "en": "lean build"
+   },
+   {
+    "id": "average",
+    "ja": "標準的な体格",
+    "en": "average build"
+   },
+   {
+    "id": "toned",
+    "ja": "引き締まった体格",
+    "en": "toned build"
+   },
+   {
+    "id": "muscular",
+    "ja": "筋肉質",
+    "en": "muscular build"
+   },
+   {
+    "id": "stocky",
+    "ja": "がっしり",
+    "en": "stocky build"
+   }
+  ],
+  "muscle": [
+   {
+    "id": "very_low",
+    "ja": "筋肉の主張が少ない",
+    "en": "very lightly muscled"
+   },
+   {
+    "id": "low",
+    "ja": "筋肉量少なめ",
+    "en": "lightly muscled"
+   },
+   {
+    "id": "moderate",
+    "ja": "適度な筋肉",
+    "en": "moderately muscled"
+   },
+   {
+    "id": "high",
+    "ja": "筋肉質",
+    "en": "well-muscled"
+   },
+   {
+    "id": "very_high",
+    "ja": "非常に筋肉質",
+    "en": "heavily muscled"
+   }
+  ],
+  "shoulders": [
+   {
+    "id": "narrow",
+    "ja": "肩幅狭め",
+    "en": "narrow shoulders"
+   },
+   {
+    "id": "average",
+    "ja": "標準的な肩幅",
+    "en": "average-width shoulders"
+   },
+   {
+    "id": "broad",
+    "ja": "幅広い肩",
+    "en": "broad shoulders"
+   }
+  ],
+  "molePosition": [
+   {
+    "id": "below_left_eye",
+    "ja": "左目の下",
+    "en": "mole below the left eye"
+   },
+   {
+    "id": "below_right_eye",
+    "ja": "右目の下",
+    "en": "mole below the right eye"
+   },
+   {
+    "id": "left_cheek",
+    "ja": "左頬",
+    "en": "mole on the left cheek"
+   },
+   {
+    "id": "right_cheek",
+    "ja": "右頬",
+    "en": "mole on the right cheek"
+   },
+   {
+    "id": "nose",
+    "ja": "鼻の近く",
+    "en": "mole near the nose"
+   },
+   {
+    "id": "upper_lip",
+    "ja": "上唇の近く",
+    "en": "mole above the lip"
+   },
+   {
+    "id": "lower_lip",
+    "ja": "下唇の近く",
+    "en": "mole below the lip"
+   },
+   {
+    "id": "chin",
+    "ja": "顎",
+    "en": "mole on the chin"
+   },
+   {
+    "id": "neck",
+    "ja": "首",
+    "en": "mole on the neck"
+   },
+   {
+    "id": "collarbone",
+    "ja": "鎖骨",
+    "en": "mole near the collarbone"
+   },
+   {
+    "id": "temple",
+    "ja": "こめかみ",
+    "en": "mole near the temple"
+   }
+  ],
+  "scarPosition": [
+   {
+    "id": "left_brow",
+    "ja": "左眉付近",
+    "en": "scar near the left eyebrow"
+   },
+   {
+    "id": "right_brow",
+    "ja": "右眉付近",
+    "en": "scar near the right eyebrow"
+   },
+   {
+    "id": "left_cheek",
+    "ja": "左頬",
+    "en": "scar on the left cheek"
+   },
+   {
+    "id": "right_cheek",
+    "ja": "右頬",
+    "en": "scar on the right cheek"
+   },
+   {
+    "id": "nose",
+    "ja": "鼻筋",
+    "en": "scar across the nose bridge"
+   },
+   {
+    "id": "lip",
+    "ja": "口元",
+    "en": "scar near the mouth"
+   },
+   {
+    "id": "neck",
+    "ja": "首",
+    "en": "scar on the neck"
+   }
+  ],
+  "glassesShape": [
+   {
+    "id": "round",
+    "ja": "丸眼鏡",
+    "en": "round glasses"
+   },
+   {
+    "id": "oval",
+    "ja": "楕円眼鏡",
+    "en": "oval glasses"
+   },
+   {
+    "id": "square",
+    "ja": "四角い眼鏡",
+    "en": "square glasses"
+   },
+   {
+    "id": "rectangular",
+    "ja": "長方形の眼鏡",
+    "en": "rectangular glasses"
+   },
+   {
+    "id": "browline",
+    "ja": "ブローライン眼鏡",
+    "en": "browline glasses"
+   },
+   {
+    "id": "cat_eye",
+    "ja": "キャットアイ眼鏡",
+    "en": "cat-eye glasses"
+   },
+   {
+    "id": "rimless",
+    "ja": "リムレス眼鏡",
+    "en": "rimless glasses"
+   }
+  ],
+  "frameColor": [
+   {
+    "id": "black",
+    "ja": "黒",
+    "en": "black frames"
+   },
+   {
+    "id": "brown",
+    "ja": "茶",
+    "en": "brown frames"
+   },
+   {
+    "id": "silver",
+    "ja": "銀",
+    "en": "silver frames"
+   },
+   {
+    "id": "gold",
+    "ja": "金",
+    "en": "gold frames"
+   },
+   {
+    "id": "gray",
+    "ja": "灰",
+    "en": "gray frames"
+   },
+   {
+    "id": "white",
+    "ja": "白",
+    "en": "white frames"
+   },
+   {
+    "id": "red",
+    "ja": "赤",
+    "en": "red frames"
+   },
+   {
+    "id": "blue",
+    "ja": "青",
+    "en": "blue frames"
+   },
+   {
+    "id": "green",
+    "ja": "緑",
+    "en": "green frames"
+   },
+   {
+    "id": "purple",
+    "ja": "紫",
+    "en": "purple frames"
+   },
+   {
+    "id": "transparent",
+    "ja": "透明",
+    "en": "transparent frames"
+   },
+   {
+    "id": "tortoiseshell",
+    "ja": "べっ甲",
+    "en": "tortoiseshell frames"
+   }
+  ],
+  "impression": [
+   {
+    "id": "delicate",
+    "ja": "繊細",
+    "en": "delicate appearance"
+   },
+   {
+    "id": "gentle",
+    "ja": "穏やか",
+    "en": "gentle appearance"
+   },
+   {
+    "id": "cool",
+    "ja": "涼しげ",
+    "en": "cool appearance"
+   },
+   {
+    "id": "sharp",
+    "ja": "鋭い",
+    "en": "sharp appearance"
+   },
+   {
+    "id": "mature",
+    "ja": "大人びた",
+    "en": "mature appearance"
+   },
+   {
+    "id": "youthful",
+    "ja": "若々しい",
+    "en": "youthful appearance"
+   },
+   {
+    "id": "mysterious",
+    "ja": "神秘的",
+    "en": "mysterious appearance"
+   },
+   {
+    "id": "clean",
+    "ja": "清潔感",
+    "en": "clean-cut appearance"
+   },
+   {
+    "id": "vivid",
+    "ja": "鮮やか",
+    "en": "vivid appearance"
+   },
+   {
+    "id": "muted",
+    "ja": "落ち着いた",
+    "en": "muted appearance"
+   },
+   {
+    "id": "high_contrast",
+    "ja": "高コントラスト",
+    "en": "high-contrast coloring"
+   },
+   {
+    "id": "soft_coloring",
+    "ja": "淡い配色",
+    "en": "soft coloring"
+   }
+  ]
+ }
+}

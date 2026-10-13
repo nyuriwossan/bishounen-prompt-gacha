@@ -1,0 +1,485 @@
+{
+ "source": "pose-composition-workshop",
+ "commit": "c1def8b73b9a86c5e18301cdf3fd3b3c7c7a773a",
+ "shotSizes": [
+  {
+   "id": "face_close_up",
+   "ja": "顔アップ",
+   "en": "face close-up"
+  },
+  {
+   "id": "headshot",
+   "ja": "ヘッドショット",
+   "en": "headshot"
+  },
+  {
+   "id": "bust_shot",
+   "ja": "バストショット",
+   "en": "bust shot"
+  },
+  {
+   "id": "upper_body",
+   "ja": "上半身",
+   "en": "upper-body shot"
+  },
+  {
+   "id": "waist_up",
+   "ja": "腰上",
+   "en": "waist-up shot"
+  },
+  {
+   "id": "knee_up",
+   "ja": "膝上",
+   "en": "knee-up shot"
+  },
+  {
+   "id": "full_body",
+   "ja": "全身",
+   "en": "full-body shot"
+  },
+  {
+   "id": "wide",
+   "ja": "引きの全身",
+   "en": "wide full-body shot"
+  }
+ ],
+ "elevations": [
+  {
+   "id": "eye_level",
+   "ja": "目線の高さ",
+   "en": "viewed at eye level"
+  },
+  {
+   "id": "slightly_low",
+   "ja": "少し低い",
+   "en": "viewed from slightly below"
+  },
+  {
+   "id": "low",
+   "ja": "低位置",
+   "en": "viewed from below"
+  },
+  {
+   "id": "slightly_high",
+   "ja": "少し高い",
+   "en": "viewed from slightly above"
+  },
+  {
+   "id": "high",
+   "ja": "高位置",
+   "en": "viewed from above"
+  },
+  {
+   "id": "top_down",
+   "ja": "真上寄り",
+   "en": "viewed from directly above"
+  }
+ ],
+ "headYaws": [
+  {
+   "id": "toward_camera",
+   "ja": "カメラ方向",
+   "en": "head turned toward the viewer"
+  },
+  {
+   "id": "slightly_away",
+   "ja": "少し横へ",
+   "en": "head turned slightly away"
+  },
+  {
+   "id": "side",
+   "ja": "横向き",
+   "en": "head in side profile"
+  },
+  {
+   "id": "over_shoulder",
+   "ja": "肩越しに振り返る",
+   "en": "head looking back over the shoulder"
+  }
+ ],
+ "gazeTargets": [
+  {
+   "id": "viewer",
+   "ja": "こちらを見る",
+   "en": "eyes directed toward the viewer"
+  },
+  {
+   "id": "near_camera",
+   "ja": "カメラの少し横",
+   "en": "eyes looking just past the viewer"
+  },
+  {
+   "id": "offscreen",
+   "ja": "画面外の対象",
+   "en": "eyes focused on an off-screen subject"
+  },
+  {
+   "id": "nearby",
+   "ja": "近くの対象",
+   "en": "eyes focused on a nearby point"
+  },
+  {
+   "id": "ground",
+   "ja": "地面",
+   "en": "eyes directed toward the ground"
+  },
+  {
+   "id": "sky",
+   "ja": "空・上方",
+   "en": "eyes directed upward"
+  },
+  {
+   "id": "distance",
+   "ja": "遠く",
+   "en": "eyes focused into the distance"
+  }
+ ],
+ "gazeDirections": [
+  {
+   "id": "direct",
+   "ja": "まっすぐ",
+   "en": "with a direct gaze"
+  },
+  {
+   "id": "slightly_averted",
+   "ja": "少し外す",
+   "en": "with a slightly averted gaze"
+  },
+  {
+   "id": "sidelong",
+   "ja": "横目",
+   "en": "with a sidelong gaze"
+  },
+  {
+   "id": "upward",
+   "ja": "上目",
+   "en": "with an upward gaze"
+  },
+  {
+   "id": "downward",
+   "ja": "伏し目",
+   "en": "with a downward gaze"
+  },
+  {
+   "id": "over_shoulder",
+   "ja": "肩越し",
+   "en": "with an over-the-shoulder gaze"
+  }
+ ],
+ "expressions": [
+  {
+   "id": "none",
+   "ja": "指定なし",
+   "en": ""
+  },
+  {
+   "id": "neutral",
+   "ja": "無表情",
+   "en": "neutral expression"
+  },
+  {
+   "id": "soft_smile",
+   "ja": "やわらかい微笑み",
+   "en": "a soft gentle smile"
+  },
+  {
+   "id": "closed_mouth_smile",
+   "ja": "口を閉じた微笑み",
+   "en": "closed-mouth smile"
+  },
+  {
+   "id": "relieved_smile",
+   "ja": "安堵した微笑み",
+   "en": "relieved smile, relaxed brows"
+  },
+  {
+   "id": "bashful_smile",
+   "ja": "はにかみ笑い",
+   "en": "bashful smile"
+  },
+  {
+   "id": "suppressing_laugh",
+   "ja": "笑いをこらえる",
+   "en": "suppressing a laugh, lips gently pressed together"
+  },
+  {
+   "id": "barely_contained_happy_smile",
+   "ja": "嬉しさを隠せない表情",
+   "en": "barely contained happy smile"
+  },
+  {
+   "id": "shy",
+   "ja": "照れる",
+   "en": "a shy expression, slightly embarrassed"
+  },
+  {
+   "id": "embarrassed",
+   "ja": "恥ずかしがる",
+   "en": "an embarrassed expression"
+  },
+  {
+   "id": "affectionate_smile",
+   "ja": "甘えるような笑み",
+   "en": "soft affectionate smile, gently softened expression"
+  },
+  {
+   "id": "slight_pout",
+   "ja": "ふくれっ面",
+   "en": "slight pout, subtly puffed cheeks"
+  },
+  {
+   "id": "wistful",
+   "ja": "切なげな表情",
+   "en": "wistful expression, faintly lowered brows"
+  },
+  {
+   "id": "playful",
+   "ja": "playful",
+   "en": "playful expression"
+  },
+  {
+   "id": "mischievous_grin",
+   "ja": "いたずらっぽい笑み",
+   "en": "mischievous grin"
+  },
+  {
+   "id": "smug_smile",
+   "ja": "得意げな笑み",
+   "en": "smug smile, slightly raised brow"
+  },
+  {
+   "id": "knowing_smile",
+   "ja": "含みのある微笑み",
+   "en": "knowing smile"
+  },
+  {
+   "id": "provocative_smile",
+   "ja": "挑発的な微笑み",
+   "en": "provocative smile, steady eye contact"
+  },
+  {
+   "id": "confident_smile",
+   "ja": "余裕のある笑み",
+   "en": "calm confident smile"
+  },
+  {
+   "id": "crying",
+   "ja": "泣く",
+   "en": "crying"
+  },
+  {
+   "id": "wary",
+   "ja": "警戒した表情",
+   "en": "wary expression, tense brows"
+  },
+  {
+   "id": "confused",
+   "ja": "困惑した表情",
+   "en": "confused expression, slightly parted lips"
+  },
+  {
+   "id": "defiant",
+   "ja": "強がる表情",
+   "en": "defiant expression, restrained tension"
+  },
+  {
+   "id": "frustrated",
+   "ja": "悔しそうな表情",
+   "en": "frustrated expression, tightly pressed lips"
+  },
+  {
+   "id": "resigned",
+   "ja": "諦めたような表情",
+   "en": "resigned expression, lowered gaze"
+  },
+  {
+   "id": "quiet_tears",
+   "ja": "静かな涙",
+   "en": "quiet tears, composed expression"
+  },
+  {
+   "id": "determined",
+   "ja": "決意を秘めた表情",
+   "en": "determined expression, firm mouth"
+  }
+ ],
+ "armActions": [
+  {
+   "id": "relaxed_at_side",
+   "ja": "体側へ自然に下ろす"
+  },
+  {
+   "id": "hand_on_hip",
+   "ja": "片手を腰に添える"
+  },
+  {
+   "id": "hand_near_chest",
+   "ja": "胸元へ手を添える"
+  },
+  {
+   "id": "hand_touching_chin",
+   "ja": "顎に手を添える"
+  },
+  {
+   "id": "hand_touching_cheek",
+   "ja": "頬に手を添える"
+  },
+  {
+   "id": "hand_in_hair",
+   "ja": "髪に手を入れる"
+  },
+  {
+   "id": "hand_near_face",
+   "ja": "顔の近くへ手を添える"
+  },
+  {
+   "id": "hand_covering_eyes",
+   "ja": "片手で目元を隠す"
+  },
+  {
+   "id": "hand_covering_mouth",
+   "ja": "片手で口元を隠す"
+  },
+  {
+   "id": "finger_heart_near_face",
+   "ja": "顔の近くで指ハート"
+  },
+  {
+   "id": "hand_in_pocket",
+   "ja": "ポケットに手を入れる"
+  },
+  {
+   "id": "across_body",
+   "ja": "腕を体の前へ"
+  },
+  {
+   "id": "behind_back",
+   "ja": "腕を背中側へ"
+  },
+  {
+   "id": "reaching_forward",
+   "ja": "前へ伸ばす"
+  },
+  {
+   "id": "reaching_forward_soft",
+   "ja": "やさしく前へ伸ばす"
+  },
+  {
+   "id": "pinching_toward_viewer",
+   "ja": "相手の頬へ指を伸ばす"
+  },
+  {
+   "id": "supporting_body",
+   "ja": "片腕で上体を支える"
+  },
+  {
+   "id": "resting_on_thigh",
+   "ja": "手を太ももへ置く"
+  },
+  {
+   "id": "partially_out",
+   "ja": "画面外へ逃がす"
+  }
+ ],
+ "combinedArms": [
+  {
+   "id": "arms_crossed",
+   "ja": "腕を組む"
+  },
+  {
+   "id": "hands_clasped",
+   "ja": "両手を組む"
+  },
+  {
+   "id": "hands_behind_back",
+   "ja": "両手を背中側で組む"
+  },
+  {
+   "id": "hands_on_lap",
+   "ja": "両手を膝上に置く"
+  },
+  {
+   "id": "supporting_upper_body",
+   "ja": "両腕で上体を支える"
+  },
+  {
+   "id": "heart_hands_near_face",
+   "ja": "顔の近くで両手ハート"
+  },
+  {
+   "id": "arms_open_toward_viewer",
+   "ja": "相手へ両腕を広げる"
+  },
+  {
+   "id": "palms_on_floor",
+   "ja": "両手のひらを床へ"
+  },
+  {
+   "id": "hands_on_knees",
+   "ja": "両手を膝へ"
+  },
+  {
+   "id": "arms_up",
+   "ja": "両腕を頭上へ伸ばす"
+  },
+  {
+   "id": "holding_raised_ankle",
+   "ja": "上げた脚の足首を両手で支える"
+  },
+  {
+   "id": "arms_hanging_down",
+   "ja": "両腕を床へ垂らす"
+  },
+  {
+   "id": "bridge_support",
+   "ja": "両手でブリッジを支える"
+  }
+ ],
+ "postures": [
+  {
+   "id": "standing",
+   "ja": "立つ",
+   "en": "standing"
+  },
+  {
+   "id": "sitting",
+   "ja": "座る",
+   "en": "sitting"
+  },
+  {
+   "id": "walking",
+   "ja": "歩く",
+   "en": "walking"
+  },
+  {
+   "id": "kneeling",
+   "ja": "膝をつく",
+   "en": "kneeling"
+  },
+  {
+   "id": "one_knee_kneeling",
+   "ja": "片膝をつく",
+   "en": "kneeling on one knee"
+  },
+  {
+   "id": "crouching",
+   "ja": "しゃがむ",
+   "en": "crouching"
+  },
+  {
+   "id": "squatting",
+   "ja": "腰を落としてしゃがむ",
+   "en": "in a low squat"
+  },
+  {
+   "id": "reclining",
+   "ja": "横たわる",
+   "en": "reclining"
+  },
+  {
+   "id": "bridge",
+   "ja": "ブリッジ",
+   "en": "back bridge"
+  }
+ ]
+}

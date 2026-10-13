@@ -1,0 +1,68 @@
+import { DATA_VERSION, DEFAULT_IDS, fieldDef, FIELDS } from '../data/fields';
+import { FIELD_IDS, type FieldId, type ForgeModules, type ForgeSettings, type ForgeState, type ModuleId, type Selection } from '../types';
+
+export const SCHEMA_VERSION = 1;
+
+export const DEFAULT_SETTINGS: ForgeSettings = {
+  coherence: 'coherent',
+  outputTarget: 'pixai',
+  seed: '',
+  keepRecentCount: 8,
+  compact: false,
+  negative: false,
+  quality: true,
+  emphasis: false,
+  freeTags: '',
+  loraText: '',
+  boyTag: '1boy'
+};
+
+export const DEFAULT_MODULES: ForgeModules = {
+  kemonoEnabled: false,
+  backgroundEnabled: true,
+  poseEnabled: true,
+  facialHairEnabled: false,
+  hairAccentEnabled: false,
+  nameEnabled: true
+};
+
+export function emptyState(): ForgeState {
+  const fields = {} as Record<FieldId, Selection>;
+  for (const id of FIELD_IDS) fields[id] = { id: DEFAULT_IDS[id] ?? null, source: 'random', locked: false };
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    dataVersion: DATA_VERSION,
+    fields,
+    settings: { ...DEFAULT_SETTINGS },
+    optionalModules: { ...DEFAULT_MODULES },
+    lastSeed: '',
+    drawCount: 0
+  };
+}
+
+export function cloneState(s: ForgeState): ForgeState {
+  return JSON.parse(JSON.stringify(s));
+}
+
+const MODULE_KEY: Record<ModuleId, keyof ForgeModules> = {
+  pose: 'poseEnabled', background: 'backgroundEnabled', kemono: 'kemonoEnabled',
+  facialHair: 'facialHairEnabled', hairAccent: 'hairAccentEnabled', name: 'nameEnabled'
+};
+export const moduleKey = (m: ModuleId) => MODULE_KEY[m];
+
+/** 任意モジュールが有効か（モジュールに属さない項目は常に有効） */
+export function isActive(state: ForgeState, field: FieldId): boolean {
+  const def = fieldDef(field);
+  if (!def.module) return true;
+  return !!state.optionalModules[MODULE_KEY[def.module]];
+}
+
+/** 髪の差し色は、配色が「単色」以外のときだけ意味を持つ */
+export function isEffective(state: ForgeState, field: FieldId): boolean {
+  if (!isActive(state, field)) return false;
+  if (field === 'hairAccentColor') return !!state.fields.hairAccent.id && state.fields.hairAccent.id !== 'none';
+  return true;
+}
+
+export const ALL_FIELDS: FieldId[] = FIELDS.map((f) => f.id);
+export const lockedFields = (s: ForgeState) => ALL_FIELDS.filter((f) => s.fields[f].locked);

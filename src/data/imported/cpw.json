@@ -1,0 +1,1799 @@
+{
+ "source": "outfit-prompt-workshop",
+ "commit": "b71d1ef425df6ecb4e30381060dc975cb7953819",
+ "colors": [
+  {
+   "id": "pure_white",
+   "ja": "純白",
+   "en": "pure white",
+   "hex": "#FFFFFF",
+   "family": "white",
+   "tone": "bright",
+   "temperature": "neutral",
+   "moods": [
+    "pure",
+    "sacred",
+    "clean"
+   ]
+  },
+  {
+   "id": "warm_ivory",
+   "ja": "生成り",
+   "en": "warm ivory",
+   "hex": "#F3E9D8",
+   "family": "white",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "gentle",
+    "antique"
+   ]
+  },
+  {
+   "id": "pearl_white",
+   "ja": "真珠色",
+   "en": "pearl white",
+   "hex": "#EDE7E3",
+   "family": "white",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "ethereal",
+    "elegant"
+   ]
+  },
+  {
+   "id": "jet_black",
+   "ja": "漆黒",
+   "en": "jet black",
+   "hex": "#111014",
+   "family": "black",
+   "tone": "dark",
+   "temperature": "neutral",
+   "moods": [
+    "dramatic",
+    "gothic",
+    "severe"
+   ]
+  },
+  {
+   "id": "charcoal_gray",
+   "ja": "炭墨色",
+   "en": "charcoal gray",
+   "hex": "#3B3A40",
+   "family": "black",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "sober",
+    "urban"
+   ]
+  },
+  {
+   "id": "ash_gray",
+   "ja": "灰白",
+   "en": "ash gray",
+   "hex": "#B4B1B8",
+   "family": "black",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "quiet",
+    "melancholic"
+   ]
+  },
+  {
+   "id": "deep_crimson",
+   "ja": "深紅",
+   "en": "deep crimson",
+   "hex": "#8B1E2D",
+   "family": "red",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "dramatic",
+    "royal",
+    "gothic"
+   ]
+  },
+  {
+   "id": "vermilion",
+   "ja": "朱色",
+   "en": "vermilion",
+   "hex": "#D8402C",
+   "family": "red",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "vivid",
+    "sacred",
+    "festive"
+   ]
+  },
+  {
+   "id": "burgundy",
+   "ja": "葡萄酒色",
+   "en": "burgundy",
+   "hex": "#5C1F30",
+   "family": "red",
+   "tone": "dark",
+   "temperature": "warm",
+   "moods": [
+    "gothic",
+    "mature"
+   ]
+  },
+  {
+   "id": "blush_pink",
+   "ja": "桜鼠",
+   "en": "blush pink",
+   "hex": "#EFC7CB",
+   "family": "pink",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "sweet",
+    "gentle"
+   ]
+  },
+  {
+   "id": "rose_red",
+   "ja": "薔薇色",
+   "en": "rose red",
+   "hex": "#C2455E",
+   "family": "pink",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "romantic",
+    "dramatic"
+   ]
+  },
+  {
+   "id": "amber_orange",
+   "ja": "琥珀色",
+   "en": "amber orange",
+   "hex": "#C9741E",
+   "family": "orange",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "warm",
+    "autumnal"
+   ]
+  },
+  {
+   "id": "apricot",
+   "ja": "杏色",
+   "en": "soft apricot",
+   "hex": "#F0BC8E",
+   "family": "orange",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "gentle",
+    "daily"
+   ]
+  },
+  {
+   "id": "antique_gold",
+   "ja": "古金色",
+   "en": "antique gold",
+   "hex": "#B08D4A",
+   "family": "metal",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "royal",
+    "antique"
+   ]
+  },
+  {
+   "id": "pale_gold",
+   "ja": "淡金",
+   "en": "pale gold",
+   "hex": "#E4CE93",
+   "family": "yellow",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "radiant",
+    "divine"
+   ]
+  },
+  {
+   "id": "mustard_yellow",
+   "ja": "芥子色",
+   "en": "mustard yellow",
+   "hex": "#C9A227",
+   "family": "yellow",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "earthy",
+    "retro"
+   ]
+  },
+  {
+   "id": "young_leaf_green",
+   "ja": "若草色",
+   "en": "young leaf green",
+   "hex": "#8FBF4D",
+   "family": "yellow_green",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "fresh",
+    "lively"
+   ]
+  },
+  {
+   "id": "forest_green",
+   "ja": "深緑",
+   "en": "deep forest green",
+   "hex": "#2C4A34",
+   "family": "green",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "calm",
+    "wild"
+   ]
+  },
+  {
+   "id": "sage_green",
+   "ja": "青磁鼠",
+   "en": "sage green",
+   "hex": "#A3B79A",
+   "family": "green",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "quiet",
+    "natural"
+   ]
+  },
+  {
+   "id": "teal",
+   "ja": "青緑",
+   "en": "deep teal",
+   "hex": "#1F5E63",
+   "family": "cyan",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "mysterious",
+    "oceanic"
+   ]
+  },
+  {
+   "id": "pale_cyan",
+   "ja": "水浅葱",
+   "en": "pale cyan",
+   "hex": "#BFE0E3",
+   "family": "cyan",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "serene",
+    "ethereal"
+   ]
+  },
+  {
+   "id": "ice_blue",
+   "ja": "氷青",
+   "en": "ice blue",
+   "hex": "#9FC6E8",
+   "family": "blue",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "cold",
+    "serene"
+   ]
+  },
+  {
+   "id": "sky_blue",
+   "ja": "空色",
+   "en": "sky blue",
+   "hex": "#6FB3E0",
+   "family": "blue",
+   "tone": "bright",
+   "temperature": "cool",
+   "moods": [
+    "open",
+    "daily"
+   ]
+  },
+  {
+   "id": "deep_navy",
+   "ja": "濃紺",
+   "en": "deep navy",
+   "hex": "#1E2A4A",
+   "family": "blue",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "noble",
+    "nocturnal"
+   ]
+  },
+  {
+   "id": "royal_purple",
+   "ja": "帝王紫",
+   "en": "royal purple",
+   "hex": "#54306E",
+   "family": "purple",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "royal",
+    "arcane"
+   ]
+  },
+  {
+   "id": "dusty_lavender",
+   "ja": "藤鼠",
+   "en": "dusty lavender",
+   "hex": "#B6A5C4",
+   "family": "purple",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "melancholic",
+    "gentle"
+   ]
+  },
+  {
+   "id": "warm_brown",
+   "ja": "焦茶",
+   "en": "warm brown",
+   "hex": "#6B4A32",
+   "family": "brown",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "rustic",
+    "reliable"
+   ]
+  },
+  {
+   "id": "sand_beige",
+   "ja": "砂色",
+   "en": "sand beige",
+   "hex": "#D8C4A5",
+   "family": "brown",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "calm",
+    "daily"
+   ]
+  },
+  {
+   "id": "polished_silver",
+   "ja": "白銀",
+   "en": "polished silver",
+   "hex": "#C8CBD0",
+   "family": "metal",
+   "tone": "bright",
+   "temperature": "cool",
+   "moods": [
+    "cold",
+    "noble"
+   ]
+  },
+  {
+   "id": "oxidized_silver",
+   "ja": "燻し銀",
+   "en": "oxidized silver",
+   "hex": "#8A8D93",
+   "family": "metal",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "antique",
+    "somber"
+   ]
+  },
+  {
+   "id": "sapphire_blue",
+   "ja": "青玉色",
+   "en": "sapphire blue",
+   "hex": "#1F4FA3",
+   "family": "gem",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "noble",
+    "clear"
+   ]
+  },
+  {
+   "id": "emerald_green",
+   "ja": "翠玉色",
+   "en": "emerald green",
+   "hex": "#1E7A5A",
+   "family": "gem",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "arcane",
+    "vivid"
+   ]
+  },
+  {
+   "id": "amethyst_violet",
+   "ja": "紫水晶色",
+   "en": "amethyst violet",
+   "hex": "#7B4FA8",
+   "family": "gem",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "arcane",
+    "dreamlike"
+   ]
+  },
+  {
+   "id": "off_white",
+   "ja": "オフホワイト",
+   "en": "off-white",
+   "hex": "#F5F2EA",
+   "family": "white",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "soft",
+    "daily"
+   ]
+  },
+  {
+   "id": "snow_white",
+   "ja": "雪白",
+   "en": "snow white",
+   "hex": "#FAFBFD",
+   "family": "white",
+   "tone": "bright",
+   "temperature": "cool",
+   "moods": [
+    "pure",
+    "cold"
+   ]
+  },
+  {
+   "id": "chalk_white",
+   "ja": "白亜",
+   "en": "chalk white",
+   "hex": "#EFEFE8",
+   "family": "white",
+   "tone": "muted",
+   "temperature": "neutral",
+   "moods": [
+    "quiet",
+    "antique"
+   ]
+  },
+  {
+   "id": "eggshell",
+   "ja": "卵殻色",
+   "en": "eggshell white",
+   "hex": "#F0EAD9",
+   "family": "white",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "gentle",
+    "daily"
+   ]
+  },
+  {
+   "id": "linen_white",
+   "ja": "リネンホワイト",
+   "en": "linen white",
+   "hex": "#EDE6D6",
+   "family": "white",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "natural",
+    "calm"
+   ]
+  },
+  {
+   "id": "heather_gray",
+   "ja": "杢グレー",
+   "en": "heather gray",
+   "hex": "#9B9AA3",
+   "family": "black",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "daily",
+    "relaxed"
+   ]
+  },
+  {
+   "id": "smoke_gray",
+   "ja": "煙鼠",
+   "en": "smoke gray",
+   "hex": "#6E6B72",
+   "family": "black",
+   "tone": "muted",
+   "temperature": "neutral",
+   "moods": [
+    "somber",
+    "quiet"
+   ]
+  },
+  {
+   "id": "slate_gray",
+   "ja": "スレートグレー",
+   "en": "slate gray",
+   "hex": "#55606B",
+   "family": "black",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "urban",
+    "sober"
+   ]
+  },
+  {
+   "id": "graphite",
+   "ja": "グラファイト",
+   "en": "graphite gray",
+   "hex": "#4A4A52",
+   "family": "black",
+   "tone": "deep",
+   "temperature": "neutral",
+   "moods": [
+    "modern",
+    "severe"
+   ]
+  },
+  {
+   "id": "ink_black",
+   "ja": "墨色",
+   "en": "ink black",
+   "hex": "#1C1B22",
+   "family": "black",
+   "tone": "dark",
+   "temperature": "neutral",
+   "moods": [
+    "calm",
+    "traditional"
+   ]
+  },
+  {
+   "id": "obsidian_black",
+   "ja": "黒曜",
+   "en": "obsidian black",
+   "hex": "#0B0B10",
+   "family": "black",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "dramatic",
+    "arcane"
+   ]
+  },
+  {
+   "id": "pearl_gray",
+   "ja": "銀鼠",
+   "en": "pearl gray",
+   "hex": "#C4C4CA",
+   "family": "black",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "elegant",
+    "quiet"
+   ]
+  },
+  {
+   "id": "scarlet",
+   "ja": "緋色",
+   "en": "scarlet",
+   "hex": "#C81D25",
+   "family": "red",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "bold",
+    "passionate"
+   ]
+  },
+  {
+   "id": "cherry_red",
+   "ja": "チェリーレッド",
+   "en": "cherry red",
+   "hex": "#B3202E",
+   "family": "red",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "lively",
+    "retro"
+   ]
+  },
+  {
+   "id": "wine_red",
+   "ja": "ワインレッド",
+   "en": "wine red",
+   "hex": "#722F37",
+   "family": "red",
+   "tone": "dark",
+   "temperature": "warm",
+   "moods": [
+    "mature",
+    "romantic"
+   ]
+  },
+  {
+   "id": "brick_red",
+   "ja": "煉瓦色",
+   "en": "brick red",
+   "hex": "#9C4A3C",
+   "family": "red",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "rustic",
+    "warm"
+   ]
+  },
+  {
+   "id": "strawberry_red",
+   "ja": "苺色",
+   "en": "strawberry red",
+   "hex": "#D2455B",
+   "family": "red",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "sweet",
+    "lively"
+   ]
+  },
+  {
+   "id": "oxblood",
+   "ja": "オックスブラッド",
+   "en": "oxblood red",
+   "hex": "#5E2129",
+   "family": "red",
+   "tone": "dark",
+   "temperature": "warm",
+   "moods": [
+    "severe",
+    "gothic"
+   ]
+  },
+  {
+   "id": "pastel_pink",
+   "ja": "パステルピンク",
+   "en": "pastel pink",
+   "hex": "#F6C9D8",
+   "family": "pink",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "dreamy",
+    "sweet"
+   ]
+  },
+  {
+   "id": "cherry_blossom_pink",
+   "ja": "桜色",
+   "en": "cherry blossom pink",
+   "hex": "#F2D5DC",
+   "family": "pink",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "gentle",
+    "seasonal"
+   ]
+  },
+  {
+   "id": "coral_pink",
+   "ja": "コーラルピンク",
+   "en": "coral pink",
+   "hex": "#F08A7B",
+   "family": "pink",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "cheerful",
+    "summery"
+   ]
+  },
+  {
+   "id": "salmon_pink",
+   "ja": "サーモンピンク",
+   "en": "salmon pink",
+   "hex": "#F4A996",
+   "family": "pink",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "gentle",
+    "warm"
+   ]
+  },
+  {
+   "id": "hot_pink",
+   "ja": "ホットピンク",
+   "en": "hot pink",
+   "hex": "#E5399E",
+   "family": "pink",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "bold",
+    "playful"
+   ]
+  },
+  {
+   "id": "magenta",
+   "ja": "マゼンタ",
+   "en": "magenta",
+   "hex": "#C7247F",
+   "family": "pink",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "dramatic",
+    "vivid"
+   ]
+  },
+  {
+   "id": "dusty_rose",
+   "ja": "くすみローズ",
+   "en": "dusty rose",
+   "hex": "#C79098",
+   "family": "pink",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "melancholic",
+    "romantic"
+   ]
+  },
+  {
+   "id": "raspberry",
+   "ja": "ラズベリー",
+   "en": "raspberry pink",
+   "hex": "#A33757",
+   "family": "pink",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "mature",
+    "sweet"
+   ]
+  },
+  {
+   "id": "peach",
+   "ja": "ピーチ",
+   "en": "peach",
+   "hex": "#F5B78F",
+   "family": "orange",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "sweet",
+    "gentle"
+   ]
+  },
+  {
+   "id": "tangerine",
+   "ja": "タンジェリン",
+   "en": "tangerine orange",
+   "hex": "#EF7F2E",
+   "family": "orange",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "energetic",
+    "festive"
+   ]
+  },
+  {
+   "id": "sunset_orange",
+   "ja": "夕焼け色",
+   "en": "sunset orange",
+   "hex": "#E8663C",
+   "family": "orange",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "nostalgic",
+    "warm"
+   ]
+  },
+  {
+   "id": "terracotta",
+   "ja": "テラコッタ",
+   "en": "terracotta",
+   "hex": "#B0603F",
+   "family": "orange",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "earthy",
+    "rustic"
+   ]
+  },
+  {
+   "id": "burnt_orange",
+   "ja": "焦橙",
+   "en": "burnt orange",
+   "hex": "#A6501F",
+   "family": "orange",
+   "tone": "dark",
+   "temperature": "warm",
+   "moods": [
+    "autumnal",
+    "mature"
+   ]
+  },
+  {
+   "id": "marigold",
+   "ja": "マリーゴールド",
+   "en": "marigold orange",
+   "hex": "#E89A2E",
+   "family": "orange",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "radiant",
+    "festive"
+   ]
+  },
+  {
+   "id": "cream_yellow",
+   "ja": "クリームイエロー",
+   "en": "cream yellow",
+   "hex": "#F6E8B8",
+   "family": "yellow",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "soft",
+    "sweet"
+   ]
+  },
+  {
+   "id": "lemon_yellow",
+   "ja": "レモンイエロー",
+   "en": "lemon yellow",
+   "hex": "#F2DE4A",
+   "family": "yellow",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "fresh",
+    "lively"
+   ]
+  },
+  {
+   "id": "canary_yellow",
+   "ja": "カナリア色",
+   "en": "canary yellow",
+   "hex": "#F0C93B",
+   "family": "yellow",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "cheerful",
+    "bold"
+   ]
+  },
+  {
+   "id": "sunflower",
+   "ja": "ひまわり色",
+   "en": "sunflower yellow",
+   "hex": "#EFB829",
+   "family": "yellow",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "radiant",
+    "summery"
+   ]
+  },
+  {
+   "id": "honey_yellow",
+   "ja": "蜂蜜色",
+   "en": "honey yellow",
+   "hex": "#D8A83C",
+   "family": "yellow",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "warm",
+    "nostalgic"
+   ]
+  },
+  {
+   "id": "gold_ochre",
+   "ja": "黄土色",
+   "en": "ochre yellow",
+   "hex": "#C79A3E",
+   "family": "yellow",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "earthy",
+    "antique"
+   ]
+  },
+  {
+   "id": "chartreuse",
+   "ja": "シャルトリューズ",
+   "en": "chartreuse",
+   "hex": "#A8C43C",
+   "family": "yellow_green",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "sharp",
+    "fresh"
+   ]
+  },
+  {
+   "id": "lime_green",
+   "ja": "ライムグリーン",
+   "en": "lime green",
+   "hex": "#9FCE45",
+   "family": "yellow_green",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "energetic",
+    "playful"
+   ]
+  },
+  {
+   "id": "matcha_green",
+   "ja": "抹茶色",
+   "en": "matcha green",
+   "hex": "#9BA65D",
+   "family": "yellow_green",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "calm",
+    "traditional"
+   ]
+  },
+  {
+   "id": "moss_green",
+   "ja": "苔色",
+   "en": "moss green",
+   "hex": "#6B7A3A",
+   "family": "yellow_green",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "wild",
+    "quiet"
+   ]
+  },
+  {
+   "id": "mint",
+   "ja": "ミント",
+   "en": "mint green",
+   "hex": "#BFE8D2",
+   "family": "green",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "fresh",
+    "dreamy"
+   ]
+  },
+  {
+   "id": "seafoam_green",
+   "ja": "シーフォーム",
+   "en": "seafoam green",
+   "hex": "#A9D8C4",
+   "family": "green",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "serene",
+    "oceanic"
+   ]
+  },
+  {
+   "id": "kelly_green",
+   "ja": "ケリーグリーン",
+   "en": "kelly green",
+   "hex": "#3B9C4E",
+   "family": "green",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "lively",
+    "bold"
+   ]
+  },
+  {
+   "id": "ivy_green",
+   "ja": "蔦の緑",
+   "en": "ivy green",
+   "hex": "#4A7A4E",
+   "family": "green",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "natural",
+    "calm"
+   ]
+  },
+  {
+   "id": "pine_green",
+   "ja": "松葉色",
+   "en": "pine green",
+   "hex": "#3A5A40",
+   "family": "green",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "solemn",
+    "wintry"
+   ]
+  },
+  {
+   "id": "olive",
+   "ja": "オリーブ",
+   "en": "olive green",
+   "hex": "#6F6A34",
+   "family": "green",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "earthy",
+    "functional"
+   ]
+  },
+  {
+   "id": "eucalyptus",
+   "ja": "ユーカリ色",
+   "en": "eucalyptus green",
+   "hex": "#7FA08C",
+   "family": "green",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "quiet",
+    "natural"
+   ]
+  },
+  {
+   "id": "turquoise",
+   "ja": "ターコイズ",
+   "en": "turquoise",
+   "hex": "#2FB5B5",
+   "family": "cyan",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "tropical",
+    "vivid"
+   ]
+  },
+  {
+   "id": "aqua",
+   "ja": "アクア",
+   "en": "aqua",
+   "hex": "#59C8D6",
+   "family": "cyan",
+   "tone": "bright",
+   "temperature": "cool",
+   "moods": [
+    "clear",
+    "summery"
+   ]
+  },
+  {
+   "id": "lagoon_blue",
+   "ja": "潟湖の青",
+   "en": "lagoon blue",
+   "hex": "#3A9CB0",
+   "family": "cyan",
+   "tone": "bright",
+   "temperature": "cool",
+   "moods": [
+    "oceanic",
+    "open"
+   ]
+  },
+  {
+   "id": "peacock_blue",
+   "ja": "孔雀青",
+   "en": "peacock blue",
+   "hex": "#1B6E8C",
+   "family": "cyan",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "noble",
+    "exotic"
+   ]
+  },
+  {
+   "id": "celadon",
+   "ja": "青磁色",
+   "en": "celadon",
+   "hex": "#A9C8BE",
+   "family": "cyan",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "refined",
+    "quiet"
+   ]
+  },
+  {
+   "id": "baby_blue",
+   "ja": "ベビーブルー",
+   "en": "baby blue",
+   "hex": "#BCD8F0",
+   "family": "blue",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "dreamy",
+    "gentle"
+   ]
+  },
+  {
+   "id": "periwinkle",
+   "ja": "ペリウィンクル",
+   "en": "periwinkle blue",
+   "hex": "#9AA6E0",
+   "family": "blue",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "dreamy",
+    "melancholic"
+   ]
+  },
+  {
+   "id": "cerulean",
+   "ja": "セルリアンブルー",
+   "en": "cerulean blue",
+   "hex": "#2A7FC0",
+   "family": "blue",
+   "tone": "bright",
+   "temperature": "cool",
+   "moods": [
+    "open",
+    "clear"
+   ]
+  },
+  {
+   "id": "cobalt_blue",
+   "ja": "コバルトブルー",
+   "en": "cobalt blue",
+   "hex": "#1F52B0",
+   "family": "blue",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "bold",
+    "clear"
+   ]
+  },
+  {
+   "id": "royal_blue",
+   "ja": "ロイヤルブルー",
+   "en": "royal blue",
+   "hex": "#2A4BC4",
+   "family": "blue",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "noble",
+    "dramatic"
+   ]
+  },
+  {
+   "id": "denim_blue",
+   "ja": "デニムブルー",
+   "en": "denim blue",
+   "hex": "#4A6B9A",
+   "family": "blue",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "daily",
+    "casual"
+   ]
+  },
+  {
+   "id": "steel_blue",
+   "ja": "スチールブルー",
+   "en": "steel blue",
+   "hex": "#5A7A99",
+   "family": "blue",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "urban",
+    "cool"
+   ]
+  },
+  {
+   "id": "navy",
+   "ja": "ネイビー",
+   "en": "navy blue",
+   "hex": "#223A70",
+   "family": "blue",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "reliable",
+    "formal"
+   ]
+  },
+  {
+   "id": "midnight_blue",
+   "ja": "真夜中の青",
+   "en": "midnight blue",
+   "hex": "#141B33",
+   "family": "blue",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "nocturnal",
+    "mysterious"
+   ]
+  },
+  {
+   "id": "soft_lavender",
+   "ja": "ソフトラベンダー",
+   "en": "soft lavender",
+   "hex": "#D3C4E8",
+   "family": "purple",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "dreamy",
+    "gentle"
+   ]
+  },
+  {
+   "id": "lilac",
+   "ja": "ライラック",
+   "en": "lilac",
+   "hex": "#B79BD4",
+   "family": "purple",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "romantic",
+    "spring-like"
+   ]
+  },
+  {
+   "id": "wisteria",
+   "ja": "藤色",
+   "en": "wisteria purple",
+   "hex": "#9C8AC8",
+   "family": "purple",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "elegant",
+    "traditional"
+   ]
+  },
+  {
+   "id": "violet",
+   "ja": "すみれ色",
+   "en": "violet",
+   "hex": "#7A4FB5",
+   "family": "purple",
+   "tone": "vivid",
+   "temperature": "cool",
+   "moods": [
+    "arcane",
+    "vivid"
+   ]
+  },
+  {
+   "id": "mauve",
+   "ja": "モーブ",
+   "en": "mauve",
+   "hex": "#A57FA0",
+   "family": "purple",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "melancholic",
+    "antique"
+   ]
+  },
+  {
+   "id": "grape_purple",
+   "ja": "葡萄色",
+   "en": "grape purple",
+   "hex": "#5A3E82",
+   "family": "purple",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "rich",
+    "arcane"
+   ]
+  },
+  {
+   "id": "plum_purple",
+   "ja": "李色",
+   "en": "plum purple",
+   "hex": "#6E3A5E",
+   "family": "purple",
+   "tone": "dark",
+   "temperature": "warm",
+   "moods": [
+    "mature",
+    "mysterious"
+   ]
+  },
+  {
+   "id": "eggplant",
+   "ja": "茄子紺",
+   "en": "eggplant purple",
+   "hex": "#3E2A4E",
+   "family": "purple",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "solemn",
+    "traditional"
+   ]
+  },
+  {
+   "id": "khaki",
+   "ja": "カーキ",
+   "en": "khaki",
+   "hex": "#8A7D4E",
+   "family": "brown",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "functional",
+    "earthy"
+   ]
+  },
+  {
+   "id": "camel",
+   "ja": "キャメル",
+   "en": "camel",
+   "hex": "#B08A5A",
+   "family": "brown",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "refined",
+    "warm"
+   ]
+  },
+  {
+   "id": "taupe",
+   "ja": "トープ",
+   "en": "taupe",
+   "hex": "#8A7B72",
+   "family": "brown",
+   "tone": "muted",
+   "temperature": "neutral",
+   "moods": [
+    "quiet",
+    "urban"
+   ]
+  },
+  {
+   "id": "latte_beige",
+   "ja": "ラテベージュ",
+   "en": "latte beige",
+   "hex": "#C9B394",
+   "family": "brown",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "soft",
+    "daily"
+   ]
+  },
+  {
+   "id": "caramel_brown",
+   "ja": "キャラメル色",
+   "en": "caramel brown",
+   "hex": "#B5793B",
+   "family": "brown",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "sweet",
+    "warm"
+   ]
+  },
+  {
+   "id": "chestnut_brown",
+   "ja": "栗色",
+   "en": "chestnut brown",
+   "hex": "#7A4A2E",
+   "family": "brown",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "rustic",
+    "autumnal"
+   ]
+  },
+  {
+   "id": "mocha_brown",
+   "ja": "モカ",
+   "en": "mocha brown",
+   "hex": "#6E5844",
+   "family": "brown",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "calm",
+    "mature"
+   ]
+  },
+  {
+   "id": "chocolate_brown",
+   "ja": "チョコレート色",
+   "en": "chocolate brown",
+   "hex": "#4E342B",
+   "family": "brown",
+   "tone": "dark",
+   "temperature": "warm",
+   "moods": [
+    "reliable",
+    "rich"
+   ]
+  },
+  {
+   "id": "bright_gold",
+   "ja": "黄金",
+   "en": "bright gold",
+   "hex": "#D4AF37",
+   "family": "metal",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "radiant",
+    "royal"
+   ]
+  },
+  {
+   "id": "rose_gold",
+   "ja": "ローズゴールド",
+   "en": "rose gold",
+   "hex": "#C89078",
+   "family": "metal",
+   "tone": "bright",
+   "temperature": "warm",
+   "moods": [
+    "romantic",
+    "modern"
+   ]
+  },
+  {
+   "id": "copper_metal",
+   "ja": "銅色",
+   "en": "copper",
+   "hex": "#B06A3F",
+   "family": "metal",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "antique",
+    "crafted"
+   ]
+  },
+  {
+   "id": "bronze_metal",
+   "ja": "青銅色",
+   "en": "bronze",
+   "hex": "#8C6A3F",
+   "family": "metal",
+   "tone": "muted",
+   "temperature": "warm",
+   "moods": [
+    "ancient",
+    "solemn"
+   ]
+  },
+  {
+   "id": "gunmetal",
+   "ja": "ガンメタル",
+   "en": "gunmetal gray",
+   "hex": "#4A4E58",
+   "family": "metal",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "severe",
+    "modern"
+   ]
+  },
+  {
+   "id": "platinum_metal",
+   "ja": "プラチナ",
+   "en": "platinum silver",
+   "hex": "#D8DBDD",
+   "family": "metal",
+   "tone": "bright",
+   "temperature": "cool",
+   "moods": [
+    "noble",
+    "pristine"
+   ]
+  },
+  {
+   "id": "verdigris_metal",
+   "ja": "緑青色",
+   "en": "verdigris",
+   "hex": "#5F9C8A",
+   "family": "metal",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "antique",
+    "weathered"
+   ]
+  },
+  {
+   "id": "ruby_red",
+   "ja": "紅玉色",
+   "en": "ruby red",
+   "hex": "#9C1B33",
+   "family": "gem",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "passionate",
+    "noble"
+   ]
+  },
+  {
+   "id": "garnet",
+   "ja": "柘榴石色",
+   "en": "garnet red",
+   "hex": "#7A1F2E",
+   "family": "gem",
+   "tone": "deep",
+   "temperature": "warm",
+   "moods": [
+    "deep",
+    "antique"
+   ]
+  },
+  {
+   "id": "topaz_gold",
+   "ja": "黄玉色",
+   "en": "topaz gold",
+   "hex": "#D89A2B",
+   "family": "gem",
+   "tone": "vivid",
+   "temperature": "warm",
+   "moods": [
+    "radiant",
+    "warm"
+   ]
+  },
+  {
+   "id": "aquamarine",
+   "ja": "藍玉色",
+   "en": "aquamarine blue",
+   "hex": "#7FD4CE",
+   "family": "gem",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "serene",
+    "clear"
+   ]
+  },
+  {
+   "id": "lapis_blue",
+   "ja": "瑠璃色",
+   "en": "lapis lazuli blue",
+   "hex": "#2A4494",
+   "family": "gem",
+   "tone": "deep",
+   "temperature": "cool",
+   "moods": [
+    "sacred",
+    "noble"
+   ]
+  },
+  {
+   "id": "jade",
+   "ja": "翡翠色",
+   "en": "jade green",
+   "hex": "#4E9C7A",
+   "family": "gem",
+   "tone": "muted",
+   "temperature": "cool",
+   "moods": [
+    "refined",
+    "serene"
+   ]
+  },
+  {
+   "id": "opal_white",
+   "ja": "蛋白石色",
+   "en": "opal white",
+   "hex": "#E8E4EF",
+   "family": "gem",
+   "tone": "pale",
+   "temperature": "cool",
+   "moods": [
+    "ethereal",
+    "iridescent"
+   ]
+  },
+  {
+   "id": "rose_quartz",
+   "ja": "薔薇石英色",
+   "en": "rose quartz pink",
+   "hex": "#E8B4C0",
+   "family": "gem",
+   "tone": "pale",
+   "temperature": "warm",
+   "moods": [
+    "gentle",
+    "romantic"
+   ]
+  },
+  {
+   "id": "onyx_black",
+   "ja": "黒瑪瑙色",
+   "en": "onyx black",
+   "hex": "#17151C",
+   "family": "gem",
+   "tone": "dark",
+   "temperature": "cool",
+   "moods": [
+    "sleek",
+    "mysterious"
+   ]
+  }
+ ],
+ "worldviews": [
+  {
+   "id": "modern",
+   "ja": "現代",
+   "en": "modern"
+  },
+  {
+   "id": "western_fantasy",
+   "ja": "西洋ファンタジー",
+   "en": "fantasy"
+  },
+  {
+   "id": "historical_western",
+   "ja": "歴史西洋風",
+   "en": "historical european style"
+  },
+  {
+   "id": "dark_fantasy",
+   "ja": "ダークファンタジー",
+   "en": "dark fantasy"
+  },
+  {
+   "id": "japanese",
+   "ja": "和風",
+   "en": "japanese style"
+  },
+  {
+   "id": "chinese",
+   "ja": "中華風",
+   "en": "chinese style"
+  },
+  {
+   "id": "sci_fi",
+   "ja": "近未来・SF",
+   "en": "futuristic"
+  },
+  {
+   "id": "fairy_tale",
+   "ja": "童話世界",
+   "en": "fairy tale"
+  }
+ ],
+ "roles": [
+  {
+   "id": "commoner",
+   "ja": "市井の人",
+   "en": "commoner"
+  },
+  {
+   "id": "student",
+   "ja": "学生",
+   "en": "student"
+  },
+  {
+   "id": "office_worker",
+   "ja": "会社員",
+   "en": "office worker"
+  },
+  {
+   "id": "royal_prince",
+   "ja": "王族",
+   "en": "royal"
+  },
+  {
+   "id": "noble",
+   "ja": "貴族",
+   "en": "noble"
+  },
+  {
+   "id": "maid",
+   "ja": "メイド・執事",
+   "en": "maid"
+  },
+  {
+   "id": "officer",
+   "ja": "軍人・将校",
+   "en": "military officer"
+  },
+  {
+   "id": "knight",
+   "ja": "騎士",
+   "en": "knight"
+  },
+  {
+   "id": "cleric",
+   "ja": "聖職者",
+   "en": "cleric"
+  },
+  {
+   "id": "mage",
+   "ja": "魔術師",
+   "en": "mage"
+  },
+  {
+   "id": "adventurer",
+   "ja": "冒険者",
+   "en": "adventurer"
+  },
+  {
+   "id": "assassin",
+   "ja": "暗殺者",
+   "en": "assassin"
+  },
+  {
+   "id": "shrine_maiden",
+   "ja": "神職・巫女",
+   "en": "shrine attendant"
+  },
+  {
+   "id": "courtier_cn",
+   "ja": "宮廷人（中華風）",
+   "en": "imperial courtier"
+  },
+  {
+   "id": "idol",
+   "ja": "舞台衣装・アイドル",
+   "en": "stage performer"
+  },
+  {
+   "id": "traveler",
+   "ja": "旅人",
+   "en": "traveler"
+  }
+ ],
+ "garmentCount": 96
+}

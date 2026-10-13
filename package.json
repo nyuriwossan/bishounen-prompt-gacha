@@ -1,0 +1,36 @@
+{
+  "name": "bishounen-prompt-gacha",
+  "private": true,
+  "version": "1.0.0",
+  "description": "美青年錬成ガチャ 〜イケメンとの出会いは一期一会〜 — 画像生成AI向け美青年プロンプトガチャ",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "audit:draws": "vitest run tests/mass-draw.test.ts --reporter=verbose",
+    "test:browser": "node tests/browser/run-browser.mjs",
+    "report:examples": "vite-node scripts/examples.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.29.0",
+    "@types/node": "^22.15.30",
+    "eslint": "9.29.0",
+    "playwright-core": "1.56.1",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.35.0",
+    "vite": "6.4.4",
+    "vite-node": "3.2.4",
+    "vitest": "3.2.7"
+  },
+  "dependencies": {
+    "preact": "10.26.9"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
