@@ -1,6 +1,6 @@
 {
   "engine": "chromium",
-  "at": "2026-10-13T12:35:31.905Z",
+  "at": "2026-10-13T12:38:48.085Z",
   "total": 63,
   "failed": 0,
   "results": [
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "紺色髪の夏空の青年 / 濃い茶髪の高慢な貴公子"
+      "detail": "藤色銀髪の凛とした侍 / 銀髪の兄貴肌"
     },
     {
       "name": "進むでやり直せる",
@@ -282,7 +282,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:44757/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
+      "detail": "http://127.0.0.1:36513/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

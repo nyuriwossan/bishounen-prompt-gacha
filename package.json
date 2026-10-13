@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "audit:draws": "vitest run tests/mass-draw.test.ts --reporter=verbose",
     "test:browser": "node tests/browser/run-browser.mjs",
-    "report:examples": "vite-node scripts/examples.ts"
+    "report:examples": "vite-node scripts/examples.ts",
+    "report:catalog": "vite-node scripts/catalog.ts"
   },
   "devDependencies": {
     "@eslint/js": "9.29.0",
@@ -28,7 +29,7 @@
     "vitest": "3.2.7"
   },
   "dependencies": {
-    "preact": "10.26.9"
+    "preact": "10.29.8"
   },
   "engines": {
     "node": ">=20"
