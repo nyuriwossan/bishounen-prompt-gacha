@@ -1,7 +1,7 @@
 {
   "engine": "chromium",
-  "at": "2026-10-13T12:38:48.085Z",
-  "total": 63,
+  "at": "2026-10-13T22:05:23.846Z",
+  "total": 79,
   "failed": 0,
   "results": [
     {
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "藤色銀髪の凛とした侍 / 銀髪の兄貴肌"
+      "detail": "チャコールの花街の色男 / 青み黒髪の夜型のハッカー"
     },
     {
       "name": "進むでやり直せる",
@@ -270,6 +270,86 @@
       "detail": ""
     },
     {
+      "name": "390×664：シートが画面内に収まる",
+      "ok": true,
+      "detail": "{\"closeTop\":90.6875,\"closeBottom\":134.6875,\"footBottom\":664,\"dialogTop\":79.6875,\"dialogBottom\":664,\"vh\":664}"
+    },
+    {
+      "name": "390×664：一覧をスクロールしても×が画面内に残る",
+      "ok": true,
+      "detail": "{\"closeTop\":90.6875,\"closeBottom\":134.6875,\"footBottom\":664,\"dialogTop\":79.6875,\"dialogBottom\":664,\"vh\":664}"
+    },
+    {
+      "name": "390×664：一覧をスクロールしてもフッターが画面内に残る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390×664：シートを開いている間、後ろの画面はスクロールしない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390×664：分類を切り替えると「この中から引く」の件数も揃う",
+      "ok": true,
+      "detail": "{\"listed\":17,\"btn\":17}"
+    },
+    {
+      "name": "390×664：×で閉じられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390×664：シートの外側をタップしても閉じられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390×664：候補選択で実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320×520：シートが画面内に収まる",
+      "ok": true,
+      "detail": "{\"closeTop\":73.40625,\"closeBottom\":117.40625,\"footBottom\":520,\"dialogTop\":62.40625,\"dialogBottom\":520,\"vh\":520}"
+    },
+    {
+      "name": "320×520：一覧をスクロールしても×が画面内に残る",
+      "ok": true,
+      "detail": "{\"closeTop\":73.40625,\"closeBottom\":117.40625,\"footBottom\":520,\"dialogTop\":62.40625,\"dialogBottom\":520,\"vh\":520}"
+    },
+    {
+      "name": "320×520：一覧をスクロールしてもフッターが画面内に残る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320×520：シートを開いている間、後ろの画面はスクロールしない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320×520：分類を切り替えると「この中から引く」の件数も揃う",
+      "ok": true,
+      "detail": "{\"listed\":17,\"btn\":17}"
+    },
+    {
+      "name": "320×520：×で閉じられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320×520：シートの外側をタップしても閉じられる",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "320×520：候補選択で実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "コピー不可の環境では、全文を選択した手動コピー欄を出す（iOS向け退避）",
       "ok": true,
       "detail": ""
@@ -282,7 +362,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:36513/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
+      "detail": "http://127.0.0.1:37813/bishounen-prompt-gacha/#s=dj0xJmQ9MjAyNi4xMC4xJm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

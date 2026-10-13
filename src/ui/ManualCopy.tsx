@@ -9,7 +9,7 @@ export function ManualCopy({ text, onClose }: { text: string; onClose: () => voi
     setTimeout(() => { ta.current?.focus(); ta.current?.select(); }, 50);
   }, []);
   return (
-    <dialog class="sheet" ref={ref} onClose={onClose} aria-labelledby="manual-title">
+    <dialog class="sheet" ref={ref} onClose={onClose} onClick={(e) => { if (e.target === e.currentTarget) e.currentTarget.close(); }} aria-labelledby="manual-title">
       <div class="sheet-head"><h2 id="manual-title">手動でコピーしてください</h2><button class="btn small" type="button" onClick={() => ref.current?.close()}>閉じる</button></div>
       <div class="sheet-body">
         <p class="lead">この環境では自動コピーが使えませんでした。下の全文が選択されています。長押しして「コピー」を選んでください。</p>

@@ -42,7 +42,7 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
   const cats = def.categories?.filter((c) => def.options.some((o) => o.cat === c.id)) ?? [];
 
   return (
-    <dialog class="sheet" ref={ref} onClose={onClose} aria-labelledby="picker-title">
+    <dialog class="sheet" ref={ref} onClose={onClose} onClick={(e) => { if (e.target === e.currentTarget) e.currentTarget.close(); }} aria-labelledby="picker-title">
       <div class="sheet-head">
         <h2 id="picker-title">{def.ja}を選ぶ</h2>
         <button class="icon-btn" type="button" onClick={() => ref.current?.close()} aria-label="閉じる"><IconClose /></button>

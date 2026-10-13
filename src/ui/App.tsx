@@ -243,7 +243,7 @@ function ConflictSheet({ view, forge, onClose, actions }: { view: ConflictView; 
   useEffect(() => { ref.current?.showModal?.(); }, []);
   const unlockable = [...new Set(view.conflicts.flatMap((c) => c.unlockCandidates))];
   return (
-    <dialog class="sheet" ref={ref} onClose={onClose} aria-labelledby="conflict-title">
+    <dialog class="sheet" ref={ref} onClose={onClose} onClick={(e) => { if (e.target === e.currentTarget) e.currentTarget.close(); }} aria-labelledby="conflict-title">
       <div class="sheet-head"><h2 id="conflict-title">{view.conflicts.length ? '錬成できませんでした' : '一部の項目を引き直せませんでした'}</h2>
         <button class="btn small" type="button" onClick={onClose}>閉じる</button></div>
       <div class="sheet-body">

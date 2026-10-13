@@ -179,6 +179,54 @@ try {
     await ctx.close();
   }
 
+  // ---- 2b. 候補選択シート（iPhone の表示領域を想定：アドレスバー分だけ低い画面） ----
+  for (const [w, h] of [[390, 664], [320, 520]]) {
+    const { ctx, page, errors } = await newPage({ width: w, height: h });
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    await page.evaluate(() => window.scrollTo(0, 600));
+    await page.click('.frow:has-text("衣装") .fmain >> nth=0');
+    await page.waitForSelector('dialog.sheet[open]');
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+    const inView = async () => page.evaluate(() => {
+      const d = document.querySelector('dialog.sheet[open]');
+      const x = d.querySelector('button[aria-label="閉じる"]').getBoundingClientRect();
+      const f = d.querySelector('.sheet-foot').getBoundingClientRect();
+      const r = d.getBoundingClientRect();
+      return { closeTop: x.top, closeBottom: x.bottom, footBottom: f.bottom, dialogTop: r.top, dialogBottom: r.bottom, vh: window.innerHeight };
+    });
+    const v0 = await inView();
+    check(`${w}×${h}：シートが画面内に収まる`, v0.dialogTop >= 0 && v0.dialogBottom <= v0.vh + 1, JSON.stringify(v0));
+    // 一覧を最後までスクロール（指で下に引っ張る・上に送る操作の代わり）
+    await page.mouse.move(w / 2, h / 2);
+    for (let i = 0; i < 15; i++) await page.mouse.wheel(0, 900);
+    await page.evaluate(() => { const b = document.querySelector('dialog.sheet[open] .sheet-body'); b.scrollTop = b.scrollHeight; });
+    for (let i = 0; i < 5; i++) await page.mouse.wheel(0, -300);
+    const v1 = await inView();
+    check(`${w}×${h}：一覧をスクロールしても×が画面内に残る`, v1.closeTop >= 0 && v1.closeBottom <= v1.vh, JSON.stringify(v1));
+    check(`${w}×${h}：一覧をスクロールしてもフッターが画面内に残る`, v1.footBottom <= v1.vh + 1);
+    check(`${w}×${h}：シートを開いている間、後ろの画面はスクロールしない`, (await page.evaluate(() => window.scrollY)) === scrollBefore);
+    // 分類を切り替えると、表示件数と「この中から引く」の件数が揃う
+    await page.click('dialog.sheet .cats .chip:has-text("カジュアル")');
+    const counts = await page.evaluate(() => {
+      const d = document.querySelector('dialog.sheet[open]');
+      const listed = d.querySelectorAll('.opts .opt:not(.blocked)').length;
+      const btn = Number((d.querySelector('.sheet-foot .btn.primary').textContent.match(/(\d+)件/) || [])[1]);
+      return { listed, btn };
+    });
+    check(`${w}×${h}：分類を切り替えると「この中から引く」の件数も揃う`, counts.btn <= counts.listed, JSON.stringify(counts));
+    await page.click('dialog.sheet button[aria-label="閉じる"]');
+    check(`${w}×${h}：×で閉じられる`, !(await page.isVisible('dialog.sheet[open]')));
+    // 外側（暗い部分）のタップでも閉じる
+    await page.click('.frow:has-text("髪の色") .fmain');
+    await page.waitForSelector('dialog.sheet[open]');
+    await page.mouse.click(w / 2, 4);
+    await page.waitForTimeout(100);
+    check(`${w}×${h}：シートの外側をタップしても閉じられる`, !(await page.isVisible('dialog.sheet[open]')));
+    check(`${w}×${h}：候補選択で実行時エラーなし`, errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+
   // ---- 3. コピー：クリップボード権限なし → 手動コピー欄 ----
   {
     const init = () => {
