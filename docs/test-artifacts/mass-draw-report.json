@@ -1,23 +1,23 @@
 {
-  "generatedAt": "2026-10-13T23:03:09.948Z",
-  "dataVersion": "2026.10.1",
+  "generatedAt": "2026-10-14T22:25:38.419Z",
+  "dataVersion": "2026.10.2",
   "draws": 3600,
   "ok": 3600,
   "refusedByLockedConflict": 0,
   "exceptions": 0,
-  "drawsWithStuckField": 19,
-  "elapsedMs": 31377,
-  "msPerDraw": 8.72,
+  "drawsWithStuckField": 7,
+  "elapsedMs": 47047,
+  "msPerDraw": 13.07,
   "anomalies": [],
   "anomalyCount": 0,
   "anomalyKinds": {},
   "duplicateFullResults": 0,
-  "reachedArchetypes": 112,
-  "totalArchetypes": 112,
+  "reachedArchetypes": 124,
+  "totalArchetypes": 124,
   "categoryCoverage": {
-    "archetype": "112/112",
+    "archetype": "124/124",
     "hairColor": "48/48",
-    "outfit": "132/132",
+    "outfit": "142/142",
     "world": "26/26",
     "age": "5/5",
     "presentation": "5/5",
@@ -27,196 +27,196 @@
   "topShares": {
     "archetype": [
       {
-        "id": "vampire_count",
-        "share": 0.03
+        "id": "haughty_aristocrat",
+        "share": 0.0242
       },
       {
-        "id": "haughty_aristocrat",
-        "share": 0.0222
+        "id": "relaxed_adult",
+        "share": 0.0239
+      },
+      {
+        "id": "kireime_casual",
+        "share": 0.0231
+      },
+      {
+        "id": "obsessive_alchemist",
+        "share": 0.0228
       },
       {
         "id": "night_hacker",
-        "share": 0.0222
-      },
-      {
-        "id": "old_family_heir",
-        "share": 0.0217
-      },
-      {
-        "id": "elite_salaryman",
-        "share": 0.0214
+        "share": 0.0228
       }
     ],
     "hairColor": [
       {
-        "id": "white",
-        "share": 0.0542
+        "id": "blue_black",
+        "share": 0.0478
       },
       {
         "id": "charcoal",
-        "share": 0.0425
-      },
-      {
-        "id": "blue_black",
-        "share": 0.035
-      },
-      {
-        "id": "smoky_gray",
-        "share": 0.0342
+        "share": 0.0431
       },
       {
         "id": "black",
-        "share": 0.0328
+        "share": 0.0419
+      },
+      {
+        "id": "white",
+        "share": 0.0397
+      },
+      {
+        "id": "smoky_gray",
+        "share": 0.0356
       }
     ],
     "outfit": [
       {
         "id": "hacker",
-        "share": 0.0272
-      },
-      {
-        "id": "kariginu",
-        "share": 0.025
-      },
-      {
-        "id": "lab_coat",
-        "share": 0.0247
+        "share": 0.0256
       },
       {
         "id": "alchemist",
-        "share": 0.0206
+        "share": 0.0244
+      },
+      {
+        "id": "crewneck_knit",
+        "share": 0.0228
       },
       {
         "id": "space_captain",
-        "share": 0.02
+        "share": 0.0214
+      },
+      {
+        "id": "kariginu",
+        "share": 0.0192
       }
     ],
     "world": [
       {
-        "id": "wafu_fantasy",
-        "share": 0.0608
-      },
-      {
         "id": "modern",
-        "share": 0.0594
+        "share": 0.1139
       },
       {
-        "id": "japanese_historical",
-        "share": 0.0556
+        "id": "business",
+        "share": 0.0756
       },
       {
         "id": "urban_night",
-        "share": 0.0547
+        "share": 0.0708
       },
       {
-        "id": "cyberpunk",
-        "share": 0.0522
+        "id": "wafu_fantasy",
+        "share": 0.0536
+      },
+      {
+        "id": "japanese_historical",
+        "share": 0.0467
       }
     ],
     "age": [
       {
         "id": "a25_34",
-        "share": 0.2778
+        "share": 0.2667
       },
       {
         "id": "a18_24",
-        "share": 0.2714
+        "share": 0.2594
       },
       {
         "id": "a35_44",
-        "share": 0.2186
+        "share": 0.2269
       },
       {
         "id": "a45_59",
-        "share": 0.1392
+        "share": 0.1367
       },
       {
         "id": "a60p",
-        "share": 0.0931
+        "share": 0.1103
       }
     ],
     "presentation": [
       {
         "id": "slight_masc",
-        "share": 0.2442
+        "share": 0.2589
       },
       {
         "id": "andro",
-        "share": 0.2289
+        "share": 0.2256
       },
       {
         "id": "masc",
-        "share": 0.1981
+        "share": 0.1961
       },
       {
         "id": "slight_fem",
-        "share": 0.1914
+        "share": 0.1767
       },
       {
         "id": "fem",
-        "share": 0.1375
+        "share": 0.1428
       }
     ],
     "hairLength": [
       {
         "id": "short",
-        "share": 0.2828
+        "share": 0.2819
       },
       {
         "id": "medium",
-        "share": 0.2406
+        "share": 0.2525
       },
       {
         "id": "long",
-        "share": 0.2108
-      },
-      {
-        "id": "very_long",
-        "share": 0.1381
+        "share": 0.21
       },
       {
         "id": "very_short",
-        "share": 0.1278
+        "share": 0.1283
+      },
+      {
+        "id": "very_long",
+        "share": 0.1272
       }
     ],
     "scene": [
       {
         "id": "-",
-        "share": 0.1667
+        "share": 0.1533
       },
       {
         "id": "simple_white",
-        "share": 0.0219
+        "share": 0.0261
       },
       {
         "id": "laboratory",
-        "share": 0.0208
+        "share": 0.0242
       },
       {
-        "id": "gradient_night",
-        "share": 0.02
+        "id": "minimal_void",
+        "share": 0.0225
       },
       {
-        "id": "simple_dark",
-        "share": 0.0186
+        "id": "studio",
+        "share": 0.0217
       }
     ]
   },
   "modeComparison": {
     "coherent": {
-      "worldOutfitMatchRate": 0.967,
-      "samples": 60,
-      "archetypePreferenceHitRate": 0.828
+      "worldOutfitMatchRate": 0.981,
+      "samples": 53,
+      "archetypePreferenceHitRate": 0.858
     },
     "balanced": {
-      "worldOutfitMatchRate": 0.867,
-      "samples": 60,
-      "archetypePreferenceHitRate": 0.396
+      "worldOutfitMatchRate": 0.887,
+      "samples": 53,
+      "archetypePreferenceHitRate": 0.5
     },
     "wild": {
-      "worldOutfitMatchRate": 0.4,
-      "samples": 60,
-      "archetypePreferenceHitRate": 0.055
+      "worldOutfitMatchRate": 0.434,
+      "samples": 53,
+      "archetypePreferenceHitRate": 0.089
     }
   }
 }

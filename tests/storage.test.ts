@@ -126,6 +126,35 @@ describe('JSONバックアップ・共有URL', () => {
     expect(importBackup('x'.repeat(6 * 1024 * 1024)).error).toContain('大きすぎ');
     expect(importBackup(JSON.stringify({ app: 'bishounen-prompt-gacha', type: 'evil' })).ok).toBe(false);
   });
+  it('眼鏡・特徴・持ち物のスイッチ導入前のデータは、保存時の見た目を保って読み込む', () => {
+    const old = JSON.parse(JSON.stringify(sample('legacy')));
+    for (const k of ['glassesEnabled', 'marksEnabled', 'propEnabled']) delete old.optionalModules[k];
+    old.fields.glasses = { id: 'round', source: 'random', locked: false };
+    old.fields.marks = { id: 'none', source: 'random', locked: false };
+    old.fields.prop = { id: 'book', source: 'random', locked: true };
+    // お気に入り・JSON：値があればON
+    const fav = normalizeState(old);
+    expect([fav.optionalModules.glassesEnabled, fav.optionalModules.marksEnabled, fav.optionalModules.propEnabled]).toEqual([true, false, true]);
+    // 自動保存の現在の状態：新しい既定（OFF）。ただし固定中の値は守る
+    kv.setItem(KEYS.current, JSON.stringify(old));
+    const cur = loadCurrent().state!;
+    expect([cur.optionalModules.glassesEnabled, cur.optionalModules.marksEnabled, cur.optionalModules.propEnabled]).toEqual([false, false, true]);
+    // 新しい形式で保存したOFFは、そのまま読み込む
+    const fresh = sample('new');
+    fresh.fields.glasses = { id: 'round', source: 'random', locked: false };
+    expect(normalizeState(JSON.parse(JSON.stringify(fresh))).optionalModules.glassesEnabled).toBe(false);
+  });
+  it('旧形式（v=1）の共有URLは値からスイッチを推定し、新形式はスイッチをそのまま運ぶ', () => {
+    const s = sample('share2');
+    s.fields.glasses = { id: 'round', source: 'random', locked: false };
+    s.fields.prop = { id: 'none', source: 'random', locked: false };
+    const v1 = btoa(`v=1&d=${DATA_VERSION}&m=bpn&c=coherent&seed=x&glasses=round&prop=none`).replace(/=+$/, '');
+    const old = decodeShare(v1).state!;
+    expect([old.optionalModules.glassesEnabled, old.optionalModules.propEnabled]).toEqual([true, false]);
+    s.optionalModules.glassesEnabled = false; s.optionalModules.propEnabled = true;
+    const back = decodeShare(encodeShare(s)).state!;
+    expect([back.optionalModules.glassesEnabled, back.optionalModules.propEnabled]).toEqual([false, true]);
+  });
   it('共有URLは選択IDと固定だけを含み、自由入力を含めない', () => {
     const s = sample('share');
     s.settings.freeTags = 'secret memo';

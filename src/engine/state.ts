@@ -23,7 +23,10 @@ export const DEFAULT_MODULES: ForgeModules = {
   poseEnabled: true,
   facialHairEnabled: false,
   hairAccentEnabled: false,
-  nameEnabled: true
+  nameEnabled: true,
+  glassesEnabled: false,
+  marksEnabled: false,
+  propEnabled: false
 };
 
 export function emptyState(): ForgeState {
@@ -46,14 +49,21 @@ export function cloneState(s: ForgeState): ForgeState {
 
 const MODULE_KEY: Record<ModuleId, keyof ForgeModules> = {
   pose: 'poseEnabled', background: 'backgroundEnabled', kemono: 'kemonoEnabled',
-  facialHair: 'facialHairEnabled', hairAccent: 'hairAccentEnabled', name: 'nameEnabled'
+  facialHair: 'facialHairEnabled', hairAccent: 'hairAccentEnabled', name: 'nameEnabled',
+  glasses: 'glassesEnabled', marks: 'marksEnabled', prop: 'propEnabled'
 };
+/** 親モジュール：持ち物はポーズを出力するときだけ意味を持つ */
+const MODULE_PARENT: Partial<Record<ModuleId, ModuleId>> = { prop: 'pose' };
+/** OFFのとき「なし」として扱う項目（判定・出力とも）。眼鏡OFFなら「眼鏡を押し上げる」も出ない */
+export const OFF_AS_NONE: FieldId[] = ['glasses', 'marks', 'prop'];
 export const moduleKey = (m: ModuleId) => MODULE_KEY[m];
 
 /** 任意モジュールが有効か（モジュールに属さない項目は常に有効） */
 export function isActive(state: ForgeState, field: FieldId): boolean {
   const def = fieldDef(field);
   if (!def.module) return true;
+  const parent = MODULE_PARENT[def.module];
+  if (parent && !state.optionalModules[MODULE_KEY[parent]]) return false;
   return !!state.optionalModules[MODULE_KEY[def.module]];
 }
 

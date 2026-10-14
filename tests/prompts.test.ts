@@ -110,7 +110,7 @@ describe('出力：画角・背景・モジュール', () => {
   });
   it('獣人モードOFFでは耳・尾を出さず、ONでは種族の部位を出す', () => {
     const s = make('k1');
-    expect(buildPrompt(s, 'pixai').positive).not.toMatch(/ears|tail/);
+    expect(buildPrompt(s, 'pixai').positive).not.toMatch(/\b(ears|tail)\b/);
     const on = make('k2', { kemonoSpecies: 'wolf', kemonoLevel: 'lv1' }, { kemonoEnabled: true });
     const p = buildPrompt(on, 'pixai').positive;
     expect(p).toContain('wolf ears');

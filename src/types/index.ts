@@ -98,7 +98,7 @@ export interface Category {
 }
 
 export type FieldGroup = 'basic' | 'face' | 'role' | 'pose' | 'scene' | 'kemono' | 'style';
-export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name';
+export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name' | 'glasses' | 'marks' | 'prop';
 
 export const FIELD_IDS = [
   'age', 'archetype', 'presentation', 'build', 'world', 'culture',
@@ -155,6 +155,10 @@ export interface ForgeModules {
   facialHairEnabled: boolean;
   hairAccentEnabled: boolean;
   nameEnabled: boolean;
+  /** 眼鏡・特徴（ほくろ・傷・耳飾り）・持ち物。既定OFF。OFFのときは「なし」として扱う */
+  glassesEnabled: boolean;
+  marksEnabled: boolean;
+  propEnabled: boolean;
 }
 
 /** おまかせスタイル（抽選の方向性。選ぶだけでは結果を変えない） */
@@ -167,7 +171,10 @@ export interface StylePreset {
   filters: Partial<Record<FieldId, string[]>>;
   /** 抽選前に有効化する任意モジュール */
   modules?: Partial<ForgeModules>;
+  /** 画面での分類（完全ランダムは分類なしで常に先頭に出す） */
+  group?: PresetGroup;
 }
+export type PresetGroup = 'contemporary' | 'fantasy' | 'beauty' | 'looks';
 
 export interface ForgeState {
   schemaVersion: number;

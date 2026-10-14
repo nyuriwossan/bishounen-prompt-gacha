@@ -13,7 +13,7 @@ import { ART_STYLE } from './style';
 import { CULTURE, CULTURE_CATS, WORLD, WORLD_CATS } from './worlds';
 
 /** 辞書のバージョン。候補IDを削除・改名したら上げ、storage の migration に対応を書く。 */
-export const DATA_VERSION = '2026.10.1';
+export const DATA_VERSION = '2026.10.2';
 
 export const FIELDS: FieldDef[] = [
   // ---- 基本パネル ----
@@ -33,8 +33,8 @@ export const FIELDS: FieldDef[] = [
   // ---- 詳細：顔・肌 ----
   { id: 'face', ja: '顔立ち', icon: '◇', group: 'face', options: FACE, categories: FACE_CATS },
   { id: 'skin', ja: '肌の色', icon: '◍', group: 'face', options: SKIN, hint: '民族・地域とは連動させません。' },
-  { id: 'marks', ja: '特徴（ほくろ・傷・耳飾り）', short: '特徴', icon: '⁘', group: 'face', options: MARKS },
-  { id: 'glasses', ja: '眼鏡', icon: '◫', group: 'face', options: GLASSES },
+  { id: 'marks', ja: '特徴（ほくろ・傷・耳飾り）', short: '特徴', icon: '⁘', group: 'face', module: 'marks', options: MARKS },
+  { id: 'glasses', ja: '眼鏡', icon: '◫', group: 'face', module: 'glasses', options: GLASSES },
   { id: 'facialHair', ja: 'ひげ', icon: '﹌', group: 'face', module: 'facialHair', options: FACIAL_HAIR },
   { id: 'hairAccent', ja: '髪の配色', icon: '◑', group: 'face', module: 'hairAccent', options: HAIR_ACCENT },
   { id: 'hairAccentColor', ja: '髪の差し色', icon: '◒', group: 'face', module: 'hairAccent', options: HAIR_COLOR, categories: HAIR_COLOR_CATS },
@@ -47,7 +47,7 @@ export const FIELDS: FieldDef[] = [
   { id: 'shot', ja: '構図（画角）', short: '構図', icon: '▣', group: 'pose', options: SHOT },
   { id: 'angle', ja: 'アングル', icon: '⟋', group: 'pose', module: 'pose', options: ANGLE },
   { id: 'pose', ja: 'ポーズ', icon: '☍', group: 'pose', module: 'pose', options: POSE, categories: POSE_CATS },
-  { id: 'prop', ja: '持ち物', icon: '⚚', group: 'pose', module: 'pose', options: PROP },
+  { id: 'prop', ja: '持ち物', icon: '⚚', group: 'pose', module: 'prop', options: PROP },
   // ---- 詳細：背景・光 ----
   { id: 'scene', ja: '背景', icon: '⛰', group: 'scene', module: 'background', options: SCENE, categories: SCENE_CATS },
   { id: 'time', ja: '時間帯・天候', short: '時間', icon: '☾', group: 'scene', module: 'background', options: TIME },

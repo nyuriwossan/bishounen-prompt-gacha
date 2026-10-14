@@ -21,7 +21,10 @@ describe('辞書の件数（指示書の目標）', () => {
     expect(opts('scene').length * opts('light').length).toBeGreaterThanOrEqual(80);
     expect(opts('scene').length).toBeGreaterThanOrEqual(60);
   });
-  it('おまかせスタイルは10〜20種', () => { expect(STYLE_PRESETS.length).toBeGreaterThanOrEqual(10); expect(STYLE_PRESETS.length).toBeLessThanOrEqual(20); });
+  it('おまかせスタイルは10〜25種で、完全ランダム以外はすべて分類を持つ', () => {
+    expect(STYLE_PRESETS.length).toBeGreaterThanOrEqual(10); expect(STYLE_PRESETS.length).toBeLessThanOrEqual(25);
+    expect(STYLE_PRESETS.filter((p) => p.id !== 'random' && !p.group).map((p) => p.id)).toEqual([]);
+  });
 });
 
 describe('辞書の整合性', () => {
@@ -90,7 +93,32 @@ describe('辞書の整合性', () => {
     expect(new Set(a.map((x) => x.ja)).size).toBe(a.length);
     expect(new Set(a.map((x) => x.en.join('|'))).size).toBe(a.length);
     for (const x of a) { expect(x.en.length).toBeGreaterThanOrEqual(1); expect(Object.keys(x.prefs || {}).length, x.id).toBeGreaterThanOrEqual(3); expect(x.desc).toBeTruthy(); }
-    expect(new Set(a.map((x) => x.cat)).size).toBe(10);
+    expect(new Set(a.map((x) => x.cat)).size).toBe(11);
+  });
+  it('現代・日常の美形タイプ12種：日常着を参照し、動物の部位や職業名を出力に混ぜない', () => {
+    const a = opts('archetype').filter((x) => x.cat === 'contemporary');
+    expect(a.length).toBe(12);
+    const daily = new Set(opts('outfit').filter((o) => o.cat === 'daily').map((o) => o.id));
+    for (const x of a) {
+      expect(x.prefs?.outfit?.some((r) => daily.has(r)), x.id).toBe(true);
+      expect(x.prefs?.occupation, x.id).toEqual(['none']);
+      expect(x.en.join(' ') + x.nat, x.id).not.toMatch(/\b(ears?|tail|paws?|fangs?|dog|cat|puppy|kitten|wolf|band|rock|musician|model)\b/i);
+      expect(Object.keys(x.prefs || {}).length, x.id).toBeGreaterThanOrEqual(6);
+    }
+    // 追加した日常着はすべて、どれかの新タイプから参照される
+    const used = new Set(a.flatMap((x) => x.prefs?.outfit ?? []));
+    expect([...daily].filter((id) => !used.has(id))).toEqual([]);
+  });
+  it('日常着は8〜12種で、チェーン・耳飾りを付けず、色の差し込み口を持つ', () => {
+    const daily = opts('outfit').filter((o) => o.cat === 'daily');
+    expect(daily.length).toBeGreaterThanOrEqual(8);
+    expect(daily.length).toBeLessThanOrEqual(12);
+    for (const o of daily) {
+      const t = `${o.upper} ${o.lower}`;
+      expect(t, o.id).not.toMatch(/chain|earring|necklace|piercing/i);
+      expect(t, o.id).toContain('{c1}');
+      expect(t, o.id).toContain('{c2}');
+    }
   });
 });
 

@@ -2,7 +2,7 @@
  * - 3,600回の抽選を「3モード × おまかせスタイル19種（なし含む）× ロック条件・任意モジュール」に分散
  * - hard 違反・例外・美形アンカー欠落・男性1名指定・成人・ロック不変を集計
  * - 100件以上のロック競合ケース（hard ルールから機械的に列挙）
- * - 112種の美形タイプが抽選で到達可能か、手動で全候補を採用できるか
+ * - 全美形タイプが抽選で到達可能か（眼鏡を前提にするタイプは眼鏡ONで確認）、手動で全候補を採用できるか
  * 結果は docs/test-artifacts/mass-draw-report.json に保存する（再現用の seed と条件つき）。
  */
 import fs from 'node:fs';
@@ -29,7 +29,7 @@ interface Anomaly { kind: string; seed: string; mode: Mode; preset: string; patt
 function base(rng: () => number, mode: Mode, pattern: (typeof LOCK_PATTERNS)[number], seed: string): ForgeState {
   let s = emptyState();
   s.settings.coherence = mode;
-  if (pattern === 'modulesOn') Object.assign(s.optionalModules, { kemonoEnabled: true, facialHairEnabled: true, hairAccentEnabled: true });
+  if (pattern === 'modulesOn') Object.assign(s.optionalModules, { kemonoEnabled: true, facialHairEnabled: true, hairAccentEnabled: true, glassesEnabled: true, marksEnabled: true, propEnabled: true });
   if (pattern === 'modulesOff') Object.assign(s.optionalModules, { backgroundEnabled: false, poseEnabled: false, nameEnabled: false });
   s = draw(s, { seed: seed + ':init' }).state;
   const candidates = DRAW_ORDER.filter((f) => isActive(s, f) && fieldDef(f).randomizable !== false);
@@ -142,7 +142,17 @@ describe('大量抽選（3,600回）', () => {
     expect(anomalies).toEqual([]);
     expect(ok).toBeGreaterThan(DRAWS * 0.9);
     expect(duplicates).toBe(0);
-    expect(reachedArchetypes).toBe(fieldDef('archetype').options.length);
+    // 装身具を前提にするタイプ（眼鏡の知性派）は既定OFFでは出ない。それ以外は全種到達し、前提のタイプはONで到達することを別に確かめる
+    const needsItem = fieldDef('archetype').options.filter((o) => o.requires?.some((r) => /^(glasses|marks|prop):/.test(r))).map((o) => o.id);
+    const unreached = fieldDef('archetype').options.map((o) => o.id).filter((id) => !counts.archetype[id] && !needsItem.includes(id));
+    expect(unreached).toEqual([]);
+    for (const id of needsItem) {
+      const s = emptyState(); Object.assign(s.optionalModules, { glassesEnabled: true, marksEnabled: true, propEnabled: true });
+      const cat = optionOf('archetype', id)!.cat!;
+      let hit = false;
+      for (let i = 0; i < 400 && !hit; i++) hit = draw(s, { seed: `need:${id}:${i}`, preset: { id: 'need', ja: '', desc: '', icon: '', filters: { archetype: [`cat:${cat}`] } } }).state.fields.archetype.id === id;
+      expect(hit, id).toBe(true);
+    }
     // 偏り：特定の美形タイプ・髪色・衣装に異常に集中しない
     expect(top('archetype', 1)[0].share).toBeLessThan(0.05);
     expect(top('hairColor', 1)[0].share).toBeLessThan(0.12);
@@ -181,7 +191,8 @@ describe('ロック競合（hard ルールから列挙した100件以上）', ()
     expect(cases.length).toBeGreaterThanOrEqual(100);
     const failures: string[] = [];
     for (const [i, c] of cases.entries()) {
-      let s = draw(emptyState(), { seed: 'lc' + i }).state;
+      const s0 = emptyState(); Object.assign(s0.optionalModules, { glassesEnabled: true, marksEnabled: true, propEnabled: true });
+      let s = draw(s0, { seed: 'lc' + i }).state;
       s = cloneState(s);
       if (c.rule === 'hair_accent_duplicate') { s.optionalModules.hairAccentEnabled = true; s.fields.hairAccent = { id: 'streaks', source: 'manual', locked: true }; }
       if (c.rule === 'ears_kemono') s.optionalModules.kemonoEnabled = true;
@@ -208,7 +219,7 @@ describe('到達可能性', () => {
   it('全項目の全候補を手動で採用できる（必要なら未固定の関連項目を合わせて引き直す）', { timeout: 300000 }, () => {
     const failures: string[] = [];
     let s = emptyState();
-    Object.assign(s.optionalModules, { kemonoEnabled: true, facialHairEnabled: true, hairAccentEnabled: true });
+    Object.assign(s.optionalModules, { kemonoEnabled: true, facialHairEnabled: true, hairAccentEnabled: true, glassesEnabled: true, marksEnabled: true, propEnabled: true });
     s = draw(s, { seed: 'reach' }).state;
     // 獣人モード中は「尖った人の耳」は獣の耳と両立しない（hard）。モードOFFの状態で確認する。
     const humanEars = cloneState(s); humanEars.optionalModules.kemonoEnabled = false;

@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { BASIC_FIELDS, fieldDef, FIELDS, optionOf } from '../data/fields';
+import { PRESET_GROUPS } from '../data/presets';
 import { lockCount } from '../engine/draw';
 import { isActive } from '../engine/state';
 import { outfitColorUse, shotLevelOf, titleParts } from '../prompts/build';
-import type { FieldGroup, FieldId, ForgeModules, ForgeState, Issue, Mode, StylePreset } from '../types';
+import type { FieldGroup, FieldId, ForgeModules, ForgeState, Issue, Mode, PresetGroup, StylePreset } from '../types';
 import { IconDice, IconLock } from './icons';
 import type { AppActions } from './types';
 
@@ -16,14 +17,17 @@ const MODE_NOTE: Record<Mode, string> = {
 const GROUPS: Array<{ id: FieldGroup; ja: string; hint: string; module?: keyof ForgeModules; moduleLabel?: string; moduleHint?: string }> = [
   { id: 'face', ja: '顔・肌・装身具', hint: '顔立ち・肌・特徴・眼鏡・ひげ' },
   { id: 'role', ja: '職業・雰囲気・色彩', hint: '立場・空気感・衣装の色' },
-  { id: 'pose', ja: 'ポーズ・構図', hint: '画角・アングル・ポーズ・持ち物', module: 'poseEnabled', moduleLabel: 'ポーズ・持ち物・アングルを出力する', moduleHint: 'OFFでも構図（画角）は出力します。' },
+  { id: 'pose', ja: 'ポーズ・構図', hint: '画角・アングル・ポーズ・持ち物', module: 'poseEnabled', moduleLabel: 'ポーズ・アングルを出力する', moduleHint: 'OFFでも構図（画角）は出力します。' },
   { id: 'scene', ja: '背景・光', hint: '場所・時間帯・光', module: 'backgroundEnabled', moduleLabel: '背景と光を出力する', moduleHint: 'OFFにすると人物だけのプロンプトになります。' },
   { id: 'kemono', ja: '獣人モード（任意）', hint: '耳・尾・角などを加える', module: 'kemonoEnabled', moduleLabel: '獣人モードを使う', moduleHint: '顔は人のまま。獣化はケモミミ〜標準獣人まで。' },
   { id: 'style', ja: '画風・呼び名', hint: '画風は抽選で変わりません' }
 ];
 const EXTRA_MODULES: Array<{ key: keyof ForgeModules; ja: string; hint: string; group: FieldGroup }> = [
+  { key: 'glassesEnabled', ja: '眼鏡を抽選に含める', hint: '既定はOFF。ONにすると眼鏡あり・なしの両方が出ます。', group: 'face' },
+  { key: 'marksEnabled', ja: '特徴を抽選に含める', hint: '泣きぼくろ・傷・耳飾りなど。既定はOFF。', group: 'face' },
   { key: 'facialHairEnabled', ja: 'ひげを抽選に含める', hint: '既定はOFF。年齢が高いほど出やすくなります。', group: 'face' },
   { key: 'hairAccentEnabled', ja: '髪の配色拡張（グラデ・メッシュ）', hint: '差し色の髪色を加えます。', group: 'face' },
+  { key: 'propEnabled', ja: '持ち物を抽選に含める', hint: '剣・本・グラスなど。既定はOFF。ポーズを出力するときだけ使います。', group: 'pose' },
   { key: 'nameEnabled', ja: '呼び名を付ける', hint: '画像プロンプトには含めません。', group: 'style' }
 ];
 
@@ -46,6 +50,9 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
   const traits = [o('age')?.ja.split('｜')[0], o('world')?.ja, o('build')?.ja, o('presentation')?.ja].filter(Boolean) as string[];
   const name = forge.optionalModules.nameEnabled ? o('name') : undefined;
   const mode = forge.settings.coherence;
+  const [presetGroup, setPresetGroup] = useState<PresetGroup | 'all'>('all');
+  // 完全ランダム（分類なし）は常に先頭。分類を切り替えても、選択中のスタイルは解除しない
+  const shownPresets = presets.filter((p) => !p.group || presetGroup === 'all' || p.group === presetGroup);
 
   return (
     <section class="screen" aria-label="錬成">
@@ -73,8 +80,13 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
         </div>
 
         <div>
+          <div class="cats preset-groups" role="group" aria-label="おまかせスタイルの分類">
+            {PRESET_GROUPS.map((g) => (
+              <button key={g.id} type="button" class="chip" aria-pressed={presetGroup === g.id} onClick={() => setPresetGroup(g.id)}>{g.ja}</button>
+            ))}
+          </div>
           <div class="presets" role="group" aria-label="おまかせスタイル">
-            {presets.map((p) => (
+            {shownPresets.map((p) => (
               <button key={p.id} type="button" class="chip" aria-pressed={pendingPreset?.id === p.id} onClick={() => actions.choosePreset(pendingPreset?.id === p.id ? null : p)}>
                 <span aria-hidden="true">{p.icon} </span>{p.ja}
               </button>

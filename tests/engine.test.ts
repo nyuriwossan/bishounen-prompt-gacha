@@ -2,14 +2,15 @@ import { describe, expect, it } from 'vitest';
 import { allViolations } from '../src/advisor/hard';
 import { DRAW_ORDER, fieldDef, optionOf } from '../src/data/fields';
 import { STYLE_PRESETS } from '../src/data/presets';
-import { adopt, checkAdopt, draw, drawWithin, GROUPS, lockCount, nucleus, relatedTargets, toggleLock, unlockAll, valuesOf } from '../src/engine/draw';
+import { adopt, checkAdopt, draw, drawWithin, fillModule, GROUPS, lockCount, nucleus, relatedTargets, toggleLock, unlockAll, valuesOf } from '../src/engine/draw';
 import { hashSeed, seededRandom, weightedPick } from '../src/engine/rng';
 import { cloneState, emptyState, isActive } from '../src/engine/state';
 import { applyShares, softWeight } from '../src/engine/weights';
 import type { FieldId, ForgeState } from '../src/types';
 
-const fresh = (seed = 'base', mode: ForgeState['settings']['coherence'] = 'coherent') => {
+const fresh = (seed = 'base', mode: ForgeState['settings']['coherence'] = 'coherent', items = false) => {
   const s = emptyState(); s.settings.coherence = mode;
+  if (items) Object.assign(s.optionalModules, { glassesEnabled: true, marksEnabled: true, propEnabled: true });
   const r = draw(s, { seed });
   expect(r.ok).toBe(true);
   return r.state;
@@ -118,8 +119,76 @@ describe('hard 制約', () => {
     for (let i = 0; i < 60; i++) { s = draw(s, { seed: 'h' + i }).state; expect(optionOf('prop', s.fields.prop.id)!.hands).toBe(0); }
   });
   it('持ち物が必要なポーズは、必要な持ち物とセットになる', () => {
-    let s = set(fresh('req'), 'pose', 'draw_sword');
+    let s = set(fresh('req', 'coherent', true), 'pose', 'draw_sword');
     for (let i = 0; i < 40; i++) { s = draw(s, { seed: 'r' + i }).state; expect(optionOf('prop', s.fields.prop.id)!.tags).toContain('blade'); }
+  });
+  it('眼鏡・特徴・持ち物は既定OFFで、出力にも判定にも「なし」として扱う', () => {
+    const s0 = emptyState();
+    expect([s0.optionalModules.glassesEnabled, s0.optionalModules.marksEnabled, s0.optionalModules.propEnabled]).toEqual([false, false, false]);
+    let s = fresh('off');
+    for (let i = 0; i < 150; i++) {
+      s = draw(s, { seed: 'o' + i }).state;
+      const v = valuesOf(s);
+      expect([v.glasses?.id, v.marks?.id, v.prop?.id]).toEqual(['none', 'none', 'none']);
+      const pose = optionOf('pose', s.fields.pose.id)!;
+      // 眼鏡や持ち物を前提にするポーズは出ない
+      expect(pose.requires?.some((r) => r.startsWith('glasses:') || r.startsWith('prop:')) ?? false, pose.id).toBe(false);
+      expect(s.fields.archetype.id).not.toBe('glasses_intellectual');
+    }
+  });
+  it('OFFの項目を前提にする候補は、手で選ぶとONを促して状態を変えない', () => {
+    const s = fresh('off2');
+    const chk = checkAdopt(s, 'pose', 'adjust_glasses');
+    expect(chk.blockingOff).toEqual(['glasses']);
+    const r = adopt(s, 'pose', 'adjust_glasses', true);
+    expect(r.ok).toBe(false);
+    expect(r.state).toBe(s);
+    expect(r.notices[0]).toContain('眼鏡');
+    expect(checkAdopt(s, 'archetype', 'glasses_intellectual').blockingOff).toEqual(['glasses']);
+  });
+  it('スイッチをONにすると、その場で抽選して埋める（固定中の値は変えない）', () => {
+    let s = fresh('on');
+    s.optionalModules.glassesEnabled = true;
+    const ids = new Set<string>();
+    for (let i = 0; i < 30; i++) { const r = fillModule(s, 'glasses'); if (r) ids.add(r.state.fields.glasses.id!); }
+    expect(ids.size).toBeGreaterThan(1);
+    expect(ids.has('none')).toBe(false);
+    s = set(s, 'glasses', 'none', true);
+    expect(fillModule(s, 'glasses')).toBeNull();
+  });
+  it('眼鏡の知性派は、眼鏡ONなら必ず眼鏡をかける', () => {
+    let s = set(fresh('gi', 'coherent', true), 'archetype', 'glasses_intellectual');
+    for (let i = 0; i < 30; i++) { s = draw(s, { seed: 'gi' + i }).state; expect(s.fields.glasses.id).not.toBe('none'); }
+  });
+  it('持ち物はポーズを出力するときだけ有効', () => {
+    const s = fresh('pp', 'coherent', true);
+    expect(isActive(s, 'prop')).toBe(true);
+    s.optionalModules.poseEnabled = false;
+    expect(isActive(s, 'prop')).toBe(false);
+  });
+  it('現代・日常の新スタイルは、新しい美形タイプと日常着を中心に引く', () => {
+    const preset = STYLE_PRESETS.find((p) => p.id === 'modern_daily')!;
+    let s = fresh('md');
+    let daily = 0;
+    for (let i = 0; i < 40; i++) {
+      s = draw(s, { seed: 'md' + i, preset }).state;
+      expect(optionOf('archetype', s.fields.archetype.id)!.cat).toBe('contemporary');
+      if (optionOf('outfit', s.fields.outfit.id)!.cat === 'daily') daily++;
+    }
+    expect(daily).toBeGreaterThan(30);
+  });
+  it('名前に髪の特徴を含むタイプは、その髪と必ず組み合う（固定中の別の髪なら候補から外れる）', () => {
+    for (const [type, check] of [
+      ['black_hair_cool', (st: ForgeState) => optionOf('hairColor', st.fields.hairColor.id)!.cat === 'black'],
+      ['wolf_languid', (st: ForgeState) => st.fields.hairStyle.id === 'wolf_cut'],
+      ['soft_mash', (st: ForgeState) => st.fields.hairStyle.id === 'mash']
+    ] as const) {
+      let s = set(fresh('hair-' + type, 'wild'), 'archetype', type);
+      for (let i = 0; i < 25; i++) { s = draw(s, { seed: type + i }).state; expect(check(s), `${type}#${i}`).toBe(true); }
+    }
+    let s = set(fresh('short'), 'hairLength', 'short');
+    for (let i = 0; i < 60; i++) { s = draw(s, { seed: 'sh' + i, preset: STYLE_PRESETS.find((p) => p.id === 'downer_mood') }).state; expect(s.fields.archetype.id).not.toBe('wolf_languid'); }
+    expect(checkAdopt(set(fresh('lk'), 'hairColor', 'silver'), 'archetype', 'black_hair_cool').blockingLocked).toEqual(['hairColor']);
   });
   it('文化モチーフを固定すると、別文化の伝統衣装は出ない', () => {
     let s = set(fresh('culture'), 'culture', 'japan');
@@ -175,7 +244,7 @@ describe('競合と候補不足', () => {
     expect(optionOf('pose', r2.state.fields.pose.id)!.minShot).toBe(0);
   });
   it('両立する候補がない項目は stuck として返り、関連項目の引き直し対象を提示できる', () => {
-    let s = fresh('stuck3');
+    let s = fresh('stuck3', 'coherent', true);
     s = set(s, 'expression', 'smile_eyes_closed'); // 目を閉じる
     s = set(s, 'shot', 'close_up');
     s = set(s, 'glasses', 'none');

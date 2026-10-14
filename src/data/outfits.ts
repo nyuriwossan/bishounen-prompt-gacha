@@ -40,6 +40,17 @@ export const OUTFIT: Option[] = [
   fit('aloha', '開襟アロハシャツ', 'casual', ['modern'], 'open {c1} aloha shirt, {c2} tank top', 'shorts, sandals', ['casual', 'light', 'sunny'], { w: 0.6 }),
   fit('punk', 'パンクファッション', 'casual', ['modern', 'urban', 'street'], '{c1} studded jacket, ripped {c2} shirt, chains', 'tight pants, platform boots', ['street', 'danger'], { w: 0.7 }),
   fit('mode_black', 'モードな黒装束', 'casual', ['modern', 'urban', 'stage'], 'avant-garde {c1} asymmetrical coat, {c2} inner layer', 'wide-leg trousers, boots', ['mode', 'elegant', 'dark']),
+  // ---- 日常着・きれいめ（装飾を足さない現代服。チェーン・耳飾りは付けない）----
+  fit('oversized_tee_wide', 'オーバーサイズTシャツとワイドパンツ', 'daily', ['modern', 'urban'], 'oversized {c1} t-shirt, dropped shoulders', '{c2} wide-leg pants, sneakers', ['casual', 'daily', 'relaxed']),
+  fit('crewneck_knit', 'ゆるいクルーネックニットとスラックス', 'daily', ['modern', 'urban', 'business'], 'loose {c1} crew-neck sweater', '{c2} slacks, loafers', ['casual', 'daily', 'soft', 'clean']),
+  fit('zip_hoodie_tee', 'ジップパーカーと無地のTシャツ', 'daily', ['modern', 'urban'], 'unzipped {c1} zip-up hoodie, plain {c2} t-shirt', 'straight jeans, sneakers', ['casual', 'daily', 'relaxed', 'hood']),
+  fit('camp_collar_shirt', '開襟シャツとTシャツ', 'daily', ['modern', 'urban'], 'relaxed {c1} camp-collar shirt, plain {c2} t-shirt underneath', 'tapered trousers, leather sneakers', ['casual', 'daily', 'light']),
+  fit('jacket_tee', 'シンプルなジャケットとTシャツ', 'daily', ['modern', 'urban', 'business'], 'unstructured {c1} jacket, plain {c2} t-shirt', 'tapered trousers, white sneakers', ['casual', 'daily', 'smart', 'clean']),
+  fit('drape_shirt_wide', '落ち感のあるシャツとワイドスラックス', 'daily', ['modern', 'urban'], 'flowy oversized {c1} shirt', '{c2} wide slacks, loafers', ['casual', 'daily', 'soft', 'mode']),
+  fit('half_zip_knit', 'ハーフジップニットとストレートパンツ', 'daily', ['modern', 'urban'], '{c1} half-zip sweater, {c2} collar peeking out', 'straight-leg pants, sneakers', ['casual', 'daily', 'clean']),
+  fit('sweat_easy', 'スウェットとイージーパンツ', 'daily', ['modern'], 'plain {c1} sweatshirt', '{c2} drawstring pants, sneakers', ['casual', 'daily', 'relaxed', 'home']),
+  fit('sheer_shirt', 'シアーシャツとインナー', 'daily', ['modern', 'urban'], 'sheer {c1} long-sleeve shirt layered over a {c2} crew-neck top', 'wide trousers, loafers', ['casual', 'daily', 'soft', 'mode'], { w: 0.7 }),
+  fit('short_blouson', '短丈ブルゾンと無地のインナー', 'daily', ['modern', 'urban'], 'short {c1} blouson jacket, plain {c2} t-shirt', 'wide trousers, sneakers', ['casual', 'daily', 'street']),
   // ---- 貴族・王族 ----
   fit('royal_uniform', '王族の礼装', 'court', ['court', 'fantasy', 'western', 'historical'], '{c1} royal uniform, {c2} epaulettes, gold aiguillette, sash', 'white trousers, tall boots', ['royal', 'formal', 'military', 'luxury']),
   fit('aristocrat_coat', '高襟の貴族服', 'court', ['court', 'gothic', 'western', 'historical'], '{c1} high-collared aristocratic coat, {c2} embroidery, jabot', 'breeches, riding boots', ['royal', 'noble', 'elegant']),
@@ -161,7 +172,7 @@ export const OUTFIT: Option[] = [
 ];
 
 export const OUTFIT_CATS: Category[] = [
-  { id: 'suit', ja: 'スーツ・フォーマル' }, { id: 'casual', ja: 'カジュアル・ストリート' }, { id: 'court', ja: '貴族・王族' },
+  { id: 'suit', ja: 'スーツ・フォーマル' }, { id: 'daily', ja: '日常着・きれいめ' }, { id: 'casual', ja: 'カジュアル・ストリート' }, { id: 'court', ja: '貴族・王族' },
   { id: 'military', ja: '軍服・制服' }, { id: 'armor', ja: '甲冑・戦装束' }, { id: 'mage', ja: '魔術・聖職' },
   { id: 'japanese', ja: '和装' }, { id: 'chinese', ja: '中華・東アジア' }, { id: 'world', ja: '世界の意匠' },
   { id: 'dark', ja: 'ゴシック・夜' }, { id: 'sf', ja: 'SF・テック' }, { id: 'work', ja: '職業服' }, { id: 'stage', ja: '舞台・芸能' }

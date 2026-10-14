@@ -31,10 +31,21 @@ const AGE_REQUIRES: Record<string, string> = {
   pastoral_youth: 'age:a18_24|a25_34|a35_44', florist_youth: 'age:a18_24|a25_34|a35_44', imperial_prince: 'age:a18_24|a25_34', gentle_prince: 'age:a18_24|a25_34',
   old_family_heir: 'age:a18_24|a25_34', jaded_heir: 'age:a18_24|a25_34|a35_44', window_patient: 'age:a18_24|a25_34|a35_44',
   pure_acolyte: 'age:a18_24|a25_34', gentleman: 'age:a18_24|a25_34|a35_44', ill_fated: 'age:a18_24|a25_34|a35_44', snow_prince: 'age:a18_24|a25_34|a35_44',
-  rain_soaked: 'age:a18_24|a25_34|a35_44', bewitching: 'age:a18_24|a25_34|a35_44', immortal_sage: 'age:a18_24|a25_34|a35_44'
+  rain_soaked: 'age:a18_24|a25_34|a35_44', bewitching: 'age:a18_24|a25_34|a35_44', immortal_sage: 'age:a18_24|a25_34|a35_44',
+  relaxed_adult: 'age:a25_34|a35_44|a45_59|a60p'
 };
-const A = (id: string, ja: string, desc: string, cat: string, en: string, nat: string, prefs: string, w = 1): Option =>
-  ({ id, ja, desc, cat, en: en.split(/\s*,\s*/), nat, prefs: parsePrefs(prefs), w, ...(AGE_REQUIRES[id] ? { requires: [AGE_REQUIRES[id]] } : {}) });
+/** 名前が装身具を前提にするタイプ。眼鏡がOFFなら自動の抽選に出ず、手で選ぶときは「ONにすると選べます」と案内する */
+const ITEM_REQUIRES: Record<string, string> = { glasses_intellectual: 'glasses:!none' };
+/** 名前が髪の特徴を含むタイプ（「黒髪」「ウルフヘア」「マッシュ」）は、髪を hard 条件にする。固定中の別の髪は変えず、そのタイプが候補から外れる */
+const HAIR_REQUIRES: Record<string, string[]> = {
+  black_hair_cool: ['hairColor:#black'],
+  // 髪の長さは髪型より先に引くので、長さも条件に含めて行き詰まりを防ぐ
+  wolf_languid: ['hairStyle:wolf_cut', 'hairLength:medium'], soft_mash: ['hairStyle:mash', 'hairLength:short']
+};
+const A = (id: string, ja: string, desc: string, cat: string, en: string, nat: string, prefs: string, w = 1): Option => {
+  const requires = [AGE_REQUIRES[id], ITEM_REQUIRES[id], ...(HAIR_REQUIRES[id] ?? [])].filter(Boolean);
+  return { id, ja, desc, cat, en: en.split(/\s*,\s*/), nat, prefs: parsePrefs(prefs), w, ...(requires.length ? { requires } : {}) };
+};
 
 export const ARCHETYPE: Option[] = [
   // ===== 王道端正・爽やか・好青年 =====
@@ -279,12 +290,50 @@ export const ARCHETYPE: Option[] = [
   A('cool_exorcist', '祓い屋', '怪異より怖い涼しい顔。', 'mystic', 'cool exorcist, calm danger', 'with a cool exorcist’s calm danger',
     'oc:exorcist|wo:supernatural|ex:smirk,expressionless|sc:shrine,back_alley,rooftop'),
   A('time_wanderer', '時を旅する者', 'どの時代にも馴染まない。', 'mystic', 'timeless traveler, enigmatic', 'with an enigmatic, timeless air',
-    'wo:world_mix|pp:pocket_watch,lantern|ex:knowing_smile,wistful|ou:cloak_mystery,victorian_frock', 0.7)
+    'wo:world_mix|pp:pocket_watch,lantern|ex:knowing_smile,wistful|ou:cloak_mystery,victorian_frock', 0.7),
+
+  // ===== 現代・日常・ファッション（職業や物語設定に頼らず、顔・目元・髪・服・佇まいで描き分ける）=====
+  A('downer', 'ダウナー系', '眠たげな目と脱力した佇まい。アンニュイな色男より無気力寄りで、色気より温度の低さが核。', 'contemporary',
+    'low-energy look, listless air', 'with a relaxed, low-energy, listless air',
+    'ey:sleepy,half_lidded,jitome|ex:sleepy,expressionless,languid,annoyed|hs:messy_short,shaggy,bangs_eyes,curtain_bangs,tousled_medium|ou:oversized_tee_wide,zip_hoodie_tee,sweat_easy,short_blouson|po:leaning_wall,hands_in_pockets,sitting_floor,sitting_stairs,lying_down|au:aloof,cool|wo:modern,urban_night|co:#muted,#black|oc:none|hl:short,medium|bu:slim,tall_slim,average|ag:a18_24,a25_34'),
+  A('ennui_charmer', 'アンニュイな色男', '伏し目と物憂げな表情に色気が漂う。ダウナー系より情緒的で、光と仕草で魅せる。', 'contemporary',
+    'languid allure, melancholic charm', 'with a languid, melancholic allure',
+    'ey:half_lidded,melancholic,long_lashes|ex:languid,wistful,pensive,knowing_smile|hs:wavy_medium,tousled_medium,curtain_bangs,slicked_back_loose,long_layered|ou:camp_collar_shirt,drape_shirt_wide,sheer_shirt,linen_shirt,white_shirt|po:leaning_railing,sitting_window,looking_back,hair_brush,chin_on_hand_table|li:window_light,golden_backlight,soft_natural|au:melancholy,alluring|wo:modern,urban_night|oc:none|hl:medium,short,long|ag:a25_34,a35_44'),
+  A('shiogao', '塩顔ミニマル', 'あっさりした端正な顔立ちと無地の服。足さない美しさ。', 'contemporary',
+    'understated refined features, clean minimal look', 'with understated, refined features and a clean, minimal look',
+    'fa:straight_nose,oval_refined,thin_lips,soft_contour|ey:narrow_long,calm,almond,hooded|ex:closed_smile,expressionless,serene,gentle_smile|hs:center_part_short,two_block,textured_crop,side_part|ou:crewneck_knit,jacket_tee,half_zip_knit,white_shirt,oversized_tee_wide|co:#white,#black,#muted,#daily|au:cool,sophisticated|wo:modern|oc:none|hl:very_short,short|bu:slim,average,tall_slim|ag:a18_24,a25_34,a35_44'),
+  A('kireime_casual', 'きれいめカジュアル', 'センターパートにニットやシャツ。整った清潔感で、スーツほど堅くない。', 'contemporary',
+    'neat clean-cut look, polished casual style', 'with a neat, clean-cut look and a polished casual style',
+    'hs:center_part_short,curtain_bangs,side_part,comma_bangs,quiff|ou:crewneck_knit,jacket_tee,half_zip_knit,turtleneck_jacket,cardigan,camp_collar_shirt|ex:gentle_smile,closed_smile,confident_smile|fa:straight_nose,oval_refined,sculpted|au:refreshing,sophisticated|sc:cafe,city_street,station_platform|wo:modern,business|co:#daily,#neutral,#calm|oc:none|hl:short,medium|bu:average,slim,toned|ag:a18_24,a25_34'),
+  A('black_hair_cool', '黒髪クール', '黒髪と切れ長の目、静かな表情。簡潔な装いで凛とする。', 'contemporary',
+    'cool composed look, quiet presence', 'with a composed, cool and quiet presence',
+    'hc:black,blue_black,soft_black,charcoal|ey:narrow_long,sharp,tsurime,calm|ex:expressionless,serious,aloof,closed_smile|hs:side_part,bangs_eyes,center_part_short,nape_long,textured_crop|ou:jacket_tee,turtleneck_jacket,white_shirt,crewneck_knit,drape_shirt_wide|co:#black,#white,#cool,#neutral|au:cool,stoic|wo:modern,urban_night|oc:none|hl:short,medium|bu:slim,tall_slim,average,toned|ag:a18_24,a25_34'),
+  A('soft_mash', '柔らかなマッシュ系', '丸みのあるマッシュと優しい目元、淡い配色。好青年より柔らかく、ほどよく今っぽい。', 'contemporary',
+    'soft features, approachable look', 'with soft features and a mild, approachable air',
+    'ey:tareme,calm,large_clear|ex:gentle_smile,shy,closed_smile,relieved|fa:soft_contour,gentle_long,small_delicate|ou:crewneck_knit,cardigan,oversized_tee_wide,half_zip_knit,sweat_easy|co:#pale,#gentle,#soft,#sweet|hc:#brown,black,soft_black,beige|au:gentle,pure|wo:modern|oc:none|bu:slim,average,delicate|ag:a18_24,a25_34'),
+  A('wolf_languid', 'ウルフヘアの気だるい美形', 'ウルフカットと眠たげな視線。バンドマンなどの職業に寄せない、気だるい色気。', 'contemporary',
+    'languid edgy look', 'with a languid, edgy air',
+    'ey:half_lidded,sleepy,sanpaku|ex:languid,smirk,expressionless,annoyed|mk:ear_cuff,single_earring,ear_piercings|ou:leather_jacket,zip_hoodie_tee,oversized_tee_wide,short_blouson,drape_shirt_wide|po:leaning_wall,hands_in_pockets,crouching,looking_back|au:aloof,decadent|wo:modern,urban_night|oc:none|bu:slim,tall_slim,average|ag:a18_24,a25_34'),
+  A('genderless_mode', 'ジェンダーレス・モード', '中性的な顔立ちと洗練された服。人物は成人男性のまま。', 'contemporary',
+    'androgynous beauty, refined fashion-forward look', 'with androgynous good looks and a refined, fashion-forward style',
+    'pr:andro,slight_fem,slight_masc|fa:oval_refined,pointed_chin,soft_contour,high_cheek|ey:long_lashes,almond,half_lidded|ex:aloof,serene,knowing_smile,expressionless|ou:sheer_shirt,drape_shirt_wide,mode_black,turtleneck_jacket,oversized_tee_wide|mk:earrings,ear_cuff|co:#pale,#muted,#elegant,#black|au:sophisticated,ethereal,cool|bu:slim,tall_slim,delicate|wo:modern,urban_night,entertainment|oc:none|hl:short,medium,long|ag:a18_24,a25_34'),
+  A('puppy_friendly', '人懐っこい犬系', '明るい目と自然な笑顔で、すぐ懐に入ってくる。耳や尾のない、人間としての雰囲気。', 'contemporary',
+    'friendly open warmth, approachable charm', 'with an eager, friendly, open warmth',
+    'ey:sparkling,large_clear,smiling_eyes,tareme|ex:bright_smile,laughing,gentle_smile,smile_eyes_closed|po:waving,leaning_forward,crouching,standing_relaxed,walking|ou:zip_hoodie_tee,oversized_tee_wide,denim_jacket,sweat_easy,half_zip_knit|hs:messy_short,comma_bangs,mash,curly_short|au:sunny,playful,gentle|wo:modern|oc:none|hl:short,medium|bu:average,toned,athletic|ag:a18_24,a25_34'),
+  A('capricious_cat', '気まぐれな猫系', '横目と小さな笑み、余裕のある構え。近づくと離れていく、人間としての雰囲気。', 'contemporary',
+    'aloof playful look, capricious air', 'with an aloof, playful and capricious air',
+    'ey:tsurime,almond,half_lidded|ex:teasing,knowing_smile,mischievous,aloof,smirk|po:looking_back,chin_on_hand_table,sitting_window,leaning_wall,lying_down|ou:drape_shirt_wide,crewneck_knit,camp_collar_shirt,short_blouson,sheer_shirt|au:playful,aloof,mysterious|wo:modern,urban_night|oc:none|hl:short,medium|bu:slim,tall_slim,average|ag:a18_24,a25_34'),
+  A('off_day', '無造作な休日イケメン', '乱れた髪とゆるいニットやTシャツ。くつろいだ素の姿。', 'contemporary',
+    'effortless relaxed off-duty look', 'with an effortless, relaxed off-duty look',
+    'hs:messy_short,tousled_medium,shaggy,wavy_short,curly_short|ex:sleepy,gentle_smile,relieved,laughing|ou:sweat_easy,crewneck_knit,oversized_tee_wide,zip_hoodie_tee,sweater_scarf,pajamas|po:sitting_floor,lying_down,stretching,sitting_chair|sc:quiet_room,cafe,balcony|li:window_light,soft_natural|tm:morning,day|au:gentle,playful|wo:modern|oc:none|hl:short,medium|bu:average,slim,toned|ag:a18_24,a25_34,a35_44'),
+  A('relaxed_adult', '大人の余裕カジュアル', '落ち着いた視線と自然な微笑み、上質で簡素な服。紳士より日常寄りの余裕。', 'contemporary',
+    'composed grown-up ease', 'with a composed, unhurried, grown-up ease',
+    'ag:a25_34,a35_44,a45_59|ey:calm,deep_set_eyes,hooded|ex:gentle_smile,closed_smile,knowing_smile,confident_smile|ou:jacket_tee,crewneck_knit,turtleneck_jacket,camp_collar_shirt,knit_coat|co:#calm,#neutral,#mature,#daily|au:warm_mature,sophisticated|po:standing_relaxed,hand_in_pocket,sitting_chair,leaning_railing|sc:cafe,city_street,balcony|wo:modern,business|oc:none|hl:short,medium|bu:average,toned,athletic')
 ];
 
 export const ARCHETYPE_CATS: Category[] = [
   { id: 'classic', ja: '王道・爽やか・好青年' }, { id: 'fragile', ja: '儚げ・薄幸・透明感' }, { id: 'alluring', ja: '中性・耽美・妖艶・人外' },
   { id: 'intellect', ja: '知的・寡黙・眼鏡' }, { id: 'warrior', ja: '精悍・武人・屈強' }, { id: 'noble', ja: '気高い・王族・神官' },
   { id: 'danger', ja: '危険・冷酷・悪役' }, { id: 'urban', ja: '都会・モード・夜' }, { id: 'warm', ja: '温厚・包容力・成熟' },
-  { id: 'mystic', ja: '神秘・異国・幻想' }
+  { id: 'mystic', ja: '神秘・異国・幻想' }, { id: 'contemporary', ja: '現代・日常・ファッション' }
 ];

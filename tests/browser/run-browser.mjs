@@ -176,6 +176,31 @@ try {
     await page.click('.preset-pending >> text=この方向で錬成');
     await page.waitForTimeout(100);
 
+    // おまかせスタイルの分類：切り替えだけでは錬成せず、選択中のスタイルは表示し続ける
+    const tGroup = await title(page);
+    await page.click('.preset-groups .chip:has-text("現代・日常")');
+    const shown = await page.$$eval('.presets .chip', (els) => els.map((e) => e.textContent.trim()));
+    check('分類「現代・日常」で、完全ランダムと現代系のスタイルだけに絞られる',
+      shown.length === 5 && shown[0].includes('完全ランダム') && shown.some((x) => x.includes('ダウナー・気だるい')) && !shown.some((x) => x.includes('銀髪特集')), shown.join('/'));
+    check('分類を切り替えても錬成せず、別分類の選択中スタイルを表示し続ける', (await title(page)) === tGroup && (await page.textContent('.preset-pending')).includes('銀髪特集'));
+    await page.click('.preset-pending >> text=やめる');
+    await page.click('.presets .chip:has-text("現代・日常のイケメン")');
+    await page.click('.preset-pending >> text=この方向で錬成');
+    await page.waitForTimeout(150);
+    await page.click('.preset-pending >> text=やめる');
+    await page.click('.preset-groups .chip:has-text("すべて")');
+
+    // 眼鏡・特徴・持ち物：既定OFF。ONにするとその場で値が入る
+    await page.click('details.group summary:has-text("顔・肌・装身具")');
+    const glassesRow = page.locator('.frow:has-text("眼鏡")').first();
+    check('眼鏡・特徴・持ち物は既定でOFF（出力しない）',
+      (await glassesRow.textContent()).includes('出力しない') && (await page.locator('.frow:has-text("特徴（ほくろ")').first().textContent()).includes('出力しない'));
+    await page.click('label.toggle:has-text("眼鏡を抽選に含める") input');
+    await page.waitForTimeout(150);
+    check('眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る', !(await glassesRow.textContent()).includes('出力しない') && !(await glassesRow.locator('.fval').textContent()).includes('なし'), await glassesRow.locator('.fval').textContent());
+    await page.click('label.toggle:has-text("眼鏡を抽選に含める") input');
+    await page.click('details.group summary:has-text("顔・肌・装身具")');
+
     // プロンプト画面
     await page.click('.tabbar button >> nth=1');
     const prompt = await page.inputValue('#prompt-main');

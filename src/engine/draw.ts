@@ -11,7 +11,7 @@ import { DATA_VERSION, DRAW_ORDER, fieldDef, optionOf, RELATED } from '../data/f
 import type { DrawConflict, DrawResult, FieldId, ForgeState, Option, StylePreset } from '../types';
 import { matchAny } from './match';
 import { newSeed, seededRandom, weightedPick, type Rng } from './rng';
-import { cloneState, isActive, moduleKey } from './state';
+import { cloneState, isActive, moduleKey, OFF_AS_NONE } from './state';
 import { applyShares, shareBoosts, softWeight } from './weights';
 
 export type RecentMap = Partial<Record<FieldId, string[]>>;
@@ -55,8 +55,12 @@ export function nucleus(weights: number[], p: number): number[] {
 export function valuesOf(state: ForgeState, only?: (f: FieldId) => boolean): Values {
   const v: Values = {};
   for (const f of DRAW_ORDER) {
-    if (!isActive(state, f)) continue;
     if (only && !only(f)) continue;
+    if (!isActive(state, f)) {
+      // 眼鏡・特徴・持ち物はOFFなら「なし」。それを前提にするポーズ（眼鏡を押し上げる・抜刀など）が出ないようにする
+      if (OFF_AS_NONE.includes(f)) { const none = optionOf(f, 'none'); if (none) v[f] = none; }
+      continue;
+    }
     const opt = optionOf(f, state.fields[f].id);
     if (opt) v[f] = opt;
   }
@@ -152,9 +156,23 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
 
 interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset; notices: string[]; strict?: boolean }
 
+/** 候補の requires が、まだ決まっていない項目についておまかせスタイルの条件と両立できるか（例：銀髪特集で「黒髪クール」を引かない） */
+function requiresFitPreset(o: Option, determined: Values, preset: StylePreset | undefined): boolean {
+  if (!preset || !o.requires) return true;
+  return o.requires.every((req) => {
+    const i = req.indexOf(':');
+    const g = req.slice(0, i) as FieldId, refs = req.slice(i + 1).split('|');
+    const filter = preset.filters[g];
+    if (!filter?.length || determined[g]) return true;
+    return fieldDef(g).options.some((x) => matchAny(x, filter) && refs.some((r) => matchAny(x, [r])));
+  });
+}
+
 function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: PickCtx): Option | null {
   const def = fieldDef(f);
-  const compatible = def.options.filter((o) => candidateViolations(f, o, determined).length === 0);
+  const allCompatible = def.options.filter((o) => candidateViolations(f, o, determined).length === 0);
+  const presetFit = allCompatible.filter((o) => requiresFitPreset(o, determined, ctx.preset));
+  const compatible = presetFit.length ? presetFit : allCompatible;
   let pool = compatible;
   const filter = ctx.preset?.filters[f];
   if (filter && filter.length) {
@@ -187,20 +205,22 @@ function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: P
 // ---------------------------------------------------------------
 // 手動選択・固定
 
-export interface AdoptCheck { ok: boolean; violations: Violation[]; blockingLocked: FieldId[]; conflictingUnlocked: FieldId[] }
+export interface AdoptCheck { ok: boolean; violations: Violation[]; blockingLocked: FieldId[]; conflictingUnlocked: FieldId[]; /** OFFのため両立できない項目（眼鏡・特徴・持ち物） */ blockingOff: FieldId[] }
 
 /** 手動採用の事前確認 */
 export function checkAdopt(state: ForgeState, field: FieldId, id: string): AdoptCheck {
   const opt = optionOf(field, id);
-  if (!opt) return { ok: false, violations: [], blockingLocked: [], conflictingUnlocked: [] };
-  if (!isActive(state, field)) return { ok: true, violations: [], blockingLocked: [], conflictingUnlocked: [] };
+  if (!opt) return { ok: false, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [] };
+  if (!isActive(state, field)) return { ok: true, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [] };
   const others = valuesOf(state, (g) => g !== field);
   const violations = candidateViolations(field, opt, others);
   const involved = [...new Set(violations.flatMap((v) => v.fields))].filter((g) => g !== field);
+  const blockingOff = involved.filter((g) => !isActive(state, g));
   return {
     ok: violations.length === 0, violations,
-    blockingLocked: involved.filter((g) => state.fields[g].locked),
-    conflictingUnlocked: involved.filter((g) => !state.fields[g].locked)
+    blockingLocked: involved.filter((g) => state.fields[g].locked && isActive(state, g)),
+    conflictingUnlocked: involved.filter((g) => !state.fields[g].locked && isActive(state, g)),
+    blockingOff
   };
 }
 
@@ -215,6 +235,12 @@ const FOLLOW_NOTICE = '自動で出た衣装の色を、選んだ服に合わせ
 export function adopt(state: ForgeState, field: FieldId, id: string, lock: boolean, opts: { seed?: string; recent?: RecentMap } = {}): DrawOutcome {
   const check = checkAdopt(state, field, id);
   const seed = opts.seed ?? newSeed();
+  if (check.blockingOff.length) {
+    return {
+      ok: false, state, notices: [`「${check.blockingOff.map(label).join('・')}」がOFFのため、この候補は選べません。詳細な調合でONにすると選べます。`],
+      conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed
+    };
+  }
   if (check.blockingLocked.length) {
     return {
       ok: false, state, notices: [`固定中の「${check.blockingLocked.map(label).join('・')}」と両立しません。固定を外すか、別の候補を選んでください。`],
@@ -273,9 +299,16 @@ export function setModule(state: ForgeState, key: keyof ForgeState['optionalModu
 
 /** モジュールをONにしたとき、その項目に値が無ければ抽選して埋める */
 export function fillModule(state: ForgeState, module: Parameters<typeof moduleKey>[0], recent?: RecentMap): DrawOutcome | null {
-  const fields = DRAW_ORDER.filter((f) => fieldDef(f).module === module && !optionOf(f, state.fields[f].id));
+  // 眼鏡・特徴・持ち物は「なし」のままだとONにした手応えがないので、固定していなければ引き直す
+  const fields = DRAW_ORDER.filter((f) => fieldDef(f).module === module && isActive(state, f)
+    && (!optionOf(f, state.fields[f].id) || (OFF_AS_NONE.includes(f) && state.fields[f].id === 'none' && !state.fields[f].locked)));
   if (!fields.length) return null;
-  return draw(state, { targets: fields, recent });
+  // ONにした直後は「なし」以外から引く（以降の錬成では「なし」も出る）
+  const items = fields.filter((f) => OFF_AS_NONE.includes(f));
+  const preset: StylePreset | undefined = items.length ? { id: 'module-on', ja: '', desc: '', icon: '', filters: Object.fromEntries(items.map((f) => [f, ['!none']])) } : undefined;
+  const res = draw(state, { targets: fields, recent, preset });
+  if (res.ok) for (const f of items) if (res.state.fields[f].source === 'preset') res.state.fields[f].source = 'random';
+  return res;
 }
 
 // ---- クイック操作の対象 ----

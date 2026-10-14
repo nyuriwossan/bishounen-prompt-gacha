@@ -32,7 +32,7 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
     return def.options.filter((o) => {
       if (cat !== 'all' && o.cat !== cat) return false;
       const c = checks.get(o.id)!;
-      if (!showBlocked && c.blockingLocked.length) return false;
+      if (!showBlocked && (c.blockingLocked.length || c.blockingOff.length)) return false;
       if (!q) return true;
       return [o.ja, o.desc ?? '', o.en.join(' '), catLabel.get(o.cat ?? '') ?? '', o.nat ?? ''].some((t) => norm(t).includes(q));
     });
@@ -59,7 +59,7 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
             {cats.map((c) => <button key={c.id} type="button" class="chip" aria-pressed={cat === c.id} onClick={() => { setCat(c.id); setLimit(PAGE); }}>{c.ja}</button>)}
           </div>
         )}
-        <label class="check"><input type="checkbox" checked={showBlocked} onChange={(e) => setShowBlocked((e.target as HTMLInputElement).checked)} />固定中の項目と両立しない候補も表示する</label>
+        <label class="check"><input type="checkbox" checked={showBlocked} onChange={(e) => setShowBlocked((e.target as HTMLInputElement).checked)} />固定中・OFFの項目と両立しない候補も表示する</label>
         <p class="count-note" aria-live="polite">{filtered.length}件{filtered.length !== drawable.length ? `（うち今すぐ両立するのは${drawable.length}件）` : ''}</p>
         {filtered.length === 0 ? (
           <p class="empty">条件に合う候補がありません。検索語や分類を変えてみてください。</p>
@@ -81,8 +81,10 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
 }
 
 function OptionRow({ o, current, check, catLabel, onPick }: { o: Option; current: boolean; check: ReturnType<typeof checkAdopt>; catLabel?: string; onPick: () => void }) {
-  const blocked = check.blockingLocked.length > 0;
-  const why = blocked ? `固定中の${check.blockingLocked.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}と両立しません：${check.violations[0]?.reasonJa ?? ''}`
+  const name = (f: FieldId) => fieldDef(f).short ?? fieldDef(f).ja;
+  const blocked = check.blockingLocked.length > 0 || check.blockingOff.length > 0;
+  const why = check.blockingOff.length ? `${check.blockingOff.map(name).join('・')}がOFFです。詳細な調合でONにすると選べます`
+    : blocked ? `固定中の${check.blockingLocked.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}と両立しません：${check.violations[0]?.reasonJa ?? ''}`
     : check.conflictingUnlocked.length ? `採用すると「${check.conflictingUnlocked.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}」を合わせて引き直します` : '';
   const en = o.en.length ? o.en.slice(0, 3).join(', ') : o.upper ? o.upper.replace(/\{c1\}/g, '◆').replace(/\{c2\}/g, '◇') : '';
   const desc = [catLabel, o.desc, en].filter(Boolean).join('｜');

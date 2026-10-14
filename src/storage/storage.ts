@@ -51,8 +51,25 @@ export const uid = () => globalThis.crypto?.randomUUID?.() ?? `id-${Date.now().t
 const isObj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
 const str = (x: unknown, max = 200) => (typeof x === 'string' ? x.slice(0, max) : '');
 
+/** 眼鏡・特徴・持ち物のスイッチ（2026-10 追加）。これより前のデータにはキーがない */
+const ITEM_MODULES = [['glassesEnabled', 'glasses'], ['marksEnabled', 'marks'], ['propEnabled', 'prop']] as const;
+/**
+ * 旧データの移行方針：
+ * - preserve（お気に入り・履歴・JSON・共有URL）：値が「なし」以外ならONにして、保存時の見た目を保つ
+ * - current（自動保存の現在の状態）：新しい既定（OFF）を使う。ただし固定中で「なし」以外の値はONにして守る
+ */
+export type LegacyItems = 'preserve' | 'current';
+function migrateItemModules(base: ForgeState, mods: Record<string, unknown>, legacy: LegacyItems) {
+  for (const [key, field] of ITEM_MODULES) {
+    if (typeof mods[key] === 'boolean') continue;
+    const sel = base.fields[field];
+    const has = !!sel.id && sel.id !== 'none';
+    base.optionalModules[key] = legacy === 'preserve' ? has : has && sel.locked;
+  }
+}
+
 /** どんな入力でも、安全な ForgeState に直す。無効なIDは捨てて報告する。 */
-export function normalizeState(raw: unknown, report: MigrationReport = { lostFields: [], notes: [] }): ForgeState {
+export function normalizeState(raw: unknown, report: MigrationReport = { lostFields: [], notes: [] }, legacy: LegacyItems = 'preserve'): ForgeState {
   const base = emptyState();
   if (!isObj(raw)) { report.notes.push('状態データの形式が不正なため、初期状態を使いました。'); return base; }
   const version = typeof raw.schemaVersion === 'number' ? raw.schemaVersion : 0;
@@ -82,6 +99,7 @@ export function normalizeState(raw: unknown, report: MigrationReport = { lostFie
   if (st.boyTag === 'none' || st.boyTag === '1boy') s.boyTag = st.boyTag;
   const mods = isObj(raw.optionalModules) ? raw.optionalModules : {};
   for (const k of Object.keys(DEFAULT_MODULES) as Array<keyof typeof DEFAULT_MODULES>) if (typeof mods[k] === 'boolean') base.optionalModules[k] = mods[k] as boolean;
+  migrateItemModules(base, mods, legacy);
   base.lastSeed = str(raw.lastSeed, 64);
   base.drawCount = typeof raw.drawCount === 'number' && raw.drawCount >= 0 ? Math.floor(raw.drawCount) : 0;
   if (typeof raw.dataVersion === 'string' && raw.dataVersion !== DATA_VERSION) report.notes.push(`辞書の版が異なります（保存時 ${str(raw.dataVersion, 20)} → 現在 ${DATA_VERSION}）。`);
@@ -106,7 +124,7 @@ export function loadCurrent(): { state: ForgeState | null; report: MigrationRepo
   const report: MigrationReport = { lostFields: [], notes: [] };
   const raw = read<unknown>(KEYS.current, null);
   if (raw === null) return { state: null, report };
-  return { state: normalizeState(raw, report), report };
+  return { state: normalizeState(raw, report, 'current'), report };
 }
 export const saveCurrent = (s: ForgeState) => write(KEYS.current, s);
 
@@ -240,8 +258,10 @@ export function encodeShare(state: ForgeState): string {
     return sel.id ? `${f}=${sel.id}${sel.locked ? '!' : ''}` : '';
   }).filter(Boolean);
   const m = state.optionalModules;
-  const flags = [m.kemonoEnabled ? 'k' : '', m.backgroundEnabled ? 'b' : '', m.poseEnabled ? 'p' : '', m.facialHairEnabled ? 'f' : '', m.hairAccentEnabled ? 'h' : '', m.nameEnabled ? 'n' : ''].join('');
-  const s = [`v=1`, `d=${DATA_VERSION}`, `m=${flags}`, `c=${state.settings.coherence}`, `seed=${state.lastSeed}`, ...pairs].join('&');
+  const flags = [m.kemonoEnabled ? 'k' : '', m.backgroundEnabled ? 'b' : '', m.poseEnabled ? 'p' : '', m.facialHairEnabled ? 'f' : '', m.hairAccentEnabled ? 'h' : '', m.nameEnabled ? 'n' : '',
+    m.glassesEnabled ? 'g' : '', m.marksEnabled ? 'x' : '', m.propEnabled ? 'o' : ''].join('');
+  // v=2：眼鏡(g)・特徴(x)・持ち物(o) のスイッチを含む。v=1 は値から推定する
+  const s = [`v=2`, `d=${DATA_VERSION}`, `m=${flags}`, `c=${state.settings.coherence}`, `seed=${state.lastSeed}`, ...pairs].join('&');
   return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 export function decodeShare(code: string): { state: ForgeState | null; report: MigrationReport } {
@@ -251,7 +271,8 @@ export function decodeShare(code: string): { state: ForgeState | null; report: M
     const b64 = code.replace(/-/g, '+').replace(/_/g, '/');
     const text = decodeURIComponent(escape(atob(b64 + '==='.slice((b64.length + 3) % 4))));
     const params = new URLSearchParams(text);
-    if (params.get('v') !== '1') return { state: null, report };
+    const ver = params.get('v');
+    if (ver !== '1' && ver !== '2') return { state: null, report };
     const s = emptyState();
     for (const f of FIELD_IDS) {
       const raw = params.get(f);
@@ -262,7 +283,11 @@ export function decodeShare(code: string): { state: ForgeState | null; report: M
       s.fields[f] = { id, source: 'manual', locked };
     }
     const flags = params.get('m') ?? '';
-    s.optionalModules = { kemonoEnabled: flags.includes('k'), backgroundEnabled: flags.includes('b'), poseEnabled: flags.includes('p'), facialHairEnabled: flags.includes('f'), hairAccentEnabled: flags.includes('h'), nameEnabled: flags.includes('n') };
+    s.optionalModules = {
+      kemonoEnabled: flags.includes('k'), backgroundEnabled: flags.includes('b'), poseEnabled: flags.includes('p'), facialHairEnabled: flags.includes('f'), hairAccentEnabled: flags.includes('h'), nameEnabled: flags.includes('n'),
+      glassesEnabled: flags.includes('g'), marksEnabled: flags.includes('x'), propEnabled: flags.includes('o')
+    };
+    if (ver === '1') migrateItemModules(s, {}, 'preserve');
     const c = params.get('c');
     if (c === 'coherent' || c === 'balanced' || c === 'wild') s.settings.coherence = c;
     s.lastSeed = (params.get('seed') ?? '').slice(0, 64);

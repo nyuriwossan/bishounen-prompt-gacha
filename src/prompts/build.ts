@@ -7,7 +7,7 @@
 import { hairColorShort } from '../data/appearance';
 import { optionOf } from '../data/fields';
 import { valuesOf } from '../engine/draw';
-import { isEffective } from '../engine/state';
+import { isActive, isEffective } from '../engine/state';
 import type { FieldId, ForgeState, Option, OutputTarget } from '../types';
 
 export interface PromptSection { id: 'face' | 'hairBody' | 'outfit' | 'pose' | 'scene' | 'meta'; ja: string; tags: string[] }
@@ -226,10 +226,12 @@ function japaneseSettings(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   rows.push(['年齢', j('age')], ['美形タイプ', `${j('archetype')}${v.archetype?.desc ? `｜${v.archetype.desc}` : ''}`], ['容姿傾向', j('presentation')], ['体格', j('build')],
     ['世界観', j('world')], ['文化・意匠', v.culture && v.culture.id !== 'none' ? v.culture.ja : '指定なし'],
     ['髪', [j('hairLength'), j('hairStyle'), j('hairColor')].join('・') + (isEffective(state, 'hairAccentColor') && v.hairAccent?.id !== 'none' ? `（${j('hairAccent')}：${j('hairAccentColor')}）` : '')],
-    ['目元・瞳', `${j('eyeShape')}・${j('eyeColor')}`], ['顔立ち', j('face')], ['肌', j('skin')], ['特徴', j('marks')], ['眼鏡', j('glasses')]);
+    ['目元・瞳', `${j('eyeShape')}・${j('eyeColor')}`], ['顔立ち', j('face')], ['肌', j('skin')]);
+  if (M.marksEnabled) rows.push(['特徴', j('marks')]);
+  if (M.glassesEnabled) rows.push(['眼鏡', j('glasses')]);
   if (M.facialHairEnabled) rows.push(['ひげ', j('facialHair')]);
   rows.push(['衣装', outfitJa || '—'], ['表情', j('expression')]);
-  if (M.poseEnabled) rows.push(['ポーズ', j('pose')], ['持ち物', j('prop')], ['構図', `${j('shot')}・${j('angle')}`]);
+  if (M.poseEnabled) rows.push(['ポーズ', j('pose')], ...(isActive(state, 'prop') ? [['持ち物', j('prop')] as [string, string]] : []), ['構図', `${j('shot')}・${j('angle')}`]);
   else rows.push(['構図', j('shot')]);
   if (M.backgroundEnabled) rows.push(['背景', j('scene')], ['時間・天候', v.scene?.place === 'simple' ? `${j('time')}（シンプル背景のため出力なし）` : j('time')], ['光', j('light')]);
   if (M.kemonoEnabled) rows.push(['獣人', `${j('kemonoSpecies')}・${j('kemonoLevel')}`]);
