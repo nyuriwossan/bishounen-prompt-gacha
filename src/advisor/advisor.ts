@@ -35,6 +35,19 @@ export function advise(state: ForgeState): Issue[] {
   if (state.optionalModules.backgroundEnabled && v.scene?.place === 'simple' && v.time) {
     out.push({ id: 'suggest:simple_time', level: 'suggestion', fields: ['scene', 'time'], titleJa: 'シンプル背景では時間帯を出力しません', messageJa: '時間帯・天候の設定は保持しています。' });
   }
+  // 禁断の調合（pose-composition-workshop の拘束アドバイスを要約）
+  if (state.optionalModules.unlimitedEnabled) {
+    const b = v.bindPos, bound = !!b && !['none', 'held'].includes(b.id);
+    if (bound && v.restraint?.tags?.includes('chain') && v.anchor?.id === 'none') {
+      out.push({ id: 'suggest:chain_anchor', level: 'suggestion', fields: ['restraint', 'anchor'], titleJa: '鎖は固定先が見えると安定します', messageJa: '固定先なしの鎖は、装飾的な鎖として崩れやすい傾向があります。壁・柱などの固定先を選ぶと描写が安定しやすくなります。' });
+    }
+    if (b?.id === 'wrists_behind' && (v.shot?.level ?? 5) <= 2) {
+      out.push({ id: 'suggest:behind_shot', level: 'suggestion', fields: ['bindPos', 'shot'], titleJa: '後ろ手は手元が省略されやすい構図です', messageJa: '腰上〜全身で、腰の後ろの手首と指を見せる構図が安定します。' });
+    }
+    if (v.blindfold?.tags?.includes('covered')) {
+      out.push({ id: 'suggest:blind_eyes', level: 'suggestion', fields: ['blindfold', 'eyeShape', 'eyeColor'], titleJa: '目元・瞳の色は出力していません', messageJa: '目隠しで目が隠れるため、目元・瞳の色・「こちらを見る」を出力から外しています（設定は保持）。' });
+    }
+  }
   const pres = optionOf('presentation', state.fields.presentation.id);
   if (pres && ['fem', 'slight_fem'].includes(pres.id)) {
     out.push({ id: 'suggest:fem_keep_male', level: 'suggestion', fields: ['presentation'], titleJa: '女性的な美形でも男性として出力します', messageJa: '人物の性別タグは男性のまま。うまく出ない場合は「male focus」の強調や、LoRAの併用を検討してください。' });

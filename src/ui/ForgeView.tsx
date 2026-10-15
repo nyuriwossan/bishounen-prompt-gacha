@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { BASIC_FIELDS, fieldDef, FIELDS, optionOf } from '../data/fields';
 import { PRESET_GROUPS } from '../data/presets';
 import { lockCount } from '../engine/draw';
-import { isActive } from '../engine/state';
+import { isActive, isEffective } from '../engine/state';
 import { outfitColorUse, shotLevelOf, titleParts } from '../prompts/build';
 import type { FieldGroup, FieldId, ForgeModules, ForgeState, Issue, Mode, PresetGroup, StylePreset } from '../types';
 import { IconDice, IconLock } from './icons';
@@ -20,6 +20,7 @@ const GROUPS: Array<{ id: FieldGroup; ja: string; hint: string; module?: keyof F
   { id: 'pose', ja: 'ポーズ・構図', hint: '画角・アングル・ポーズ・持ち物', module: 'poseEnabled', moduleLabel: 'ポーズ・アングルを出力する', moduleHint: 'OFFでも構図（画角）は出力します。' },
   { id: 'scene', ja: '背景・光', hint: '場所・時間帯・光', module: 'backgroundEnabled', moduleLabel: '背景と光を出力する', moduleHint: 'OFFにすると人物だけのプロンプトになります。' },
   { id: 'kemono', ja: '獣人モード（任意）', hint: '耳・尾・角などを加える', module: 'kemonoEnabled', moduleLabel: '獣人モードを使う', moduleHint: '顔は人のまま。獣化はケモミミ〜標準獣人まで。' },
+  { id: 'forbidden', ja: '禁断の調合（アンリミテッド）', hint: '拘束・目隠し・着崩し・衣装の傷み', module: 'unlimitedEnabled', moduleLabel: 'アンリミテッドモードを使う', moduleHint: '初期はOFF。ONの間だけ、禁断演出を抽選・出力します。人物は成人男性1名のままです。' },
   { id: 'style', ja: '画風・呼び名', hint: '画風は抽選で変わりません' }
 ];
 const EXTRA_MODULES: Array<{ key: keyof ForgeModules; ja: string; hint: string; group: FieldGroup }> = [
@@ -117,6 +118,7 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
           <button class="chip" type="button" onClick={() => actions.drawGroup('outfit')}>服だけ着せ替え</button>
           <button class="chip" type="button" onClick={() => actions.drawGroup('hair')}>髪だけ変える</button>
           <button class="chip" type="button" onClick={() => actions.drawGroup('expression')}>表情・構図だけ</button>
+          {forge.optionalModules.unlimitedEnabled && <button class="chip" type="button" onClick={() => actions.drawGroup('forbidden')}>禁断演出だけ引き直す</button>}
         </div>
       </div>
 
@@ -146,9 +148,12 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
                     <input type="checkbox" checked={forge.optionalModules[m.key]} onChange={(e) => actions.setModule(m.key, (e.target as HTMLInputElement).checked)} />
                   </label>
                 ))}
-                <ul class="rows">
-                  {fields.map((f) => <FieldRow key={f} field={f} forge={forge} actions={actions} changed={changed.includes(f)} />)}
-                </ul>
+                {/* 禁断の調合はONのときだけ項目を見せる */}
+                {(g.id !== 'forbidden' || forge.optionalModules.unlimitedEnabled) && (
+                  <ul class="rows">
+                    {fields.map((f) => <FieldRow key={f} field={f} forge={forge} actions={actions} changed={changed.includes(f)} />)}
+                  </ul>
+                )}
               </div>
             </details>
           );
@@ -199,7 +204,7 @@ function FieldRow({ field, forge, actions, changed }: { field: FieldId; forge: F
   const sel = forge.fields[field];
   const opt = optionOf(field, sel.id);
   const active = isActive(forge, field);
-  const accentIdle = field === 'hairAccentColor' && forge.fields.hairAccent.id === 'none';
+  const accentIdle = active && !isEffective(forge, field);
   const randomizable = def.randomizable !== false;
   const swatches: string[] = opt?.hex ? [opt.hex] : [];
   // 衣装の行：この服・この画角で実際にプロンプトへ出る色だけを、名前付きの◯として出す。タップでその色の候補を開く
@@ -209,7 +214,7 @@ function FieldRow({ field, forge, actions, changed }: { field: FieldId; forge: F
     if (use.main) outfitColors.push({ f: 'mainColor', key: 'メイン' });
     if (use.accent) outfitColors.push({ f: 'accentColor', key: '差し色' });
   }
-  const status = !active ? '出力しない' : accentIdle ? '単色のため未使用' : sel.source === 'manual' ? '手動' : sel.source === 'preset' ? 'おまかせ' : '';
+  const status = !active ? '出力しない' : accentIdle ? (field === 'hairAccentColor' ? '単色のため未使用' : '未使用') : sel.source === 'manual' ? '手動' : sel.source === 'preset' ? 'おまかせ' : '';
   return (
     <li class={`frow${sel.locked ? ' locked' : ''}${!active || accentIdle ? ' inactive' : ''}${changed ? ' changed' : ''}`}>
       <button type="button" class="fmain" onClick={() => actions.openPicker(field)} aria-label={`${def.ja}：${opt?.ja ?? '未設定'}。候補から選ぶ`}>

@@ -4,6 +4,7 @@
  * 表情は pose-composition-workshop の expressions（27種）から男性美形に合う語を移植し、冷笑・不敵などを追加。
  */
 import type { Category, Option } from '../types';
+import { FORBIDDEN_EXPRESSIONS } from './forbidden';
 import { o } from './helpers';
 
 const job = (id: string, ja: string, en: string, cat: string, worlds: string[], outfitPrefs: string[], extra: Partial<Option> = {}) =>
@@ -185,9 +186,11 @@ export const EXPRESSION: Option[] = [
   o('surprised', '驚いた顔', 'surprised, wide eyes', { cat: 'mood', tags: ['soft'], w: 0.5 }),
   o('annoyed', '不機嫌', 'annoyed, frown', { cat: 'mood', tags: ['cool', 'playful'], w: 0.7 }),
   o('feral_grin', '獰猛な笑み', 'feral grin', { cat: 'mood', tags: ['wild', 'danger'], w: 0.6 }),
-  o('unhinged', '狂気の笑み', 'unhinged smile, wide eyes', { cat: 'mood', tags: ['danger'], w: 0.4 })
+  o('unhinged', '狂気の笑み', 'unhinged smile, wide eyes', { cat: 'mood', tags: ['danger'], w: 0.4 }),
+  // 禁断の調合：立場に合わせた表情（立場がOFF＝なしでは出ない）
+  ...FORBIDDEN_EXPRESSIONS.map((x) => o(x.id, x.ja, x.en, { cat: 'forbidden', tags: [x.side], requires: [`role:#${x.side}`] })),
 ];
 export const EXPRESSION_CATS: Category[] = [
   { id: 'soft', ja: '優しい' }, { id: 'bright', ja: '明るい' }, { id: 'shy', ja: '照れ' }, { id: 'confident', ja: '余裕・挑発' },
-  { id: 'cold', ja: '冷たい・真剣' }, { id: 'sad', ja: '憂い・切なさ' }, { id: 'mood', ja: '気分・その他' }
+  { id: 'cold', ja: '冷たい・真剣' }, { id: 'sad', ja: '憂い・切なさ' }, { id: 'mood', ja: '気分・その他' }, { id: 'forbidden', ja: '禁断（立場）' }
 ];

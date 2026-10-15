@@ -110,7 +110,8 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
   const targetSet = new Set(targets);
   const determined: Values = valuesOf(s, (f) => !targetSet.has(f));
   for (const f of targets) {
-    const picked = pickFor(f, s, determined, rng, { useRecent, recent, preset: opts.preset, notices, strict: opts.strictFilter });
+    const pending = new Set(targets.slice(targets.indexOf(f) + 1));
+    const picked = pickFor(f, s, determined, rng, { useRecent, recent, preset: opts.preset, notices, strict: opts.strictFilter, pending });
     if (picked) {
       s.fields[f] = { id: picked.id, source: opts.preset && opts.preset.filters[f] ? 'preset' : 'random', locked: false };
       determined[f] = picked;
@@ -154,7 +155,19 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
   return { ok: true, state: s, notices, conflicts: [], changed, recent, stuck, seed };
 }
 
-interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset; notices: string[]; strict?: boolean }
+interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset; notices: string[]; strict?: boolean; pending?: Set<FieldId> }
+
+/** 1手先読み：この候補を選ぶと、まだ引いていない関連項目に両立する候補が残らない場合は外す。
+ * 禁断の調合の連鎖（立場→拘束具→拘束位置→固定先→画角→ポーズ）だけに使う（他の項目は従来どおりで十分速い） */
+const LOOKAHEAD: Partial<Record<FieldId, FieldId[]>> = {
+  role: ['bindPos'], restraint: ['bindPos'], bindPos: ['anchor', 'shot', 'pose', 'prop'], anchor: ['shot', 'pose'], shot: ['pose']
+};
+function leavesRoom(f: FieldId, o: Option, determined: Values, pending: Set<FieldId> | undefined, s: ForgeState): boolean {
+  const next = LOOKAHEAD[f];
+  if (!next || !pending || !s.optionalModules.unlimitedEnabled) return true;
+  const v = { ...determined, [f]: o };
+  return next.every((g) => !pending.has(g) || !isActive(s, g) || fieldDef(g).options.some((x) => candidateViolations(g, x, v).length === 0));
+}
 
 /** 候補の requires が、まだ決まっていない項目についておまかせスタイルの条件と両立できるか（例：銀髪特集で「黒髪クール」を引かない） */
 function requiresFitPreset(o: Option, determined: Values, preset: StylePreset | undefined): boolean {
@@ -170,7 +183,9 @@ function requiresFitPreset(o: Option, determined: Values, preset: StylePreset | 
 
 function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: PickCtx): Option | null {
   const def = fieldDef(f);
-  const allCompatible = def.options.filter((o) => candidateViolations(f, o, determined).length === 0);
+  const compatibleNow = def.options.filter((o) => candidateViolations(f, o, determined).length === 0);
+  const roomy = compatibleNow.filter((o) => leavesRoom(f, o, determined, ctx.pending, s));
+  const allCompatible = roomy.length ? roomy : compatibleNow;
   const presetFit = allCompatible.filter((o) => requiresFitPreset(o, determined, ctx.preset));
   const compatible = presetFit.length ? presetFit : allCompatible;
   let pool = compatible;
@@ -182,7 +197,7 @@ function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: P
     else if (compatible.length) ctx.notices.push(`おまかせスタイルの条件に合う「${label(f)}」が他の項目と両立しないため、条件外から選びました。`);
   }
   if (!pool.length) return null;
-  if (pool.length <= 2 && def.options.length > 6) ctx.notices.push(`「${label(f)}」は今の条件だと候補が少なめです（${pool.length}件）。`);
+  if (pool.length <= 2 && def.options.length > 6 && def.group !== 'forbidden') ctx.notices.push(`「${label(f)}」は今の条件だと候補が少なめです（${pool.length}件）。`);
 
   // 避ける直近の数は候補数の半分まで（年齢層5種などの小さな候補で行き詰まらないように）
   const keep = Math.floor(pool.length / 2);
@@ -253,14 +268,21 @@ export function adopt(state: ForgeState, field: FieldId, id: string, lock: boole
   const plain: DrawOutcome = { ok: true, state: s, notices: [], conflicts: [], changed: [field], recent: opts.recent ?? {}, stuck: [], seed };
   const follow = followColors(s, field).filter((f) => !check.conflictingUnlocked.includes(f));
   if (!check.conflictingUnlocked.length && !follow.length) return plain;
-  const res = draw(s, { targets: [...check.conflictingUnlocked, ...follow], hold: [field], seed, recent: opts.recent });
+  let res = draw(s, { targets: [...check.conflictingUnlocked, ...follow], hold: [field], seed, recent: opts.recent });
+  // 直接ぶつかる項目だけでは直せないとき（例：拘束位置を変えるには拘束具も変える必要がある）は、関連項目まで広げてもう一度
+  if ((!res.ok || res.stuck.length) && check.conflictingUnlocked.length) {
+    // 関連の関連まで（例：持ち物 → 拘束位置 → 拘束具）
+    const wider = relatedTargets(s, relatedTargets(s, check.conflictingUnlocked)).filter((f) => f !== field);
+    // 順に引くため一度で組めないことがある。シードを変えて数回だけ試す（決定的）
+    for (let k = 0; k < 8 && (!res.ok || res.stuck.length); k++) res = draw(s, { targets: [...wider, ...follow], hold: [field], seed: `${seed}~${k}`, recent: opts.recent });
+  }
   if (!res.ok || res.stuck.length) {
     // 色を合わせられなかっただけなら、色はそのままで採用する
     if (!check.conflictingUnlocked.length) return plain;
     return { ...res, ok: false, state, notices: ['この候補と両立する組み合わせが見つかりませんでした。', ...res.notices] };
   }
   const notices = [
-    ...(check.conflictingUnlocked.length ? [`「${check.conflictingUnlocked.map(label).join('・')}」を、採用した候補に合わせて引き直しました。`] : []),
+    ...(check.conflictingUnlocked.length ? [`「${res.changed.filter((f) => f !== field && !follow.includes(f)).map(label).join('・') || check.conflictingUnlocked.map(label).join('・')}」を、採用した候補に合わせて引き直しました。`] : []),
     ...(follow.length ? [FOLLOW_NOTICE] : []),
     ...res.notices
   ];
@@ -299,12 +321,14 @@ export function setModule(state: ForgeState, key: keyof ForgeState['optionalModu
 
 /** モジュールをONにしたとき、その項目に値が無ければ抽選して埋める */
 export function fillModule(state: ForgeState, module: Parameters<typeof moduleKey>[0], recent?: RecentMap): DrawOutcome | null {
+  // 禁断の調合：ONにしたら、禁断演出とそれに合わせる表情・ポーズ・画角をまとめて引く（「なし」も通常どおり出る）
+  if (module === 'unlimited') return draw(state, { targets: GROUPS.forbidden, recent });
   // 眼鏡・特徴・持ち物は「なし」のままだとONにした手応えがないので、固定していなければ引き直す
   const fields = DRAW_ORDER.filter((f) => fieldDef(f).module === module && isActive(state, f)
     && (!optionOf(f, state.fields[f].id) || (OFF_AS_NONE.includes(f) && state.fields[f].id === 'none' && !state.fields[f].locked)));
   if (!fields.length) return null;
   // ONにした直後は「なし」以外から引く（以降の錬成では「なし」も出る）
-  const items = fields.filter((f) => OFF_AS_NONE.includes(f));
+  const items = fields.filter((f) => ['glasses', 'marks', 'prop'].includes(f));
   const preset: StylePreset | undefined = items.length ? { id: 'module-on', ja: '', desc: '', icon: '', filters: Object.fromEntries(items.map((f) => [f, ['!none']])) } : undefined;
   const res = draw(state, { targets: fields, recent, preset });
   if (res.ok) for (const f of items) if (res.state.fields[f].source === 'preset') res.state.fields[f].source = 'random';
@@ -312,12 +336,14 @@ export function fillModule(state: ForgeState, module: Parameters<typeof moduleKe
 }
 
 // ---- クイック操作の対象 ----
-export const GROUPS: Record<'direction' | 'outfit' | 'hair' | 'expression', FieldId[]> = {
+export const GROUPS: Record<'direction' | 'outfit' | 'hair' | 'expression' | 'forbidden', FieldId[]> = {
   /** 同じ方向性で引く：主要軸を保持して、それ以外 */
   direction: DRAW_ORDER.filter((f) => !['age', 'presentation', 'archetype', 'world', 'culture'].includes(f)),
   outfit: ['outfit', 'mainColor', 'accentColor'],
   hair: ['hairLength', 'hairStyle', 'hairColor', 'hairAccent', 'hairAccentColor'],
-  expression: ['expression', 'pose', 'shot', 'angle', 'prop']
+  expression: ['expression', 'pose', 'shot', 'angle', 'prop'],
+  /** 禁断演出だけ引き直す：立場・拘束・目隠し・着崩し・衣装の状態と、それに合わせる表情・ポーズ・画角 */
+  forbidden: ['role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2', 'expression', 'pose', 'shot']
 };
 
 /** 候補の一覧（検索・分類で絞った中）から1つ引く。ロック指定があれば採用後に固定。 */

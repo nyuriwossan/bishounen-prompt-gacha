@@ -8,6 +8,7 @@
  * 画角レベル：0 顔アップ / 1 胸上 / 2 上半身 / 3 腰上 / 4 膝上 / 5 全身
  */
 import type { Category, Option, ShotLevel } from '../types';
+import { BOUND_POSES } from './forbidden';
 import { o } from './helpers';
 
 const p = (id: string, ja: string, en: string, posture: string, hands: number, minShot: ShotLevel, gazeViewer: boolean, tags: string[], extra: Partial<Option> = {}) =>
@@ -82,12 +83,14 @@ export const POSE: Option[] = [
   p('under_umbrella', '傘を差す', 'sheltering under umbrella, looking at viewer', 'standing', 2, 2, true, ['melancholy', 'elegant'], { requires: ['prop:#umbrella'] }),
   p('offering_flower', '花を差し出す', 'offering flower to viewer', 'standing', 2, 1, true, ['gentle', 'alluring'], { requires: ['prop:#flower'] }),
   p('playing_music', '楽器を奏でる', 'playing instrument', 'standing', 2, 2, false, ['artist', 'elegant'], { requires: ['prop:#instrument'] }),
-  p('aiming', '銃を構える', 'aiming at viewer', 'standing', 2, 2, true, ['danger', 'dynamic'], { requires: ['prop:#gun'] })
+  p('aiming', '銃を構える', 'aiming at viewer', 'standing', 2, 2, true, ['danger', 'dynamic'], { requires: ['prop:#gun'] }),
+  // 禁断の調合：拘束の構図（拘束位置を hard 条件にするので、アンリミテッドモードOFFでは出ない）。手は塞がっているので持ち物なし
+  ...BOUND_POSES.map((b) => p(b.id, b.ja, b.en, b.posture, 0, b.minShot as ShotLevel, b.gaze, ['bound'], { cat: 'bound', requires: [`bindPos:${b.bind}`] })),
 ];
 export const POSE_CATS: Category[] = [
   { id: 'standing', ja: '立ち' }, { id: 'leaning', ja: 'もたれる' }, { id: 'sitting', ja: '座る' }, { id: 'crouching', ja: 'しゃがむ' },
   { id: 'lying', ja: '寝転ぶ' }, { id: 'walking', ja: '歩く' }, { id: 'running', ja: '走る' }, { id: 'jumping', ja: '跳ぶ' },
-  { id: 'kneeling', ja: '跪く' }, { id: 'floating', ja: '浮かぶ' }
+  { id: 'kneeling', ja: '跪く' }, { id: 'floating', ja: '浮かぶ' }, { id: 'bound', ja: '拘束（禁断の調合）' }
 ];
 
 // ---------------- 持ち物 ----------------

@@ -26,7 +26,8 @@ export const DEFAULT_MODULES: ForgeModules = {
   nameEnabled: true,
   glassesEnabled: false,
   marksEnabled: false,
-  propEnabled: false
+  propEnabled: false,
+  unlimitedEnabled: false
 };
 
 export function emptyState(): ForgeState {
@@ -50,12 +51,14 @@ export function cloneState(s: ForgeState): ForgeState {
 const MODULE_KEY: Record<ModuleId, keyof ForgeModules> = {
   pose: 'poseEnabled', background: 'backgroundEnabled', kemono: 'kemonoEnabled',
   facialHair: 'facialHairEnabled', hairAccent: 'hairAccentEnabled', name: 'nameEnabled',
-  glasses: 'glassesEnabled', marks: 'marksEnabled', prop: 'propEnabled'
+  glasses: 'glassesEnabled', marks: 'marksEnabled', prop: 'propEnabled', unlimited: 'unlimitedEnabled'
 };
 /** 親モジュール：持ち物はポーズを出力するときだけ意味を持つ */
 const MODULE_PARENT: Partial<Record<ModuleId, ModuleId>> = { prop: 'pose' };
 /** OFFのとき「なし」として扱う項目（判定・出力とも）。眼鏡OFFなら「眼鏡を押し上げる」も出ない */
-export const OFF_AS_NONE: FieldId[] = ['glasses', 'marks', 'prop'];
+export const OFF_AS_NONE: FieldId[] = ['glasses', 'marks', 'prop', 'role', 'restraint', 'bindPos', 'anchor', 'blindfold', 'disarray', 'wear1', 'wear2'];
+/** 禁断の調合の項目 */
+export const FORBIDDEN_FIELDS: FieldId[] = ['role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2'];
 export const moduleKey = (m: ModuleId) => MODULE_KEY[m];
 
 /** 任意モジュールが有効か（モジュールに属さない項目は常に有効） */
@@ -71,6 +74,9 @@ export function isActive(state: ForgeState, field: FieldId): boolean {
 export function isEffective(state: ForgeState, field: FieldId): boolean {
   if (!isActive(state, field)) return false;
   if (field === 'hairAccentColor') return !!state.fields.hairAccent.id && state.fields.hairAccent.id !== 'none';
+  // 拘束位置は拘束具があるとき、固定先・締め方は実際に縛っているとき（手に持つ以外）だけ意味を持つ
+  if (field === 'bindPos') return state.fields.restraint.id !== 'none';
+  if (field === 'anchor' || field === 'tightness') return state.fields.restraint.id !== 'none' && !['none', 'held'].includes(state.fields.bindPos.id ?? 'none');
   return true;
 }
 

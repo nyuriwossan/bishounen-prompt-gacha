@@ -1,5 +1,5 @@
 {
-  "total": 158,
+  "total": 388,
   "byRule": {
     "hair_length_style": 14,
     "pose_shot": 14,
@@ -12,7 +12,24 @@
     "hair_accent_duplicate": 14,
     "ears_kemono": 14,
     "eyepatch_monocle": 1,
-    "requires": 17
+    "restraint_bind": 14,
+    "role_bind": 14,
+    "bind_pose": 14,
+    "bind_shot": 14,
+    "anchor_shot": 3,
+    "bind_prop": 14,
+    "anchor_bind": 14,
+    "anchor_pose": 14,
+    "blind_glasses": 14,
+    "blind_marks": 9,
+    "blind_outfit": 14,
+    "blind_role": 14,
+    "blind_expression": 14,
+    "disarray_outfit": 14,
+    "wear1_outfit": 14,
+    "wear2_outfit": 14,
+    "wear_pair": 14,
+    "requires": 25
   },
   "failures": []
 }

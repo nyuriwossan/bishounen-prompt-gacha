@@ -194,3 +194,22 @@ describe('コピーのフォールバック（iOS Safari など）', () => {
     expect(await copyText('abc', { navigator: {} as Navigator, document: fakeDoc(false) })).toBe('manual');
   });
 });
+
+describe('禁断の調合と保存', () => {
+  it('共有URL・JSONでスイッチと値を運び、旧データは既定OFFで読む', () => {
+    const s = sample('fb-share');
+    s.optionalModules.unlimitedEnabled = true;
+    s.fields.restraint = { id: 'ribbon', source: 'manual', locked: true };
+    s.fields.bindPos = { id: 'wrists_front', source: 'manual', locked: false };
+    const back = decodeShare(encodeShare(s)).state!;
+    expect(back.optionalModules.unlimitedEnabled).toBe(true);
+    expect(back.fields.restraint).toEqual({ id: 'ribbon', source: 'manual', locked: true });
+    const old = JSON.parse(JSON.stringify(sample('fb-old')));
+    delete old.optionalModules.unlimitedEnabled;
+    for (const f of ['role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2']) delete old.fields[f];
+    const st = normalizeState(old);
+    expect(st.optionalModules.unlimitedEnabled).toBe(false);
+    expect(st.fields.restraint.id).toBe('none');
+    expect(st.fields.tightness.id).toBe('loose');
+  });
+});

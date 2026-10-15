@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { FIELDS, DATA_VERSION } from '../src/data/fields';
 import { STYLE_PRESETS } from '../src/data/presets';
 const SRC: Record<string, string> = { new: '新規', caw: '外見工房', cpw: '衣装工房', pcw: 'ポーズ工房', bg: '背景工房', kemono: '獣人工房', oc: 'OCメーカー' };
-const GROUP: Record<string, string> = { basic: '基本', face: '詳細：顔', role: '詳細：役割', pose: '詳細：ポーズ', scene: '詳細：背景', kemono: '任意：獣人', style: '任意：画風・名前' };
+const GROUP: Record<string, string> = { basic: '基本', face: '詳細：顔', role: '詳細：役割', pose: '詳細：ポーズ', scene: '詳細：背景', kemono: '任意：獣人', forbidden: '任意：禁断の調合', style: '任意：画風・名前' };
 const L: string[] = [`# DATA-CATALOG — 辞書の件数と構成`, '', `辞書の版：\`${DATA_VERSION}\`。件数は \`src/data/fields.ts\` の登録から自動集計（\`npm run report:catalog\` で再生成。下限は \`tests/data.test.ts\` で検査）。`, '',
   '## 指示書の目標との対応', '', '| 分類 | 目標 | 実数 |', '|---|---:|---:|'];
 const n = (id: string, excl = true) => FIELDS.find((f) => f.id === id)!.options.filter((o) => !excl || !['none', 'unspecified'].includes(o.id)).length;

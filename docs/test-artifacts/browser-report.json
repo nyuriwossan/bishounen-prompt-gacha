@@ -1,7 +1,7 @@
 {
   "engine": "chromium",
-  "at": "2026-10-14T22:27:31.706Z",
-  "total": 88,
+  "at": "2026-10-14T23:59:55.173Z",
+  "total": 92,
   "failed": 0,
   "results": [
     {
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "ハニーブロンドの凛とした侍 / ブロンドの中華宮廷の皇子"
+      "detail": "黒髪クール / 銅色髪のアンニュイな色男"
     },
     {
       "name": "進むでやり直せる",
@@ -255,6 +255,26 @@
       "detail": ""
     },
     {
+      "name": "禁断の調合は既定OFFで、項目を表示しない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ONにすると、禁断演出の9項目と引き直しボタンが出る",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "「禁断演出だけ引き直す」は禁断演出を変え、髪の色は変えない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "OFFに戻すと、項目と引き直しボタンが消える",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "眼鏡・特徴・持ち物は既定でOFF（出力しない）",
       "ok": true,
       "detail": ""
@@ -262,7 +282,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "ハーフリム"
+      "detail": "黒縁眼鏡"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -407,7 +427,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:33469/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4yJm09YnBuJmM"
+      "detail": "http://127.0.0.1:42921/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4zJm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

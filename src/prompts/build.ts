@@ -10,7 +10,7 @@ import { valuesOf } from '../engine/draw';
 import { isActive, isEffective } from '../engine/state';
 import type { FieldId, ForgeState, Option, OutputTarget } from '../types';
 
-export interface PromptSection { id: 'face' | 'hairBody' | 'outfit' | 'pose' | 'scene' | 'meta'; ja: string; tags: string[] }
+export interface PromptSection { id: 'face' | 'hairBody' | 'outfit' | 'forbidden' | 'pose' | 'scene' | 'meta'; ja: string; tags: string[] }
 export interface PromptOutput {
   target: OutputTarget;
   title: string;
@@ -59,6 +59,55 @@ const joinNat = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0,
 function dedupe(tags: string[]): string[] {
   const seen = new Set<string>();
   return tags.map((t) => t.trim()).filter((t) => { const k = t.toLowerCase(); if (!t || seen.has(k)) return false; seen.add(k); return true; });
+}
+
+/* ---------------- 禁断の調合（アンリミテッドモード）----------------
+ * PixAI のアプリ版で弾かれる語（adult など）は使わない。首への拘束・負傷・流血は出さない。 */
+const GAZE_TAGS = /^(looking at viewer|eye contact)$/i;
+/** 目が隠れているときに顔の欄から外す、目に関する語（表情に含まれるものも） */
+const EYE_WORDS = /\b(eyes?|eyelash(es)?|lashes|gaze|stare|sanpaku|jitome|eyelids?)\b/i;
+const BOUND_NEGATIVE = ['blood', 'wounds', 'bruises', 'restraints around neck', 'extra hands', 'missing fingers', 'fused fingers'];
+export interface ForbiddenParts {
+  on: boolean; tags: string[]; outfitTags: string[]; restraintNat: string; blindNat: string; clothesNat: string;
+  hideEyes: boolean; stripGaze: boolean; negative: string[]; jaRows: Array<[string, string]>; jaProse: string;
+}
+export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf> = valuesOf(state)): ForbiddenParts {
+  const none: ForbiddenParts = { on: false, tags: [], outfitTags: [], restraintNat: '', blindNat: '', clothesNat: '', hideEyes: false, stripGaze: false, negative: [], jaRows: [], jaProse: '' };
+  if (!state.optionalModules.unlimitedEnabled) return none;
+  const set = (o?: Option) => !!o && o.id !== 'none';
+  const r = v.restraint, b = v.bindPos, a = v.anchor, t = v.tightness, f = v.blindfold;
+  const restraintTags: string[] = [];
+  let restraintNat = '';
+  const bound = set(r) && set(b) && b!.id !== 'held';
+  if (set(r) && b?.id === 'held') {
+    const phrase = `${r!.tags?.includes('summoned') ? 'controlling' : 'holding'} ${r!.nat}`;
+    restraintTags.push(phrase);
+    restraintNat = `He is ${phrase}.`;
+  } else if (bound) {
+    const where = b!.id === 'one_wrist' ? 'one wrist' : `the ${b!.nat}`;
+    const material = `${r!.nat} around ${where}`;
+    const anchor = set(a) && !(a!.id === 'chair' && b!.id === 'armrests') ? a!.en : [];
+    restraintTags.push(...b!.en, material, ...(t ? t.en : []), ...anchor);
+    if (r!.tags?.includes('chain')) restraintTags.push('chain links clearly visible');
+    restraintTags.push('clean uninjured skin');
+    restraintNat = `${cap(b!.en.join(', '))}, with ${material}${t ? `, ${t.en.join(', ')}` : ''}${anchor.length ? `, ${anchor.join(', ')}` : ''}.`;
+  }
+  const blind = set(f) ? f!.en : [];
+  const hideEyes = !!f?.tags?.includes('covered');
+  const stripGaze = hideEyes || !!f?.tags?.includes('closed');
+  const clothes = [v.disarray, v.wear1, v.wear2].filter(set).flatMap((x) => x!.en);
+  const role = set(v.role) ? v.role!.en : [];
+  const j = (o?: Option) => (set(o) ? o!.ja : '');
+  const restraintJa = set(r) ? [r!.ja, j(b), bound ? [j(a), t?.ja].filter(Boolean).join('・') : ''].filter(Boolean).join('／') : 'なし';
+  const wearJa = [j(v.wear1), j(v.wear2)].filter(Boolean).join('・') || 'なし';
+  const jaRows: Array<[string, string]> = [['立場', j(v.role) || '指定しない'], ['拘束', restraintJa], ['目隠し・視界', j(f) || 'なし'], ['衣装の乱れ', j(v.disarray) || 'なし'], ['衣装の状態', wearJa]];
+  const proseBits = [j(v.role), set(r) ? `${r!.ja}${set(b) ? `（${b!.ja}）` : ''}` : '', j(f), j(v.disarray), wearJa !== 'なし' ? wearJa : ''].filter(Boolean);
+  return {
+    on: true, tags: dedupe([...role, ...restraintTags, ...blind]), outfitTags: dedupe(clothes), restraintNat,
+    blindNat: blind.length ? `${hideEyes ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
+    clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
+    hideEyes, stripGaze, negative: bound ? BOUND_NEGATIVE : [], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
+  };
 }
 
 /** 画角で残る衣装テンプレートの断片（色を埋める前）。顔アップは上半身の先頭だけ、腰上は下半身の先頭まで、膝上以上で下半身すべて */
@@ -120,27 +169,31 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   const young = ['a18_24', 'a25_34'].includes(ageId);
   const muscled = v.build?.cat === 'muscle';
   const mascPres = v.presentation?.id === 'masc';
+  const fb = forbiddenParts(state, v);
+  const eyeTags = (f: FieldId) => (fb.hideEyes ? [] : en(f));
 
   // ---- タグ（セクション別）----
   const subject = S.boyTag === '1boy' ? ['1boy', 'solo', 'male focus'] : ['solo', 'male focus'];
   const anchor = ['handsome', ...(young && !muscled && !mascPres ? ['bishounen'] : [])];
-  const face = dedupe([...en('age'), ...anchor, ...en('archetype'), ...en('presentation'), ...en('face'), ...en('eyeShape'), ...en('eyeColor'), ...en('skin'), ...en('marks'), ...en('glasses'), ...(M.facialHairEnabled ? en('facialHair') : []), ...en('expression')]);
+  const face = dedupe([...en('age'), ...anchor, ...en('archetype'), ...en('presentation'), ...en('face'), ...eyeTags('eyeShape'), ...eyeTags('eyeColor'), ...en('skin'), ...en('marks'), ...en('glasses'), ...(M.facialHairEnabled ? en('facialHair') : []), ...en('expression')]).filter((t) => !(fb.hideEyes && EYE_WORDS.test(t)));
   const hair = dedupe([...en('hairLength'), ...en('hairStyle'), ...en('hairColor'), ...(accentOn ? [...en('hairAccentColor'), ...en('hairAccent')] : []), ...en('build'), ...kemonoTags]);
-  const outfitTags = dedupe([...outfit.tags, ...(v.culture && v.culture.id !== 'none' ? v.culture.en : [])]);
-  const pose = dedupe(M.poseEnabled ? [...en('pose'), ...en('prop'), ...en('shot'), ...en('angle')] : [...en('shot')]);
+  const outfitTags = dedupe([...outfit.tags, ...(v.culture && v.culture.id !== 'none' ? v.culture.en : []), ...fb.outfitTags]);
+  const forbidden = fb.tags;
+  const pose = dedupe(M.poseEnabled ? [...en('pose'), ...en('prop'), ...en('shot'), ...en('angle')] : [...en('shot')]).filter((t) => !(fb.stripGaze && GAZE_TAGS.test(t)));
   const scene = dedupe(bgOn ? [...en('scene'), ...(simpleBg ? [] : en('time')), ...en('light')] : []);
   const meta = dedupe([...(v.aura?.en.slice(0, 1) ?? []), ...(v.world?.en ?? []), ...(v.artStyle?.en ?? [])]);
   const sections: PromptSection[] = [
     { id: 'face', ja: '人物の顔', tags: face },
     { id: 'hairBody', ja: '髪・体', tags: hair },
     { id: 'outfit', ja: '衣装', tags: outfitTags },
+    ...(fb.on ? [{ id: 'forbidden' as const, ja: '禁断演出', tags: forbidden }] : []),
     { id: 'pose', ja: 'ポーズ・構図', tags: pose },
     { id: 'scene', ja: '背景・光', tags: scene },
     { id: 'meta', ja: '雰囲気・画風', tags: meta }
   ];
 
   const free = parseFree(S.freeTags);
-  const warnings = checkFreeTags(free, state, [...subject, ...face, ...hair, ...outfitTags, ...pose, ...scene, ...meta]);
+  const warnings = checkFreeTags(free, state, [...subject, ...face, ...hair, ...outfitTags, ...forbidden, ...pose, ...scene, ...meta]);
   const lora = S.loraText.trim() ? [S.loraText.trim()] : [];
   const quality = S.quality ? QUALITY[target] ?? [] : [];
   const emph = (t: string) => {
@@ -153,12 +206,12 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   let positive = '', compact = '';
   if (target === 'pixai' || target === 'novelai' || target === 'genericTags') {
     const q = target === 'genericTags' ? [] : quality;
-    const all = dedupe([...q, ...lora, ...subject, ...face, ...hair, ...outfitTags, ...pose, ...scene, ...meta, ...free]);
+    const all = dedupe([...q, ...lora, ...subject, ...face, ...hair, ...outfitTags, ...forbidden, ...pose, ...scene, ...meta, ...free]);
     const emphSet = new Set(['handsome', v.archetype?.en[0]].filter(Boolean) as string[]);
     positive = all.map((t) => (emphSet.has(t) ? emph(t) : t)).join(', ');
     const short = dedupe([...q, ...lora, ...subject, ...en('age').slice(0, 1), 'handsome', ...(v.archetype?.en.slice(0, 1) ?? []),
       ...(mascPres ? [] : en('presentation').slice(0, 1)), ...en('hairLength'), ...en('hairStyle').slice(0, 1), ...en('hairColor'), ...en('eyeColor'),
-      ...kemonoTags.slice(0, 2), ...outfit.tags.slice(0, 2), ...en('expression').slice(0, 1), ...en('shot').slice(0, 1),
+      ...kemonoTags.slice(0, 2), ...outfit.tags.slice(0, 2), ...forbidden.slice(0, 3), ...en('expression').slice(0, 1), ...en('shot').slice(0, 1),
       ...(bgOn ? en('scene').slice(0, 1) : []), ...(v.artStyle?.en ?? []), ...free]);
     compact = short.map((t) => (emphSet.has(t) ? emph(t) : t)).join(', ');
   } else if (target === 'naturalEnglish') {
@@ -174,8 +227,9 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
     compact = `【${titleOf(state)}】${japanese}`;
   }
 
-  const negative = S.negative && target !== 'japanese' && target !== 'naturalEnglish' ? NEGATIVE_BASE.join(', ')
-    : S.negative && target === 'naturalEnglish' ? `Avoid: ${NEGATIVE_BASE.join(', ')}.` : '';
+  const negBase = [...NEGATIVE_BASE, ...fb.negative];
+  const negative = S.negative && target !== 'japanese' && target !== 'naturalEnglish' ? negBase.join(', ')
+    : S.negative && target === 'naturalEnglish' ? `Avoid: ${negBase.join(', ')}.` : '';
 
   return { target, title: titleOf(state), positive, compact, negative, sections, japanese, japaneseLines, warnings };
 }
@@ -191,17 +245,23 @@ function naturalSentences(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   const eyeC = colorWord(v.eyeColor, / eyes$/);
   const eyeTpl = v.eyeShape ? EYE_NAT[v.eyeShape.id] ?? `{c} ${v.eyeShape.en.join(', ')}` : '{c} eyes';
   const extras = [...(v.skin?.en ?? []), ...(v.marks?.en ?? []), ...(v.glasses?.en ?? []), ...(M.facialHairEnabled ? v.facialHair?.en ?? [] : [])];
-  out.push(`He has ${eyeTpl.replace('{c}', eyeC).replace(/\s+/g, ' ')}${extras.length ? `, ${joinNat(extras)}` : ''}.`);
+  const fb = forbiddenParts(state, v);
+  if (fb.hideEyes) { if (extras.length) out.push(`He has ${joinNat(extras)}.`); }
+  else out.push(`He has ${eyeTpl.replace('{c}', eyeC).replace(/\s+/g, ' ')}${extras.length ? `, ${joinNat(extras)}` : ''}.`);
   const hairC = colorWord(v.hairColor, / hair$/);
   const accentOn = isEffective(state, 'hairAccentColor') && v.hairAccent && v.hairAccent.id !== 'none';
   const accent = accentOn && v.hairAccentColor ? ` with ${colorWord(v.hairAccentColor, / hair$/)} ${ACCENT_NOUN[v.hairAccent!.id] ?? 'accents'}` : '';
   out.push(`His ${LEN_WORD[v.hairLength?.id ?? 'short'] ?? ''} ${hairC} hair${accent} is styled as ${joinNat(v.hairStyle?.en ?? ['loose hair'])}, and he has ${v.build?.nat ?? 'a balanced build'}.`.replace(/\s+/g, ' '));
   if (M.kemonoEnabled && kemonoTags.length) out.push(`He is a kemonomimi man with ${joinNat(kemonoTags)}, while keeping a handsome human face.`);
   if (outfitNat) out.push(`He wears ${outfitNat}${v.culture && v.culture.id !== 'none' ? `, adorned with ${v.culture.nat}` : ''}.`);
+  if (fb.clothesNat) out.push(fb.clothesNat);
+  if (fb.restraintNat) out.push(fb.restraintNat);
+  if (fb.blindNat) out.push(fb.blindNat);
   const expr = v.expression ? EXPR_NAT[v.expression.id] ?? v.expression.en.join(', ') : '';
   if (M.poseEnabled && v.pose) {
     const prop = v.prop && v.prop.id !== 'none' ? `, ${v.prop.en.join(', ')}` : '';
-    out.push(`He wears ${expr || 'a calm expression'}; pose: ${v.pose.en.join(', ')}${prop}.`);
+    const poseEn = v.pose.en.filter((t) => !(fb.stripGaze && GAZE_TAGS.test(t)));
+    out.push(`He wears ${expr || 'a calm expression'}; pose: ${poseEn.join(', ')}${prop}.`);
   } else if (expr) out.push(`He has ${expr}.`);
   const shotNat = SHOT_NAT[v.shot?.id ?? 'upper_body'] ?? 'A portrait';
   const angle = M.poseEnabled && v.angle && ANGLE_NAT[v.angle.id] ? `, ${ANGLE_NAT[v.angle.id]}` : '';
@@ -235,6 +295,7 @@ function japaneseSettings(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   else rows.push(['構図', j('shot')]);
   if (M.backgroundEnabled) rows.push(['背景', j('scene')], ['時間・天候', v.scene?.place === 'simple' ? `${j('time')}（シンプル背景のため出力なし）` : j('time')], ['光', j('light')]);
   if (M.kemonoEnabled) rows.push(['獣人', `${j('kemonoSpecies')}・${j('kemonoLevel')}`]);
+  rows.push(...forbiddenParts(state, v).jaRows);
   rows.push(['雰囲気', j('aura')], ['職業・立場', j('occupation')], ['画風', j('artStyle')]);
   return rows;
 }
@@ -250,7 +311,7 @@ function japaneseProse(state: ForgeState, v: ReturnType<typeof valuesOf>, outfit
   const s2 = `${v.hairColor ? hairColorShort(v.hairColor) : '髪'}の${v.hairStyle?.ja ?? ''}に${v.eyeColor?.ja ?? ''}、${/(目元|目|瞳|眼差し|まつ毛)$/.test(eyeJa) ? eyeJa : `${eyeJa}の目元`}。`;
   const s3 = `${outfitJa ? `${outfitJa}をまとう。` : ''}表情は「${v.expression?.ja ?? '—'}」${M.poseEnabled && v.pose ? `、ポーズは「${v.pose.ja}」${v.prop && v.prop.id !== 'none' ? `、手には${v.prop.ja}` : ''}` : ''}。`;
   const s4 = `舞台は${v.world?.ja ?? '—'}${M.backgroundEnabled && v.scene ? `、${v.scene.ja}${v.scene.place !== 'simple' && v.time ? `の${v.time.ja}` : ''}` : ''}。`;
-  return [s1, s2, s3, s4].join('');
+  return [s1, s2, s3, s4, forbiddenParts(state, v).jaProse].join('');
 }
 
 // ---- 自由タグ ----

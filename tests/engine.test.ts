@@ -405,3 +405,69 @@ describe('モードとおまかせスタイル', () => {
     expect(softWeight('hairColor', pink, v, 'coherent')).toBeLessThan(softWeight('hairColor', pink, v, 'wild') * 1.01);
   });
 });
+
+describe('禁断の調合（アンリミテッドモード）', () => {
+  const onState = (seed: string, mode: ForgeState['settings']['coherence'] = 'coherent') => {
+    const s = emptyState(); s.settings.coherence = mode; s.optionalModules.unlimitedEnabled = true;
+    const r = draw(s, { seed }); expect(r.ok, JSON.stringify(r.conflicts)).toBe(true); return r.state;
+  };
+  it('既定はOFFで、OFFの間は立場・拘束・目隠し・着崩し・状態がすべて「なし」', () => {
+    expect(emptyState().optionalModules.unlimitedEnabled).toBe(false);
+    let s = fresh('fb0');
+    for (let i = 0; i < 60; i++) {
+      s = draw(s, { seed: 'fb0' + i }).state;
+      const v = valuesOf(s);
+      for (const f of ['role', 'restraint', 'bindPos', 'anchor', 'blindfold', 'disarray', 'wear1', 'wear2'] as const) expect(v[f]?.id, f).toBe('none');
+      expect(v.pose!.tags?.includes('bound')).toBe(false);
+      expect(v.expression!.cat).not.toBe('forbidden');
+    }
+  });
+  it('ONでは組み合わせの約束を守る（3モード×各80回）', () => {
+    for (const mode of ['coherent', 'balanced', 'wild'] as const) {
+      let s = onState('fb-' + mode, mode);
+      for (let i = 0; i < 80; i++) {
+        const r = draw(s, { seed: `fb-${mode}-${i}` });
+        expect(r.ok).toBe(true);
+        s = r.state;
+        const v = valuesOf(s);
+        expect(allViolations(v), `${mode}#${i}`).toEqual([]);
+        const role = v.role!, b = v.bindPos!, p = v.pose!;
+        const captorOnly = role.tags?.includes('captor') && !role.tags?.includes('captive');
+        if (captorOnly) expect(['none', 'held']).toContain(b.id);
+        if (v.restraint!.id === 'none') expect(b.id).toBe('none');
+        if (p.tags?.includes('bound')) expect(p.requires).toContain(`bindPos:${b.id}`);
+        if (v.disarray!.id === 'tie_loosened') expect(v.outfit!.tags).toContain('tie');
+        if (v.wear1!.cat === 'wet') expect(v.wear2!.cat).not.toBe('wet');
+        if (v.wear2!.id !== 'none') expect(v.wear1!.id).not.toBe('none');
+        if (v.blindfold!.tags?.includes('covered')) expect(v.glasses?.id ?? 'none').toBe('none');
+      }
+    }
+  });
+  it('される側では、拘束の構図と立場に合う表情が出やすい', () => {
+    let bound = 0, captiveExpr = 0;
+    let s = set(onState('fb-cap'), 'role', 'captive');
+    for (let i = 0; i < 60; i++) {
+      s = draw(s, { seed: 'cap' + i }).state;
+      if (optionOf('pose', s.fields.pose.id)!.tags?.includes('bound')) bound++;
+      if (['wary', 'defiant', 'frustrated', 'resigned', 'bewildered', 'quiet_tears', 'determined', 'flustered', 'sad_smile', 'intense_stare'].includes(s.fields.expression.id!)) captiveExpr++;
+    }
+    expect(bound).toBeGreaterThan(25);
+    expect(captiveExpr).toBeGreaterThan(30);
+  });
+  it('「禁断演出だけ引き直す」は、他の項目（髪・衣装・美形タイプ）を変えない', () => {
+    const s = onState('fb-group');
+    const r = draw(s, { targets: GROUPS.forbidden, seed: 'g' });
+    for (const f of ['archetype', 'hairStyle', 'hairColor', 'outfit', 'world'] as const) expect(r.state.fields[f].id).toBe(s.fields[f].id);
+  });
+  it('ONにすると、禁断演出をその場でまとめて引く', () => {
+    const s = fresh('fb-fill'); s.optionalModules.unlimitedEnabled = true;
+    const r = fillModule(s, 'unlimited')!;
+    expect(r.ok).toBe(true);
+    expect(r.state.fields.role.id).not.toBe('none');
+  });
+  it('立場がOFFでは立場の表情を手で選べず、ONなら選べる', () => {
+    expect(checkAdopt(fresh('fb-ex'), 'expression', 'wary').blockingOff).toEqual(['role']);
+    const s = set(onState('fb-ex2'), 'role', 'captive');
+    expect(adopt(s, 'expression', 'wary', true).ok).toBe(true);
+  });
+});

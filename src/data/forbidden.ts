@@ -1,0 +1,181 @@
+/* 禁断の調合（アンリミテッドモード）：拘束・目隠し・着崩し・衣装の傷み。
+ * 既定OFF。OFFの間はすべて「なし」として扱い、抽選にも出力にも一切混ぜない（state.ts の OFF_AS_NONE）。
+ * 参考：pose-composition-workshop の拘束（restraint.js / generator.js：拘束位置・固定先・締め方と、
+ *       手や鎖を見せる安定化の句、首への拘束をしない・非流血の方針）、
+ *       outfit-prompt-workshop の状態・加工（conditions.js）と着こなし（styling.js：requiresFeature）。
+ * 方針：
+ *  - 成人男性1名のまま。PixAI のアプリ版で弾かれる語（adult など）や、性的・露出を直接示す語は出さない。
+ *  - 首への拘束・負傷・流血は扱わない。濡れや破れから透け・露出を自動で足さない。
+ *  - 触手・蔓・光の鎖などの幻想系は、世界観との相性（soft）で出やすさを変える。
+ */
+import type { Category, Option } from '../types';
+import { o } from './helpers';
+
+// ---------------- 立場 ----------------
+// tags：captive（される側）/ captor（する側）。どちらとも取れる立場は両方を持つ。
+export const ROLE: Option[] = [
+  o('none', '指定しない', [], { w: 0.3, tags: [] }),
+  o('binder', '拘束する側', 'dominant', { tags: ['captor'] }),
+  o('watcher', '監視する側', 'dominant, watchful', { tags: ['captor'] }),
+  o('hunter', '追い詰める側', 'dominant, predatory', { tags: ['captor'] }),
+  o('ruler', '余裕のある支配者', 'dominant, composed', { tags: ['captor'] }),
+  o('captive', '拘束される側', 'captive', { tags: ['captive'], w: 1.3 }),
+  o('prisoner', '捕らえられた側', 'captive, prisoner', { tags: ['captive'] }),
+  o('defiant', '反抗的な囚われ', 'captive, defiant', { tags: ['captive'] }),
+  o('resigned', '諦めた囚われ', 'captive, resigned', { tags: ['captive'] }),
+  o('ambiguous', 'どちらとも取れる', [], { tags: ['captive', 'captor'], desc: '出力は拘束具や表情に任せます。' }),
+  o('offscreen', '相手は画面外', [], { tags: ['captive', 'captor'], desc: '人物は1名のまま。相手は描きません。' })
+];
+
+// ---------------- 拘束具 ----------------
+// nat：拘束の素材名（「◯◯ around the wrists」の形で使う）。summoned は手に持たず「操る」もの。
+const r = (id: string, ja: string, nat: string, worlds: string[], extra: Partial<Option> = {}) =>
+  o(id, ja, [], { nat, worlds, tags: [], ...extra });
+export const RESTRAINT: Option[] = [
+  r('none', 'なし', '', [], { w: 1.2 }),
+  r('rope', '縄', 'rope', []),
+  r('chain', '鎖', 'chains', [], { tags: ['chain'] }),
+  r('cuffs', '手錠', 'handcuffs', ['modern', 'noir', 'military', 'sf', 'urban']),
+  r('straps', '革ベルト', 'leather straps', []),
+  r('ornate_chain', '装飾鎖', 'ornate decorative chains', ['court', 'gothic', 'fantasy', 'stage'], { tags: ['chain'] }),
+  r('ribbon', 'ラッピングのリボン', 'satin ribbon tied in a bow like a gift wrapping', [], { desc: '贈り物のように結ばれたリボン', tags: ['soft'] }),
+  r('silk_cord', '絹の組紐', 'braided silk cords', ['japan', 'china', 'eastern', 'court']),
+  r('bandage', '包帯', 'white bandages', []),
+  r('tentacles', '触手', 'tentacles', ['fantasy', 'dark', 'supernatural', 'myth', 'sf'], { tags: ['summoned'] }),
+  r('shadow_tentacles', '影の触手', 'shadowy tentacles of dark magic', ['fantasy', 'dark', 'supernatural', 'gothic'], { tags: ['summoned', 'magic'] }),
+  r('vines', '蔓草', 'ivy vines', ['fantasy', 'myth', 'supernatural'], { tags: ['summoned'] }),
+  r('rose_vines', '薔薇の蔓（棘なし）', 'thornless rose vines with blooming roses', ['fantasy', 'gothic', 'court', 'myth'], { tags: ['summoned'] }),
+  r('light_chains', '光の鎖', 'glowing magical chains of light', ['fantasy', 'myth', 'sacred', 'supernatural'], { tags: ['summoned', 'magic', 'chain'] })
+];
+
+// ---------------- 拘束位置 ----------------
+// tags：held（手に持つ・操る）/ wrists（両手首）/ one_wrist / ankles / torso。target は素材をどこに巻くか。
+export const BIND_POS: Option[] = [
+  o('none', 'なし', [], { w: 1, tags: [] }),
+  o('held', '手に持つ・操る（する側）', [], { tags: ['held'], desc: '拘束具を手に持つ、または操る' }),
+  o('wrists_front', '両手首を前', 'both wrists bound together in front, bound hands held near the waist', { tags: ['wrists'], nat: 'wrists' }),
+  o('wrists_behind', '両手首を後ろ', 'both wrists bound behind the back, bound hands clearly visible behind the waist', { tags: ['wrists'], nat: 'wrists' }),
+  o('wrists_overhead', '両手首を頭上', 'both wrists secured overhead, arms raised above the head, both feet planted on the floor', { tags: ['wrists'], nat: 'wrists' }),
+  o('one_wrist', '片手首', 'one wrist restrained, the other arm free', { tags: ['one_wrist'], nat: 'one wrist' }),
+  o('armrests', '椅子の肘掛け', 'each wrist secured to a chair armrest, seated upright', { tags: ['wrists'], nat: 'wrists' }),
+  o('ankles', '両足首', 'both ankles bound together, hands free', { tags: ['ankles'], nat: 'ankles' }),
+  o('torso_arms', '腕と胴体', 'restraints wrapped around the upper arms and torso, neck clear', { tags: ['torso'], nat: 'upper arms and torso' })
+];
+
+// ---------------- 固定先 ----------------
+export const ANCHOR: Option[] = [
+  o('none', '固定先なし', [], { w: 2 }),
+  o('wall', '壁', 'secured to a wall ring'),
+  o('pillar', '柱', 'secured to a pillar'),
+  o('chair', '椅子', 'secured to a chair'),
+  o('overhead', '頭上の固定具', 'attached to an overhead fixture')
+];
+
+// ---------------- 締め方 ----------------
+export const TIGHTNESS: Option[] = [
+  o('loose', '緩く巻く', 'loosely bound', { w: 1.3 }),
+  o('secured', 'しっかり固定', 'securely bound'),
+  o('decorative', '装飾的に巻く', 'decoratively wrapped')
+];
+
+// ---------------- 目隠し・視界 ----------------
+// tags：covered（目が完全に隠れる。こちらを見る・眼鏡・目の描写を出さない）/ one_eye / closed（目を閉じる・伏せる）
+export const BLINDFOLD: Option[] = [
+  o('none', 'なし', [], { w: 5, tags: [] }),
+  o('cloth', '布の目隠し', 'cloth blindfold', { tags: ['covered'] }),
+  o('leather', '革の目隠し', 'leather blindfold', { tags: ['covered'] }),
+  o('ribbon', 'リボンの目隠し', 'ribbon blindfold, satin ribbon tied over the eyes', { tags: ['covered'] }),
+  o('lace', 'レースの目隠し', 'lace blindfold', { tags: ['covered'] }),
+  o('silk', 'シルクの目隠し', 'silk blindfold', { tags: ['covered'] }),
+  o('bandage_eyes', '包帯の目隠し', 'bandage over eyes', { tags: ['covered'] }),
+  o('hood_low', 'フードで視界を遮る', 'hood pulled low over the eyes', { tags: ['covered', 'hood'] }),
+  o('one_eye', '片目を覆う', 'bandage over one eye', { tags: ['one_eye'] }),
+  o('veil', 'ベール越し', 'sheer veil over the face', { tags: ['veil'] }),
+  o('masquerade', '目元の仮面', 'masquerade mask', { tags: ['one_eye', 'mask'] }),
+  o('downcast', '伏し目', 'downcast eyes, looking down', { tags: ['closed'] }),
+  o('eyes_closed', '目を閉じる', 'closed eyes', { tags: ['closed'] })
+];
+
+// ---------------- 衣装の乱れ ----------------
+// outfitNeeds：衣装の特徴タグ（outfits.ts で upper/lower の語から付与）。sleeves は「袖のない衣装」以外。
+const d = (id: string, ja: string, en: string, outfitNeeds: string, extra: Partial<Option> = {}) => o(id, ja, en, { outfitNeeds, ...extra });
+export const DISARRAY: Option[] = [
+  o('none', 'なし', [], { w: 3, outfitNeeds: '' }),
+  d('partially_unbuttoned', 'ボタンを一部外す', 'partially unbuttoned shirt', 'f_shirt'),
+  d('top_button_undone', '一番上のボタンを外す', 'top button undone', 'f_shirt'),
+  d('collar_loosened', '襟元をゆるめる', 'collar loosened', 'f_collar'),
+  d('tie_loosened', 'ネクタイをゆるめる', 'loosened necktie', 'tie'),
+  d('sleeves_rolled', '袖をまくる', 'sleeves rolled up', 'sleeves'),
+  d('sleeves_pushed', '袖をたくし上げる', 'sleeves pushed up', 'sleeves'),
+  d('untucked', '裾を出す', 'shirt untucked', 'f_shirt'),
+  d('half_tucked', '片側だけ裾を入れる', 'shirt half-tucked', 'f_shirt'),
+  d('jacket_open', 'ジャケットを開ける', 'jacket worn open', 'f_jacket'),
+  d('coat_open', 'コートを開ける', 'coat worn open', 'f_coat'),
+  d('layer_open', '一枚を開いたまま', 'one layer hanging open', 'f_layered'),
+  d('hood_up', 'フードを被る', 'hood up', 'f_hood'),
+  d('disheveled', '全体を着崩す', 'disheveled clothes', '')
+];
+
+// ---------------- 衣装の状態・加工（最大2件） ----------------
+// cat：dirt / damage / wet。en は「clothes」に掛かる句。tear は鎧など硬い衣装では使わない。
+const w = (id: string, ja: string, en: string, cat: string, tags: string[] = []) => o(id, ja, en, { cat, tags });
+export const WEAR: Option[] = [
+  o('none', 'なし', [], { w: 4, tags: [] }),
+  w('dust_stained', '埃汚れ', 'dust-stained clothes', 'dirt'),
+  w('mud_splattered', '泥はね汚れ', 'mud-splattered clothes', 'dirt'),
+  w('mud_caked', '泥まみれ', 'clothes caked with mud', 'dirt'),
+  w('soiled', '全体的な汚れ', 'soiled clothes', 'dirt'),
+  w('soot_stained', '煤汚れ', 'soot-stained clothes', 'dirt'),
+  w('oil_stained', '油汚れ', 'oil-stained clothes', 'dirt'),
+  w('sand_covered', '砂まみれ', 'sand-covered clothes', 'dirt'),
+  w('salt_stained', '塩・海水の跡', 'salt-stained clothes', 'dirt'),
+  w('paint_splattered', '絵の具の飛沫', 'paint-splattered clothes', 'dirt'),
+  w('frayed', 'ほつれ', 'clothes with frayed edges', 'damage', ['tear']),
+  w('torn_light', '軽い破れ', 'slightly torn sleeve', 'damage', ['tear']),
+  w('torn_places', '所々の破れ', 'clothes torn in several places', 'damage', ['tear', 'heavy_tear']),
+  w('tattered', 'ぼろぼろ', 'tattered clothes', 'damage', ['tear', 'heavy_tear']),
+  w('scuffed', '擦れ', 'scuffed clothes', 'damage'),
+  w('scratched', '傷', 'scratched fabric', 'damage'),
+  w('singed', '焦げ', 'singed clothes', 'damage'),
+  w('scorched', '焼損', 'scorched clothes', 'damage'),
+  w('mend_marks', '補修跡', 'visibly repaired clothes', 'damage', ['repair']),
+  w('patched', 'パッチ補修', 'patched clothes', 'damage', ['repair']),
+  w('battle_worn', '戦闘で傷んだ状態', 'battle-worn clothes', 'damage'),
+  w('slightly_damp', 'わずかに湿っている', 'slightly damp clothes', 'wet'),
+  w('rain_soaked', '雨に濡れている', 'rain-soaked clothes', 'wet', ['rain']),
+  w('water_soaked', '水を吸って濡れている', 'water-soaked clothes', 'wet'),
+  w('drenched', 'ずぶ濡れ', 'clothes drenched with water', 'wet'),
+  w('water_droplets', '水滴が付いている', 'clothes covered in water droplets', 'wet'),
+  w('sea_spray', '海水に濡れている', 'clothes wet with sea spray', 'wet'),
+  w('snow_damp', '雪で湿っている', 'clothes damp from melting snow', 'wet', ['snow'])
+];
+export const WEAR_CATS: Category[] = [{ id: 'dirt', ja: '汚れ' }, { id: 'damage', ja: '損傷' }, { id: 'wet', ja: '濡れ' }];
+
+// ---------------- 拘束の構図（ポーズに追加。拘束位置を hard 条件にする）----------------
+// 姿勢の句だけを持ち、拘束の描写は拘束位置・拘束具の側で出す（重複させない）。
+export const BOUND_POSES = [
+  { id: 'bound_front_stand', ja: '両手首を前で縛られて立つ', en: 'standing, looking at viewer', posture: 'standing', minShot: 2, gaze: true, bind: 'wrists_front' },
+  { id: 'bound_behind_lookback', ja: '後ろ手に縛られ、肩越しに振り返る', en: 'from behind, looking back over shoulder', posture: 'standing', minShot: 2, gaze: true, bind: 'wrists_behind' },
+  { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, on knees, bound hands resting near the lap', posture: 'kneeling', minShot: 3, gaze: true, bind: 'wrists_front' },
+  { id: 'bound_chair', ja: '椅子に座り、両手首を肘掛けへ固定', en: 'sitting on chair, both hands and both armrests clearly visible', posture: 'sitting', minShot: 3, gaze: true, bind: 'armrests' },
+  { id: 'wall_chain_lookback', ja: '片手首を壁へつながれて振り返る', en: 'looking back, restrained hand raised toward the wall', posture: 'standing', minShot: 2, gaze: true, bind: 'one_wrist' },
+  { id: 'bound_overhead_stand', ja: '両手首を頭上で固定されて立つ', en: 'standing, arms up', posture: 'standing', minShot: 2, gaze: true, bind: 'wrists_overhead' },
+  { id: 'ankles_floor', ja: '足首を縛られて床に座る', en: 'sitting on floor, knees up', posture: 'sitting', minShot: 4, gaze: true, bind: 'ankles' },
+  { id: 'chain_torso_stand', ja: '腕と胴体へ緩く巻いた演出的な立ち姿', en: 'standing, dramatic pose', posture: 'standing', minShot: 2, gaze: true, bind: 'torso_arms' }
+] as const;
+
+// ---------------- 表情（立場に合わせて追加。立場がOFF＝なしでは出ない）----------------
+export const FORBIDDEN_EXPRESSIONS: Array<{ id: string; ja: string; en: string; side: 'captive' | 'captor' }> = [
+  { id: 'wary', ja: '警戒した表情', en: 'wary expression, guarded look', side: 'captive' },
+  { id: 'defiant', ja: '強がる表情', en: 'defiant expression, forced composure', side: 'captive' },
+  { id: 'frustrated', ja: '悔しそうな表情', en: 'frustrated expression, biting lip', side: 'captive' },
+  { id: 'resigned', ja: '諦めたような表情', en: 'resigned expression', side: 'captive' },
+  { id: 'bewildered', ja: '困惑した表情', en: 'bewildered expression', side: 'captive' },
+  { id: 'smug', ja: '得意げな笑み', en: 'smug smile', side: 'captor' },
+  { id: 'cold_glare', ja: '冷たい視線', en: 'cold stare', side: 'captor' }
+];
+/** 立場ごとに出やすくする既存の表情 */
+export const ROLE_EXPRESSIONS: Record<'captive' | 'captor', string[]> = {
+  captive: ['wary', 'defiant', 'frustrated', 'resigned', 'bewildered', 'quiet_tears', 'determined', 'flustered', 'sad_smile', 'intense_stare'],
+  captor: ['smug', 'cold_glare', 'knowing_smile', 'provocative', 'confident_smile', 'expressionless', 'cold_smile', 'smirk', 'teasing']
+};

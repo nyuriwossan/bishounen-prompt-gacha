@@ -11,6 +11,10 @@ export interface Violation { rule: string; fields: FieldId[]; reasonJa: string }
 
 interface PairRule { id: string; fields: [FieldId, FieldId]; check: (v: Values) => string | null }
 
+/** 拘束位置が画面に入る最小の画角（0 顔アップ〜5 全身） */
+const BIND_MIN_SHOT: Record<string, number> = { held: 1, wrists_front: 2, wrists_behind: 2, wrists_overhead: 2, one_wrist: 1, armrests: 3, ankles: 4, torso_arms: 1 };
+/** 椅子に座っているポーズ（固定先「椅子」と両立する） */
+const CHAIR_POSES = new Set(['sitting_chair', 'crossed_legs', 'backwards_chair', 'chin_on_hand_table', 'throne_lounge', 'bound_chair']);
 const CALM_CLOSED = new Set(['serene', 'eyes_closed_serene', 'gentle_smile', 'closed_smile', 'expressionless', 'smile_eyes_closed', 'sad_smile', 'pensive', 'quiet_tears']);
 
 export const PAIR_RULES: PairRule[] = [
@@ -63,8 +67,146 @@ export const PAIR_RULES: PairRule[] = [
   {
     id: 'eyepatch_monocle', fields: ['marks', 'glasses'],
     check: ({ marks: m, glasses: g }) => (m && g && m.id === 'eyepatch' && g.id === 'monocle' ? '眼帯と片眼鏡は同時に描けません' : null)
+  },
+  // ---- 禁断の調合（アンリミテッドモード）。OFFの間は全項目が「なし」なので、どれも成立したまま ----
+  {
+    id: 'restraint_bind', fields: ['restraint', 'bindPos'],
+    check: ({ restraint: r, bindPos: b }) => {
+      if (!r || !b) return null;
+      if (r.id === 'none' && b.id !== 'none') return `拘束具がないのに、拘束位置「${b.ja}」が指定されています`;
+      if (r.id !== 'none' && b.id === 'none') return `拘束具「${r.ja}」の使い方（拘束位置）が必要です`;
+      if (r.id === 'cuffs' && b.id === 'torso_arms') return '手錠は腕と胴体には巻けません';
+      return null;
+    }
+  },
+  {
+    id: 'role_bind', fields: ['role', 'bindPos'],
+    check: ({ role: ro, bindPos: b }) => {
+      if (!ro || !b) return null;
+      if (onlySide(ro, 'captor') && isBound(b)) return `「${ro.ja}」が自分で縛られています`;
+      if (onlySide(ro, 'captive') && b.id === 'held') return `「${ro.ja}」が拘束具を手に持っています`;
+      return null;
+    }
+  },
+  {
+    id: 'bind_pose', fields: ['bindPos', 'pose'],
+    check: ({ bindPos: b, pose: p }) => {
+      if (!b || !p || b.id === 'none') return null;
+      const bound = has(p, 'bound'), hands = p.hands ?? 2;
+      if (b.id === 'held') return !bound && hands >= 1 ? null : `拘束具を持つ手が、ポーズ「${p.ja}」では空いていません`;
+      if (b.id === 'ankles') return ['walking', 'running', 'jumping'].includes(p.posture ?? '') ? `足首を縛ったまま「${p.ja}」はできません` : null;
+      if (bound) return null; // 拘束の構図は requires で拘束位置と対応済み
+      if (b.id === 'one_wrist') return hands >= 1 ? null : `片手首を縛ると、ポーズ「${p.ja}」に必要な手が足りません`;
+      if (hands < 2) return `両手を縛ったまま、手を使うポーズ「${p.ja}」はできません`;
+      if (b.id === 'wrists_overhead' && p.posture !== 'standing') return `頭上で固定したまま「${p.ja}」はできません`;
+      if (b.id === 'armrests' && p.posture !== 'sitting') return `肘掛けに固定するには座るポーズが必要です（現在：${p.ja}）`;
+      return null;
+    }
+  },
+  {
+    id: 'bind_shot', fields: ['bindPos', 'shot'],
+    check: ({ bindPos: b, shot: s }) => {
+      if (!b || !s) return null;
+      const min = BIND_MIN_SHOT[b.id] ?? 0;
+      return (s.level ?? 5) >= min ? null : `拘束位置「${b.ja}」は、構図「${s.ja}」では画面に入りません`;
+    }
+  },
+  {
+    id: 'anchor_shot', fields: ['anchor', 'shot'],
+    check: ({ anchor: a, shot: s }) => (a && s && a.id === 'chair' && (s.level ?? 5) < 3 ? `椅子への固定は、構図「${s.ja}」では画面に入りません` : null)
+  },
+  {
+    id: 'bind_prop', fields: ['bindPos', 'prop'],
+    check: ({ bindPos: b, prop: pr }) => {
+      if (!b || !pr || pr.id === 'none' || b.id === 'none') return null;
+      const need = pr.hands ?? 0;
+      if (b.id === 'one_wrist') return need <= 1 ? null : `片手首を縛ると、持ち物「${pr.ja}」を持てません`;
+      if (b.id === 'ankles') return null;
+      return need === 0 ? null : `拘束中は持ち物「${pr.ja}」を持てません`;
+    }
+  },
+  {
+    id: 'anchor_bind', fields: ['anchor', 'bindPos'],
+    check: ({ anchor: a, bindPos: b }) => {
+      if (!a || !b) return null;
+      if (b.id === 'armrests' && a.id !== 'chair') return '肘掛けに固定するときは、固定先を椅子にしてください';
+      if (a.id === 'none') return null;
+      if (!isBound(b)) return `固定先「${a.ja}」は、縛っているときだけ指定できます`;
+      if (a.id === 'overhead' && b.id !== 'wrists_overhead') return '頭上の固定具は、両手首を頭上で固定するときだけ使えます';
+      if (a.id === 'chair' && !['armrests', 'wrists_behind', 'torso_arms', 'ankles'].includes(b.id)) return `椅子への固定と拘束位置「${b.ja}」は合いません`;
+      return null;
+    }
+  },
+  {
+    id: 'anchor_pose', fields: ['anchor', 'pose'],
+    check: ({ anchor: a, pose: p }) => {
+      if (!a || !p || a.id === 'none') return null;
+      if (a.id === 'chair' && !CHAIR_POSES.has(p.id)) return `椅子に固定したまま「${p.ja}」はできません`;
+      if (a.id === 'overhead' && p.posture !== 'standing') return `頭上の固定具につながれたまま「${p.ja}」はできません`;
+      if (['wall', 'pillar'].includes(a.id) && ['walking', 'running', 'jumping', 'floating'].includes(p.posture ?? '')) return `${a.ja}につながれたまま「${p.ja}」はできません`;
+      return null;
+    }
+  },
+  {
+    id: 'blind_glasses', fields: ['blindfold', 'glasses'],
+    check: ({ blindfold: f, glasses: g }) => (f && g && g.id !== 'none' && (has(f, 'covered') || has(f, 'one_eye')) ? `目隠し「${f.ja}」と眼鏡は同時に描けません` : null)
+  },
+  {
+    id: 'blind_marks', fields: ['blindfold', 'marks'],
+    check: ({ blindfold: f, marks: m }) => (f && m && m.id === 'eyepatch' && (has(f, 'covered') || has(f, 'one_eye')) ? `目隠し「${f.ja}」と眼帯は同時に描けません` : null)
+  },
+  {
+    id: 'blind_outfit', fields: ['blindfold', 'outfit'],
+    check: ({ blindfold: f, outfit: o }) => (f && o && has(f, 'hood') && has(o, 'f_headwear') ? `フードと、衣装「${o.ja}」の頭飾りは同時に描けません` : null)
+  },
+  {
+    id: 'blind_role', fields: ['blindfold', 'role'],
+    check: ({ blindfold: f, role: ro }) => (f && ro && has(f, 'covered') && onlySide(ro, 'captor') ? `「${ro.ja}」が目隠しをしています` : null)
+  },
+  {
+    id: 'blind_expression', fields: ['blindfold', 'expression'],
+    check: ({ blindfold: f, expression: e }) => (f && e && has(f, 'covered') && ['cold_glare', 'intense_stare'].includes(e.id) ? `目隠しをしたまま、視線の表情「${e.ja}」は描けません` : null)
+  },
+  {
+    id: 'disarray_outfit', fields: ['disarray', 'outfit'],
+    check: ({ disarray: d, outfit: o }) => {
+      if (!d || !o || d.id === 'none') return null;
+      if (has(o, 'exposed')) return `衣装「${o.ja}」はこれ以上着崩しません`;
+      const need = d.outfitNeeds ?? '';
+      if (!need) return null;
+      if (need === 'sleeves') return has(o, 'f_sleeveless') ? `衣装「${o.ja}」には袖がありません` : null;
+      return has(o, need) ? null : `衣装「${o.ja}」には「${d.ja}」に必要な部分がありません`;
+    }
+  },
+  { id: 'wear1_outfit', fields: ['wear1', 'outfit'], check: ({ wear1: w, outfit: o }) => wearOutfit(w, o) },
+  { id: 'wear2_outfit', fields: ['wear2', 'outfit'], check: ({ wear2: w, outfit: o }) => wearOutfit(w, o) },
+  {
+    id: 'wear_pair', fields: ['wear1', 'wear2'],
+    check: ({ wear1: a, wear2: b }) => {
+      if (!a || !b || b.id === 'none') return null;
+      if (a.id === 'none') return '衣装の状態は①から使ってください';
+      if (a.id === b.id) return '衣装の状態①と②が同じです';
+      if (a.cat === 'wet' && b.cat === 'wet') return '濡れの状態は1件までです';
+      if (has(a, 'heavy_tear') && has(b, 'heavy_tear')) return '大きな破れは1件までです';
+      return null;
+    }
   }
 ];
+
+function has(o: Option | undefined, tag: string): boolean { return !!o && (o.tags?.includes(tag) || o.cat === tag); }
+/** 立場がその側だけか（どちらとも取れる立場は両方の側を持つ） */
+function onlySide(role: Option, side: 'captive' | 'captor'): boolean {
+  const other = side === 'captive' ? 'captor' : 'captive';
+  return has(role, side) && !has(role, other);
+}
+/** 実際に体を縛っているか（手に持つ・なし以外） */
+const isBound = (b: Option) => !['none', 'held'].includes(b.id);
+function wearOutfit(w: Option | undefined, o: Option | undefined): string | null {
+  if (!w || !o || w.id === 'none') return null;
+  if (has(w, 'tear') && (o.cat === 'armor' || has(o, 'armor'))) return `衣装「${o.ja}」は硬い装備なので「${w.ja}」は使えません`;
+  if (has(w, 'heavy_tear') && has(o, 'exposed')) return `衣装「${o.ja}」に大きな破れは重ねません`;
+  return null;
+}
 
 /** requires（'field:ref'）の分解 */
 function parseRequire(req: string): { field: FieldId; ref: string } {

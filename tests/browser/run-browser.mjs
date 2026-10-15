@@ -190,6 +190,26 @@ try {
     await page.click('.preset-pending >> text=やめる');
     await page.click('.preset-groups .chip:has-text("すべて")');
 
+    // 禁断の調合：既定OFFで項目も出さない。ONで項目と「禁断演出だけ引き直す」が出る
+    await page.click('details.group summary:has-text("禁断の調合")');
+    check('禁断の調合は既定OFFで、項目を表示しない', (await page.locator('details.group:has-text("禁断の調合") .frow').count()) === 0 && !(await page.isVisible('text=禁断演出だけ引き直す')));
+    await page.click('label.toggle:has-text("アンリミテッドモードを使う") input');
+    await page.waitForTimeout(200);
+    const fbRows = page.locator('details.group:has-text("禁断の調合") .frow');
+    const fbVals = async () => fbRows.evaluateAll((els) => els.map((e) => e.querySelector('.fval').textContent));
+    check('ONにすると、禁断演出の9項目と引き直しボタンが出る', (await fbRows.count()) === 9 && (await page.isVisible('text=禁断演出だけ引き直す')));
+    const hairBefore = await page.textContent('.frow:has-text("髪の色") .fval');
+    const fb1 = await fbVals();
+    let fbChanged = false;
+    for (let i = 0; i < 4 && !fbChanged; i++) { await page.click('text=禁断演出だけ引き直す'); await page.waitForTimeout(200); fbChanged = (await fbVals()).join('|') !== fb1.join('|'); }
+    check('「禁断演出だけ引き直す」は禁断演出を変え、髪の色は変えない', fbChanged && (await page.textContent('.frow:has-text("髪の色") .fval')) === hairBefore);
+    await page.evaluate(() => document.querySelector('details.group[open]:last-of-type')?.scrollIntoView({ block: 'start' }));
+    await page.locator('details.group:has-text("禁断の調合")').screenshot({ path: path.join(SHOTS, 'forbidden-390.jpg'), type: 'jpeg', quality: 70 });
+    await page.click('label.toggle:has-text("アンリミテッドモードを使う") input');
+    await page.waitForTimeout(150);
+    check('OFFに戻すと、項目と引き直しボタンが消える', (await fbRows.count()) === 0 && !(await page.isVisible('text=禁断演出だけ引き直す')));
+    await page.click('details.group summary:has-text("禁断の調合")');
+
     // 眼鏡・特徴・持ち物：既定OFF。ONにするとその場で値が入る
     await page.click('details.group summary:has-text("顔・肌・装身具")');
     const glassesRow = page.locator('.frow:has-text("眼鏡")').first();

@@ -259,7 +259,7 @@ export function encodeShare(state: ForgeState): string {
   }).filter(Boolean);
   const m = state.optionalModules;
   const flags = [m.kemonoEnabled ? 'k' : '', m.backgroundEnabled ? 'b' : '', m.poseEnabled ? 'p' : '', m.facialHairEnabled ? 'f' : '', m.hairAccentEnabled ? 'h' : '', m.nameEnabled ? 'n' : '',
-    m.glassesEnabled ? 'g' : '', m.marksEnabled ? 'x' : '', m.propEnabled ? 'o' : ''].join('');
+    m.glassesEnabled ? 'g' : '', m.marksEnabled ? 'x' : '', m.propEnabled ? 'o' : '', m.unlimitedEnabled ? 'u' : ''].join('');
   // v=2：眼鏡(g)・特徴(x)・持ち物(o) のスイッチを含む。v=1 は値から推定する
   const s = [`v=2`, `d=${DATA_VERSION}`, `m=${flags}`, `c=${state.settings.coherence}`, `seed=${state.lastSeed}`, ...pairs].join('&');
   return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -285,7 +285,7 @@ export function decodeShare(code: string): { state: ForgeState | null; report: M
     const flags = params.get('m') ?? '';
     s.optionalModules = {
       kemonoEnabled: flags.includes('k'), backgroundEnabled: flags.includes('b'), poseEnabled: flags.includes('p'), facialHairEnabled: flags.includes('f'), hairAccentEnabled: flags.includes('h'), nameEnabled: flags.includes('n'),
-      glassesEnabled: flags.includes('g'), marksEnabled: flags.includes('x'), propEnabled: flags.includes('o')
+      glassesEnabled: flags.includes('g'), marksEnabled: flags.includes('x'), propEnabled: flags.includes('o'), unlimitedEnabled: flags.includes('u')
     };
     if (ver === '1') migrateItemModules(s, {}, 'preserve');
     const c = params.get('c');

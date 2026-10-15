@@ -12,6 +12,7 @@
 import type { Values } from '../advisor/hard';
 import type { FieldId, Mode, Option } from '../types';
 import { fieldDef } from '../data/fields';
+import { ROLE_EXPRESSIONS } from '../data/forbidden';
 import { matchAny } from './match';
 
 export interface ModeParams { pref: number; mismatch: number; softMismatch: number; flatten: number; fantasy: number; floor: number }
@@ -31,10 +32,12 @@ const SHARE: Record<string, Record<Mode, number>> = {
   name: { coherent: 0.95, balanced: 0.8, wild: 0.3 },
   cultureTied: { coherent: 0.45, balanced: 0.3, wild: 0 },
   cultureNone: { coherent: 0.85, balanced: 0.7, wild: 0 },
-  occupationNone: { coherent: 0.55, balanced: 0.3, wild: 0 }
+  occupationNone: { coherent: 0.55, balanced: 0.3, wild: 0 },
+  /** 禁断の調合：立場に合う表情・拘束の構図など。任意で選ぶモードなので、カオスでも少し残す */
+  forbidden: { coherent: 0.75, balanced: 0.55, wild: 0.3 }
 };
 
-const WORLD_FIT_FIELDS = new Set<FieldId>(['outfit', 'scene', 'occupation', 'prop', 'pose', 'culture', 'light']);
+const WORLD_FIT_FIELDS = new Set<FieldId>(['outfit', 'scene', 'occupation', 'prop', 'pose', 'culture', 'light', 'restraint']);
 const GENERIC_WORLD_TAGS = new Set(['western', 'historical', 'fantasy', 'modern', 'eastern', 'urban', 'dark', 'retro', 'night', 'street']);
 const REALISTIC_WORLDS = new Set(['modern', 'business', 'noir', 'urban_night', 'taisho', 'japanese_historical', 'chinese_court', 'european_court', 'victorian', 'military']);
 
@@ -80,6 +83,8 @@ export function softWeight(field: FieldId, opt: Option, v: Values, mode: Mode): 
   const pref = (k = 1) => { w *= Math.pow(P.pref, k); };
   const miss = (k = 1) => { w *= Math.pow(P.mismatch, k); };
 
+  // 衣装の状態②は「なし」を基本にする（重ねるのはときどき）
+  if (field === 'wear2' && opt.id === 'none') w *= 5;
   // 世界観との一致度
   if (WORLD_FIT_FIELDS.has(field)) {
     const ws = worldStrength(opt, v.world);
@@ -224,6 +229,23 @@ export function shareBoosts(field: FieldId, v: Values, mode: Mode): ShareBoost[]
   if (WORLD_FIT_FIELDS.has(field) && field !== 'culture' && field !== 'light' && field !== 'prop' && field !== 'pose') {
     // 世界観を問わない候補（指定しない・シンプル背景など）は一致側に数える
     add('world', 'world', (o) => { const ws = worldStrength(o, v.world); return ws === null || ws >= 1; });
+  }
+  // ---- 禁断の調合 ----
+  const role = v.role && v.role.id !== 'none' ? v.role : undefined;
+  if (role) {
+    const sides = (['captive', 'captor'] as const).filter((x) => role.tags?.includes(x));
+    if (field === 'expression') { const ids = new Set(sides.flatMap((x) => ROLE_EXPRESSIONS[x])); add('forbiddenRole', 'forbidden', (o) => ids.has(o.id)); }
+    // する側だけなら手に持つ・操る、される側だけなら実際に縛る
+    if (field === 'bindPos' && sides.length === 1) add('forbiddenRole', 'forbidden', (o) => (sides[0] === 'captor' ? o.id === 'held' : !['none', 'held'].includes(o.id)));
+  }
+  const bound = v.bindPos && !['none', 'held'].includes(v.bindPos.id);
+  // 縛っているなら、拘束の構図（対応する拘束位置のもの）を優先し、見せたい部位が入る画角にする
+  if (field === 'pose' && bound) add('forbiddenPose', 'forbidden', (o) => !!o.tags?.includes('bound'));
+  if (field === 'shot' && bound) { const min = v.bindPos!.id === 'ankles' ? 4 : ['armrests', 'wrists_behind'].includes(v.bindPos!.id) ? 3 : 2; add('forbiddenShot', 'forbidden', (o) => (o.level ?? 5) >= min); }
+  // 天気と濡れ
+  if ((field === 'wear1' || field === 'wear2') && v.time) {
+    if (/rain/.test(v.time.id)) add('forbiddenWeather', 'forbidden', (o) => o.cat === 'wet');
+    if (/snow/.test(v.time.id)) add('forbiddenWeather', 'forbidden', (o) => o.id === 'snow_damp' || o.cat !== 'wet');
   }
   // 世界観 → 呼び名の系統
   if (field === 'name' && v.world?.nameSystem && v.world.nameSystem !== 'mixed') { const sys = v.world.nameSystem; add('name', 'name', (o) => o.nameSystem === sys); }

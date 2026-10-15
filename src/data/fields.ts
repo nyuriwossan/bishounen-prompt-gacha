@@ -11,9 +11,10 @@ import { AURA, EXPRESSION, EXPRESSION_CATS, OCCUPATION, OCCUPATION_CATS } from '
 import { LIGHT, SCENE, SCENE_CATS, TIME } from './scene';
 import { ART_STYLE } from './style';
 import { CULTURE, CULTURE_CATS, WORLD, WORLD_CATS } from './worlds';
+import { ANCHOR, BIND_POS, BLINDFOLD, DISARRAY, RESTRAINT, ROLE, TIGHTNESS, WEAR, WEAR_CATS } from './forbidden';
 
 /** 辞書のバージョン。候補IDを削除・改名したら上げ、storage の migration に対応を書く。 */
-export const DATA_VERSION = '2026.10.2';
+export const DATA_VERSION = '2026.10.3';
 
 export const FIELDS: FieldDef[] = [
   // ---- 基本パネル ----
@@ -55,6 +56,16 @@ export const FIELDS: FieldDef[] = [
   // ---- 任意：獣人 ----
   { id: 'kemonoSpecies', ja: '獣人の種族', short: '種族', icon: '🐾', group: 'kemono', module: 'kemono', options: KEMONO_SPECIES, categories: KEMONO_CATS },
   { id: 'kemonoLevel', ja: '獣化の度合い', short: '獣化', icon: '⇡', group: 'kemono', module: 'kemono', options: KEMONO_LEVEL },
+  // ---- 任意：禁断の調合（アンリミテッドモード。既定OFF）----
+  { id: 'role', ja: '立場', icon: '⛓', group: 'forbidden', module: 'unlimited', options: ROLE, hint: '人物は1名のまま。相手は描きません。表情と拘束の出やすさに影響します。' },
+  { id: 'restraint', ja: '拘束具', icon: '➰', group: 'forbidden', module: 'unlimited', options: RESTRAINT, hint: '触手・蔓・光の鎖などは幻想系の世界観で出やすくなります。' },
+  { id: 'bindPos', ja: '拘束位置', short: '位置', icon: '✋', group: 'forbidden', module: 'unlimited', options: BIND_POS, hint: '首への拘束は扱いません。「する側」は手に持つ・操るになります。' },
+  { id: 'anchor', ja: '固定先', icon: '⚓', group: 'forbidden', module: 'unlimited', options: ANCHOR },
+  { id: 'tightness', ja: '締め方', icon: '〰', group: 'forbidden', module: 'unlimited', options: TIGHTNESS },
+  { id: 'blindfold', ja: '目隠し・視界', short: '目隠し', icon: '◡', group: 'forbidden', module: 'unlimited', options: BLINDFOLD, hint: '目が隠れる目隠しでは、目元・瞳の色と「こちらを見る」ポーズを出力しません。' },
+  { id: 'disarray', ja: '衣装の乱れ', short: '着崩し', icon: '⌇', group: 'forbidden', module: 'unlimited', options: DISARRAY, hint: '衣装にネクタイ・ジャケット・フードなどがあるときだけ、その乱れが出ます。' },
+  { id: 'wear1', ja: '衣装の状態①', short: '状態①', icon: '✂', group: 'forbidden', module: 'unlimited', options: WEAR, categories: WEAR_CATS, hint: '汚れ・損傷・濡れ。最大2件まで重ねられます。' },
+  { id: 'wear2', ja: '衣装の状態②', short: '状態②', icon: '✂', group: 'forbidden', module: 'unlimited', options: WEAR, categories: WEAR_CATS, hint: '①があるときだけ使えます。濡れは1件までです。' },
   // ---- 任意：画風・名前 ----
   { id: 'artStyle', ja: '画風', icon: '✎', group: 'style', options: ART_STYLE, randomizable: false, hint: '通常の抽選では変わりません。選んだ画風を維持します。' },
   { id: 'name', ja: '呼び名', icon: '✐', group: 'style', module: 'name', options: NAME, categories: NAME_CATS, hint: '画像プロンプトには含めません。保存名や日本語設定に使います。' }
@@ -66,8 +77,11 @@ export const DRAW_ORDER: FieldId[] = [
   'face', 'eyeShape', 'eyeColor', 'skin', 'marks', 'glasses', 'facialHair',
   'hairLength', 'hairStyle', 'hairColor', 'hairAccent', 'hairAccentColor',
   'outfit', 'mainColor', 'accentColor',
+  'role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray',
   'expression', 'shot', 'angle', 'pose', 'prop',
   'scene', 'time', 'light',
+  // 衣装の状態は天候（雨・雪）を見てから引く
+  'wear1', 'wear2',
   'kemonoSpecies', 'kemonoLevel', 'artStyle', 'name'
 ];
 
@@ -88,16 +102,19 @@ export function optionOf(field: FieldId, id: string | null | undefined): Option 
 
 /** 既定値（初回の抽選前の仮値。必ずすぐ抽選で上書きされる） */
 export const DEFAULT_IDS: Partial<Record<FieldId, string>> = {
+  role: 'none', restraint: 'none', bindPos: 'none', anchor: 'none', tightness: 'loose', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none',
   artStyle: 'none', hairAccent: 'none', facialHair: 'none', glasses: 'none', marks: 'none', prop: 'none', culture: 'none', occupation: 'none', skin: 'unspecified', angle: 'eye_level'
 };
 
 /** 関連項目（競合の解消で「まとめて引き直す」候補） */
 export const RELATED: Partial<Record<FieldId, FieldId[]>> = {
   hairLength: ['hairStyle'], hairStyle: ['hairLength'],
-  pose: ['shot', 'prop', 'expression', 'glasses', 'outfit'], shot: ['pose'], prop: ['pose'],
+  pose: ['shot', 'prop', 'expression', 'glasses', 'outfit'], shot: ['pose', 'bindPos', 'anchor'], prop: ['pose', 'bindPos'],
   expression: ['pose'], glasses: ['pose'], outfit: ['culture', 'pose'], culture: ['outfit'],
   time: ['scene', 'light'], scene: ['time'], light: ['time'],
   mainColor: ['accentColor'], accentColor: ['mainColor'],
   hairColor: ['hairAccentColor'], hairAccentColor: ['hairColor'],
-  marks: ['kemonoSpecies', 'glasses'], kemonoSpecies: ['marks']
+  marks: ['kemonoSpecies', 'glasses'], kemonoSpecies: ['marks'],
+  role: ['bindPos', 'expression', 'blindfold'], restraint: ['bindPos'], bindPos: ['restraint', 'anchor', 'pose', 'prop', 'role', 'shot'], anchor: ['bindPos', 'shot', 'pose'],
+  blindfold: ['pose', 'glasses', 'marks'], disarray: ['outfit'], wear1: ['wear2', 'outfit'], wear2: ['wear1', 'outfit']
 };

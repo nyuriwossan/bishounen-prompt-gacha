@@ -11,7 +11,7 @@ const fit = (
   id: string, ja: string, cat: string, worlds: string[], upper: string, lower: string, tags: string[], extra: Partial<Option> = {}
 ): Option => ({ id, ja, cat, worlds, upper, lower, tags, en: [], ...extra });
 
-export const OUTFIT: Option[] = [
+const OUTFIT_BASE: Option[] = [
   // ---- スーツ・フォーマル ----
   fit('three_piece', 'スリーピーススーツ', 'suit', ['modern', 'business', 'noir', 'retro'], '{c1} three-piece suit, waistcoat, {c2} necktie', 'tailored trousers, leather shoes', ['formal', 'tie', 'suit']),
   fit('slim_suit', '細身のスーツ', 'suit', ['modern', 'business', 'urban'], '{c1} slim-fit suit jacket, white dress shirt, {c2} necktie', 'slim trousers, leather shoes', ['formal', 'tie', 'suit']),
@@ -170,6 +170,24 @@ export const OUTFIT: Option[] = [
   fit('pajamas', 'くつろぎの部屋着', 'casual', ['modern'], 'loose {c1} button-up pajama shirt, {c2} piping', 'pajama pants', ['casual', 'soft', 'home'], { w: 0.4 }),
   fit('bathrobe', 'バスローブ', 'casual', ['modern', 'urban'], '{c1} bathrobe, {c2} trim, towel around neck', 'slippers', ['casual', 'alluring', 'home', 'exposed'], { w: 0.3 })
 ];
+
+/* 衣装の特徴タグ（f_*）。禁断の調合の「衣装の乱れ」が、その衣装に実在する部位だけを選ぶために使う。
+ * 手で付けると漏れやすいので、upper / lower の語から機械的に付ける（既存のタグとは別名にして、他の重みに影響させない）。 */
+const FEATURES: Array<[string, RegExp]> = [
+  ['f_shirt', /\b(shirt|blouse|dress shirt)\b/i],
+  ['f_collar', /\b(shirt|collar|blouse|polo|uniform|gakuran|tunic|kimono)\b/i],
+  ['f_jacket', /\b(jacket|blazer|suit|tuxedo|tailcoat|blouson|doublet)\b/i],
+  ['f_coat', /\b(coat|parka|trench|overcoat|greatcoat|inverness|frock)\b/i],
+  ['f_hood', /\bhood(ie|ed)?\b/i],
+  ['f_headwear', /\b(crown|tiara|circlet|hat|cap|helmet|headdress|turban|kabuto|eboshi|veil|laurel|horned)\b/i],
+  ['f_layered', /\b(over a|under|layered|inner|cardigan|jacket|coat|vest|waistcoat|haori|cloak|cape)\b/i],
+  ['f_sleeveless', /\b(sleeveless|tank top|bare arms|bare chest|shirtless)\b/i]
+];
+export const OUTFIT: Option[] = OUTFIT_BASE.map((x) => {
+  const text = `${x.upper ?? ''} ${x.lower ?? ''}`;
+  const extra = FEATURES.filter(([, re]) => re.test(text)).map(([t]) => t);
+  return extra.length ? { ...x, tags: [...(x.tags ?? []), ...extra] } : x;
+});
 
 export const OUTFIT_CATS: Category[] = [
   { id: 'suit', ja: 'スーツ・フォーマル' }, { id: 'daily', ja: '日常着・きれいめ' }, { id: 'casual', ja: 'カジュアル・ストリート' }, { id: 'court', ja: '貴族・王族' },

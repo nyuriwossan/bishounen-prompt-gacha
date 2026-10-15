@@ -192,3 +192,51 @@ describe('自由タグの警告', () => {
     expect(checkFreeTags(parseFree('cinematic, depth of field'), s, ['1boy'])).toEqual([]);
   });
 });
+
+describe('禁断の調合（アンリミテッドモード）', () => {
+  const on = (seed: string, patch: Partial<Record<FieldId, string>> = {}) => make(seed, patch, { unlimitedEnabled: true });
+  it('OFFのときは、項目に値が残っていても一切出力しない', () => {
+    const s = make('fb-off');
+    s.fields.restraint = { id: 'rope', source: 'manual', locked: false };
+    s.fields.bindPos = { id: 'wrists_front', source: 'manual', locked: false };
+    s.fields.blindfold = { id: 'lace', source: 'manual', locked: false };
+    for (const t of TARGETS) {
+      const p = buildPrompt(s, t);
+      expect(p.positive, t).not.toMatch(/rope|blindfold|bound|拘束|目隠し/);
+      expect(p.sections.some((x) => x.id === 'forbidden')).toBe(false);
+    }
+  });
+  it('目が隠れる目隠しでは、こちらを見る・目元・瞳の色を出さない', () => {
+    for (let i = 0; i < 30; i++) {
+      const s = on('fb-blind' + i, { blindfold: 'lace' });
+      const p = buildPrompt(s, 'pixai').positive;
+      expect(p).toContain('lace blindfold');
+      expect(p).not.toMatch(/looking at viewer|eye contact/);
+      for (const f of ['eyeShape', 'eyeColor'] as const) for (const t of optionOf(f, s.fields[f].id)!.en) expect(p.split(', '), `${f}:${t}`).not.toContain(t);
+      expect(buildPrompt(s, 'naturalEnglish').positive).toContain('eyes are hidden');
+    }
+  });
+  it('拘束の出力は対象部位・素材・固定先を結び付け、首への拘束や画像サービスで弾かれやすい語を出さない', () => {
+    const s = on('fb-bind', { role: 'captive', restraint: 'chain', bindPos: 'wrists_overhead', anchor: 'overhead', tightness: 'secured' });
+    const p = buildPrompt(s, 'pixai');
+    const tags = p.sections.find((x) => x.id === 'forbidden')!.tags;
+    expect(tags).toEqual(expect.arrayContaining(['captive', 'both wrists secured overhead', 'chains around the wrists', 'securely bound', 'attached to an overhead fixture', 'chain links clearly visible']));
+    expect(p.positive).not.toMatch(/\b(adult|nsfw|bondage|bdsm|nude|naked|neck)\b/i);
+    const neg = buildPrompt({ ...s, settings: { ...s.settings, negative: true } }, 'pixai').negative;
+    expect(neg).toContain('restraints around neck');
+    expect(buildPrompt(s, 'japanese').positive).toContain('拘束：鎖／両手首を頭上');
+  });
+  it('「する側」は拘束具を手に持つ・操る（触手は操る）', () => {
+    const s = on('fb-held', { role: 'ruler', restraint: 'tentacles', bindPos: 'held', world: 'dark_fantasy' });
+    expect(buildPrompt(s, 'pixai').positive).toContain('controlling tentacles');
+    const r = on('fb-held2', { role: 'binder', restraint: 'rope', bindPos: 'held' });
+    expect(buildPrompt(r, 'pixai').positive).toContain('holding rope');
+  });
+  it('衣装の乱れと状態は衣装の欄に入り、自然文と日本語にも出る', () => {
+    const s = on('fb-wear', { outfit: 'three_piece', disarray: 'tie_loosened', wear1: 'rain_soaked', wear2: 'frayed' });
+    const outfitTags = buildPrompt(s, 'pixai').sections.find((x) => x.id === 'outfit')!.tags;
+    expect(outfitTags).toEqual(expect.arrayContaining(['loosened necktie', 'rain-soaked clothes', 'clothes with frayed edges']));
+    expect(buildPrompt(s, 'naturalEnglish').positive).toContain('Clothing details: loosened necktie');
+    expect(buildPrompt(s, 'japanese').positive).toContain('衣装の状態：雨に濡れている・ほつれ');
+  });
+});

@@ -11,7 +11,7 @@
 | 公開URL | https://nyuriwossan.github.io/bishounen-prompt-gacha/ |
 | 構成 | Vite 6 + TypeScript 5.8 + Preact 10.29.8／Vitest 3.2／playwright-core 1.56（`/opt/pw-browsers` の Chromium） |
 | 公開方式 | `main` に push すると GitHub Actions が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` へ force-push する。Pages API はこの環境から使えないため、この方式にしている |
-| 最新の変更 | 眼鏡・特徴・持ち物の既定OFF、現代・日常の美形タイプ12種・日常着10種・おまかせスタイル3種と分類（§5）。iPhone 実機での確認はまだ。その前は衣装の色◯の改善（§4） |
+| 最新の変更 | 禁断の調合（アンリミテッドモード、§6）。その前に眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。どちらも iPhone 実機での確認はまだ |
 | git の作者 | `user.name nyuriwossan` / `user.email nyuriwo@gmail.com`（リポジトリのローカル設定） |
 
 コミットメッセージの末尾には、次の2行を付けています。
@@ -26,9 +26,9 @@ Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 146件、約65秒
+npm run typecheck && npm run lint && npm test   # 167件、約105秒
 npm run build
-npm run test:browser                            # 88項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 92項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
@@ -54,8 +54,8 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 | おまかせスタイル | 22（4分類＋完全ランダム） |
 | 獣人（種族） | 29 |
 
-- 項目は全35（`FIELD_IDS`）。
-- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.2`）は `fields.ts` にある。
+- 項目は全44（`FIELD_IDS`。うち9つが禁断の調合）。
+- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.3`）は `fields.ts` にある。
 - 衣装のテンプレートでは `{c1}` をメインカラー、`{c2}` を差し色として扱う。
 
 ### 抽選（`src/engine/`）
@@ -70,9 +70,9 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 
 | モード | 世界観に合う衣装 | 好みに合う項目 |
 |---|---:|---:|
-| まとまり重視（coherent） | 98.1% | 85.8% |
-| バランス（balanced） | 88.7% | 50.0% |
-| カオス（wild） | 43.4% | 8.9% |
+| まとまり重視（coherent） | 96.7% | 82.0% |
+| バランス（balanced） | 86.9% | 43.5% |
+| カオス（wild） | 41.0% | 7.6% |
 
 ### 組み合わせ制約（`src/advisor/`）
 
@@ -126,14 +126,31 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 - エンジン：おまかせスタイルの条件と、まだ決まっていない項目への requires が両立しない候補を先に外す（`requiresFitPreset`。例：銀髪特集で黒髪クールを引かない）。
 - `DATA_VERSION` を `2026.10.2` に上げた（候補の追加で同じシードの結果が変わるため）。
 
-## 6. 既知の制限
+## 6. 2026-10-15 の変更：禁断の調合（アンリミテッドモード）
+
+ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方・目隠し・衣装の乱れ・衣装の状態・構図・表情）に、ユーザーの希望（リボン・触手・レースの目隠しなどの追加、`adult` は PixAI のアプリ版で弾かれるので出さない）を加えて実装した。参考：pose-composition-workshop の `data/restraint.js`・`generator.js`（拘束の句と安定化、首に巻かない・非流血）、outfit-prompt-workshop の `data/conditions.js`（状態の英語）・`data/styling.js`（着こなしと requiresFeature）。
+
+- データ：`src/data/forbidden.ts`。項目は `role / restraint / bindPos / anchor / tightness / blindfold / disarray / wear1 / wear2`（group `forbidden`、module `unlimited`、既定OFF）。
+  - 拘束具13種＋なし：縄・鎖・手錠・革ベルト・装飾鎖・ラッピングのリボン・絹の組紐・包帯・触手・影の触手・蔓草・薔薇の蔓（棘なし）・光の鎖。幻想系は `worlds` で世界観に寄せる。
+  - 目隠し12種＋なし：布・革・リボン・レース・シルク・包帯・フード・片目・ベール・目元の仮面・伏し目・目を閉じる。
+  - 拘束位置に「手に持つ・操る」を足し、「する側」はこれになる（触手などは controlling）。
+  - 構図8種は POSE に `cat: 'bound'` で追加し、`requires: bindPos:…` で拘束位置と対応。表情7種は EXPRESSION に `cat: 'forbidden'` で追加し、`requires: role:#captive|#captor`。
+  - 衣装の特徴タグ `f_shirt / f_collar / f_jacket / f_coat / f_hood / f_headwear / f_layered / f_sleeveless` を upper/lower の語から機械的に付与（`outfits.ts`）。着崩しはこれで判定。
+- OFFの扱い：`OFF_AS_NONE` に9項目を追加。OFFなら判定・出力とも「なし」。大量抽選で漏れ0件を検査している。
+- hard ルール（`hard.ts`）：拘束具と拘束位置、立場と拘束位置、拘束位置×ポーズ（手・姿勢）・画角・持ち物、固定先×拘束位置・ポーズ・画角、目隠し×眼鏡・眼帯・頭飾り・立場・視線の表情、着崩し×衣装の特徴（露出のある衣装は着崩さない）、状態×衣装（鎧は破れない・露出衣装に大きな破れを重ねない）、状態①②（②は①があるとき、濡れは1件、同じものは不可）。
+- エンジン：禁断の連鎖（立場→拘束具→拘束位置→固定先→画角→ポーズ・持ち物）だけ1手先読み（`LOOKAHEAD`）。手動採用で直接の衝突項目だけで直せないときは、関連の関連まで広げてシードを変えて最大8回試す。
+- 出力：目が隠れる目隠しでは目元・瞳の色・目の語と `looking at viewer` を外す。拘束時は `clean uninjured skin` と、ネガティブ（ONのとき）に `blood, wounds, bruises, restraints around neck` など。`adult`・`nsfw`・`bondage` などは出さない（大量抽選で検査）。
+- UI：「禁断の調合（アンリミテッド）」のトグル。ONのときだけ9項目と「禁断演出だけ引き直す」（`GROUPS.forbidden`）を表示。共有URLのフラグ `u`。
+- 画像での見え方（触手・リボンの巻き方など）は未確認。PixAI アプリ版で弾かれる語の一覧は公開されていないため、ユーザーの実機確認に頼る。
+
+## 7. 既知の制限
 
 - Safari/WebKit の自動検証は未実施。ただし、iPhone 実機でユーザーが候補シートの修正を確認済み。
 - NAI / PixAI での生成結果の品質は、ユーザーの実地確認に頼っている。
   - 6枚生成して好評だった。
 - 開発用依存に `npm audit` の指摘が残る（配信物は0件）。
 
-## 7. これまでに作ったもの（会話内のみ・リポジトリ外）
+## 8. これまでに作ったもの（会話内のみ・リポジトリ外）
 
 - SNS告知用：ChatGPT 向けの「使い方説明画像」の指示書を2種類。
   - 1枚版

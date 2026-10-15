@@ -58,6 +58,8 @@ export interface Option {
   needs?: Array<'day' | 'night' | 'twilight'>;
   /** 衣装：伝統衣装としての文化圏（文化モチーフとの hard 制約） */
   culture?: string;
+  /** 衣装の乱れ：必要な衣装の特徴タグ（空なら不要。sleeves は袖のない衣装以外） */
+  outfitNeeds?: string;
   /** 衣装：上半身側の描写（寄りの構図で使う） */
   upper?: string;
   /** 衣装：下半身・足元の描写（寄りの構図では省略） */
@@ -97,8 +99,8 @@ export interface Category {
   subs?: Array<{ id: string; ja: string }>;
 }
 
-export type FieldGroup = 'basic' | 'face' | 'role' | 'pose' | 'scene' | 'kemono' | 'style';
-export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name' | 'glasses' | 'marks' | 'prop';
+export type FieldGroup = 'basic' | 'face' | 'role' | 'pose' | 'scene' | 'kemono' | 'forbidden' | 'style';
+export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name' | 'glasses' | 'marks' | 'prop' | 'unlimited';
 
 export const FIELD_IDS = [
   'age', 'archetype', 'presentation', 'build', 'world', 'culture',
@@ -108,7 +110,9 @@ export const FIELD_IDS = [
   'pose', 'prop', 'shot', 'angle',
   'scene', 'time', 'light',
   'kemonoSpecies', 'kemonoLevel',
-  'artStyle', 'name'
+  'artStyle', 'name',
+  // 禁断の調合（アンリミテッドモード）
+  'role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2'
 ] as const;
 export type FieldId = (typeof FIELD_IDS)[number];
 
@@ -159,6 +163,8 @@ export interface ForgeModules {
   glassesEnabled: boolean;
   marksEnabled: boolean;
   propEnabled: boolean;
+  /** 禁断の調合（拘束・目隠し・着崩し・衣装の傷み）。既定OFF。OFFの間は一切抽選・出力しない */
+  unlimitedEnabled: boolean;
 }
 
 /** おまかせスタイル（抽選の方向性。選ぶだけでは結果を変えない） */
