@@ -136,7 +136,7 @@ describe('安全性：成人・男性1名', () => {
   });
   it('コスプレ衣装（専用スイッチがONのときだけ）も、学校系・下着・露出を直接示す語は使わない', () => {
     const cos = opts('outfit').filter((o) => o.cat === 'cosplay');
-    expect(cos.length).toBe(16);
+    expect(cos.length).toBe(15);
     expect(cos.filter((o) => /school|student|serafuku|uniform skirt|lingerie|underwear|nude|naked|topless|shirtless|nsfw|lewd/i.test(`${o.upper ?? ''} ${o.lower ?? ''}`))).toEqual([]);
   });
 });

@@ -214,6 +214,9 @@ export const PAIR_RULES: PairRule[] = [
       if (!r || !o || r.id === 'none') return null;
       if (has(o, 'f_chain') && !['chain', 'ornate_chain'].includes(r.id)) return `衣装「${o.ja}」の鎖と、拘束具「${r.ja}」が混ざります`;
       if (has(o, 'f_strap') && r.id !== 'straps') return `衣装「${o.ja}」のベルト類と、拘束具「${r.ja}」が混ざります`;
+      if (has(o, 'f_ribbon') && r.id === 'ribbon') return `衣装「${o.ja}」のリボンと、拘束具のリボンが混ざります`;
+      // 警官の衣装は手錠を呼び込み、自分に掛かってしまう（実機確認）
+      if (has(o, 'police') && r.id === 'cuffs') return `衣装「${o.ja}」と手錠は、手錠が自分に掛かりやすいため組み合わせません`;
       return null;
     }
   },

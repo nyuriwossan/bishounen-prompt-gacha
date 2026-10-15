@@ -40,7 +40,7 @@ masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishoune
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long skirt
 ```
 
 ### c03. ミニスカナース
@@ -60,27 +60,27 @@ masterpiece, best quality, 1boy, solo, male focus, young man, handsome, keen-eye
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long skirt
 ```
 
-### c04. セーラー服
+### c04. ミニスカセーラー服
 
-- 設定：美形タイプ：夜型のハッカー｜モニターの光だけが友達。／容姿傾向：やや女性寄り／体格：筋肉質／衣装：セーラー服［焦橙×クリームイエロー］／ポーズ：自然な立ち姿／構図：全身・目線の高さ／背景：街路
+- 設定：美形タイプ：夜型のハッカー｜モニターの光だけが友達。／容姿傾向：やや女性寄り／体格：筋肉質／衣装：ミニスカセーラー服［焦橙×クリームイエロー］／ポーズ：自然な立ち姿／構図：全身・目線の高さ／背景：街路
 - 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbnkmYz1jb2hlcmVudCZzZWVkPWNzMDQmYWdlPWEzNV80NCZhcmNoZXR5cGU9bmlnaHRfaGFja2VyJnByZXNlbnRhdGlvbj1zbGlnaHRfZmVtJmJ1aWxkPW11c2N1bGFyJndvcmxkPWN5YmVycHVuayZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD1zaG9ydCZoYWlyU3R5bGU9bmFwZV9sb25nJmhhaXJDb2xvcj1ibGFjayZleWVTaGFwZT1zbGVlcHkmZXllQ29sb3I9bGlsYWMmb3V0Zml0PXNhaWxvcl9zdWl0ISZleHByZXNzaW9uPWFubm95ZWQmZmFjZT1vdmFsX3JlZmluZWQmc2tpbj11bnNwZWNpZmllZCZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249aGFja2VyJmF1cmE9cmVmcmVzaGluZyZtYWluQ29sb3I9YnVybnRfb3JhbmdlJmFjY2VudENvbG9yPWNyZWFtX3llbGxvdyZwb3NlPXN0YW5kaW5nX3JlbGF4ZWQhJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSEmYW5nbGU9ZXllX2xldmVsISZzY2VuZT1jaXR5X3N0cmVldCZ0aW1lPXNub3d5X2RheSZsaWdodD1ob2xvZ3JhcGhpYyZhcnRTdHlsZT1ub25lJm5hbWU9c2NpZmlfMDA5JnJvbGU9bm9uZSZyZXN0cmFpbnQ9bm9uZSZiaW5kUG9zPW5vbmUmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPWxvb3NlJmJsaW5kZm9sZD1ub25lJmRpc2FycmF5PW5vbmUmd2VhcjE9bm9uZSZ3ZWFyMj1ub25l
 - 確かめる点：
   - [ ] アプリ版で弾かれない（判定も控えておく）
   - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
   - [ ] セーラー襟とスカーフのある服に見える
-  - [ ] プリーツスカートになっている
+  - [ ] プリーツのミニスカートになっている（長いスカートにならない）
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, sleep-deprived hacker beauty, delicate androgynous features, soft facial features, oval face, refined features, sleepy eyes, lilac eyes, annoyed, frown, short hair, long nape hair, black hair, muscular male, broad shoulders, thick arms, burnt orange sailor collar blouse, cream yellow neckerchief, pleated skirt, loafers, standing, looking at viewer, full body, city, street, snowing, holographic light, blue glow, refreshing atmosphere, cyberpunk
+masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, sleep-deprived hacker beauty, delicate androgynous features, soft facial features, oval face, refined features, sleepy eyes, lilac eyes, annoyed, frown, short hair, long nape hair, black hair, muscular male, broad shoulders, thick arms, burnt orange sailor collar blouse, cream yellow neckerchief, pleated miniskirt, loafers, standing, looking at viewer, full body, city, street, snowing, holographic light, blue glow, refreshing atmosphere, cyberpunk
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long skirt
 ```
 
 ### c05. ミニスカポリス
@@ -100,7 +100,7 @@ masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long skirt
 ```
 
 ## 水着・露出多め
@@ -113,15 +113,16 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
   - [ ] アプリ版で弾かれない（判定も控えておく）
   - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
   - [ ] 男性がビキニを着ている（女性の体にならない）
+  - [ ] 民族衣装や腰布にならない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, hard-boiled noir, shadowed eyes, feminine facial features, pretty face, thin lips, refined mouth, cold eyes, honey-colored eyes, fair skin, smirk, very long hair, hair ribbon, low-tied long hair, silver hair, slim build, pine green bikini, royal purple trim, barefoot, standing, looking at viewer, full body, bar, counter, bottles, sunset, streetlight, dangerous aura, film noir
+masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, hard-boiled noir, shadowed eyes, feminine facial features, pretty face, thin lips, refined mouth, cold eyes, honey-colored eyes, fair skin, smirk, very long hair, hair ribbon, low-tied long hair, silver hair, slim build, pine green bikini, swimsuit, royal purple trim, barefoot, standing, looking at viewer, full body, bar, counter, bottles, sunset, streetlight, dangerous aura, film noir
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, swim trunks, male swimwear, loincloth, tribal
 ```
 
 ### c07. 紐ビキニ
@@ -131,16 +132,16 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 - 確かめる点：
   - [ ] アプリ版で弾かれない（判定も控えておく）
   - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
-  - [ ] 横を紐で結ぶビキニに見える
+  - [ ] 下もビキニ（横を紐で結ぶ）で、男性用の海パンにならない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, elegant heian courtier, subtly masculine features, cleft chin, strong jaw, piercing gaze, seafoam green eyes, closed mouth smile, medium hair, tousled hair, blonde hair, athletic build, broad shoulders, pine green string bikini, denim blue side ties, barefoot, ryukyuan-inspired motifs, bingata pattern, standing, looking at viewer, full body, tatami, japanese room, shouji, morning, soft lighting, natural light, stoic, feudal japan
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, elegant heian courtier, subtly masculine features, cleft chin, strong jaw, piercing gaze, seafoam green eyes, closed mouth smile, medium hair, tousled hair, blonde hair, athletic build, broad shoulders, pine green string bikini, denim blue side-tie bikini bottom, barefoot, ryukyuan-inspired motifs, bingata pattern, standing, looking at viewer, full body, tatami, japanese room, shouji, morning, soft lighting, natural light, stoic, feudal japan
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, swim trunks, male swimwear, shorts
 ```
 
 ### c08. 水着と開襟シャツ
@@ -231,15 +232,16 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
   - [ ] アプリ版で弾かれない（判定も控えておく）
   - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
   - [ ] 丈の短いチャイナ服で、スリットがある
+  - [ ] ノースリーブになっている
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, cool exorcist, calm danger, subtly masculine features, straight nose bridge, defined jawline, piercing gaze, amber eyes, ebony skin, smirk, very short hair, undercut, fade haircut, silver hair, tall, slim build, long legs, ink black short china dress, mandarin collar, eggplant purple piping, side slit, bare legs, flat shoes, standing, looking at viewer, full body, alley, narrow street, dawn, bioluminescence, glowing flowers, decadent, urban fantasy
+masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, cool exorcist, calm danger, subtly masculine features, straight nose bridge, defined jawline, piercing gaze, amber eyes, ebony skin, smirk, very short hair, undercut, fade haircut, silver hair, tall, slim build, long legs, ink black sleeveless china dress, short dress, mandarin collar, eggplant purple piping, side slit, bare legs, flat shoes, standing, looking at viewer, full body, alley, narrow street, dawn, bioluminescence, glowing flowers, decadent, urban fantasy
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long dress, long skirt, long sleeves
 ```
 
 ### c13. ミニスカサンタ
@@ -259,7 +261,7 @@ masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishoune
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long skirt
 ```
 
 ### c14. ハーネスと開襟シャツ
@@ -273,25 +275,6 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ```text
 masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, ruthless mafia boss, dangerous charm, androgynous features, high cheekbones, hollow cheeks, long eyelashes, pale gray eyes, deep brown skin, smirk, medium hair, shaggy hair, strawberry blonde hair, slender delicate build, narrow shoulders, open jade green shirt, plum purple leather chest harness, fitted trousers, boots, standing, looking at viewer, full body, bar, counter, bottles, night, full moon, spotlight, stoic, city
-```
-
-ネガティブ：
-
-```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
-```
-
-### c15. バレエダンサー
-
-- 設定：美形タイプ：花街の色男｜紅の灯りに映える艶やかな男。／容姿傾向：男性的／体格：大柄・重厚／衣装：バレエダンサー［緋色×杢グレー］／ポーズ：自然な立ち姿／構図：全身・目線の高さ／背景：提灯の灯る夜の街並み
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbnkmYz1jb2hlcmVudCZzZWVkPWNzMTUmYWdlPWEyNV8zNCZhcmNoZXR5cGU9cGxlYXN1cmVfcXVhcnRlciZwcmVzZW50YXRpb249bWFzYyZidWlsZD1idXJseSZ3b3JsZD1qYXBhbmVzZV9oaXN0b3JpY2FsJmN1bHR1cmU9a29yZWEmaGFpckxlbmd0aD1zaG9ydCZoYWlyU3R5bGU9c2lkZV9wYXJ0JmhhaXJDb2xvcj1icm93biZleWVTaGFwZT1sb25nX2xhc2hlcyZleWVDb2xvcj1wYWxlX2dyYXkmb3V0Zml0PWJhbGxldF9kYW5jZXIhJmV4cHJlc3Npb249bGFuZ3VpZCZmYWNlPWFyaXN0b2NyYXRpYyZza2luPWVib255Jm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1tZXJjaGFudCZhdXJhPWFsbHVyaW5nJm1haW5Db2xvcj1zY2FybGV0JmFjY2VudENvbG9yPWhlYXRoZXJfZ3JheSZwb3NlPXN0YW5kaW5nX3JlbGF4ZWQhJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSEmYW5nbGU9ZXllX2xldmVsISZzY2VuZT1yZWRfbGlnaHRfbGFudGVybnMmdGltZT1zbm93eV9uaWdodCZsaWdodD1sYW50ZXJuX2dsb3cmYXJ0U3R5bGU9bm9uZSZuYW1lPXdhZnVfMDE4JnJvbGU9bm9uZSZyZXN0cmFpbnQ9bm9uZSZiaW5kUG9zPW5vbmUmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPWxvb3NlJmJsaW5kZm9sZD1ub25lJmRpc2FycmF5PW5vbmUmd2VhcjE9bm9uZSZ3ZWFyMj1ub25l
-- 確かめる点：
-  - [ ] アプリ版で弾かれない（判定も控えておく）
-  - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
-  - [ ] 白いタイツとバレエシューズのダンサーに見える
-
-```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, flamboyant alluring elegance, masculine features, aristocratic features, high nose bridge, long eyelashes, pale gray eyes, ebony skin, languid expression, half-closed eyes, short hair, side part, neat hair, brown hair, large burly build, tall, broad chest, scarlet fitted ballet costume, heather gray short jacket, white tights, ballet shoes, korean-inspired motifs, hanbok-style details, standing, looking at viewer, full body, paper lantern, night street, wooden buildings, snowing, night, lantern light, warm glow, alluring, feudal japan
 ```
 
 ネガティブ：
@@ -338,7 +321,7 @@ masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long skirt
 ```
 
 ### c18. ビキニ×筋肉質の成熟した美形
@@ -349,51 +332,54 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
   - [ ] アプリ版で弾かれない（判定も控えておく）
   - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
   - [ ] 筋肉質の体にビキニが描けている
+  - [ ] 民族衣装や腰布にならない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, haughty aristocrat, refined arrogance, subtly masculine features, rugged features, strong nose, fierce eyes, gray eyes, porcelain skin, aloof expression, medium hair, half updo, black hair, muscular male, broad shoulders, thick arms, pure white bikini, ivy green trim, barefoot, standing, looking at viewer, full body, gradient background, orange background, chiaroscuro, dramatic lighting, aloof, baroque
+masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, haughty aristocrat, refined arrogance, subtly masculine features, rugged features, strong nose, fierce eyes, gray eyes, porcelain skin, aloof expression, medium hair, half updo, black hair, muscular male, broad shoulders, thick arms, pure white bikini, swimsuit, ivy green trim, barefoot, standing, looking at viewer, full body, gradient background, orange background, chiaroscuro, dramatic lighting, aloof, baroque
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, swim trunks, male swimwear, loincloth, tribal
 ```
 
-### c19. メイド服（ロング）×禁断：リボンで両手首を前
+### c19. メイド服（ロング）×禁断：絹の組紐で両手首を前
 
-- 設定：美形タイプ：軍服の将校｜規律そのものが服を着ている。／容姿傾向：やや女性寄り／体格：華奢／衣装：メイド服（ロング）［芥子色×ペリウィンクル］／ポーズ：膝をつき、縛られて項垂れる／構図：腰上・やや下から／背景：独房／立場：拘束される側／拘束：ラッピングのリボン／両手首を前／緩く巻く
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbnV5JmM9Y29oZXJlbnQmc2VlZD1jczE5JmFnZT1hNDVfNTkmYXJjaGV0eXBlPXN0cmljdF9vZmZpY2VyJnByZXNlbnRhdGlvbj1zbGlnaHRfZmVtJmJ1aWxkPWRlbGljYXRlJndvcmxkPW1pbGl0YXJ5JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPXNob3J0JmhhaXJTdHlsZT1jZW50ZXJfcGFydF9zaG9ydCZoYWlyQ29sb3I9d2hpdGUmZXllU2hhcGU9aGFsZl9saWRkZWQmZXllQ29sb3I9Y3JpbXNvbiZvdXRmaXQ9bWFpZF9jbGFzc2ljISZleHByZXNzaW9uPWFsb29mJmZhY2U9c29mdF9jb250b3VyJnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWNvbW1hbmRlciZhdXJhPWRlY2FkZW50Jm1haW5Db2xvcj1tdXN0YXJkX3llbGxvdyZhY2NlbnRDb2xvcj1wZXJpd2lua2xlJnBvc2U9a25lZWxfaGVhZF9kb3duJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1zbGlnaHRseV9iZWxvdyZzY2VuZT1wcmlzb25fY2VsbCZ0aW1lPWRheSZsaWdodD1zb2Z0X25hdHVyYWwmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDM1JnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJpYmJvbiEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：軍服の将校｜規律そのものが服を着ている。／容姿傾向：やや女性寄り／体格：華奢／衣装：メイド服（ロング）［芥子色×ペリウィンクル］／ポーズ：膝をつき、縛られて項垂れる／構図：腰上・やや下から／背景：独房／立場：拘束される側／拘束：絹の組紐／両手首を前／緩く巻く
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbnV5JmM9Y29oZXJlbnQmc2VlZD1jczE5JmFnZT1hNDVfNTkmYXJjaGV0eXBlPXN0cmljdF9vZmZpY2VyJnByZXNlbnRhdGlvbj1zbGlnaHRfZmVtJmJ1aWxkPWRlbGljYXRlJndvcmxkPW1pbGl0YXJ5JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPXNob3J0JmhhaXJTdHlsZT1jZW50ZXJfcGFydF9zaG9ydCZoYWlyQ29sb3I9d2hpdGUmZXllU2hhcGU9aGFsZl9saWRkZWQmZXllQ29sb3I9Y3JpbXNvbiZvdXRmaXQ9bWFpZF9jbGFzc2ljISZleHByZXNzaW9uPWFsb29mJmZhY2U9c29mdF9jb250b3VyJnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWNvbW1hbmRlciZhdXJhPWRlY2FkZW50Jm1haW5Db2xvcj1tdXN0YXJkX3llbGxvdyZhY2NlbnRDb2xvcj1wZXJpd2lua2xlJnBvc2U9a25lZWxfaGVhZF9kb3duJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1zbGlnaHRseV9iZWxvdyZzY2VuZT1wcmlzb25fY2VsbCZ0aW1lPWRheSZsaWdodD1zb2Z0X25hdHVyYWwmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDM1JnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXNpbGtfY29yZCEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
 - 確かめる点：
   - [ ] アプリ版で弾かれない（判定も控えておく）
   - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
-  - [ ] リボンが手首を結んでいる（エプロンのリボンと混ざっていない）
+  - [ ] 組紐が両手首を縛っている
+  - [ ] 衣装のリボンと混ざっていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, kneeling, sitting on heels, head down, looking down, cowboy shot, slightly from below, (ribbon:1.2), large bow, wrists tied with ribbon, restrained, (own hands together:1.2), mature male, middle-aged man, handsome, strict officer, crisp discipline, delicate androgynous features, soft facial features, soft facial contours, gentle features, half-closed eyes, heavy-lidded eyes, crimson eyes, aloof expression, short hair, center part, white hair, slender delicate build, narrow shoulders, male maid, mustard yellow maid dress, white frilled apron, maid headdress, periwinkle blue ribbon, long skirt, prison cell, prison, iron bars, indoors, day, soft lighting, natural light, decadent, military
+masterpiece, best quality, 1boy, solo, male focus, kneeling, sitting on heels, head down, looking down, cowboy shot, slightly from below, (rope:1.2), silk cord, (bound wrists:1.2), restrained, (own hands together:1.2), mature male, middle-aged man, handsome, strict officer, crisp discipline, delicate androgynous features, soft facial features, soft facial contours, gentle features, half-closed eyes, heavy-lidded eyes, crimson eyes, aloof expression, short hair, center part, white hair, slender delicate build, narrow shoulders, male maid, mustard yellow maid dress, white frilled apron, maid headdress, periwinkle blue ribbon, long skirt, prison cell, prison, iron bars, indoors, day, soft lighting, natural light, decadent, military
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope, chains, handcuffs, leather straps, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope belt, chains, handcuffs, leather straps, bandages, tentacles, vines
 ```
 
-### c20. ミニスカポリス×禁断：手錠を手にした支配者
+### c20. ミニスカポリス×禁断：鎖を手にした支配者
 
-- 設定：美形タイプ：中華宮廷の皇子｜翡翠のように冷たく美しい。／容姿傾向：やや男性寄り／体格：細身／衣装：ミニスカポリス［テラコッタ×瑠璃色］／ポーズ：自然な立ち姿／構図：腰上・俯瞰（上から）／背景：蓮池／立場：余裕のある支配者／拘束：手錠／手に持つ・操る（する側）
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbnV5JmM9Y29oZXJlbnQmc2VlZD1jczIwJmFnZT1hMjVfMzQmYXJjaGV0eXBlPWltcGVyaWFsX3ByaW5jZSZwcmVzZW50YXRpb249c2xpZ2h0X21hc2MmYnVpbGQ9c2xpbSZ3b3JsZD1jaGluZXNlX2NvdXJ0JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPWxvbmcmaGFpclN0eWxlPWhhbGZfdXBfbG9uZyZoYWlyQ29sb3I9bGlnaHRfYnJvd24mZXllU2hhcGU9ZGVlcF9zZXRfZXllcyZleWVDb2xvcj1oYXplbCZvdXRmaXQ9cG9saWNlX21pbmkhJmV4cHJlc3Npb249cmVsaXNoJmZhY2U9ZGltcGxlcyZza2luPWxpZ2h0Jm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1zdHJhdGVnaXN0JmF1cmE9c2FjcmVkJm1haW5Db2xvcj10ZXJyYWNvdHRhJmFjY2VudENvbG9yPWxhcGlzX2JsdWUmcG9zZT1zdGFuZGluZ19yZWxheGVkJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1mcm9tX2Fib3ZlJnNjZW5lPWxvdHVzX3BvbmQmdGltZT1zdW5zZXQmbGlnaHQ9cmltX2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT1jaGluZXNlXzAyOCZyb2xlPXJ1bGVyISZyZXN0cmFpbnQ9Y3VmZnMhJmJpbmRQb3M9aGVsZCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
+- 設定：美形タイプ：中華宮廷の皇子｜翡翠のように冷たく美しい。／容姿傾向：やや男性寄り／体格：細身／衣装：ミニスカポリス［テラコッタ×瑠璃色］／ポーズ：自然な立ち姿／構図：腰上・俯瞰（上から）／背景：蓮池／立場：余裕のある支配者／拘束：鎖／手に持つ・操る（する側）
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbnV5JmM9Y29oZXJlbnQmc2VlZD1jczIwJmFnZT1hMjVfMzQmYXJjaGV0eXBlPWltcGVyaWFsX3ByaW5jZSZwcmVzZW50YXRpb249c2xpZ2h0X21hc2MmYnVpbGQ9c2xpbSZ3b3JsZD1jaGluZXNlX2NvdXJ0JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPWxvbmcmaGFpclN0eWxlPWhhbGZfdXBfbG9uZyZoYWlyQ29sb3I9bGlnaHRfYnJvd24mZXllU2hhcGU9ZGVlcF9zZXRfZXllcyZleWVDb2xvcj1oYXplbCZvdXRmaXQ9cG9saWNlX21pbmkhJmV4cHJlc3Npb249cmVsaXNoJmZhY2U9ZGltcGxlcyZza2luPWxpZ2h0Jm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1zdHJhdGVnaXN0JmF1cmE9c2FjcmVkJm1haW5Db2xvcj10ZXJyYWNvdHRhJmFjY2VudENvbG9yPWxhcGlzX2JsdWUmcG9zZT1zdGFuZGluZ19yZWxheGVkJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1mcm9tX2Fib3ZlJnNjZW5lPWxvdHVzX3BvbmQmdGltZT1zdW5zZXQmbGlnaHQ9cmltX2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT1jaGluZXNlXzAyOCZyb2xlPXJ1bGVyISZyZXN0cmFpbnQ9Y2hhaW4hJmJpbmRQb3M9aGVsZCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPWRlY29yYXRpdmUmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
   - [ ] アプリ版で弾かれない（判定も控えておく）
   - [ ] 男性の体つきのまま（胸のふくらみがない）・人物が1人だけ
-  - [ ] 手錠を手に持っている（自分には掛かっていない）
+  - [ ] 鎖を手に持っている（自分には巻き付いていない）
+  - [ ] 手錠が出ていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, standing, looking at viewer, cowboy shot, from above, holding handcuffs, open handcuffs, handcuffs in hand, man in his late 20s, handsome, bishounen, imperial prince, jade-like elegance, subtly masculine features, dimples, gentle smile lines, deep-set eyes, hazel eyes, light skin, evil smile, smug, long hair, half updo, light brown hair, slim build, terracotta police uniform, police hat, lapis lazuli blue necktie, badge, miniskirt, lotus pond, water, sunset, rim lighting, divine aura, chinese palace
+masterpiece, best quality, 1boy, solo, male focus, standing, looking at viewer, cowboy shot, from above, holding chain, man in his late 20s, handsome, bishounen, imperial prince, jade-like elegance, subtly masculine features, dimples, gentle smile lines, deep-set eyes, hazel eyes, light skin, evil smile, smug, long hair, half updo, light brown hair, slim build, terracotta police uniform, police hat, lapis lazuli blue necktie, badge, miniskirt, lotus pond, water, sunset, rim lighting, divine aura, chinese palace
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, bound wrists, handcuffed, rope, chains, leather straps, ribbon, bandages, tentacles
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, long skirt, bound wrists, handcuffed, rope, handcuffs, leather straps, ribbon, bandages, tentacles
 ```

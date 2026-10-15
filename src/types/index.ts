@@ -30,6 +30,8 @@ export interface Option {
   hex?: string;
   /** 出典メモ（移植元） */
   src?: string;
+  /** この候補を選んだときネガティブに足す語（衣装：ミニスカで long skirt など。ネガティブONのときだけ） */
+  neg?: string[];
 
   // ---- フィールド固有 ----
   /** 世界観との相性（soft）。空なら全世界観で中立 */

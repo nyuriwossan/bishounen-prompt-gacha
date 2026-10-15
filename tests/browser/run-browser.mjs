@@ -217,7 +217,7 @@ try {
     await page.click('details.group summary:has-text("禁断の調合")');
 
     // コスプレ衣装：既定OFF。ONの間は衣装をコスプレ枠だけから引く
-    const COSPLAY = ['メイド服（ロング）', 'ミニスカメイド', 'ビキニ', '紐ビキニ', '水着と開襟シャツ', 'ミニスカナース', 'セーラー服', 'バニーボーイ', '逆バニー', 'ミニスカチャイナ', 'ミニスカポリス', 'ミニスカサンタ', 'チアリーダー', 'ハーネスと開襟シャツ', 'バレエダンサー', 'サーカス団長'];
+    const COSPLAY = ['メイド服（ロング）', 'ミニスカメイド', 'ビキニ', '紐ビキニ', '水着と開襟シャツ', 'ミニスカナース', 'ミニスカセーラー服', 'バニーボーイ', '逆バニー', 'ミニスカチャイナ', 'ミニスカポリス', 'ミニスカサンタ', 'チアリーダー', 'ハーネスと開襟シャツ', 'サーカス団長'];
     const outfitVal = async () => (await page.textContent('.frow >> nth=11 >> .fval')).trim();
     const isCos = (v) => COSPLAY.some((n) => v.startsWith(n));
     check('コスプレ衣装は既定OFFで、衣装はコスプレ以外', !isCos(await outfitVal()), await outfitVal());

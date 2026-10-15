@@ -175,20 +175,19 @@ const OUTFIT_BASE: Option[] = [
   // 世界観は問わない（worlds を空にして重みを中立にする）。
   // セーラー服は学校を連想させる語（school / serafuku）を使わず、禁断の調合とは同時に出さない（no_forbidden）。
   fit('maid_classic', 'メイド服（ロング）', 'cosplay', [], 'male maid, {c1} maid dress, white frilled apron, maid headdress, {c2} ribbon', 'long skirt, black stockings, mary janes', ['cosplay', 'maid', 'frills']),
-  fit('maid_mini', 'ミニスカメイド', 'cosplay', [], 'male maid, {c1} maid dress, white frilled apron, maid headdress, {c2} ribbon', 'frilled miniskirt, white thighhighs, mary janes', ['cosplay', 'maid', 'frills', 'miniskirt']),
-  fit('bikini', 'ビキニ', 'cosplay', [], '{c1} bikini, {c2} trim', 'barefoot', ['cosplay', 'swim', 'exposed']),
-  fit('string_bikini', '紐ビキニ', 'cosplay', [], '{c1} string bikini, {c2} side ties', 'barefoot', ['cosplay', 'swim', 'exposed']),
+  fit('maid_mini', 'ミニスカメイド', 'cosplay', [], 'male maid, {c1} maid dress, white frilled apron, maid headdress, {c2} ribbon', 'frilled miniskirt, white thighhighs, mary janes', ['cosplay', 'maid', 'frills', 'miniskirt'], { neg: ['long skirt'] }),
+  fit('bikini', 'ビキニ', 'cosplay', [], '{c1} bikini, swimsuit, {c2} trim', 'barefoot', ['cosplay', 'swim', 'exposed'], { neg: ['swim trunks', 'male swimwear', 'loincloth', 'tribal'] }),
+  fit('string_bikini', '紐ビキニ', 'cosplay', [], '{c1} string bikini, {c2} side-tie bikini bottom', 'barefoot', ['cosplay', 'swim', 'exposed'], { neg: ['swim trunks', 'male swimwear', 'shorts'] }),
   fit('swim_trunks', '水着と開襟シャツ', 'cosplay', [], 'open {c1} shirt', '{c2} swim trunks, sandals', ['cosplay', 'swim', 'exposed']),
-  fit('nurse_mini', 'ミニスカナース', 'cosplay', [], '{c1} nurse uniform, nurse cap, {c2} trim', 'miniskirt, white thighhighs, white shoes', ['cosplay', 'nurse', 'miniskirt']),
-  fit('sailor_suit', 'セーラー服', 'cosplay', [], '{c1} sailor collar blouse, {c2} neckerchief', 'pleated skirt, loafers', ['cosplay', 'sailor', 'no_forbidden']),
+  fit('nurse_mini', 'ミニスカナース', 'cosplay', [], '{c1} nurse uniform, nurse cap, {c2} trim', 'miniskirt, white thighhighs, white shoes', ['cosplay', 'nurse', 'miniskirt'], { neg: ['long skirt'] }),
+  fit('sailor_suit', 'ミニスカセーラー服', 'cosplay', [], '{c1} sailor collar blouse, {c2} neckerchief', 'pleated miniskirt, loafers', ['cosplay', 'sailor', 'miniskirt', 'no_forbidden'], { neg: ['long skirt'] }),
   fit('bunny_boy', 'バニーボーイ', 'cosplay', [], '{c1} bunny suit, bunny ears, {c2} bowtie, detached collar, wrist cuffs', 'fishnet pantyhose, high heels', ['cosplay', 'bunny', 'exposed']),
   fit('reverse_bunny', '逆バニー', 'cosplay', [], '{c1} reverse bunnysuit, bunny ears, {c2} bowtie', '{c2} briefs, high heels', ['cosplay', 'bunny', 'exposed']),
-  fit('china_mini', 'ミニスカチャイナ', 'cosplay', [], '{c1} short china dress, mandarin collar, {c2} piping', 'side slit, bare legs, flat shoes', ['cosplay', 'miniskirt']),
-  fit('police_mini', 'ミニスカポリス', 'cosplay', [], '{c1} police uniform, police hat, {c2} necktie, badge', 'miniskirt, black pantyhose, ankle boots', ['cosplay', 'tie', 'miniskirt']),
-  fit('santa_mini', 'ミニスカサンタ', 'cosplay', [], '{c1} santa costume, santa hat, white fur trim, {c2} belt', 'miniskirt, white thighhighs, boots', ['cosplay', 'winter', 'miniskirt']),
+  fit('china_mini', 'ミニスカチャイナ', 'cosplay', [], '{c1} sleeveless china dress, short dress, mandarin collar, {c2} piping', 'side slit, bare legs, flat shoes', ['cosplay', 'miniskirt'], { neg: ['long dress', 'long skirt', 'long sleeves'] }),
+  fit('police_mini', 'ミニスカポリス', 'cosplay', [], '{c1} police uniform, police hat, {c2} necktie, badge', 'miniskirt, black pantyhose, ankle boots', ['cosplay', 'tie', 'miniskirt', 'police'], { neg: ['long skirt'] }),
+  fit('santa_mini', 'ミニスカサンタ', 'cosplay', [], '{c1} santa costume, santa hat, white fur trim, {c2} belt', 'miniskirt, white thighhighs, boots', ['cosplay', 'winter', 'miniskirt'], { neg: ['long skirt'] }),
   fit('cheerleader', 'チアリーダー', 'cosplay', [], '{c1} cheerleader uniform, sleeveless crop top, {c2} stripes', 'short shorts, sneakers', ['cosplay', 'sporty', 'exposed']),
   fit('harness_shirt', 'ハーネスと開襟シャツ', 'cosplay', [], 'open {c1} shirt, {c2} leather chest harness', 'fitted trousers, boots', ['cosplay', 'alluring', 'danger']),
-  fit('ballet_dancer', 'バレエダンサー', 'cosplay', [], '{c1} fitted ballet costume, {c2} short jacket', 'white tights, ballet shoes', ['cosplay', 'stage', 'elegant']),
   fit('ringleader', 'サーカス団長', 'cosplay', [], '{c1} ringleader tailcoat, gold trim, {c2} waistcoat, top hat', 'white breeches, thighhigh boots', ['cosplay', 'stage', 'hat'])
 ];
 
@@ -209,7 +208,9 @@ const FEATURES: Array<[string, RegExp]> = [
   ['f_chain', /\bchains?\b/i],
   ['f_strap', /\b(straps|harness)\b/i],
   // 衣装に付いた動物の耳（獣人の耳と同時に描かない）
-  ['f_ears', /\bbunny ears\b/i]
+  ['f_ears', /\bbunny ears\b/i],
+  // 衣装のリボン（拘束具のリボンと混ざる）
+  ['f_ribbon', /\bribbons?\b/i]
 ];
 export const OUTFIT: Option[] = OUTFIT_BASE.map((x) => {
   const text = `${x.upper ?? ''} ${x.lower ?? ''}`;

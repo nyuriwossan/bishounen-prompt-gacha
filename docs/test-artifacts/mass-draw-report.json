@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-15T11:54:26.670Z",
+  "generatedAt": "2026-10-15T12:50:17.140Z",
   "dataVersion": "2026.10.12",
   "draws": 4200,
   "ok": 4200,
   "refusedByLockedConflict": 0,
   "exceptions": 0,
   "drawsWithStuckField": 9,
-  "elapsedMs": 75097,
-  "msPerDraw": 17.88,
+  "elapsedMs": 85378,
+  "msPerDraw": 20.33,
   "anomalies": [],
   "anomalyCount": 0,
   "anomalyKinds": {},
@@ -17,7 +17,7 @@
   "categoryCoverage": {
     "archetype": "124/124",
     "hairColor": "48/48",
-    "outfit": "158/158",
+    "outfit": "157/157",
     "world": "26/26",
     "age": "5/5",
     "presentation": "5/5",
@@ -102,7 +102,7 @@
       },
       {
         "id": "urban_night",
-        "share": 0.0619
+        "share": 0.0617
       },
       {
         "id": "wafu_fantasy",
@@ -160,7 +160,7 @@
     "hairLength": [
       {
         "id": "short",
-        "share": 0.2795
+        "share": 0.2793
       },
       {
         "id": "medium",
@@ -168,7 +168,7 @@
       },
       {
         "id": "long",
-        "share": 0.2045
+        "share": 0.2048
       },
       {
         "id": "very_long",
@@ -186,7 +186,7 @@
       },
       {
         "id": "city_street",
-        "share": 0.0224
+        "share": 0.0221
       },
       {
         "id": "simple_white",

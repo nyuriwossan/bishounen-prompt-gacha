@@ -44,7 +44,7 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 | 項目 | 件数 |
 |---|---:|
 | 美形タイプ | 124（11分類） |
-| 衣装 | 158（うちコスプレ16） |
+| 衣装 | 157（うちコスプレ15） |
 | 色 | 128 |
 | 職業 | 96 |
 | ポーズ | 65 |
@@ -162,7 +162,7 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 ユーザーの要望（メイド服・男性用ビキニ・ミニスカナース・セーラー服、逆バニー・ミニスカチャイナ・ミニスカポリス・ミニスカサンタ）に、Manus の案（バニーボーイ・水着と開襟シャツ・ハーネスと開襟シャツ・バレエダンサー・サーカス団長・チアリーダー）から選んで加えた。置き場所はユーザーの選択で「新しい分類＋専用スイッチ、ONなら100%コスプレ枠」。
 
 - ユーザーの実機確認（実装前）：PixAI アプリ版で、男性に女性用の `bikini` / `string bikini` を着せても「センシティブ」判定で通った。
-- データ：`outfits.ts` の cat `cosplay` に16種。`worlds` は空（世界観を問わず重み中立）、`w` はすべて1。露出の多いもの（ビキニ・紐ビキニ・水着・バニー・逆バニー・チア）は `exposed`（着崩し・大きな破れを重ねない）。兎耳の衣装は特徴タグ `f_ears`（`bunny ears` から自動付与）。セーラー服は `no_forbidden`。
+- データ：`outfits.ts` の cat `cosplay` に15種（当初16種。バレエダンサーは実機確認1回目で描けず、ユーザー判断で廃止）。`worlds` は空（世界観を問わず重み中立）、`w` はすべて1。露出の多いもの（ビキニ・紐ビキニ・水着・バニー・逆バニー・チア）は `exposed`（着崩し・大きな破れを重ねない）。兎耳の衣装は特徴タグ `f_ears`（`bunny ears` から自動付与）。セーラー服は `no_forbidden`。
   - 語の方針：`male maid` を使う。セーラー服は `school` / `serafuku` を使わず `sailor collar blouse, neckerchief, pleated skirt`。逆バニーは股間の露出でアプリ版の判定が上がらないよう `{c2} briefs` を足した（未確認）。`nsfw / nude / shirtless / lingerie` などは使わない（`data.test.ts` で検査）。性別はタグの `1boy, solo, male focus` とネガティブの `1girl, female, breasts` で保つ。
 - スイッチ：`ForgeModules.cosplayEnabled`（既定 false、ModuleId `cosplay`、項目を持たないモジュール）。画面は詳細な調合の「コスプレ衣装（任意）」。共有URLのフラグ `y`。記録のない保存データ・共有URLは、衣装がコスプレならON（`storage.ts`）。
 - エンジン（`draw.ts` の `outfitPool`）：
@@ -174,9 +174,16 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - `DATA_VERSION` は据え置き（2026.10.12）。OFFの抽選はコスプレ衣装を候補から外すので、同じシードの結果が変わらない。EXAMPLES.md・VERIFY-SET.md の再生成で差分なしを確認済み。
 - テスト：engine 8件、storage 1件、data 1件（通常の衣装に水着・兎耳を入れない検査はコスプレ以外に限定）、mass-draw に条件「コスプレON」（漏れ・ON時にコスプレ以外・兎耳×獣人・セーラー服×禁断を検査）、ブラウザ4項目。スクリーンショット `cosplay-outfit-390.jpg`。
 
+- 実機確認1回目（PixAI アプリ版、19例判定）：OK 12、要修正 7、弾かれた 0。逆バニー・バニーボーイ・ビキニ・紐ビキニ・チアは弾かれず、ミニスカメイド×女性的な美形も女性化しなかった。対応：
+  - 衣装ごとのネガティブ `Option.neg`（`build.ts` でネガティブONのとき足す。正の側に同じ語があれば足さない）。ミニスカ5種に `long skirt`、ビキニに `swim trunks, male swimwear, loincloth, tribal`（筋肉質×ビキニが民族衣装風になった）、紐ビキニに `swim trunks, male swimwear, shorts`（下が海パンになった）、チャイナに `long dress, long skirt, long sleeves`。
+  - セーラー服をミニ丈に（名前「ミニスカセーラー服」、`pleated miniskirt`）。チャイナはノースリーブ＋`short dress`（長い丈になった）。ビキニに `swimsuit`、紐ビキニの下を `side-tie bikini bottom`。
+  - hard：衣装のリボン（特徴タグ `f_ribbon`。メイド2種・道袍）×拘束具のリボン（メイド×リボンで手首に巻けたのが1/4）、警官の衣装（タグ `police`）×手錠（手に持つ手錠が2つになり1つが自分に掛かった）。どちらも `restraint_outfit` に追加。
+  - バレエダンサー（`ballet_dancer`）を削除。保存データ・共有URLに残っていれば、辞書から消えた候補として引き直される。`DATA_VERSION` は据え置き（OFFの抽選・禁断の確認セット・EXAMPLES は再生成で差分なし）。
+  - 確認セットは2回目（再確認 C04・C06・C07・C12・C18・C19・C20、余裕があれば未判定の C02）。C19 は組紐、C20 は鎖を手に持つ形に変更。
+
 ## 8. 次にやること（2026-10-15 時点の未着手）
 
-- **コスプレ衣装の実機確認**（PixAI アプリ版。`npm run report:verify-cosplay` → `docs/VERIFY-COSPLAY.md` と `docs/test-artifacts/verify-cosplay.json`、20例＝16種を正面の立ち姿・全身で1例ずつ＋組み合わせ4例。チェックリストは claude.ai の Artifact「コスプレ衣装 確認セット」）：特に逆バニー・バニーボーイ・紐ビキニ・チアリーダーが弾かれないか、ミニスカ系で体が女性化しないか（ネガティブONを推奨）、セーラー服・ミニスカポリスなどの衣装が描けるか。弾かれる・描けない語があれば差し替える。
+- **コスプレ衣装の実機確認2回目**（PixAI アプリ版。`npm run report:verify-cosplay` → `docs/VERIFY-COSPLAY.md` と `docs/test-artifacts/verify-cosplay.json`、19例＝15種を正面の立ち姿・全身で1例ずつ＋組み合わせ4例。JSON の recheck / optional で今回の対象を示す。チェックリストは claude.ai の Artifact「コスプレ衣装 確認セット」）：C04（ミニ丈のセーラー服）・C06/C18（ビキニが民族衣装や腰布にならないか）・C07（紐ビキニの下）・C12（ノースリーブのミニ丈チャイナ）・C19（メイド×組紐）・C20（ミニスカポリス×鎖を持つ）。
 - 実機確認セット V04（腰を縄で椅子に縛りつける）の再確認。
 - ChatGPT 指示書の §6（このタイプで錬成）・§7（分類限定）は保留のまま。
 
@@ -193,4 +200,4 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
   - 1枚版
   - 5枚カルーセル版（共通ルール＋各画像の指示）
 - 必要であれば、新しい会話で作り直せる。
-- 実機確認のチェックリスト（claude.ai の Artifact「禁断の調合 確認セット」と「コスプレ衣装 確認セット」。後者は前者と同じ作りで、`verify-cosplay.json` を埋め込み、全20例を判定の対象にする）。`docs/test-artifacts/verify-set.json` の内容を埋め込んだ単一 HTML。新しい会話では Artifact の一覧から URL を探し、read してから更新する。
+- 実機確認のチェックリスト（claude.ai の Artifact「禁断の調合 確認セット」と「コスプレ衣装 確認セット」。後者は前者と同じ作りで、`verify-cosplay.json` を埋め込み、2回目からは前者と同じく「今回の再確認」で絞る）。`docs/test-artifacts/verify-set.json` の内容を埋め込んだ単一 HTML。新しい会話では Artifact の一覧から URL を探し、read してから更新する。

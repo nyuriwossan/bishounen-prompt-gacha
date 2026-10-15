@@ -567,7 +567,7 @@ describe('コスプレ衣装', () => {
       expect(cat(r.state)).toBe('cosplay');
       seen.add(r.state.fields.outfit.id!);
     }
-    // 16種すべてに届く
+    // コスプレ衣装すべてに届く
     expect(seen.size).toBe(fieldDef('outfit').options.filter((o) => o.cat === 'cosplay').length);
   });
 

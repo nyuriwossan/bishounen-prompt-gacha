@@ -286,7 +286,9 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   const posLower = positive.toLowerCase();
   // 素材と、状況で足す語（腕輪・縄の帯・目隠し）は、ポジティブに同じ語があればネガティブから外す
   const materialWords = new Set([...MATERIAL_NEGATIVE.map(([, w]) => w), 'bracelet', 'rope belt', 'blindfold']);
-  const negBase = [...NEGATIVE_BASE, ...fb.negative.filter((w) => !materialWords.has(w) || !posLower.includes(w.split(' ').pop()!.replace(/s$/, '')))];
+  // 衣装ごとの語（ミニスカの long skirt、ビキニの swim trunks など）。正の側に同じ語があれば足さない
+  const outfitNeg = (optionOf('outfit', state.fields.outfit.id)?.neg ?? []).filter((w) => !posLower.includes(w));
+  const negBase = [...NEGATIVE_BASE, ...outfitNeg, ...fb.negative.filter((w) => !materialWords.has(w) || !posLower.includes(w.split(' ').pop()!.replace(/s$/, '')))];
   const negative = S.negative && target !== 'japanese' && target !== 'naturalEnglish' ? negBase.join(', ')
     : S.negative && target === 'naturalEnglish' ? `Avoid: ${negBase.join(', ')}.` : '';
 
