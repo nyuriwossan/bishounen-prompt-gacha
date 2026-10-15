@@ -33,6 +33,7 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 ```
 
 - 作業用のデバッグスクリプトは `.dbg/` に置く（gitignore 済み）。
+- 大量抽選テストは約75秒の同期処理なので、100回ごとに `setImmediate` で制御を返している。外すと CI で vitest の RPC タイムアウト（`Timeout calling "onTaskUpdate"`）になる。CI のログはこの環境から取れないので、失敗したら新しい clone で `CI=true npx vitest run` を試す。
 - 文書の再生成：`npm run report:examples`（EXAMPLES.md）、`npm run report:catalog`（DATA-CATALOG.md）。
 - 公開確認：この環境からは github.io を開けない。`gh run list` と、`gh-pages` の配信ファイルのハッシュで確認する。
 

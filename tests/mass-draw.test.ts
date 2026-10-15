@@ -50,7 +50,7 @@ function base(rng: () => number, mode: Mode, pattern: (typeof LOCK_PATTERNS)[num
 }
 
 describe('大量抽選（4,200回）', () => {
-  it('hard 違反・例外・アンカー欠落ゼロ、ロック不変、偏りなし', { timeout: 600000 }, () => {
+  it('hard 違反・例外・アンカー欠落ゼロ、ロック不変、偏りなし', { timeout: 600000 }, async () => {
     const rng = seededRandom('mass');
     const anomalies: Anomaly[] = [];
     const counts: Record<string, Record<string, number>> = { archetype: {}, hairColor: {}, outfit: {}, world: {}, age: {}, presentation: {}, hairLength: {}, scene: {} };
@@ -61,6 +61,8 @@ describe('大量抽選（4,200回）', () => {
     const t0 = Date.now();
 
     for (let i = 0; i < DRAWS; i++) {
+      // 長い同期処理でテストランナーとの通信が途切れないよう、ときどき制御を返す（CIで RPC タイムアウトになったため）
+      if (i % 100 === 0) await new Promise((r) => setImmediate(r));
       const mode = MODES[i % MODES.length];
       const preset = PRESETS[Math.floor(i / MODES.length) % PRESETS.length];
       const pattern = LOCK_PATTERNS[Math.floor(i / (MODES.length * PRESETS.length)) % LOCK_PATTERNS.length];
