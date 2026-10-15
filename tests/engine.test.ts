@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { allViolations } from '../src/advisor/hard';
 import { DRAW_ORDER, fieldDef, optionOf } from '../src/data/fields';
 import { STYLE_PRESETS } from '../src/data/presets';
-import { adopt, checkAdopt, draw, drawWithin, fillModule, GROUPS, lockCount, nucleus, relatedTargets, toggleLock, unlockAll, valuesOf } from '../src/engine/draw';
+import { adopt, checkAdopt, draw, drawWithin, fillModule, GROUPS, repairAfterModuleOff, lockCount, nucleus, relatedTargets, toggleLock, unlockAll, valuesOf } from '../src/engine/draw';
 import { hashSeed, seededRandom, weightedPick } from '../src/engine/rng';
 import { cloneState, emptyState, isActive } from '../src/engine/state';
 import { applyShares, softWeight } from '../src/engine/weights';
@@ -458,6 +458,29 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     }
     expect(bound).toBeGreaterThan(25);
     expect(captiveExpr).toBeGreaterThan(30);
+  });
+  it('縛っていると囚われの場所（地下牢・独房・鳥籠など）が出やすく、触手の巣は触手のときだけ', () => {
+    let s = set(set(set(onState('cap'), 'role', 'captive'), 'restraint', 'chain'), 'bindPos', 'wrists_front');
+    let n = 0;
+    for (let i = 0; i < 60; i++) {
+      s = draw(s, { seed: 'cap' + i }).state;
+      const sc = optionOf('scene', s.fields.scene.id)!;
+      if (sc.cat === 'captivity') n++;
+      expect(sc.id).not.toBe('tentacle_lair');
+    }
+    expect(n).toBeGreaterThan(30);
+    let t = set(set(set(onState('lair'), 'role', 'captive'), 'restraint', 'tentacles'), 'world', 'dark_fantasy');
+    const seen = new Set<string>();
+    for (let i = 0; i < 80; i++) { t = draw(t, { seed: 'lair' + i }).state; seen.add(t.fields.scene.id!); }
+    expect(seen.has('tentacle_lair')).toBe(true);
+  });
+  it('OFFにすると、囚われの場所は固定していなければ引き直され、OFFの抽選では出ない', () => {
+    const s = set(set(onState('caoff'), 'role', 'captive'), 'scene', 'dungeon_cell', false);
+    s.optionalModules.unlimitedEnabled = false;
+    const r = repairAfterModuleOff(s)!;
+    expect(optionOf('scene', r.state.fields.scene.id)!.cat).not.toBe('captivity');
+    let f = fresh('cap-off');
+    for (let i = 0; i < 80; i++) { f = draw(f, { seed: 'co' + i }).state; expect(optionOf('scene', f.fields.scene.id)!.cat).not.toBe('captivity'); }
   });
   it('膝立ち・うつ伏せの拘束ポーズは、対応する拘束位置で出る', () => {
     const seen = new Set<string>();

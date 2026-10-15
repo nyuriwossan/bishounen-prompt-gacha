@@ -250,7 +250,8 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
 
   // 正のプロンプトに出ている語（髪のリボン・絆創膏など）は、ネガティブに入れない
   const posLower = positive.toLowerCase();
-  const negBase = [...NEGATIVE_BASE, ...fb.negative.filter((w) => !posLower.includes(w.split(' ').pop()!.replace(/s$/, '')))];
+  const materialWords = new Set(MATERIAL_NEGATIVE.map(([, w]) => w));
+  const negBase = [...NEGATIVE_BASE, ...fb.negative.filter((w) => !materialWords.has(w) || !posLower.includes(w.split(' ').pop()!.replace(/s$/, '')))];
   const negative = S.negative && target !== 'japanese' && target !== 'naturalEnglish' ? negBase.join(', ')
     : S.negative && target === 'naturalEnglish' ? `Avoid: ${negBase.join(', ')}.` : '';
 

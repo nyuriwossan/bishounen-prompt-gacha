@@ -92,7 +92,7 @@ describe('大量抽選（4,200回）', () => {
         if (!s.optionalModules.unlimitedEnabled) {
           const vv = valuesOf(s);
           for (const f of FORBIDDEN_FIELDS) if (vv[f] && vv[f]!.id !== 'none' && f !== 'tightness') anomalies.push({ kind: 'forbidden-leak', ...ctx, detail: f });
-          if (vv.pose?.tags?.includes('bound') || vv.expression?.cat === 'forbidden') anomalies.push({ kind: 'forbidden-leak', ...ctx, detail: `${vv.pose?.id}/${vv.expression?.id}` });
+          if (vv.pose?.tags?.includes('bound') || vv.expression?.cat === 'forbidden' || vv.scene?.cat === 'captivity') anomalies.push({ kind: 'forbidden-leak', ...ctx, detail: `${vv.pose?.id}/${vv.expression?.id}/${vv.scene?.id}` });
           if (buildPrompt(s, 'pixai').sections.some((x) => x.id === 'forbidden')) anomalies.push({ kind: 'forbidden-leak', ...ctx, detail: 'section' });
         }
         if ((age.ageMin ?? 0) < 18) anomalies.push({ kind: 'minor-age', ...ctx, detail: age.id });

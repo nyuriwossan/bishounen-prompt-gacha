@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks'
 import { advise } from '../advisor/advisor';
 import { DRAW_ORDER, fieldDef } from '../data/fields';
 import { STYLE_PRESETS } from '../data/presets';
-import { adopt, draw, drawWithin, fillModule, GROUPS, relatedTargets, toggleLock, unlockAll, type DrawOutcome, type RecentMap } from '../engine/draw';
+import { adopt, draw, drawWithin, fillModule, GROUPS, relatedTargets, repairAfterModuleOff, toggleLock, unlockAll, type DrawOutcome, type RecentMap } from '../engine/draw';
 import { cloneState, emptyState } from '../engine/state';
 import { titleOf } from '../prompts/build';
 import { decodeShare, loadCurrent, loadRecent, missingFields, pushHistory, saveCurrent, saveRecent } from '../storage/storage';
@@ -146,6 +146,9 @@ export function App() {
       if (on) {
         const r = fillModule(s, MODULE_OF[key], recent.current);
         if (r && r.ok) { commit(r.state, { changed: r.changed }); return; }
+      } else {
+        const r = repairAfterModuleOff(s, recent.current);
+        if (r) { commit(r.state, { changed: r.changed }); return; }
       }
       commit(s);
     },

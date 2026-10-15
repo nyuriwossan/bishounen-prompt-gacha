@@ -1,6 +1,6 @@
 {
   "engine": "chromium",
-  "at": "2026-10-15T00:47:01.941Z",
+  "at": "2026-10-15T01:04:30.391Z",
   "total": 92,
   "failed": 0,
   "results": [
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "ローズゴールドの堕天使 / シャンパンブロンドの涼やかな軍師"
+      "detail": "青み銀髪の仙人めいた青年 / ストロベリーブロンドのダウナー系"
     },
     {
       "name": "進むでやり直せる",
@@ -282,7 +282,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "丸眼鏡"
+      "detail": "角ばった眼鏡"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -427,7 +427,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:46633/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4zJm09YnBuJmM"
+      "detail": "http://127.0.0.1:38661/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC40Jm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

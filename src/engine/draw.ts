@@ -319,6 +319,15 @@ export function setModule(state: ForgeState, key: keyof ForgeState['optionalModu
   return s;
 }
 
+/** モジュールをOFFにしたあと、OFFの項目を前提にしていた値（例：囚われの場所、眼鏡を押し上げるポーズ）を、固定していなければ引き直す */
+export function repairAfterModuleOff(state: ForgeState, recent?: RecentMap): DrawOutcome | null {
+  const viols = allViolations(valuesOf(state));
+  const targets = [...new Set(viols.flatMap((v) => v.fields))].filter((f) => isActive(state, f) && !state.fields[f].locked);
+  if (!targets.length) return null;
+  const r = draw(state, { targets, recent });
+  return r.ok ? r : null;
+}
+
 /** モジュールをONにしたとき、その項目に値が無ければ抽選して埋める */
 export function fillModule(state: ForgeState, module: Parameters<typeof moduleKey>[0], recent?: RecentMap): DrawOutcome | null {
   // 禁断の調合：ONにしたら、禁断演出とそれに合わせる表情・ポーズ・画角をまとめて引く（「なし」も通常どおり出る）

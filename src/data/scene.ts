@@ -98,6 +98,16 @@ export const SCENE: Option[] = [
   s('neon_alley_cyber', 'サイバー都市の裏路地', 'cyberpunk, alley, holograms', 'outdoor', 'sf', ['cyberpunk', 'sf'], ['night', 'tech'], { nat: 'a cyberpunk back alley full of holograms' }),
   s('cockpit', 'コックピット', 'cockpit, control panel', 'indoor', 'sf', ['sf', 'military', 'space'], ['tech'], { nat: 'the cockpit of a ship' }),
   s('ruined_city', '廃墟都市', 'ruined city, overgrown buildings', 'outdoor', 'sf', ['wasteland', 'sf'], ['dark', 'melancholy'], { nat: 'an overgrown ruined city' }),
+  // ---- 囚われの場所（禁断の調合がONのときだけ。立場が「なし」＝OFF では出ない）----
+  s('dungeon_cell', '石造りの地下牢', 'dungeon, stone walls, iron bars, dim light', 'indoor', 'captivity', ['fantasy', 'western', 'dark', 'gothic', 'historical', 'china', 'desert'], ['captivity', 'dark'], { nat: 'a dim stone dungeon behind iron bars', requires: ['role:!none'] }),
+  s('prison_cell', '独房', 'prison cell, concrete walls, iron bars', 'indoor', 'captivity', ['modern', 'noir', 'military', 'sf', 'urban'], ['captivity', 'dark'], { nat: 'a bare concrete prison cell with iron bars', requires: ['role:!none'] }),
+  s('interrogation_room', '尋問室', 'interrogation room, single hanging lamp, metal table', 'indoor', 'captivity', ['modern', 'noir', 'military', 'business', 'sf'], ['captivity', 'noir'], { nat: 'a stark interrogation room under a single hanging lamp', requires: ['role:!none'] }),
+  s('giant_birdcage', '巨大な鳥籠', 'inside a giant ornate birdcage, gilded bars', 'indoor', 'captivity', ['court', 'fantasy', 'gothic', 'victorian', 'myth'], ['captivity', 'elegant'], { nat: 'the inside of a giant gilded birdcage', requires: ['role:!none'] }),
+  s('zashikirou', '座敷牢', 'zashikirou, wooden lattice bars, tatami room, dim lantern light', 'indoor', 'captivity', ['japan', 'taisho', 'supernatural', 'wafu_fantasy'], ['captivity', 'eastern'], { nat: 'a dim tatami room enclosed by wooden lattice bars', requires: ['role:!none'] }),
+  s('canopy_bedroom', '天蓋付きの寝室', 'bedroom, canopy bed, sheer curtains', 'indoor', 'captivity', ['court', 'gothic', 'fantasy', 'victorian', 'modern', 'desert'], ['captivity', 'elegant'], { nat: 'a bedroom with a canopy bed and sheer curtains', requires: ['role:!none'] }),
+  s('ritual_altar', '魔法陣の祭壇', 'stone altar, glowing magic circle on the floor, candles', 'indoor', 'captivity', ['fantasy', 'dark', 'myth', 'supernatural', 'gothic'], ['captivity', 'magic'], { nat: 'a stone altar above a glowing magic circle, ringed by candles', requires: ['role:!none'] }),
+  // 触手の巣は触手で縛る（操る）ときだけ。別の拘束具と混ざらないよう、背景側には触手の語を入れない
+  s('tentacle_lair', '触手の巣（洞窟）', 'dark cave lair, faint bioluminescent glow', 'indoor', 'captivity', ['fantasy', 'dark', 'supernatural', 'myth', 'sf'], ['captivity', 'dark'], { nat: 'a dark cave lair lit by a faint bioluminescent glow', requires: ['role:!none', 'restraint:tentacles|shadow_tentacles'] }),
   // ---- シンプル背景 ----
   s('simple_white', '白背景', 'simple background, white background', 'simple', 'simple', [], [], { nat: 'a plain white background', w: 1.2 }),
   s('simple_gray', 'グレー背景', 'simple background, grey background', 'simple', 'simple', [], [], { nat: 'a plain gray background' }),
@@ -113,7 +123,7 @@ export const SCENE_CATS: Category[] = [
   { id: 'interior', ja: '室内' }, { id: 'palace', ja: '宮殿・庭園' }, { id: 'sacred', ja: '神殿・聖堂' }, { id: 'gothic', ja: 'ゴシック' },
   { id: 'japan', ja: '和の景色' }, { id: 'china', ja: '中華の景色' }, { id: 'nature', ja: '自然' }, { id: 'water', ja: '水辺・海' },
   { id: 'urban', ja: '都市・夜の街' }, { id: 'terrace', ja: 'テラス・回廊' }, { id: 'fantasy', ja: '幻想景観' }, { id: 'exotic', ja: '砂漠・神話' },
-  { id: 'sf', ja: 'SF' }, { id: 'surreal', ja: '夢・宇宙' }, { id: 'simple', ja: 'シンプル背景' }
+  { id: 'sf', ja: 'SF' }, { id: 'surreal', ja: '夢・宇宙' }, { id: 'simple', ja: 'シンプル背景' }, { id: 'captivity', ja: '囚われの場所（禁断の調合）' }
 ];
 
 // ---------------- 時間帯・天候 ----------------
