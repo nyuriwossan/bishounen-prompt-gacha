@@ -79,6 +79,8 @@ export const PAIR_RULES: PairRule[] = [
       if (r.id === 'none' && b.id !== 'none') return `拘束具がないのに、拘束位置「${b.ja}」が指定されています`;
       if (r.id !== 'none' && b.id === 'none') return `拘束具「${r.ja}」の使い方（拘束位置）が必要です`;
       if (r.id === 'cuffs' && b.id === 'torso_arms') return '手錠は腕と胴体には巻けません';
+      // 包帯で手首を縛ると、巻いてあるだけの包帯になる（7回目の実機確認）。包帯は腕と胴体だけ
+      if (r.id === 'bandage' && b.id !== 'torso_arms' && b.id !== 'held') return `包帯は「腕と胴体」に巻くときだけ使えます（現在：${b.ja}）`;
       if (b.id === 'chair_back' && !['rope', 'silk_cord'].includes(r.id)) return `椅子の背もたれに縛りつけるのは縄・組紐だけです（現在：${r.ja}）`;
       return null;
     }

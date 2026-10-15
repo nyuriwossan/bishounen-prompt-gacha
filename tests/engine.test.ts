@@ -456,6 +456,7 @@ describe('禁断の調合（アンリミテッドモード）', () => {
         // 実機確認：椅子への縛りつけはしっかり固定／フードは下から煽らない／触手などを操るときは手を外へ向け、胸上より引く
         if (b.id === 'chair_back') { expect(v.tightness!.id).toBe('secured'); expect(['rope', 'silk_cord']).toContain(v.restraint!.id); expect(v.anchor!.id).toBe('chair'); }
         if (v.blindfold!.tags?.includes('hood')) expect(v.pose!.en.join(' ')).not.toMatch(/looking up/);
+        if (v.restraint!.id === 'bandage') expect(['torso_arms', 'held']).toContain(b.id);
         if (captorOnly) expect(['giant_birdcage', 'zashikirou']).not.toContain(v.scene!.id);
         if (v.blindfold!.tags?.includes('hood')) expect(['from_below', 'slightly_below']).not.toContain(v.angle!.id);
         if (b.id === 'held' && v.restraint!.tags?.includes('summoned')) {

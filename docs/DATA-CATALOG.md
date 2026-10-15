@@ -1,6 +1,6 @@
 # DATA-CATALOG — 辞書の件数と構成
 
-辞書の版：`2026.10.10`。件数は `src/data/fields.ts` の登録から自動集計（`npm run report:catalog` で再生成。下限は `tests/data.test.ts` で検査）。
+辞書の版：`2026.10.11`。件数は `src/data/fields.ts` の登録から自動集計（`npm run report:catalog` で再生成。下限は `tests/data.test.ts` で検査）。
 
 ## 指示書の目標との対応
 

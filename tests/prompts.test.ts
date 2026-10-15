@@ -324,7 +324,7 @@ describe('禁断の調合：3回目の実機確認（ネガティブあり）を
   it('椅子の背もたれに縄で縛りつける（肘掛けへの固定は廃止し、古い保存は置き換える）', () => {
     const s = make('chair', { role: 'captive', restraint: 'rope', bindPos: 'chair_back', anchor: 'chair', pose: 'bound_chair', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
     const tags = buildPrompt(s, 'pixai').positive.split(', ');
-    expect(tags).toEqual(expect.arrayContaining(['(rope:1.2)', '(bound torso:1.2)', '(bound arms:1.2)', '(tied to chair:1.2)', 'chair', 'arms behind back']));
+    expect(tags).toEqual(expect.arrayContaining(['(rope:1.2)', '(bound torso:1.2)', '(bound arms:1.2)', '(tied to chair:1.2)', 'high-back chair', 'arms behind back']));
     expect(tags.join(', ')).not.toMatch(/armrest|armchair/);
   });
   it('フードでは、目の語に加えて頭の向き・視線の語（looking …）も出さない', () => {
@@ -338,10 +338,10 @@ describe('禁断の調合：3回目の実機確認（ネガティブあり）を
     const tags = buildPrompt(s, 'pixai').positive.split(', ');
     const i = tags.indexOf('male focus');
     expect(tags.slice(i + 1, i + 7)).toEqual(['beckoning', 'looking at viewer', 'upper body', 'tentacles', 'black tentacles', 'outstretched hand']);
-    const b = make('bandage', { role: 'captive', restraint: 'bandage', bindPos: 'wrists_front', pose: 'bound_front_stand', shot: 'cowboy_shot', angle: 'eye_level' }, { unlimitedEnabled: true });
+    const b = make('ropefront', { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', pose: 'bound_front_stand', shot: 'cowboy_shot', angle: 'eye_level' }, { unlimitedEnabled: true });
     const bt = buildPrompt(b, 'pixai').positive.split(', ');
     const j = bt.indexOf('cowboy shot');
-    expect(bt.slice(j + 1, j + 4)).toEqual(['(bandages:1.2)', 'bandaged wrist', '(bound wrists:1.2)']);
+    expect(bt.slice(j + 1, j + 4)).toEqual(['(rope:1.2)', '(bound wrists:1.2)', 'restrained']);
     expect(bt).toContain('(own hands together:1.2)');
     expect(buildPrompt(b, 'novelai').positive).toContain('{bound wrists}');
     expect(buildPrompt(b, 'genericTags').positive).not.toMatch(/[({]/);
@@ -374,7 +374,9 @@ describe('禁断の調合：3回目の実機確認（ネガティブあり）を
     const prone = make('prone', { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'prone_behind', shot: 'full_body', blindfold: 'none' }, { unlimitedEnabled: true });
     prone.settings.negative = true;
     expect(buildPrompt(prone, 'pixai').positive).toContain('sideways glance');
-    expect(buildPrompt(prone, 'pixai').negative.split(', ')).toContain('rope belt');
+    const pr = buildPrompt(prone, 'pixai');
+    // 衣装にベルトがあれば、ネガティブの rope belt は外す
+    if (!/\bbelt\b/.test(pr.positive)) expect(pr.negative.split(', ')).toContain('rope belt');
     const ank = make('ank', { role: 'captive', restraint: 'rope', bindPos: 'ankles', pose: 'prone_ankles', shot: 'full_body' }, { unlimitedEnabled: true });
     ank.settings.negative = true;
     expect(buildPrompt(ank, 'pixai').negative.split(', ')).toEqual(expect.arrayContaining(['bound wrists', 'bracelet']));

@@ -14,7 +14,7 @@ import { CULTURE, CULTURE_CATS, WORLD, WORLD_CATS } from './worlds';
 import { ANCHOR, BIND_POS, BLINDFOLD, DISARRAY, RESTRAINT, ROLE, TIGHTNESS, WEAR, WEAR_CATS } from './forbidden';
 
 /** 辞書のバージョン。候補IDを削除・改名したら上げ、storage の migration に対応を書く。 */
-export const DATA_VERSION = '2026.10.10';
+export const DATA_VERSION = '2026.10.11';
 
 export const FIELDS: FieldDef[] = [
   // ---- 基本パネル ----
@@ -116,5 +116,5 @@ export const RELATED: Partial<Record<FieldId, FieldId[]>> = {
   hairColor: ['hairAccentColor'], hairAccentColor: ['hairColor'],
   marks: ['kemonoSpecies', 'glasses'], kemonoSpecies: ['marks'],
   role: ['bindPos', 'expression', 'blindfold', 'scene'], angle: ['pose', 'blindfold'], tightness: ['bindPos'], restraint: ['bindPos', 'anchor', 'tightness'], bindPos: ['restraint', 'anchor', 'tightness', 'pose', 'prop', 'role', 'shot'], anchor: ['bindPos', 'shot', 'pose'],
-  blindfold: ['pose', 'glasses', 'marks', 'hairStyle', 'angle'], disarray: ['outfit'], wear1: ['wear2', 'outfit'], wear2: ['wear1', 'outfit']
+  blindfold: ['pose', 'glasses', 'marks', 'hairStyle', 'angle'], disarray: ['outfit', 'pose', 'bindPos'], wear1: ['wear2', 'outfit'], wear2: ['wear1', 'outfit']
 };

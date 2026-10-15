@@ -216,7 +216,7 @@ export function materialTags(restraintId: string, bindId: string): string[] {
     cuffs: [bindId === 'ankles' ? 'shackles' : 'handcuffs'],
     straps: ['leather straps', 'restraints'],
     ribbon: ['ribbon', 'large bow', 'wrists tied with ribbon'],
-    bandage: ['bandages', 'bandaged wrist', ...part.split(', ')],
+    bandage: ['bandages', 'bandaged arm', ...part.split(', ')],
     tentacles: ['tentacles', 'restrained by tentacles'], shadow_tentacles: ['tentacles', 'black tentacles', 'restrained by tentacles', 'dark aura'],
     vines: ['vines', 'entangled in vines'], rose_vines: ['vines', 'roses', 'entangled in vines']
   };
@@ -233,7 +233,7 @@ export function keyTags(restraintId: string, bindId: string): string[] {
 /** 拘束位置のタグ（素材を問わない語だけ） */
 export const BIND_TAGS: Record<string, string[]> = {
   wrists_front: ['restrained', 'own hands together'], wrists_behind: ['restrained', 'arms behind back'], wrists_overhead: ['restrained', 'arms up'],
-  one_wrist: ['restrained'], chair_back: ['restrained', 'sitting', 'chair', 'arms behind back'], ankles: [], torso_arms: ['restrained']
+  one_wrist: ['restrained'], chair_back: ['restrained', 'sitting', 'high-back chair', 'arms behind back'], ankles: [], torso_arms: ['restrained']
 };
 export const ANCHOR_TAGS: Record<string, string[]> = { wall: ['against wall'], pillar: ['against pillar'], chair: ['chair'], overhead: [] };
 /** 鎖・装飾鎖のときだけ足す固定先のタグ（ほかの素材に「chained」を混ぜない） */

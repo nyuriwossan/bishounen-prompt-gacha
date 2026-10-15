@@ -283,6 +283,11 @@ export function adopt(state: ForgeState, field: FieldId, id: string, lock: boole
     const wider = relatedTargets(s, relatedTargets(s, check.conflictingUnlocked)).filter((f) => f !== field);
     // 順に引くため一度で組めないことがある。シードを変えて数回だけ試す（決定的）
     for (let k = 0; k < 8 && (!res.ok || res.stuck.length); k++) res = draw(s, { targets: [...wider, ...follow], hold: [field], seed: `${seed}~${k}`, recent: opts.recent });
+    // それでも組めなければ、もう一段だけ広げる（例：服のずり上がり → ポーズ → 拘束位置 → 拘束具・立場）
+    if (!res.ok || res.stuck.length) {
+      const widest = relatedTargets(s, wider).filter((f) => f !== field);
+      for (let k = 0; k < 8 && (!res.ok || res.stuck.length); k++) res = draw(s, { targets: [...widest, ...follow], hold: [field], seed: `${seed}~w${k}`, recent: opts.recent });
+    }
   }
   if (!res.ok || res.stuck.length) {
     // 色を合わせられなかっただけなら、色はそのままで採用する

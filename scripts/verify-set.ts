@@ -39,8 +39,8 @@ const CASES: Case[] = [
     checks: ['レース越しに目（縦長の瞳孔・光る目）が描かれていない', 'レースの目隠しに見える', '「こちらを見る」視線になっていない'] },
   { id: 'v10', group: '目隠し', title: '布の目隠し＋目元が特徴の美形タイプ', seed: 'vs10', lock: { role: 'prisoner', restraint: 'silk_cord', bindPos: 'wrists_behind', blindfold: 'cloth', eyeShape: 'piercing', eyeColor: 'gold', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['目隠しを貫通して目が描かれていない', '金色の瞳が出ていない（出力から外している）'] },
-  { id: 'v11', group: '目隠し', title: 'フードを目深に被る', seed: 'vs11', lock: { role: 'captive', restraint: 'bandage', bindPos: 'wrists_front', blindfold: 'hood_low', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['フードで目元が隠れている', '包帯で両手首が縛られている', '布の目隠しが出ていない', '頭飾り（冠など）と重なっていない'] },
+  { id: 'v11', group: '目隠し', title: 'フードを目深に被る', seed: 'vs11', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', blindfold: 'hood_low', disarray: 'none', wear1: 'none', wear2: 'none' },
+    checks: ['フードで目元が隠れている', '縄で両手首が縛られている', '布の目隠しが出ていない', '頭飾り（冠など）と重なっていない'] },
   // ---- 拘束具の素材 ----
   { id: 'v12', group: '拘束具の素材', title: '触手（触手の巣）', seed: 'vs12', lock: { role: 'captive', restraint: 'tentacles', bindPos: 'wrists_overhead', world: 'dark_fantasy', scene: 'tentacle_lair', pose: 'bound_overhead_stand', shot: 'full_body', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['触手が手首に巻き付いている', '縄や鎖が混ざっていない', '露出や性的な描写に寄りすぎていない'] },
