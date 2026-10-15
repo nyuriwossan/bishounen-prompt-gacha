@@ -453,6 +453,14 @@ describe('禁断の調合（アンリミテッドモード）', () => {
         if (captorOnly) expect(PLEASURE_EXPRESSIONS.has(v.expression!.id), `${mode}#${i} ${v.expression!.id}`).toBe(true);
         if (v.pose!.posture === 'lying') expect(['wall', 'pillar']).not.toContain(v.anchor!.id);
         if (v.restraint!.id === 'cuffs') expect(v.tightness!.id).toBe('secured');
+        // 3回目の実機確認：肘掛けはしっかり固定／フードは下から煽らない／触手などを操るときは手を外へ向け、胸上より引く
+        if (b.id === 'armrests') expect(v.tightness!.id).toBe('secured');
+        if (captorOnly) expect(['giant_birdcage', 'zashikirou']).not.toContain(v.scene!.id);
+        if (v.blindfold!.tags?.includes('hood')) expect(['from_below', 'slightly_below']).not.toContain(v.angle!.id);
+        if (b.id === 'held' && v.restraint!.tags?.includes('summoned')) {
+          expect((p.hands ?? 2) >= 2 || ['casting_spell', 'offer_hand', 'beckoning', 'pointing'].includes(p.id), `${mode}#${i} ${p.id}`).toBe(true);
+          expect(v.shot!.level ?? 5).toBeGreaterThanOrEqual(2);
+        }
         expect(r.stuck, `${mode}#${i}`).toEqual([]);
       }
     }

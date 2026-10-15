@@ -320,6 +320,39 @@ describe('禁断の調合のタグ形式（PixAI SDXL での実機確認を反�
   });
 });
 
+describe('禁断の調合：3回目の実機確認（ネガティブあり）を反映', () => {
+  it('肘掛けへの固定は、素材ごとに「椅子へ固定」のタグを足す', () => {
+    const s = make('arm', { role: 'captive', restraint: 'straps', bindPos: 'armrests', pose: 'bound_chair', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
+    const tags = buildPrompt(s, 'pixai').positive.split(', ');
+    expect(tags).toEqual(expect.arrayContaining(['armchair', 'hands on armrests', 'leather straps', 'wrist cuffs', 'strapped to chair']));
+  });
+  it('フードは「目隠し」を呼ばないタグにして、ネガティブに blindfold を入れる', () => {
+    const s = make('hood', { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', blindfold: 'hood_low', pose: 'bound_front_kneel', shot: 'full_body', angle: 'eye_level' }, { unlimitedEnabled: true });
+    s.settings.negative = true;
+    const out = buildPrompt(s, 'pixai');
+    expect(out.positive).toContain('hood over eyes');
+    expect(out.positive).not.toMatch(/covered eyes|blindfold/);
+    expect(out.positive).not.toContain('hands on lap');
+    expect(out.negative.split(', ')).toContain('blindfold');
+  });
+  it('影の触手を操るときは、触手と外へ向けた手のタグを出し、自分の首に手を当てない', () => {
+    const s = make('shadow', { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held' }, { unlimitedEnabled: true });
+    const p = buildPrompt(s, 'pixai').positive;
+    expect(p).toMatch(/\btentacles\b/);
+    expect(p).toContain('outstretched hand');
+    expect(p).not.toContain('own neck');
+  });
+  it('うつ伏せ（後ろ手）は横顔寄りにし、足首だけの拘束は腕輪をネガティブに入れる', () => {
+    const prone = make('prone', { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'prone_behind', shot: 'full_body', blindfold: 'none' }, { unlimitedEnabled: true });
+    prone.settings.negative = true;
+    expect(buildPrompt(prone, 'pixai').positive).toContain('sideways glance');
+    expect(buildPrompt(prone, 'pixai').negative.split(', ')).toContain('rope belt');
+    const ank = make('ank', { role: 'captive', restraint: 'rope', bindPos: 'ankles', pose: 'prone_ankles', shot: 'full_body' }, { unlimitedEnabled: true });
+    ank.settings.negative = true;
+    expect(buildPrompt(ank, 'pixai').negative.split(', ')).toEqual(expect.arrayContaining(['bound wrists', 'bracelet']));
+  });
+});
+
 describe('禁断の調合：素材の語を混ぜない', () => {
   it('鎖・装飾鎖以外では chain / chained を出さない（3モード×各60回）', () => {
     for (const mode of ['coherent', 'balanced', 'wild'] as const) {

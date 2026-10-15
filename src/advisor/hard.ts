@@ -16,6 +16,8 @@ interface PairRule { id: string; fields: [FieldId, FieldId]; check: (v: Values) 
 const BIND_MIN_SHOT: Record<string, number> = { held: 1, wrists_front: 2, wrists_behind: 2, wrists_overhead: 2, one_wrist: 1, armrests: 3, ankles: 4, torso_arms: 1 };
 /** 椅子に座っているポーズ（固定先「椅子」と両立する） */
 const CHAIR_POSES = new Set(['sitting_chair', 'crossed_legs', 'backwards_chair', 'chin_on_hand_table', 'throne_lounge', 'bound_chair']);
+/** 手を外へ向けるポーズ（片手でも、触手などを操る手として描ける） */
+const OUTWARD_POSES = new Set(['casting_spell', 'offer_hand', 'beckoning', 'pointing']);
 const CALM_CLOSED = new Set(['serene', 'eyes_closed_serene', 'gentle_smile', 'closed_smile', 'expressionless', 'smile_eyes_closed', 'sad_smile', 'pensive', 'quiet_tears']);
 
 export const PAIR_RULES: PairRule[] = [
@@ -107,10 +109,30 @@ export const PAIR_RULES: PairRule[] = [
     }
   },
   {
+    // 触手・蔓・光の鎖を「操る」ときは、手を外へ向けるポーズに限る（首や顔に手を当てると触手が出ない：3回目の実機確認）
+    id: 'held_summoned_pose', fields: ['bindPos', 'pose'],
+    check: ({ bindPos: b, pose: p, restraint: r }) => {
+      if (!b || !p || !r || b.id !== 'held' || !has(r, 'summoned')) return null;
+      return (p.hands ?? 2) >= 2 || OUTWARD_POSES.has(p.id) ? null : `「${r.ja}」を操るには、ポーズ「${p.ja}」では手が塞がっています`;
+    }
+  },
+  {
+    // 檻の中にいるのは囚われる側だけ（する側だけの立場に「in cage」を付けない）
+    id: 'role_cage', fields: ['role', 'scene'],
+    check: ({ role: ro, scene: s }) => (ro && s && onlySide(ro, 'captor') && /\bin cage\b/.test(s.en.join(' ')) ? `「${ro.ja}」が「${s.ja}」の檻の中に入っています` : null)
+  },
+  {
+    // 肘掛けに緩く巻くと、固定されていない絵になりやすい
+    id: 'armrest_tightness', fields: ['bindPos', 'tightness'],
+    check: ({ bindPos: b, tightness: t }) => (b && t && b.id === 'armrests' && t.id !== 'secured' ? `肘掛けへの固定は「しっかり固定」だけにします（現在：${t.ja}）` : null)
+  },
+  {
     id: 'bind_shot', fields: ['bindPos', 'shot'],
-    check: ({ bindPos: b, shot: s }) => {
+    check: (v) => {
+      const { bindPos: b, shot: s } = v;
       if (!b || !s) return null;
-      const min = BIND_MIN_SHOT[b.id] ?? 0;
+      // 触手・蔓・光の鎖を操るときは、操る手と周りの触手まで入る画角にする（胸上では触手が消えやすい）
+      const min = b.id === 'held' && v.restraint && has(v.restraint, 'summoned') ? 2 : BIND_MIN_SHOT[b.id] ?? 0;
       return (s.level ?? 5) >= min ? null : `拘束位置「${b.ja}」は、構図「${s.ja}」では画面に入りません`;
     }
   },
@@ -207,6 +229,11 @@ export const PAIR_RULES: PairRule[] = [
     // うつ伏せは下から煽ると仰向けに描かれやすい
     id: 'prone_angle', fields: ['pose', 'angle'],
     check: ({ pose: p, angle: a }) => (p && a && p.posture === 'lying' && p.tags?.includes('bound') && ['from_below', 'slightly_below', 'dutch'].includes(a.id) ? `うつ伏せの拘束と「${a.ja}」は合いません` : null)
+  },
+  {
+    // フードの陰は、下から煽ると顔の下側が見えて目元が隠れない
+    id: 'hood_angle', fields: ['blindfold', 'angle'],
+    check: ({ blindfold: f, angle: a }) => (f && a && has(f, 'hood') && ['from_below', 'slightly_below'].includes(a.id) ? `フードの陰は「${a.ja}」では目元を隠せません` : null)
   },
   {
     id: 'blind_glasses', fields: ['blindfold', 'glasses'],

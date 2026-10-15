@@ -1,39 +1,39 @@
 # 禁断の調合 実機確認セット
 
-辞書の版 2026.10.6。各ケースの共有URLを開くと、アプリに同じ状態が再現されます（ネガティブはON）。PixAI 向けタグと、画像で確かめる点を載せています。
+辞書の版 2026.10.7。各ケースの共有URLを開くと、アプリに同じ状態が再現されます（ネガティブはON）。PixAI 向けタグと、画像で確かめる点を載せています。
 
 ## 拘束の基本
 
 ### v01. 両手首を前で縄（基本形）
 
-- 設定：美形タイプ：雅な平安貴族｜和歌を詠む指先の雅。／衣装：束帯（平安装束）［ワインレッド×プラチナ］／ポーズ：両手首を前で縛られて立つ／構図：腰上・目線の高さ／背景：座敷牢／立場：拘束される側／拘束：縄／両手首を前／しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwMSZhZ2U9YTM1XzQ0JmFyY2hldHlwZT1oZWlhbl9jb3VydGllciZwcmVzZW50YXRpb249c2xpZ2h0X21hc2MmYnVpbGQ9YXZlcmFnZSZ3b3JsZD13YWZ1X2ZhbnRhc3kmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bG9uZyZoYWlyU3R5bGU9aGFpcl9idW4maGFpckNvbG9yPWJsYWNrJmV5ZVNoYXBlPXNwYXJrbGluZyZleWVDb2xvcj1taW50Jm91dGZpdD1zb2t1dGFpJmV4cHJlc3Npb249aW50ZW5zZV9zdGFyZSZmYWNlPXRoaWNrX2Jyb3dzJnNraW49cm9zeV9mYWlyJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj15b3VuZ19tYXN0ZXImYXVyYT1kYW5nZXJvdXMmbWFpbkNvbG9yPXdpbmVfcmVkJmFjY2VudENvbG9yPXBsYXRpbnVtX21ldGFsJnBvc2U9Ym91bmRfZnJvbnRfc3RhbmQhJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9emFzaGlraXJvdSZ0aW1lPWR1c2smbGlnaHQ9bGFudGVybl9nbG93JmFydFN0eWxlPW5vbmUmbmFtZT13YWZ1XzAyNyZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1yb3BlISZiaW5kUG9zPXdyaXN0c19mcm9udCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQhJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
+- 設定：美形タイプ：サイバーパンクの運び屋｜ネオンを切り裂いて走る。／衣装：サイバーパンクのジャケット［オックスブラッド×杢グレー］／ポーズ：両手首を前で縛られて立つ／構図：腰上・目線の高さ／背景：独房／立場：拘束される側／拘束：縄／両手首を前／しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwMSZhZ2U9YTI1XzM0JmFyY2hldHlwZT1jeWJlcl9ydW5uZXImcHJlc2VudGF0aW9uPXNsaWdodF9mZW0mYnVpbGQ9ZGVsaWNhdGUmd29ybGQ9Y3liZXJwdW5rJmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPW1lZGl1bSZoYWlyU3R5bGU9cGFydGVkX2JhbmdzJmhhaXJDb2xvcj1wdXJwbGUmZXllU2hhcGU9ZmllcmNlJmV5ZUNvbG9yPWJ1cmd1bmR5Jm91dGZpdD1jeWJlcl9qYWNrZXQmZXhwcmVzc2lvbj1jb2xkX3NtaWxlJmZhY2U9YXJjaGVkX2Jyb3dzJnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWVuZ2luZWVyJmF1cmE9c3VubnkmbWFpbkNvbG9yPW94Ymxvb2QmYWNjZW50Q29sb3I9aGVhdGhlcl9ncmF5JnBvc2U9Ym91bmRfZnJvbnRfc3RhbmQhJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9cHJpc29uX2NlbGwmdGltZT1kYXduJmxpZ2h0PW5lb24mYXJ0U3R5bGU9bm9uZSZuYW1lPXNjaWZpXzAxNyZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1yb3BlISZiaW5kUG9zPXdyaXN0c19mcm9udCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQhJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
 - 確かめる点：
-  - [ ] 縄が手首だけに巻かれ、腕や首に回っていない
+  - [ ] 縄が手首だけに巻かれ、腰・腕・首に回っていない
   - [ ] 縛られた両手・指が崩れていない
   - [ ] 縄以外の拘束具（鎖など）が混ざっていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, elegant heian courtier, subtly masculine features, thick eyebrows, straight eyebrows, sparkling eyes, mint green eyes, rosy fair skin, intense stare, long hair, hair bun, black hair, average build, wine red layered heian court robes, platinum silver under-robes, kanmuri, long train, restrained, rope, bound wrists, standing, looking at viewer, cowboy shot, japanese room, tatami, wooden bars, in cage, indoors, lantern, dusk, lantern light, warm glow, dangerous aura, japanese fantasy
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, neon-lit cyberpunk cool, delicate androgynous features, soft facial features, thin arched eyebrows, fierce eyes, burgundy eyes, cold smile, medium hair, parted bangs, purple hair, slender delicate build, narrow shoulders, oxblood red cyberpunk jacket with glowing heather gray lines, high collar, tech pants, restrained, rope, bound wrists, standing, looking at viewer, cowboy shot, prison cell, prison, iron bars, indoors, dawn, neon lights, colorful lighting, cheerful, cyberpunk
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope belt, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
 ```
 
 ### v02. 後ろ手に鎖、壁へ固定・肩越しに振り返る
 
-- 設定：美形タイプ：砂漠の王子｜陽光を纏う黄金の皇子。／衣装：舞踊家の衣装［瑠璃色×グラファイト］／ポーズ：後ろ手に縛られ、肩越しに振り返る／構図：腰上・俯瞰（上から）／背景：石造りの地下牢／立場：反抗的な囚われ／拘束：鎖／両手首を後ろ／壁・装飾的に巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwMiZhZ2U9YTE4XzI0JmFyY2hldHlwZT1kZXNlcnRfcHJpbmNlJnByZXNlbnRhdGlvbj1mZW0mYnVpbGQ9YnVybHkmd29ybGQ9ZGVzZXJ0X2ZhbnRhc3kmY3VsdHVyZT1vdHRvbWFuJmhhaXJMZW5ndGg9bG9uZyZoYWlyU3R5bGU9c2xpY2tlZF9iYWNrX2xvb3NlJmhhaXJDb2xvcj1ibGFjayZleWVTaGFwZT1sYXJnZV9jbGVhciZleWVDb2xvcj1nb2xkX2Jyb3duJm91dGZpdD1kYW5jZXImZXhwcmVzc2lvbj1kZXRlcm1pbmVkJmZhY2U9Z2F1bnQmc2tpbj1lYm9ueSZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249c3VsdGFuJmF1cmE9YWxsdXJpbmcmbWFpbkNvbG9yPWxhcGlzX2JsdWUmYWNjZW50Q29sb3I9Z3JhcGhpdGUmcG9zZT1ib3VuZF9iZWhpbmRfbG9va2JhY2shJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1mcm9tX2Fib3ZlJnNjZW5lPWR1bmdlb25fY2VsbCEmdGltZT1zdW5zZXQmbGlnaHQ9d2luZG93X2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT1kZXNlcnRfMDE2JnJvbGU9ZGVmaWFudCEmcmVzdHJhaW50PWNoYWluISZiaW5kUG9zPXdyaXN0c19iZWhpbmQhJmFuY2hvcj13YWxsISZ0aWdodG5lc3M9ZGVjb3JhdGl2ZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：堕天使｜翼を失っても美しい。／衣装：スラヴの刺繍カフタン［コーラルピンク×純白］／ポーズ：後ろ手に縛られ、肩越しに振り返る／構図：腰上・目線の高さ／背景：石造りの地下牢／立場：反抗的な囚われ／拘束：鎖／両手首を後ろ／壁・緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwMiZhZ2U9YTE4XzI0JmFyY2hldHlwZT1mYWxsZW5fYW5nZWwmcHJlc2VudGF0aW9uPWZlbSZidWlsZD1hdGhsZXRpYyZ3b3JsZD1kYXJrX2ZhbnRhc3kmY3VsdHVyZT1zbGF2aWMmaGFpckxlbmd0aD1sb25nJmhhaXJTdHlsZT1wYXJ0ZWRfYmFuZ3MmaGFpckNvbG9yPWFzaF9ibG9uZGUmZXllU2hhcGU9c2hhcnAmZXllQ29sb3I9aGF6ZWwmb3V0Zml0PXNsYXZpY19rYWZ0YW4mZXhwcmVzc2lvbj1zYWRfc21pbGUmZmFjZT1hcmNoZWRfYnJvd3Mmc2tpbj11bnNwZWNpZmllZCZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249bm9uZSZhdXJhPXBsYXlmdWwmbWFpbkNvbG9yPWNvcmFsX3BpbmsmYWNjZW50Q29sb3I9cHVyZV93aGl0ZSZwb3NlPWJvdW5kX2JlaGluZF9sb29rYmFjayEmcHJvcD1ub25lJnNob3Q9Y293Ym95X3Nob3QhJmFuZ2xlPWV5ZV9sZXZlbCZzY2VuZT1kdW5nZW9uX2NlbGwhJnRpbWU9bW9vbmxpdF9uaWdodCZsaWdodD1jaGlhcm9zY3VybyZhcnRTdHlsZT1ub25lJm5hbWU9d2VzdGVybl8wMTkmcm9sZT1kZWZpYW50ISZyZXN0cmFpbnQ9Y2hhaW4hJmJpbmRQb3M9d3Jpc3RzX2JlaGluZCEmYW5jaG9yPXdhbGwhJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
 - 確かめる点：
   - [ ] 鎖が壁の金具までつながって見える
   - [ ] 後ろ手の手首と指が見えている（省略されていない）
   - [ ] 肩や腕の向きが不自然でない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, young man, handsome, sun-gilded desert prince, feminine facial features, pretty face, gaunt cheeks, sharp cheekbones, pale face, large clear eyes, golden brown eyes, ebony skin, determined expression, long hair, slicked back hair, loose strands, hair strand, black hair, large burly build, tall, broad chest, flowing lapis lazuli blue dance tunic, graphite gray sash, jewelry, loose trousers, ottoman-inspired motifs, tulip pattern, restrained, arms behind back, chain, chained, against wall, chained to wall, from behind, looking back over shoulder, cowboy shot, from above, dungeon, prison, stone wall, iron bars, indoors, dim lighting, sunset, sunlight, window light, alluring, desert fantasy
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, fallen angel beauty, sorrowful grace, feminine facial features, pretty face, thin arched eyebrows, sharp eyes, intense gaze, hazel eyes, sad smile, long hair, parted bangs, ash blonde hair, athletic build, broad shoulders, coral pink embroidered kaftan, pure white fur trim, belt, boots, slavic-inspired motifs, folk embroidery, restrained, arms behind back, chain, chained, against wall, chained to wall, from behind, looking back over shoulder, cowboy shot, dungeon, prison, stone wall, iron bars, indoors, dim lighting, night, full moon, chiaroscuro, dramatic lighting, playful, dark fantasy
 ```
 
 ネガティブ：
@@ -44,15 +44,15 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v03. 頭上で吊る鎖（地下牢）
 
-- 設定：美形タイプ：吸血鬼の伯爵｜月光の下でだけ笑う夜の貴族。／衣装：吸血鬼の夜会服［空色×芥子色］／ポーズ：両手首を頭上で固定されて立つ／構図：全身・目線の高さ／背景：石造りの地下牢／立場：捕らえられた側／拘束：鎖／両手首を頭上／頭上の固定具・緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwMyZhZ2U9YTYwcCZhcmNoZXR5cGU9dmFtcGlyZV9jb3VudCZwcmVzZW50YXRpb249YW5kcm8mYnVpbGQ9YXRobGV0aWMmd29ybGQ9Z290aGljJmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPXZlcnlfbG9uZyZoYWlyU3R5bGU9Zmxvd2luZyZoYWlyQ29sb3I9d2hpdGUmZXllU2hhcGU9Y2FsbSZleWVDb2xvcj1idXJndW5keSZvdXRmaXQ9dmFtcGlyZV9ub2JsZSZleHByZXNzaW9uPWJld2lsZGVyZWQmZmFjZT1nZW50bGVfbG9uZyZza2luPXJvc3lfZmFpciZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249dmFtcGlyZV9sb3JkJmF1cmE9YWxvb2YmbWFpbkNvbG9yPXNreV9ibHVlJmFjY2VudENvbG9yPW11c3RhcmRfeWVsbG93JnBvc2U9Ym91bmRfb3ZlcmhlYWRfc3RhbmQhJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSEmYW5nbGU9ZXllX2xldmVsJnNjZW5lPWR1bmdlb25fY2VsbCEmdGltZT1kYXduJmxpZ2h0PWNhbmRsZWxpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAzNyZyb2xlPXByaXNvbmVyISZyZXN0cmFpbnQ9Y2hhaW4hJmJpbmRQb3M9d3Jpc3RzX292ZXJoZWFkISZhbmNob3I9b3ZlcmhlYWQhJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：堕天使｜翼を失っても美しい。／衣装：堕天の装束［チョコレート色×ワインレッド］／ポーズ：両手首を頭上で固定されて立つ／構図：全身・煽り（下から）／背景：石造りの地下牢／立場：捕らえられた側／拘束：鎖／両手首を頭上／頭上の固定具・緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwMyZhZ2U9YTE4XzI0JmFyY2hldHlwZT1mYWxsZW5fYW5nZWwmcHJlc2VudGF0aW9uPXNsaWdodF9tYXNjJmJ1aWxkPXNsaW0md29ybGQ9ZGFya19mYW50YXN5JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPXZlcnlfbG9uZyZoYWlyU3R5bGU9bG9uZ19zdHJhaWdodCZoYWlyQ29sb3I9bGF2ZW5kZXImZXllU2hhcGU9bmFycm93X2xvbmcmZXllQ29sb3I9bWludCZvdXRmaXQ9ZmFsbGVuX2FuZ2VsJmV4cHJlc3Npb249Y29sZF9zbWlsZSZmYWNlPWJyb2FkX2ZhY2Umc2tpbj1kZWVwX2Jyb3duJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9cmVnYWwmbWFpbkNvbG9yPWNob2NvbGF0ZV9icm93biZhY2NlbnRDb2xvcj13aW5lX3JlZCZwb3NlPWJvdW5kX292ZXJoZWFkX3N0YW5kISZwcm9wPW5vbmUmc2hvdD1mdWxsX2JvZHkhJmFuZ2xlPWZyb21fYmVsb3cmc2NlbmU9ZHVuZ2Vvbl9jZWxsISZ0aW1lPW1vb25saXRfbmlnaHQmbGlnaHQ9cmltX2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAyOCZyb2xlPXByaXNvbmVyISZyZXN0cmFpbnQ9Y2hhaW4hJmJpbmRQb3M9d3Jpc3RzX292ZXJoZWFkISZhbmNob3I9b3ZlcmhlYWQhJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
 - 確かめる点：
   - [ ] 両足が床に着いている（宙吊りになっていない）
   - [ ] 鎖が頭上の固定具につながっている
   - [ ] 屋内（牢）の背景になっている
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, pale vampire beauty, crimson-tinged lips, androgynous features, gentle long face, soft jaw, calm eyes, soft gaze, burgundy eyes, rosy fair skin, bewildered expression, very long hair, flowing hair, floating hair, white hair, athletic build, broad shoulders, sky blue victorian coat, mustard yellow high-collared cape, ruffled cravat, black trousers, boots, restrained, arms up, chain, chained, standing, full body, dungeon, prison, stone wall, iron bars, indoors, dim lighting, dawn, candlelight, warm lighting, aloof, gothic
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, fallen angel beauty, sorrowful grace, subtly masculine features, broad face, strong cheekbones, elongated eyes, narrow eyes, mint green eyes, deep brown skin, cold smile, very long hair, long straight hair, lavender hair, slim build, chocolate brown ornate dark robes, wine red chains, feathered collar, long robe, restrained, arms up, chain, chained, standing, full body, from below, dungeon, prison, stone wall, iron bars, indoors, dim lighting, night, full moon, rim lighting, regal, dark fantasy
 ```
 
 ネガティブ：
@@ -63,14 +63,15 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v04. 椅子の肘掛けに革ベルトで固定
 
-- 設定：美形タイプ：涼やかな軍師｜扇の陰で盤面を読む。／衣装：宮廷の華服［青銅色×苺色］／ポーズ：椅子に座り、両手首を肘掛けへ固定／構図：腰上・斜め45度／背景：尋問室／立場：拘束される側／拘束：革ベルト／椅子の肘掛け／椅子・緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNCZhZ2U9YTQ1XzU5JmFyY2hldHlwZT1jb29sX3N0cmF0ZWdpc3QmcHJlc2VudGF0aW9uPXNsaWdodF9tYXNjJmJ1aWxkPWF0aGxldGljJndvcmxkPWNoaW5lc2VfY291cnQmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bG9uZyZoYWlyU3R5bGU9c2xpY2tlZF9iYWNrX2xvb3NlJmhhaXJDb2xvcj1ncmF5JmV5ZVNoYXBlPXNsZWVweSZleWVDb2xvcj1ibHVlX2dyYXkmb3V0Zml0PWhhbmZ1X25vYmxlJmV4cHJlc3Npb249a25vd2luZ19zbWlsZSZmYWNlPXNxdWFyZV9qYXcmc2tpbj1kYXJrJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1zdHJhdGVnaXN0JmF1cmE9bXlzdGVyaW91cyZtYWluQ29sb3I9YnJvbnplX21ldGFsJmFjY2VudENvbG9yPXN0cmF3YmVycnlfcmVkJnBvc2U9Ym91bmRfY2hhaXIhJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT10aHJlZV9xdWFydGVyX3ZpZXcmc2NlbmU9aW50ZXJyb2dhdGlvbl9yb29tISZ0aW1lPWR1c2smbGlnaHQ9cmltX2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT1jaGluZXNlXzAyNSZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1zdHJhcHMhJmJpbmRQb3M9YXJtcmVzdHMhJmFuY2hvcj1jaGFpciEmdGlnaHRuZXNzPWxvb3NlJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
+- 設定：美形タイプ：高慢な貴公子｜見下す視線さえ優雅。／衣装：リージェンシーの燕尾［スチールブルー×サーモンピンク］／ポーズ：椅子に座り、両手首を肘掛けへ固定／構図：腰上・目線の高さ／背景：尋問室／立場：拘束される側／拘束：革ベルト／椅子の肘掛け／椅子・しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNCZhZ2U9YTQ1XzU5JmFyY2hldHlwZT1oYXVnaHR5X2FyaXN0b2NyYXQmcHJlc2VudGF0aW9uPWZlbSZidWlsZD1odWdlJndvcmxkPWV1cm9wZWFuX2NvdXJ0JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPXNob3J0JmhhaXJTdHlsZT1zaWRlX3N3ZXB0JmhhaXJDb2xvcj1ibHVlX2JsYWNrJmV5ZVNoYXBlPXRpcmVkJmV5ZUNvbG9yPWljZV9ibHVlJm91dGZpdD1yZWdlbmN5JmV4cHJlc3Npb249YmV3aWxkZXJlZCZmYWNlPWxvbmdfZWxlZ2FudCZza2luPWJlaWdlJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9cnVnZ2VkJm1haW5Db2xvcj1zdGVlbF9ibHVlJmFjY2VudENvbG9yPXNhbG1vbl9waW5rJnBvc2U9Ym91bmRfY2hhaXIhJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9aW50ZXJyb2dhdGlvbl9yb29tISZ0aW1lPW1vcm5pbmcmbGlnaHQ9c29mdF9uYXR1cmFsJmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAzNCZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1zdHJhcHMhJmJpbmRQb3M9YXJtcmVzdHMhJmFuY2hvcj1jaGFpciEmdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
-  - [ ] 左右の手首がそれぞれ肘掛けに固定されている
+  - [ ] 肘掛けのある椅子になっている
+  - [ ] 左右の手首がそれぞれ肘掛けにベルトで固定されている
   - [ ] 椅子と両手がどちらも画面に入っている
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, cool-headed strategist, refined calm, subtly masculine features, square jaw, strong chin, sleepy eyes, blue-gray eyes, dark skin, knowing smile, long hair, slicked back hair, loose strands, hair strand, gray hair, athletic build, broad shoulders, layered bronze silk hanfu, strawberry red brocade, jade pendant, hair crown, long robes, restrained, sitting, armchair, hands on armrests, leather straps, restraints, on chair, cowboy shot, three-quarter view, interrogation room, indoors, ceiling light, table, dusk, rim lighting, mysterious atmosphere, chinese palace
+masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, haughty aristocrat, refined arrogance, feminine facial features, pretty face, long face, elegant features, dark circles under eyes, tired eyes, ice blue eyes, beige skin, bewildered expression, short hair, side-swept bangs, blue-black hair, extremely muscular build, massive shoulders, steel blue regency tailcoat, salmon pink waistcoat, white cravat, pantaloons, restrained, sitting, armchair, hands on armrests, leather straps, restraints, wrist cuffs, strapped to chair, on chair, cowboy shot, interrogation room, indoors, ceiling light, table, morning, soft lighting, natural light, rugged, baroque
 ```
 
 ネガティブ：
@@ -83,32 +84,32 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v05. 後ろ手に縛られて膝立ち
 
-- 設定：美形タイプ：若き公爵｜若くして家を背負う誇り。／衣装：乗馬服［杏色×黄土色］／ポーズ：後ろ手に縛られて膝立ち／構図：膝上・やや下から／背景：天蓋付きの寝室／立場：拘束される側／拘束：縄／両手首を後ろ／柱・しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNSZhZ2U9YTE4XzI0JmFyY2hldHlwZT15b3VuZ19kdWtlJnByZXNlbnRhdGlvbj1zbGlnaHRfbWFzYyZidWlsZD1hdmVyYWdlJndvcmxkPXZpY3RvcmlhbiZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD12ZXJ5X3Nob3J0JmhhaXJTdHlsZT1jb3Jucm93cyZoYWlyQ29sb3I9cmVkJmV5ZVNoYXBlPXRpcmVkJmV5ZUNvbG9yPWJyb3duJm91dGZpdD1yaWRpbmdfaGFiaXQmZXhwcmVzc2lvbj1hbG9vZiZmYWNlPWxvd19icm93cyZza2luPXVuc3BlY2lmaWVkJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1kdWtlJmF1cmE9ZGFuZ2Vyb3VzJm1haW5Db2xvcj1hcHJpY290JmFjY2VudENvbG9yPWdvbGRfb2NocmUmcG9zZT1rbmVlbF9iZWhpbmQhJnByb3A9bm9uZSZzaG90PWtuZWVfdXAhJmFuZ2xlPXNsaWdodGx5X2JlbG93JnNjZW5lPWNhbm9weV9iZWRyb29tJnRpbWU9bW9ybmluZyZsaWdodD13aW5kb3dfbGlnaHQmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDAxJnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJvcGUhJmJpbmRQb3M9d3Jpc3RzX2JlaGluZCEmYW5jaG9yPXBpbGxhciZ0aWdodG5lc3M9c2VjdXJlZCZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：若き公爵｜若くして家を背負う誇り。／衣装：高襟の貴族服［コーラルピンク×真珠色］／ポーズ：後ろ手に縛られて膝立ち／構図：膝上・傾けた画面／背景：天蓋付きの寝室／立場：拘束される側／拘束：縄／両手首を後ろ／緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNSZhZ2U9YTI1XzM0JmFyY2hldHlwZT15b3VuZ19kdWtlJnByZXNlbnRhdGlvbj1zbGlnaHRfZmVtJmJ1aWxkPXNsaW0md29ybGQ9ZXVyb3BlYW5fY291cnQmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9c2hvcnQmaGFpclN0eWxlPXR3b19ibG9jayZoYWlyQ29sb3I9aG9uZXlfYmxvbmRlJmV5ZVNoYXBlPW1vbm9saWQmZXllQ29sb3I9aG9uZXkmb3V0Zml0PWFyaXN0b2NyYXRfY29hdCZleHByZXNzaW9uPWFsb29mJmZhY2U9YXJpc3RvY3JhdGljJnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWR1a2UmYXVyYT1wdXJlJm1haW5Db2xvcj1jb3JhbF9waW5rJmFjY2VudENvbG9yPXBlYXJsX3doaXRlJnBvc2U9a25lZWxfYmVoaW5kISZwcm9wPW5vbmUmc2hvdD1rbmVlX3VwISZhbmdsZT1kdXRjaCZzY2VuZT1jYW5vcHlfYmVkcm9vbSZ0aW1lPWRhd24mbGlnaHQ9d2luZG93X2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAyMyZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1yb3BlISZiaW5kUG9zPXdyaXN0c19iZWhpbmQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
 - 確かめる点：
   - [ ] 上体を起こした膝立ちになっている
   - [ ] 後ろ手の縄と手が見える
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, young duke, aristocratic poise, subtly masculine features, low straight eyebrows, intense brow, dark circles under eyes, tired eyes, brown eyes, aloof expression, very short hair, cornrows, red hair, average build, soft apricot riding jacket, ochre yellow cravat, leather gloves, jodhpurs, tall riding boots, restrained, arms behind back, rope, bound wrists, against pillar, kneeling, upright kneeling, looking at viewer, feet out of frame, slightly from below, bedroom, canopy bed, curtains, indoors, morning, sunlight, window light, dangerous aura, victorian
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, young duke, aristocratic poise, delicate androgynous features, soft facial features, aristocratic features, high nose bridge, monolid eyes, honey-colored eyes, aloof expression, short hair, two-block haircut, honey blonde hair, slim build, coral pink high-collared aristocratic coat, pearl white embroidery, jabot, breeches, riding boots, restrained, arms behind back, rope, bound wrists, kneeling, upright kneeling, looking at viewer, feet out of frame, dutch angle, bedroom, canopy bed, curtains, indoors, dawn, sunlight, window light, pure, baroque
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope belt, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
 ```
 
 ### v06. 頭上で吊られて膝立ち
 
-- 設定：美形タイプ：雪の精のような青年｜白い息まで美しい、冬の化身。／衣装：死霊術師の装束［ソフトラベンダー×深緑］／ポーズ：両手首を頭上で吊られて膝立ち／構図：全身・やや下から／背景：石造りの地下牢／立場：諦めた囚われ／拘束：鎖／両手首を頭上／頭上の固定具・装飾的に巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNiZhZ2U9YTI1XzM0JmFyY2hldHlwZT1zbm93X3ByaW5jZSZwcmVzZW50YXRpb249c2xpZ2h0X21hc2MmYnVpbGQ9ZGVsaWNhdGUmd29ybGQ9aGlnaF9mYW50YXN5JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPWxvbmcmaGFpclN0eWxlPXNpbmdsZV9icmFpZCZoYWlyQ29sb3I9cGVhcmxfd2hpdGUmZXllU2hhcGU9dGlyZWQmZXllQ29sb3I9cGFsZV9ncmF5Jm91dGZpdD1uZWNyb21hbmNlciZleHByZXNzaW9uPWZydXN0cmF0ZWQmZmFjZT1wb2ludGVkX2NoaW4mc2tpbj1kZWVwX2Jyb3duJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9cmVnYWwmbWFpbkNvbG9yPXNvZnRfbGF2ZW5kZXImYWNjZW50Q29sb3I9Zm9yZXN0X2dyZWVuJnBvc2U9a25lZWxfb3ZlcmhlYWQhJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSEmYW5nbGU9c2xpZ2h0bHlfYmVsb3cmc2NlbmU9ZHVuZ2Vvbl9jZWxsISZ0aW1lPWR1c2smbGlnaHQ9cmltX2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAzMCZyb2xlPXJlc2lnbmVkISZyZXN0cmFpbnQ9Y2hhaW4hJmJpbmRQb3M9d3Jpc3RzX292ZXJoZWFkISZhbmNob3I9b3ZlcmhlYWQhJnRpZ2h0bmVzcz1kZWNvcmF0aXZlJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
+- 設定：美形タイプ：サイバーパンクの運び屋｜ネオンを切り裂いて走る。／衣装：サイバーパンクのジャケット［水浅葱×白亜］／ポーズ：両手首を頭上で吊られて膝立ち／構図：全身・目線の高さ／背景：石造りの地下牢／立場：諦めた囚われ／拘束：鎖／両手首を頭上／頭上の固定具・緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNiZhZ2U9YTE4XzI0JmFyY2hldHlwZT1jeWJlcl9ydW5uZXImcHJlc2VudGF0aW9uPXNsaWdodF9mZW0mYnVpbGQ9dG9uZWQmd29ybGQ9Y3liZXJwdW5rJmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPW1lZGl1bSZoYWlyU3R5bGU9aGFpcl9idW4maGFpckNvbG9yPWJsdWUmZXllU2hhcGU9c3BhcmtsaW5nJmV5ZUNvbG9yPXJlZCZvdXRmaXQ9Y3liZXJfamFja2V0JmV4cHJlc3Npb249d2FyeSZmYWNlPWRlZXBfc2V0JnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPW1vZGVsJmF1cmE9ZGFuZ2Vyb3VzJm1haW5Db2xvcj1wYWxlX2N5YW4mYWNjZW50Q29sb3I9Y2hhbGtfd2hpdGUmcG9zZT1rbmVlbF9vdmVyaGVhZCEmcHJvcD1ub25lJnNob3Q9ZnVsbF9ib2R5ISZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9ZHVuZ2Vvbl9jZWxsISZ0aW1lPWRhd24mbGlnaHQ9bmVvbiZhcnRTdHlsZT1ub25lJm5hbWU9c2NpZmlfMDAxJnJvbGU9cmVzaWduZWQhJnJlc3RyYWludD1jaGFpbiEmYmluZFBvcz13cmlzdHNfb3ZlcmhlYWQhJmFuY2hvcj1vdmVyaGVhZCEmdGlnaHRuZXNzPWxvb3NlJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
 - 確かめる点：
   - [ ] 両膝が床に着いている
   - [ ] 腕が頭上に上がり、鎖が固定具へつながっている
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, snow-white complexion, ethereal fragility, subtly masculine features, inverted triangular face, pointed chin, dark circles under eyes, tired eyes, pale gray eyes, deep brown skin, frustrated expression, biting lip, long hair, single braid, pearl white hair, slender delicate build, narrow shoulders, soft lavender tattered robe, deep forest green bone ornaments, hood, long robe, restrained, arms up, chain, chained, kneeling, full body, slightly from below, dungeon, prison, stone wall, iron bars, indoors, dim lighting, dusk, rim lighting, regal, fantasy
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, neon-lit cyberpunk cool, delicate androgynous features, soft facial features, deep-set eyes, strong brow ridge, angular face, sparkling eyes, red eyes, wary expression, guarded look, medium hair, hair bun, blue hair, toned body, lean muscular build, pale cyan cyberpunk jacket with glowing chalk white lines, high collar, tech pants, boots, restrained, arms up, chain, chained, kneeling, full body, dungeon, prison, stone wall, iron bars, indoors, dim lighting, dawn, neon lights, colorful lighting, dangerous aura, cyberpunk
 ```
 
 ネガティブ：
@@ -119,54 +120,54 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v07. 後ろ手に縛られてうつ伏せ
 
-- 設定：美形タイプ：高慢な貴公子｜見下す視線さえ優雅。／衣装：ロココの貴公子［白亜×深紅］／ポーズ：後ろ手に縛られてうつ伏せ／構図：全身・俯瞰（上から）／背景：石造りの地下牢／立場：拘束される側／拘束：縄／両手首を後ろ／しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNyZhZ2U9YTM1XzQ0JmFyY2hldHlwZT1oYXVnaHR5X2FyaXN0b2NyYXQmcHJlc2VudGF0aW9uPW1hc2MmYnVpbGQ9c2xpbSZ3b3JsZD1ldXJvcGVhbl9jb3VydCZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD1sb25nJmhhaXJTdHlsZT1tZXNzeV9sb25nJmhhaXJDb2xvcj1ncmF5JmV5ZVNoYXBlPW1vbm9saWQmZXllQ29sb3I9Z29sZCZvdXRmaXQ9cm9jb2NvJmV4cHJlc3Npb249d2FyeSZmYWNlPWZ1bGxfbGlwcyZza2luPXBvcmNlbGFpbiZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249a2luZyZhdXJhPWNvb2wmbWFpbkNvbG9yPWNoYWxrX3doaXRlJmFjY2VudENvbG9yPWRlZXBfY3JpbXNvbiZwb3NlPXByb25lX2JlaGluZCEmcHJvcD1ub25lJnNob3Q9ZnVsbF9ib2R5ISZhbmdsZT1mcm9tX2Fib3ZlJnNjZW5lPWR1bmdlb25fY2VsbCZ0aW1lPWRheSZsaWdodD1yaW1fbGlnaHQmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDE4JnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJvcGUhJmJpbmRQb3M9d3Jpc3RzX2JlaGluZCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
+- 設定：美形タイプ：花街の色男｜紅の灯りに映える艶やかな男。／衣装：着崩した着物［パステルピンク×芥子色］／ポーズ：後ろ手に縛られてうつ伏せ／構図：全身・目線の高さ／背景：魔法陣の祭壇／立場：拘束される側／拘束：縄／両手首を後ろ／緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwNyZhZ2U9YTE4XzI0JmFyY2hldHlwZT1wbGVhc3VyZV9xdWFydGVyJnByZXNlbnRhdGlvbj1zbGlnaHRfbWFzYyZidWlsZD1tdXNjdWxhciZ3b3JsZD13YWZ1X2ZhbnRhc3kmY3VsdHVyZT1qYXBhbiZoYWlyTGVuZ3RoPWxvbmcmaGFpclN0eWxlPXBhcnRlZF9iYW5ncyZoYWlyQ29sb3I9YmxhY2smZXllU2hhcGU9dGFyZW1lJmV5ZUNvbG9yPWJyb3duJm91dGZpdD1sb29zZV9raW1vbm8mZXhwcmVzc2lvbj1iZXdpbGRlcmVkJmZhY2U9ZGltcGxlcyZza2luPWRhcmsmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPW5vbmUmYXVyYT1jb29sJm1haW5Db2xvcj1wYXN0ZWxfcGluayZhY2NlbnRDb2xvcj1tdXN0YXJkX3llbGxvdyZwb3NlPXByb25lX2JlaGluZCEmcHJvcD1ub25lJnNob3Q9ZnVsbF9ib2R5ISZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9cml0dWFsX2FsdGFyJnRpbWU9bmlnaHQmbGlnaHQ9bGFudGVybl9nbG93JmFydFN0eWxlPW5vbmUmbmFtZT13YWZ1XzAyNiZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1yb3BlISZiaW5kUG9zPXdyaXN0c19iZWhpbmQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
 - 確かめる点：
   - [ ] うつ伏せ（腹ばい）になっている。仰向けになっていない
   - [ ] 縛った腕で体を支えていない
-  - [ ] 顔がこちらへ向いている
+  - [ ] 顔が横を向き、首の向きが自然（真正面を向きすぎない）
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, haughty aristocrat, refined arrogance, masculine features, full lips, defined lips, monolid eyes, golden eyes, porcelain skin, wary expression, guarded look, long hair, messy long hair, gray hair, slim build, chalk white brocade justaucorps, lace cravat, deep crimson waistcoat, breeches, stockings, buckled shoes, restrained, arms behind back, rope, bound wrists, on stomach, lying on stomach, prone, looking at viewer, full body, from above, dungeon, prison, stone wall, iron bars, indoors, dim lighting, day, rim lighting, cool atmosphere, baroque
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, flamboyant alluring elegance, subtly masculine features, dimples, gentle smile lines, downturned eyes, gentle eyes, brown eyes, dark skin, bewildered expression, long hair, parted bangs, black hair, muscular male, broad shoulders, thick arms, loosely worn pastel pink kimono, mustard yellow inner layer, open collar, geta, japanese-inspired motifs, asanoha pattern, restrained, arms behind back, rope, bound wrists, on stomach, lying on stomach, prone, head turned, sideways glance, full body, altar, magic circle, candle, indoors, night, lantern light, warm glow, cool atmosphere, japanese fantasy
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope belt, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
 ```
 
 ### v08. 足首を縛られ、うつ伏せで肘をつく
 
-- 設定：美形タイプ：中華宮廷の皇子｜翡翠のように冷たく美しい。／衣装：燕尾服［焦茶×藍玉色］／ポーズ：足首を縛られ、うつ伏せで肘をつく／構図：全身・俯瞰（上から）／背景：石造りの地下牢／立場：拘束される側／拘束：縄／両足首／装飾的に巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwOCZhZ2U9YTI1XzM0JmFyY2hldHlwZT1pbXBlcmlhbF9wcmluY2UmcHJlc2VudGF0aW9uPWZlbSZidWlsZD1zbGltJndvcmxkPWNoaW5lc2VfY291cnQmY3VsdHVyZT1rb3JlYSZoYWlyTGVuZ3RoPW1lZGl1bSZoYWlyU3R5bGU9aGFpcl9idW4maGFpckNvbG9yPWNoZXN0bnV0JmV5ZVNoYXBlPWNhbG0mZXllQ29sb3I9dGVhbCZvdXRmaXQ9dGFpbGNvYXRfZXZlbmluZyZleHByZXNzaW9uPWJld2lsZGVyZWQmZmFjZT1hcmlzdG9jcmF0aWMmc2tpbj11bnNwZWNpZmllZCZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249ZHVrZSZhdXJhPXJlZ2FsJm1haW5Db2xvcj13YXJtX2Jyb3duJmFjY2VudENvbG9yPWFxdWFtYXJpbmUmcG9zZT1wcm9uZV9hbmtsZXMhJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSEmYW5nbGU9ZnJvbV9hYm92ZSZzY2VuZT1kdW5nZW9uX2NlbGwmdGltZT1zdW5zZXQmbGlnaHQ9Y2FuZGxlbGlnaHQmYXJ0U3R5bGU9bm9uZSZuYW1lPWNoaW5lc2VfMDA5JnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJvcGUhJmJpbmRQb3M9YW5rbGVzISZhbmNob3I9bm9uZSZ0aWdodG5lc3M9ZGVjb3JhdGl2ZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：夜型のハッカー｜モニターの光だけが友達。／衣装：ハッカーの部屋着［ローズゴールド×朱色］／ポーズ：足首を縛られ、うつ伏せで肘をつく／構図：全身・斜め45度／背景：尋問室／立場：拘束される側／拘束：縄／両足首／緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwOCZhZ2U9YTE4XzI0JmFyY2hldHlwZT1uaWdodF9oYWNrZXImcHJlc2VudGF0aW9uPXNsaWdodF9tYXNjJmJ1aWxkPWF2ZXJhZ2Umd29ybGQ9bmVhcl9mdXR1cmUmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bWVkaXVtJmhhaXJTdHlsZT1tZXNzeV9zaG9ydCZoYWlyQ29sb3I9b3JhbmdlJmV5ZVNoYXBlPXNsZWVweSZleWVDb2xvcj15ZWxsb3cmb3V0Zml0PWhhY2tlciZleHByZXNzaW9uPXNhZF9zbWlsZSZmYWNlPWdlbnRsZV9sb25nJnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWhhY2tlciZhdXJhPWdlbnRsZSZtYWluQ29sb3I9cm9zZV9nb2xkJmFjY2VudENvbG9yPXZlcm1pbGlvbiZwb3NlPXByb25lX2Fua2xlcyEmcHJvcD1ub25lJnNob3Q9ZnVsbF9ib2R5ISZhbmdsZT10aHJlZV9xdWFydGVyX3ZpZXcmc2NlbmU9aW50ZXJyb2dhdGlvbl9yb29tJnRpbWU9bW9ybmluZyZsaWdodD1ob2xvZ3JhcGhpYyZhcnRTdHlsZT1ub25lJm5hbWU9c2NpZmlfMDAzJnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJvcGUhJmJpbmRQb3M9YW5rbGVzISZhbmNob3I9bm9uZSZ0aWdodG5lc3M9bG9vc2UmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
-  - [ ] 足首だけが縛られ、手は自由
+  - [ ] 足首だけが縛られ、手は自由（手首に縄の腕輪も出ていない）
   - [ ] 肘で上体を起こしている
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, imperial prince, jade-like elegance, feminine facial features, pretty face, aristocratic features, high nose bridge, calm eyes, soft gaze, teal eyes, bewildered expression, medium hair, hair bun, chestnut hair, slim build, warm brown tailcoat, white waistcoat, aquamarine blue bow tie, white gloves, formal trousers, korean-inspired motifs, hanbok-style details, rope, bound legs, bound ankles, on stomach, lying on stomach, prone, on elbows, hands on floor, full body, from above, dungeon, prison, stone wall, iron bars, indoors, dim lighting, sunset, candlelight, warm lighting, regal, chinese palace
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, sleep-deprived hacker beauty, subtly masculine features, gentle long face, soft jaw, sleepy eyes, yellow eyes, sad smile, medium hair, messy hair, orange hair, average build, oversized rose gold hoodie, vermilion headphones around neck, joggers, rope, bound legs, bound ankles, on stomach, lying on stomach, prone, on elbows, hands on floor, full body, three-quarter view, interrogation room, indoors, ceiling light, table, morning, holographic light, blue glow, gentle atmosphere, science fiction
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, bound wrists, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, bound wrists, bracelet, rope belt, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
 ```
 
 ## 目隠し
 
 ### v09. レースの目隠し×竜の瞳の美形（目が透けないか）
 
-- 設定：美形タイプ：竜の血を引く者｜瞳孔に竜が宿る。／衣装：紋付袴［蔦の緑×セルリアンブルー］／ポーズ：両手首を前で縛られて立つ／構図：上半身・傾けた画面／背景：座敷牢／立場：拘束される側／拘束：ラッピングのリボン／両手首を前／壁・緩く巻く／目隠し・視界：レースの目隠し／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwOSZhZ2U9YTQ1XzU5JmFyY2hldHlwZT1kcmFnb25fYmxvb2QhJnByZXNlbnRhdGlvbj1tYXNjJmJ1aWxkPWh1Z2Umd29ybGQ9d2FmdV9mYW50YXN5JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPWxvbmcmaGFpclN0eWxlPW9uZV9leWVfY292ZXJlZCZoYWlyQ29sb3I9c21va3lfZ3JheSZleWVTaGFwZT1zbGl0X3B1cGlscyEmZXllQ29sb3I9YW1iZXImb3V0Zml0PW1vbnRzdWtpJmV4cHJlc3Npb249ZGV0ZXJtaW5lZCZmYWNlPXNxdWFyZV9qYXcmc2tpbj1wb3JjZWxhaW4mbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWNhbGxpZ3JhcGhlciZhdXJhPWRlY2FkZW50Jm1haW5Db2xvcj1pdnlfZ3JlZW4mYWNjZW50Q29sb3I9Y2VydWxlYW4mcG9zZT1ib3VuZF9mcm9udF9zdGFuZCZwcm9wPW5vbmUmc2hvdD11cHBlcl9ib2R5JmFuZ2xlPWR1dGNoJnNjZW5lPXphc2hpa2lyb3UmdGltZT1kdXNrJmxpZ2h0PW1hZ2ljX2dsb3cmYXJ0U3R5bGU9bm9uZSZuYW1lPXdhZnVfMDIwJnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJpYmJvbiEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj13YWxsJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bGFjZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：竜の血を引く者｜瞳孔に竜が宿る。／衣装：忍装束［抹茶色×銅色］／ポーズ：膝をつき、縛られたまま見上げる／構図：上半身・目線の高さ／背景：巨大な鳥籠／立場：拘束される側／拘束：ラッピングのリボン／両手首を前／柱・緩く巻く／目隠し・視界：レースの目隠し／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMwOSZhZ2U9YTYwcCZhcmNoZXR5cGU9ZHJhZ29uX2Jsb29kISZwcmVzZW50YXRpb249c2xpZ2h0X2ZlbSZidWlsZD1hdGhsZXRpYyZ3b3JsZD1oaWdoX2ZhbnRhc3kmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9dmVyeV9zaG9ydCZoYWlyU3R5bGU9ZmFkZV91bmRlcmN1dCZoYWlyQ29sb3I9c21va3lfZ3JheSZleWVTaGFwZT1zbGl0X3B1cGlscyEmZXllQ29sb3I9YW1iZXImb3V0Zml0PXNoaW5vYmkmZXhwcmVzc2lvbj1iZXdpbGRlcmVkJmZhY2U9dXB0dXJuZWRfbW91dGgmc2tpbj1kYXJrJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9bWVsYW5jaG9seSZtYWluQ29sb3I9bWF0Y2hhX2dyZWVuJmFjY2VudENvbG9yPWNvcHBlcl9tZXRhbCZwb3NlPWtuZWVsX2xvb2tfdXAmcHJvcD1ub25lJnNob3Q9dXBwZXJfYm9keSZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9Z2lhbnRfYmlyZGNhZ2UmdGltZT1kdXNrJmxpZ2h0PXNvZnRfbmF0dXJhbCZhcnRTdHlsZT1ub25lJm5hbWU9d2VzdGVybl8wMzEmcm9sZT1jYXB0aXZlISZyZXN0cmFpbnQ9cmliYm9uISZiaW5kUG9zPXdyaXN0c19mcm9udCEmYW5jaG9yPXBpbGxhciZ0aWdodG5lc3M9bG9vc2UmYmxpbmRmb2xkPWxhY2UhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
   - [ ] レース越しに目（縦長の瞳孔・光る目）が描かれていない
   - [ ] レースの目隠しに見える
   - [ ] 「こちらを見る」視線になっていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, draconic beauty, fierce elegance, masculine features, square jaw, strong chin, porcelain skin, determined expression, long hair, hair over one eye, smoky gray hair, extremely muscular build, massive shoulders, ivy green montsuki kimono with family crest, cerulean blue haori himo, restrained, ribbon, large bow, wrists tied with ribbon, against wall, blindfold, covered eyes, lace blindfold, standing, upper body, dutch angle, japanese room, tatami, wooden bars, in cage, indoors, lantern, dusk, magical glow, glowing particles, decadent, japanese fantasy
+masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, draconic beauty, fierce elegance, delicate androgynous features, soft facial features, slightly upturned mouth corners, dark skin, bewildered expression, very short hair, undercut, fade haircut, smoky gray hair, athletic build, broad shoulders, matcha green shinobi garb, copper scarf, arm guards, restrained, ribbon, large bow, wrists tied with ribbon, against pillar, blindfold, covered eyes, lace blindfold, kneeling, looking up, upper body, in cage, caged, inside giant birdcage, gold bars, indoors, dusk, soft lighting, natural light, melancholic atmosphere, fantasy
 ```
 
 ネガティブ：
@@ -177,71 +178,72 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v10. 布の目隠し＋目元が特徴の美形タイプ
 
-- 設定：美形タイプ：月下の詩人｜言葉より先に溜息がこぼれる。／衣装：奇術師の燕尾［茄子紺×蛋白石色］／ポーズ：膝をつき、縛られたまま見上げる／構図：引きの全身・俯瞰（上から）／背景：巨大な鳥籠／立場：捕らえられた側／拘束：絹の組紐／両手首を後ろ／柱・緩く巻く／目隠し・視界：布の目隠し／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMCZhZ2U9YTE4XzI0JmFyY2hldHlwZT1tb29ubGl0X3BvZXQmcHJlc2VudGF0aW9uPXNsaWdodF9tYXNjJmJ1aWxkPW11c2N1bGFyJndvcmxkPXZpY3RvcmlhbiZjdWx0dXJlPXdlc3Rlcm5fY291cnQmaGFpckxlbmd0aD1tZWRpdW0maGFpclN0eWxlPWJyYWlkZWRfc2lkZSZoYWlyQ29sb3I9cmVkJmV5ZVNoYXBlPXBpZXJjaW5nISZleWVDb2xvcj1nb2xkISZvdXRmaXQ9bWFnaWNpYW4mZXhwcmVzc2lvbj1yZXNpZ25lZCZmYWNlPWxvd19icm93cyZza2luPWVib255Jm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1waWFuaXN0JmF1cmE9cGxheWZ1bCZtYWluQ29sb3I9ZWdncGxhbnQmYWNjZW50Q29sb3I9b3BhbF93aGl0ZSZwb3NlPWtuZWVsX2xvb2tfdXAmcHJvcD1ub25lJnNob3Q9d2lkZV9mdWxsJmFuZ2xlPWZyb21fYWJvdmUmc2NlbmU9Z2lhbnRfYmlyZGNhZ2UmdGltZT1tb29ubGl0X25pZ2h0JmxpZ2h0PW1vb25saWdodCZhcnRTdHlsZT1ub25lJm5hbWU9d2VzdGVybl8wMzYmcm9sZT1wcmlzb25lciEmcmVzdHJhaW50PXNpbGtfY29yZCEmYmluZFBvcz13cmlzdHNfYmVoaW5kISZhbmNob3I9cGlsbGFyJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9Y2xvdGghJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
+- 設定：美形タイプ：気まぐれな猫系｜横目と小さな笑み、余裕のある構え。近づくと離れていく、人間としての雰囲気。／衣装：落ち感のあるシャツとワイドスラックス［黄土色×モカ］／ポーズ：脚を組んで座る／構図：全身・傾けた画面／背景：尋問室／立場：捕らえられた側／拘束：絹の組紐／両手首を後ろ／椅子・緩く巻く／目隠し・視界：布の目隠し／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMCZhZ2U9YTE4XzI0JmFyY2hldHlwZT1jYXByaWNpb3VzX2NhdCZwcmVzZW50YXRpb249ZmVtJmJ1aWxkPW11c2N1bGFyJndvcmxkPW1vZGVybiZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD1zaG9ydCZoYWlyU3R5bGU9c2lkZV9zd2VwdCZoYWlyQ29sb3I9cHVycGxlJmV5ZVNoYXBlPXBpZXJjaW5nISZleWVDb2xvcj1nb2xkISZvdXRmaXQ9ZHJhcGVfc2hpcnRfd2lkZSZleHByZXNzaW9uPXJlc2lnbmVkJmZhY2U9aGlnaF9jaGVlayZza2luPXVuc3BlY2lmaWVkJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9cGxheWZ1bCZtYWluQ29sb3I9Z29sZF9vY2hyZSZhY2NlbnRDb2xvcj1tb2NoYV9icm93biZwb3NlPWNyb3NzZWRfbGVncyZwcm9wPW5vbmUmc2hvdD1mdWxsX2JvZHkmYW5nbGU9ZHV0Y2gmc2NlbmU9aW50ZXJyb2dhdGlvbl9yb29tJnRpbWU9ZGF5JmxpZ2h0PW92ZXJjYXN0X3NvZnQmYXJ0U3R5bGU9bm9uZSZuYW1lPWphcGFuZXNlXzAwNiZyb2xlPXByaXNvbmVyISZyZXN0cmFpbnQ9c2lsa19jb3JkISZiaW5kUG9zPXdyaXN0c19iZWhpbmQhJmFuY2hvcj1jaGFpciZ0aWdodG5lc3M9bG9vc2UmYmxpbmRmb2xkPWNsb3RoISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
 - 確かめる点：
   - [ ] 目隠しを貫通して目が描かれていない
   - [ ] 金色の瞳が出ていない（出力から外している）
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, young man, handsome, dreamy poetic beauty, subtly masculine features, low straight eyebrows, intense brow, ebony skin, resigned expression, medium hair, braided hair, side braid, red hair, muscular male, broad shoulders, thick arms, eggplant purple magician tailcoat, opal white cape lining, white gloves, top hat, trousers, baroque-inspired motifs, damask pattern, restrained, arms behind back, rope, silk cord, bound wrists, against pillar, blindfold, covered eyes, black blindfold, kneeling, looking up, full body, wide shot, from above, in cage, caged, inside giant birdcage, gold bars, indoors, night, full moon, moonlight, playful, victorian
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, aloof playful look, capricious air, feminine facial features, pretty face, high cheekbones, hollow cheeks, resigned expression, short hair, side-swept bangs, purple hair, muscular male, broad shoulders, thick arms, flowy oversized ochre yellow shirt, mocha brown wide slacks, loafers, restrained, arms behind back, rope, silk cord, bound wrists, armchair, blindfold, covered eyes, black blindfold, sitting, crossed legs, full body, dutch angle, interrogation room, indoors, ceiling light, table, day, overcast, diffused light, playful
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope belt, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
 ```
 
 ### v11. フードを目深に被る
 
-- 設定：美形タイプ：涼やかな軍師｜扇の陰で盤面を読む。／衣装：書生の漢服［栗色×真珠色］／ポーズ：両手首を前で縛られて膝立ち／構図：膝上・やや下から／背景：巨大な鳥籠／立場：拘束される側／拘束：包帯／両手首を前／しっかり固定／目隠し・視界：フードで視界を遮る／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMSZhZ2U9YTYwcCZhcmNoZXR5cGU9Y29vbF9zdHJhdGVnaXN0JnByZXNlbnRhdGlvbj1tYXNjJmJ1aWxkPXRvbmVkJndvcmxkPWNoaW5lc2VfY291cnQmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bG9uZyZoYWlyU3R5bGU9bG9uZ19sYXllcmVkJmhhaXJDb2xvcj1zbW9reV9ncmF5JmV5ZVNoYXBlPWxvbmdfbGFzaGVzJmV5ZUNvbG9yPXNreV9ibHVlJm91dGZpdD1oYW5mdV9zY2hvbGFyJmV4cHJlc3Npb249d2FyeSZmYWNlPXRoaWNrX2Jyb3dzJnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPXN0cmF0ZWdpc3QmYXVyYT1yZWdhbCZtYWluQ29sb3I9Y2hlc3RudXRfYnJvd24mYWNjZW50Q29sb3I9cGVhcmxfd2hpdGUmcG9zZT1ib3VuZF9mcm9udF9rbmVlbCZwcm9wPW5vbmUmc2hvdD1rbmVlX3VwJmFuZ2xlPXNsaWdodGx5X2JlbG93JnNjZW5lPWdpYW50X2JpcmRjYWdlJnRpbWU9ZHVzayZsaWdodD1jaW5lbWF0aWNfc2lkZSZhcnRTdHlsZT1ub25lJm5hbWU9Y2hpbmVzZV8wMjcmcm9sZT1jYXB0aXZlISZyZXN0cmFpbnQ9YmFuZGFnZSEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1zZWN1cmVkJmJsaW5kZm9sZD1ob29kX2xvdyEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：気まぐれな写真家｜ファインダー越しに笑う。／衣装：ニットとロングコート［柘榴石色×黄金］／ポーズ：両手首を前で縛られて立つ／構図：全身・目線の高さ／背景：天蓋付きの寝室／立場：拘束される側／拘束：包帯／両手首を前／緩く巻く／目隠し・視界：フードで視界を遮る／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMSZhZ2U9YTE4XzI0JmFyY2hldHlwZT1mcmVlX3Bob3RvZ3JhcGhlciZwcmVzZW50YXRpb249YW5kcm8mYnVpbGQ9YXRobGV0aWMmd29ybGQ9bW9kZXJuJmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPXZlcnlfc2hvcnQmaGFpclN0eWxlPXR3b19ibG9jayZoYWlyQ29sb3I9Y2hhbXBhZ25lJmV5ZVNoYXBlPXNsZWVweSZleWVDb2xvcj1zaWx2ZXImb3V0Zml0PWtuaXRfY29hdCZleHByZXNzaW9uPWRlZmlhbnQmZmFjZT1nZW50bGVfbG9uZyZza2luPWRlZXBfYnJvd24mbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPXBob3RvZ3JhcGhlciZhdXJhPXBsYXlmdWwmbWFpbkNvbG9yPWdhcm5ldCZhY2NlbnRDb2xvcj1icmlnaHRfZ29sZCZwb3NlPWJvdW5kX2Zyb250X3N0YW5kJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9Y2Fub3B5X2JlZHJvb20mdGltZT1kYXkmbGlnaHQ9ZmlyZWxpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT1qYXBhbmVzZV8wMDAmcm9sZT1jYXB0aXZlISZyZXN0cmFpbnQ9YmFuZGFnZSEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9aG9vZF9sb3chJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
   - [ ] フードで目元が隠れている
+  - [ ] 布の目隠しが出ていない
   - [ ] 頭飾り（冠など）と重なっていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, cool-headed strategist, refined calm, masculine features, thick eyebrows, straight eyebrows, wary expression, guarded look, long hair, long layered hair, smoky gray hair, toned body, lean muscular build, chestnut brown hanfu with crossed collar, pearl white sash, wide sleeves, long skirt-robe, cloth shoes, restrained, bandages, bandaged arm, hood up, covered eyes, shaded face, kneeling, hands on lap, feet out of frame, slightly from below, in cage, caged, inside giant birdcage, gold bars, indoors, dusk, cinematic lighting, side lighting, regal, chinese palace
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, free-spirited, effortlessly cool, androgynous features, gentle long face, soft jaw, deep brown skin, defiant expression, forced composure, very short hair, two-block haircut, champagne blonde hair, athletic build, broad shoulders, garnet red long coat, bright gold knit sweater, slim jeans, boots, restrained, bandages, bandaged arm, hood up, hood over eyes, shaded face, standing, full body, bedroom, canopy bed, curtains, indoors, day, firelight, embers, playful
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope, chains, handcuffs, leather straps, ribbon, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blindfold, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope, chains, handcuffs, leather straps, ribbon, tentacles, vines
 ```
 
 ## 拘束具の素材
 
 ### v12. 触手（触手の巣）
 
-- 設定：美形タイプ：黒騎士｜堕ちた騎士の昏い瞳。／衣装：黒騎士の鎧［ワインレッド×雪白］／ポーズ：両手首を頭上で固定されて立つ／構図：全身・斜め45度／背景：触手の巣（洞窟）／立場：拘束される側／拘束：触手／両手首を頭上／しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMiZhZ2U9YTI1XzM0JmFyY2hldHlwZT1kYXJrX2tuaWdodCZwcmVzZW50YXRpb249bWFzYyZidWlsZD1hdmVyYWdlJndvcmxkPWRhcmtfZmFudGFzeSEmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bG9uZyZoYWlyU3R5bGU9YnJhaWRlZF9zaWRlJmhhaXJDb2xvcj1jb3BwZXImZXllU2hhcGU9c3BhcmtsaW5nJmV5ZUNvbG9yPW1pbnQmb3V0Zml0PWRhcmtfa25pZ2h0JmV4cHJlc3Npb249d2FyeSZmYWNlPXRoaWNrX2Jyb3dzJnNraW49ZmFpciZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249bm9uZSZhdXJhPXNhY3JlZCZtYWluQ29sb3I9d2luZV9yZWQmYWNjZW50Q29sb3I9c25vd193aGl0ZSZwb3NlPWJvdW5kX292ZXJoZWFkX3N0YW5kISZwcm9wPW5vbmUmc2hvdD1mdWxsX2JvZHkhJmFuZ2xlPXRocmVlX3F1YXJ0ZXJfdmlldyZzY2VuZT10ZW50YWNsZV9sYWlyISZ0aW1lPWRhd24mbGlnaHQ9bGFudGVybl9nbG93JmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAyMyZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD10ZW50YWNsZXMhJmJpbmRQb3M9d3Jpc3RzX292ZXJoZWFkISZhbmNob3I9bm9uZSZ0aWdodG5lc3M9c2VjdXJlZCZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：吸血鬼の伯爵｜月光の下でだけ笑う夜の貴族。／衣装：ゴシックロングコート［苔色×焦茶］／ポーズ：両手首を頭上で固定されて立つ／構図：全身・煽り（下から）／背景：触手の巣（洞窟）／立場：拘束される側／拘束：触手／両手首を頭上／しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMiZhZ2U9YTI1XzM0JmFyY2hldHlwZT12YW1waXJlX2NvdW50JnByZXNlbnRhdGlvbj1zbGlnaHRfZmVtJmJ1aWxkPXNsaW0md29ybGQ9ZGFya19mYW50YXN5ISZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD1tZWRpdW0maGFpclN0eWxlPXNoYWdneSZoYWlyQ29sb3I9cGVhY2gmZXllU2hhcGU9Y2FsbSZleWVDb2xvcj1idXJndW5keSZvdXRmaXQ9Z290aGljX2NvYXQmZXhwcmVzc2lvbj1yZXNpZ25lZCZmYWNlPXBvaW50ZWRfY2hpbiZza2luPWRlZXBfYnJvd24mbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPW5vbmUmYXVyYT1hbGx1cmluZyZtYWluQ29sb3I9bW9zc19ncmVlbiZhY2NlbnRDb2xvcj13YXJtX2Jyb3duJnBvc2U9Ym91bmRfb3ZlcmhlYWRfc3RhbmQhJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSEmYW5nbGU9ZnJvbV9iZWxvdyZzY2VuZT10ZW50YWNsZV9sYWlyISZ0aW1lPWRheSZsaWdodD1jYW5kbGVsaWdodCZhcnRTdHlsZT1ub25lJm5hbWU9d2VzdGVybl8wMDYmcm9sZT1jYXB0aXZlISZyZXN0cmFpbnQ9dGVudGFjbGVzISZiaW5kUG9zPXdyaXN0c19vdmVyaGVhZCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
   - [ ] 触手が手首に巻き付いている
   - [ ] 縄や鎖が混ざっていない
   - [ ] 露出や性的な描写に寄りすぎていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, dark knight, brooding menace, masculine features, thick eyebrows, straight eyebrows, sparkling eyes, mint green eyes, fair skin, wary expression, guarded look, long hair, braided hair, side braid, copper hair, average build, wine red spiked dark armor, snow white tattered cape, armored boots, restrained, arms up, tentacles, restrained by tentacles, standing, full body, three-quarter view, cave, dark, bioluminescence, indoors, dawn, lantern light, warm glow, divine aura, dark fantasy
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, pale vampire beauty, crimson-tinged lips, delicate androgynous features, soft facial features, inverted triangular face, pointed chin, calm eyes, soft gaze, burgundy eyes, deep brown skin, resigned expression, medium hair, shaggy hair, peach hair, slim build, moss green gothic long coat, warm brown lace cravat, silver buttons, slim trousers, boots, restrained, arms up, tentacles, restrained by tentacles, standing, full body, from below, cave, dark, bioluminescence, indoors, day, candlelight, warm lighting, alluring, dark fantasy
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope, chains, handcuffs, leather straps, ribbon, bandages
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope, chains, handcuffs, leather straps, ribbon, bandages, vines
 ```
 
 ### v13. 光の鎖（大聖堂）
 
-- 設定：美形タイプ：エルフの王子｜千年を生きる、時の止まった美貌。／衣装：マントの王子服［青銅色×焦茶］／ポーズ：腕と胴体へ緩く巻いた演出的な立ち姿／構図：腰上・目線の高さ／背景：大聖堂／立場：拘束される側／拘束：光の鎖／腕と胴体／しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMyZhZ2U9YTM1XzQ0JmFyY2hldHlwZT1lbGZfcHJpbmNlJnByZXNlbnRhdGlvbj1hbmRybyZidWlsZD10b25lZCZ3b3JsZD1oaWdoX2ZhbnRhc3khJmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPWxvbmcmaGFpclN0eWxlPW9uZV9leWVfY292ZXJlZCZoYWlyQ29sb3I9Y3lhbiZleWVTaGFwZT1qaXRvbWUmZXllQ29sb3I9Z3JheV9ncmVlbiZvdXRmaXQ9cHJpbmNlX2NhcGUmZXhwcmVzc2lvbj1iZXdpbGRlcmVkJmZhY2U9cG9pbnRlZF9jaGluJnNraW49cG9yY2VsYWluJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9bm9ibGUmbWFpbkNvbG9yPWJyb256ZV9tZXRhbCZhY2NlbnRDb2xvcj13YXJtX2Jyb3duJnBvc2U9Y2hhaW5fdG9yc29fc3RhbmQhJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90ISZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9Y2F0aGVkcmFsISZ0aW1lPW1vcm5pbmcmbGlnaHQ9Y2luZW1hdGljX3NpZGUmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDA3JnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PWxpZ2h0X2NoYWlucyEmYmluZFBvcz10b3Jzb19hcm1zISZhbmNob3I9bm9uZSZ0aWdodG5lc3M9c2VjdXJlZCZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：竜の血を引く者｜瞳孔に竜が宿る。／衣装：ケルトのマント［ローズゴールド×柘榴石色］／ポーズ：腕と胴体へ緩く巻いた演出的な立ち姿／構図：腰上・やや下から／背景：大聖堂／立場：拘束される側／拘束：光の鎖／腕と胴体／しっかり固定／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxMyZhZ2U9YTQ1XzU5JmFyY2hldHlwZT1kcmFnb25fYmxvb2QmcHJlc2VudGF0aW9uPWFuZHJvJmJ1aWxkPWF2ZXJhZ2Umd29ybGQ9aGlnaF9mYW50YXN5ISZjdWx0dXJlPWNlbHRpYyZoYWlyTGVuZ3RoPXNob3J0JmhhaXJTdHlsZT1mYWRlX3VuZGVyY3V0JmhhaXJDb2xvcj1sYXZlbmRlciZleWVTaGFwZT1zbGl0X3B1cGlscyZleWVDb2xvcj1hbWJlciZvdXRmaXQ9Y2VsdGljX2Nsb2FrJmV4cHJlc3Npb249c21pcmsmZmFjZT1hcXVpbGluZSZza2luPXVuc3BlY2lmaWVkJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9YWxsdXJpbmcmbWFpbkNvbG9yPXJvc2VfZ29sZCZhY2NlbnRDb2xvcj1nYXJuZXQmcG9zZT1jaGFpbl90b3Jzb19zdGFuZCEmcHJvcD1ub25lJnNob3Q9Y293Ym95X3Nob3QhJmFuZ2xlPXNsaWdodGx5X2JlbG93JnNjZW5lPWNhdGhlZHJhbCEmdGltZT1zdW5zZXQmbGlnaHQ9cmltX2xpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAyMCZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1saWdodF9jaGFpbnMhJmJpbmRQb3M9dG9yc29fYXJtcyEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
   - [ ] 光る鎖に見える（普通の鎖になっていない）
   - [ ] 腕と胴体に巻かれ、首には回っていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, elven beauty, timeless features, androgynous features, inverted triangular face, pointed chin, jitome, gray-green eyes, porcelain skin, bewildered expression, long hair, hair over one eye, cyan hair, toned body, lean muscular build, bronze princely jacket, warm brown cape, golden trim, white trousers, restrained, glowing chain, chain, light particles, standing, cowboy shot, cathedral, stained glass, morning, cinematic lighting, side lighting, elegant, fantasy
+masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, draconic beauty, fierce elegance, androgynous features, aquiline nose, strong profile, slit pupils, amber eyes, smirk, short hair, undercut, fade haircut, lavender hair, average build, rose gold woolen cloak, garnet red tartan, brooch, tunic, celtic-inspired motifs, celtic knot, restrained, glowing chain, chain, light particles, standing, cowboy shot, slightly from below, cathedral, stained glass, sunset, rim lighting, alluring, fantasy
 ```
 
 ネガティブ：
@@ -252,14 +254,14 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v14. ラッピングのリボン（巨大な鳥籠）
 
-- 設定：美形タイプ：若き公爵｜若くして家を背負う誇り。／衣装：高襟の貴族服［トープ×紅玉色］／ポーズ：膝をつき、縛られたまま見上げる／構図：上半身・俯瞰（上から）／背景：巨大な鳥籠／立場：拘束される側／拘束：ラッピングのリボン／両手首を前／壁・装飾的に巻く／目隠し・視界：リボンの目隠し／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNCZhZ2U9YTI1XzM0JmFyY2hldHlwZT15b3VuZ19kdWtlJnByZXNlbnRhdGlvbj1zbGlnaHRfZmVtJmJ1aWxkPW11c2N1bGFyJndvcmxkPWV1cm9wZWFuX2NvdXJ0ISZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD12ZXJ5X2xvbmcmaGFpclN0eWxlPXBhcnRlZF9iYW5ncyZoYWlyQ29sb3I9YmVpZ2UmZXllU2hhcGU9c3BhcmtsaW5nJmV5ZUNvbG9yPWdyYXlfZ3JlZW4mb3V0Zml0PWFyaXN0b2NyYXRfY29hdCZleHByZXNzaW9uPXJlc2lnbmVkJmZhY2U9c29mdF9jb250b3VyJnNraW49ZGVlcF9icm93biZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249ZHVrZSZhdXJhPW1lbGFuY2hvbHkmbWFpbkNvbG9yPXRhdXBlJmFjY2VudENvbG9yPXJ1YnlfcmVkJnBvc2U9a25lZWxfbG9va191cCZwcm9wPW5vbmUmc2hvdD11cHBlcl9ib2R5JmFuZ2xlPWZyb21fYWJvdmUmc2NlbmU9Z2lhbnRfYmlyZGNhZ2UhJnRpbWU9ZHVzayZsaWdodD1zb2Z0X25hdHVyYWwmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDAxJnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJpYmJvbiEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj13YWxsJnRpZ2h0bmVzcz1kZWNvcmF0aXZlISZibGluZGZvbGQ9cmliYm9uISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
+- 設定：美形タイプ：高慢な貴公子｜見下す視線さえ優雅。／衣装：高襟の貴族服［チョコレート色×帝王紫］／ポーズ：うつ伏せで、縛られた両手を前へ投げ出す／構図：腰上・目線の高さ／背景：巨大な鳥籠／立場：拘束される側／拘束：ラッピングのリボン／両手首を前／装飾的に巻く／目隠し・視界：リボンの目隠し／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNCZhZ2U9YTE4XzI0JmFyY2hldHlwZT1oYXVnaHR5X2FyaXN0b2NyYXQmcHJlc2VudGF0aW9uPW1hc2MmYnVpbGQ9c2xpbSZ3b3JsZD1ldXJvcGVhbl9jb3VydCEmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bWVkaXVtJmhhaXJTdHlsZT1vbmVfZXllX2NvdmVyZWQmaGFpckNvbG9yPWNoYW1wYWduZSZleWVTaGFwZT1zYW5wYWt1JmV5ZUNvbG9yPWRhcmtfYnJvd24mb3V0Zml0PWFyaXN0b2NyYXRfY29hdCZleHByZXNzaW9uPXNhZF9zbWlsZSZmYWNlPXNxdWFyZV9qYXcmc2tpbj1kZWVwX2Jyb3duJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1jcm93bl9wcmluY2UmYXVyYT1teXN0ZXJpb3VzJm1haW5Db2xvcj1jaG9jb2xhdGVfYnJvd24mYWNjZW50Q29sb3I9cm95YWxfcHVycGxlJnBvc2U9cHJvbmVfcmVhY2gmcHJvcD1ub25lJnNob3Q9Y293Ym95X3Nob3QmYW5nbGU9ZXllX2xldmVsJnNjZW5lPWdpYW50X2JpcmRjYWdlISZ0aW1lPWRheSZsaWdodD1maXJlbGlnaHQmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDA1JnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJpYmJvbiEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1kZWNvcmF0aXZlISZibGluZGZvbGQ9cmliYm9uISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
 - 確かめる点：
   - [ ] 手首のリボンが蝶結びの「贈り物」らしく見える
   - [ ] 目隠しのリボンと手首のリボンが別々に描けている
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, young duke, aristocratic poise, delicate androgynous features, soft facial features, soft facial contours, gentle features, deep brown skin, resigned expression, very long hair, parted bangs, beige hair, muscular male, broad shoulders, thick arms, taupe high-collared aristocratic coat, ruby red embroidery, jabot, restrained, ribbon, large bow, wrists tied with ribbon, against wall, blindfold, covered eyes, ribbon blindfold, kneeling, looking up, upper body, from above, in cage, caged, inside giant birdcage, gold bars, indoors, dusk, soft lighting, natural light, melancholic atmosphere, baroque
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, haughty aristocrat, refined arrogance, masculine features, square jaw, strong chin, deep brown skin, sad smile, medium hair, hair over one eye, champagne blonde hair, slim build, chocolate brown high-collared aristocratic coat, royal purple embroidery, jabot, breeches, restrained, ribbon, large bow, wrists tied with ribbon, blindfold, covered eyes, ribbon blindfold, on stomach, lying on stomach, prone, arms forward, head up, cowboy shot, in cage, caged, inside giant birdcage, gold bars, indoors, day, firelight, embers, mysterious atmosphere, baroque
 ```
 
 ネガティブ：
@@ -270,14 +272,14 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v15. 蔓草（触手との違い）
 
-- 設定：美形タイプ：堕天使｜翼を失っても美しい。／衣装：ヒマティオン［モーブ×青銅色］／ポーズ：膝をつき、縛られて項垂れる／構図：腰上・真横から／背景：深い森／立場：拘束される側／拘束：蔓草／両手首を後ろ／緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNSZhZ2U9YTE4XzI0JmFyY2hldHlwZT1mYWxsZW5fYW5nZWwmcHJlc2VudGF0aW9uPXNsaWdodF9mZW0mYnVpbGQ9dGFsbF9zbGltJndvcmxkPW15dGhpYyEmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bWVkaXVtJmhhaXJTdHlsZT1vbmVfZXllX2NvdmVyZWQmaGFpckNvbG9yPWJsYWNrJmV5ZVNoYXBlPWhvb2RlZCZleWVDb2xvcj1zYXBwaGlyZSZvdXRmaXQ9Z3JlZWtfaGltYXRpb24mZXhwcmVzc2lvbj1zYWRfc21pbGUmZmFjZT1sb25nX2VsZWdhbnQmc2tpbj1lYm9ueSZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249bm9uZSZhdXJhPWNvb2wmbWFpbkNvbG9yPW1hdXZlJmFjY2VudENvbG9yPWJyb256ZV9tZXRhbCZwb3NlPWtuZWVsX2hlYWRfZG93biEmcHJvcD1ub25lJnNob3Q9Y293Ym95X3Nob3QhJmFuZ2xlPWZyb21fc2lkZSZzY2VuZT1kZWVwX2ZvcmVzdCEmdGltZT1uaWdodCZsaWdodD1yaW1fbGlnaHQmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDIyJnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXZpbmVzISZiaW5kUG9zPXdyaXN0c19iZWhpbmQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：人ならざる美｜人の形をしているだけの何か。／衣装：神託の白衣［青緑×燻し銀］／ポーズ：膝をつき、縛られて項垂れる／構図：腰上・傾けた画面／背景：深い森／立場：拘束される側／拘束：蔓草／両手首を後ろ／緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNSZhZ2U9YTM1XzQ0JmFyY2hldHlwZT1pbmh1bWFuX2JlYXV0eSZwcmVzZW50YXRpb249c2xpZ2h0X21hc2MmYnVpbGQ9ZGVsaWNhdGUmd29ybGQ9bXl0aGljISZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD12ZXJ5X2xvbmcmaGFpclN0eWxlPWhhbGZfdXBfbG9uZyZoYWlyQ29sb3I9Y2hlc3RudXQmZXllU2hhcGU9Z2xvd2luZyZleWVDb2xvcj1ncmF5Jm91dGZpdD1vcmFjbGUmZXhwcmVzc2lvbj13YXJ5JmZhY2U9c3RyYWlnaHRfbm9zZSZza2luPWJyb3duJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9ZXRoZXJlYWwmbWFpbkNvbG9yPXRlYWwmYWNjZW50Q29sb3I9b3hpZGl6ZWRfc2lsdmVyJnBvc2U9a25lZWxfaGVhZF9kb3duISZwcm9wPW5vbmUmc2hvdD1jb3dib3lfc2hvdCEmYW5nbGU9ZHV0Y2gmc2NlbmU9ZGVlcF9mb3Jlc3QhJnRpbWU9ZHVzayZsaWdodD1iaW9sdW1pbmVzY2VuY2UmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDE2JnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXZpbmVzISZiaW5kUG9zPXdyaXN0c19iZWhpbmQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
 - 確かめる点：
   - [ ] 植物の蔓に見える（触手と区別できる）
   - [ ] 項垂れた膝立ちになっている
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, fallen angel beauty, sorrowful grace, delicate androgynous features, soft facial features, long face, elegant features, hooded eyes, sapphire blue eyes, ebony skin, sad smile, medium hair, hair over one eye, black hair, tall, slim build, long legs, draped mauve himation, bronze meander border, laurel wreath, sandals, restrained, arms behind back, vines, entangled in vines, kneeling, sitting on heels, head down, looking down, cowboy shot, from side, forest, trees, night, rim lighting, cool atmosphere, mythology
+masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, inhuman perfect beauty, otherworldly, subtly masculine features, straight nose bridge, defined jawline, glowing eyes, gray eyes, brown skin, wary expression, guarded look, very long hair, half updo, long hair, chestnut hair, slender delicate build, narrow shoulders, flowing deep teal ceremonial robes, oxidized silver sheer veil, jewelry, long robe, restrained, arms behind back, vines, entangled in vines, kneeling, sitting on heels, head down, looking down, cowboy shot, dutch angle, forest, trees, dusk, bioluminescence, glowing flowers, ethereal, mythology
 ```
 
 ネガティブ：
@@ -290,32 +292,32 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v16. 腕を上げて服がずり上がる（腹ちらり）
 
-- 設定：美形タイプ：雪の精のような青年｜白い息まで美しい、冬の化身。／衣装：オーバーサイズTシャツとワイドパンツ［蛋白石色×芥子色］／ポーズ：両手首を頭上で固定されて立つ／構図：腰上・俯瞰（上から）／背景：廃工場／立場：拘束される側／拘束：縄／両手首を頭上／しっかり固定／目隠し・視界：なし／衣装の乱れ：腕を上げて服がずり上がる／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNiZhZ2U9YTI1XzM0JmFyY2hldHlwZT1zbm93X3ByaW5jZSZwcmVzZW50YXRpb249c2xpZ2h0X21hc2MmYnVpbGQ9YXRobGV0aWMmd29ybGQ9bm9ydGhlcm4mY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9bG9uZyZoYWlyU3R5bGU9cGFydGVkX2JhbmdzJmhhaXJDb2xvcj13aGl0ZSZleWVTaGFwZT1sb25nX2xhc2hlcyZleWVDb2xvcj1wYWxlX2dyYXkmb3V0Zml0PW92ZXJzaXplZF90ZWVfd2lkZSEmZXhwcmVzc2lvbj1kZWZpYW50JmZhY2U9dGhpY2tfYnJvd3Mmc2tpbj11bnNwZWNpZmllZCZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249bm9uZSZhdXJhPWRhbmdlcm91cyZtYWluQ29sb3I9b3BhbF93aGl0ZSZhY2NlbnRDb2xvcj1tdXN0YXJkX3llbGxvdyZwb3NlPWJvdW5kX292ZXJoZWFkX3N0YW5kISZwcm9wPW5vbmUmc2hvdD1jb3dib3lfc2hvdCEmYW5nbGU9ZnJvbV9hYm92ZSZzY2VuZT1hYmFuZG9uZWRfZmFjdG9yeSEmdGltZT1kYXkmbGlnaHQ9Y2FuZGxlbGlnaHQmYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDEzJnJvbGU9Y2FwdGl2ZSEmcmVzdHJhaW50PXJvcGUhJmJpbmRQb3M9d3Jpc3RzX292ZXJoZWFkISZhbmNob3I9bm9uZSZ0aWdodG5lc3M9c2VjdXJlZCZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9cmlkaW5nX3VwISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
+- 設定：美形タイプ：軍服の将校｜規律そのものが服を着ている。／衣装：オーバーサイズTシャツとワイドパンツ［煉瓦色×古金色］／ポーズ：両手首を頭上で固定されて立つ／構図：腰上・斜め45度／背景：廃工場／立場：拘束される側／拘束：縄／両手首を頭上／しっかり固定／目隠し・視界：なし／衣装の乱れ：腕を上げて服がずり上がる／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNiZhZ2U9YTQ1XzU5JmFyY2hldHlwZT1zdHJpY3Rfb2ZmaWNlciZwcmVzZW50YXRpb249bWFzYyZidWlsZD1hdmVyYWdlJndvcmxkPW1pbGl0YXJ5JmN1bHR1cmU9bm9uZSZoYWlyTGVuZ3RoPWxvbmcmaGFpclN0eWxlPWxvbmdfbGF5ZXJlZCZoYWlyQ29sb3I9ZGFya19icm93biZleWVTaGFwZT1ob29kZWQmZXllQ29sb3I9Z3JheSZvdXRmaXQ9b3ZlcnNpemVkX3RlZV93aWRlISZleHByZXNzaW9uPWRldGVybWluZWQmZmFjZT1icm9hZF9mYWNlJnNraW49ZGFyayZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249Y29tbWFuZGVyJmF1cmE9bWVsYW5jaG9seSZtYWluQ29sb3I9YnJpY2tfcmVkJmFjY2VudENvbG9yPWFudGlxdWVfZ29sZCZwb3NlPWJvdW5kX292ZXJoZWFkX3N0YW5kISZwcm9wPW5vbmUmc2hvdD1jb3dib3lfc2hvdCEmYW5nbGU9dGhyZWVfcXVhcnRlcl92aWV3JnNjZW5lPWFiYW5kb25lZF9mYWN0b3J5ISZ0aW1lPW5pZ2h0JmxpZ2h0PWxpZ2h0bmluZyZhcnRTdHlsZT1ub25lJm5hbWU9d2VzdGVybl8wMTYmcm9sZT1jYXB0aXZlISZyZXN0cmFpbnQ9cm9wZSEmYmluZFBvcz13cmlzdHNfb3ZlcmhlYWQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1zZWN1cmVkJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1yaWRpbmdfdXAhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
 - 確かめる点：
   - [ ] 腹がちらりと見える程度（それ以上の露出になっていない）
   - [ ] 服がずり上がって見える
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, snow-white complexion, ethereal fragility, subtly masculine features, thick eyebrows, straight eyebrows, long eyelashes, pale gray eyes, defiant expression, forced composure, long hair, parted bangs, white hair, athletic build, broad shoulders, oversized opal white t-shirt, dropped shoulders, mustard yellow wide-leg pants, shirt riding up, midriff peek, restrained, arms up, rope, bound wrists, standing, cowboy shot, from above, abandoned factory, day, candlelight, warm lighting, dangerous aura, nordic fantasy
+masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, strict officer, crisp discipline, masculine features, broad face, strong cheekbones, hooded eyes, gray eyes, dark skin, determined expression, long hair, long layered hair, dark brown hair, average build, oversized brick red t-shirt, dropped shoulders, antique gold wide-leg pants, shirt riding up, midriff peek, restrained, arms up, rope, bound wrists, standing, cowboy shot, three-quarter view, abandoned factory, night, lightning, dramatic lighting, melancholic atmosphere, military
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope belt, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
 ```
 
 ### v17. 裾から腹がちらり（腕は下ろしたまま）
 
-- 設定：美形タイプ：砂漠の王子｜陽光を纏う黄金の皇子。／衣装：ジップパーカーと無地のTシャツ［ガンメタル×墨色］／ポーズ：膝をつき、縛られたまま見上げる／構図：全身・目線の高さ／背景：独房／立場：反抗的な囚われ／拘束：手錠／両手首を前／しっかり固定／目隠し・視界：なし／衣装の乱れ：裾から腹がちらり／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNyZhZ2U9YTYwcCZhcmNoZXR5cGU9ZGVzZXJ0X3ByaW5jZSZwcmVzZW50YXRpb249c2xpZ2h0X2ZlbSZidWlsZD1idXJseSZ3b3JsZD1kZXNlcnRfZmFudGFzeSZjdWx0dXJlPXNvdXRoX2FzaWEmaGFpckxlbmd0aD12ZXJ5X2xvbmcmaGFpclN0eWxlPWhhbGZfdXBfbG9uZyZoYWlyQ29sb3I9c2lsdmVyJmV5ZVNoYXBlPXBpZXJjaW5nJmV5ZUNvbG9yPWRhcmtfYnJvd24mb3V0Zml0PXppcF9ob29kaWVfdGVlISZleHByZXNzaW9uPXF1aWV0X3RlYXJzJmZhY2U9aGlnaF9jaGVlayZza2luPWRlZXBfYnJvd24mbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWNyb3duX3ByaW5jZSZhdXJhPXB1cmUmbWFpbkNvbG9yPWd1bm1ldGFsJmFjY2VudENvbG9yPWlua19ibGFjayZwb3NlPWtuZWVsX2xvb2tfdXAmcHJvcD1ub25lJnNob3Q9ZnVsbF9ib2R5JmFuZ2xlPWV5ZV9sZXZlbCZzY2VuZT1wcmlzb25fY2VsbCEmdGltZT1kdXNrJmxpZ2h0PXN0cmVldGxpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT1kZXNlcnRfMDEzJnJvbGU9ZGVmaWFudCEmcmVzdHJhaW50PWN1ZmZzISZiaW5kUG9zPXdyaXN0c19mcm9udCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW1pZHJpZmZfcGVlayEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：祓い屋｜怪異より怖い涼しい顔。／衣装：ジップパーカーと無地のTシャツ［緑青色×リネンホワイト］／ポーズ：肩越しに振り返る／構図：全身・目線の高さ／背景：独房／立場：反抗的な囚われ／拘束：手錠／両手首を前／柱・しっかり固定／目隠し・視界：なし／衣装の乱れ：裾から腹がちらり／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxNyZhZ2U9YTQ1XzU5JmFyY2hldHlwZT1jb29sX2V4b3JjaXN0JnByZXNlbnRhdGlvbj1zbGlnaHRfbWFzYyZidWlsZD1hdGhsZXRpYyZ3b3JsZD1zdXBlcm5hdHVyYWwmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9c2hvcnQmaGFpclN0eWxlPWNlbnRlcl9wYXJ0X3Nob3J0JmhhaXJDb2xvcj1zaWx2ZXImZXllU2hhcGU9Y29sZF9leWVzJmV5ZUNvbG9yPW9saXZlJm91dGZpdD16aXBfaG9vZGllX3RlZSEmZXhwcmVzc2lvbj1mcnVzdHJhdGVkJmZhY2U9aGlnaF9jaGVlayZza2luPXRhbiZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249ZXhvcmNpc3QmYXVyYT1hbG9vZiZtYWluQ29sb3I9dmVyZGlncmlzX21ldGFsJmFjY2VudENvbG9yPWxpbmVuX3doaXRlJnBvc2U9bG9va2luZ19iYWNrJnByb3A9bm9uZSZzaG90PWZ1bGxfYm9keSZhbmdsZT1leWVfbGV2ZWwmc2NlbmU9cHJpc29uX2NlbGwhJnRpbWU9c3Vuc2V0JmxpZ2h0PW5lb24mYXJ0U3R5bGU9bm9uZSZuYW1lPWphcGFuZXNlXzAzMiZyb2xlPWRlZmlhbnQhJnJlc3RyYWludD1jdWZmcyEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj1waWxsYXImdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW1pZHJpZmZfcGVlayEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
 - 確かめる点：
   - [ ] 裾から腹がちらりと見える程度
   - [ ] 露出がそれ以上広がっていない
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, sun-gilded desert prince, delicate androgynous features, soft facial features, high cheekbones, hollow cheeks, piercing gaze, dark brown eyes, deep brown skin, tears, quiet expression, very long hair, half updo, long hair, silver hair, large burly build, tall, broad chest, unzipped gunmetal gray zip-up hoodie, plain ink black t-shirt, straight jeans, sneakers, south asian-inspired motifs, paisley embroidery, midriff peek, restrained, handcuffs, kneeling, looking up, looking at viewer, full body, prison cell, prison, iron bars, indoors, dusk, streetlight, pure, desert fantasy
+masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, cool exorcist, calm danger, subtly masculine features, high cheekbones, hollow cheeks, cold eyes, olive eyes, tan skin, frustrated expression, biting lip, short hair, center part, silver hair, athletic build, broad shoulders, unzipped verdigris zip-up hoodie, plain linen white t-shirt, straight jeans, sneakers, midriff peek, restrained, handcuffs, against pillar, looking back, looking at viewer over shoulder, full body, prison cell, prison, iron bars, indoors, sunset, neon lights, colorful lighting, aloof, urban fantasy
 ```
 
 ネガティブ：
@@ -326,34 +328,34 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v18. ずぶ濡れ＋ほつれ（透けないか）
 
-- 設定：美形タイプ：闘技場の英雄｜歓声を浴びる鍛え抜かれた肉体。／衣装：開襟シャツとTシャツ［ユーカリ色×濃紺］／ポーズ：横顔／構図：上半身・目線の高さ／背景：舞う花びらの単色背景／立場：拘束される側／拘束：縄／両手首を前／装飾的に巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：ずぶ濡れ・ほつれ
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxOCZhZ2U9YTM1XzQ0JmFyY2hldHlwZT1hcmVuYV9oZXJvJnByZXNlbnRhdGlvbj1zbGlnaHRfZmVtJmJ1aWxkPW11c2N1bGFyJndvcmxkPW15dGhpYyZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD12ZXJ5X2xvbmcmaGFpclN0eWxlPWZsb29yX2xlbmd0aCZoYWlyQ29sb3I9cGFzdGVsX2dyZWVuJmV5ZVNoYXBlPXNhbnBha3UmZXllQ29sb3I9cm9zZSZvdXRmaXQ9Y2FtcF9jb2xsYXJfc2hpcnQhJmV4cHJlc3Npb249Zmx1c3RlcmVkJmZhY2U9c29mdF9jb250b3VyJnNraW49YnJvd24mbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWdsYWRpYXRvciZhdXJhPXBsYXlmdWwmbWFpbkNvbG9yPWV1Y2FseXB0dXMmYWNjZW50Q29sb3I9ZGVlcF9uYXZ5JnBvc2U9c2lkZV9wcm9maWxlJnByb3A9bm9uZSZzaG90PXVwcGVyX2JvZHkmYW5nbGU9ZXllX2xldmVsJnNjZW5lPXBldGFsc19zaW1wbGUmdGltZT1yYWlueV9uaWdodCEmbGlnaHQ9YmlvbHVtaW5lc2NlbmNlJmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAyNiZyb2xlPWNhcHRpdmUhJnJlc3RyYWludD1yb3BlISZiaW5kUG9zPXdyaXN0c19mcm9udCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPWRlY29yYXRpdmUmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPWRyZW5jaGVkISZ3ZWFyMj1mcmF5ZWQh
+- 設定：美形タイプ：高慢な貴公子｜見下す視線さえ優雅。／衣装：開襟シャツとTシャツ［淡金×孔雀青］／ポーズ：両手首を前で縛られて立つ／構図：腰上・傾けた画面／背景：薔薇園／立場：拘束される側／拘束：縄／両手首を前／緩く巻く／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：ずぶ濡れ・ほつれ
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxOCZhZ2U9YTYwcCZhcmNoZXR5cGU9aGF1Z2h0eV9hcmlzdG9jcmF0JnByZXNlbnRhdGlvbj1zbGlnaHRfbWFzYyZidWlsZD1tdXNjdWxhciZ3b3JsZD1ldXJvcGVhbl9jb3VydCZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD12ZXJ5X2xvbmcmaGFpclN0eWxlPWxvbmdfc3RyYWlnaHQmaGFpckNvbG9yPWdyYXkmZXllU2hhcGU9bWVsYW5jaG9saWMmZXllQ29sb3I9Z3JheSZvdXRmaXQ9Y2FtcF9jb2xsYXJfc2hpcnQhJmV4cHJlc3Npb249ZGVmaWFudCZmYWNlPWRlZXBfc2V0JnNraW49dW5zcGVjaWZpZWQmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPWVtcGVyb3ImYXVyYT1yZWdhbCZtYWluQ29sb3I9cGFsZV9nb2xkJmFjY2VudENvbG9yPXBlYWNvY2tfYmx1ZSZwb3NlPWJvdW5kX2Zyb250X3N0YW5kJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90JmFuZ2xlPWR1dGNoJnNjZW5lPXJvc2VfZ2FyZGVuJnRpbWU9cmFpbnlfbmlnaHQhJmxpZ2h0PXJpbV9saWdodCZhcnRTdHlsZT1ub25lJm5hbWU9d2VzdGVybl8wMDAmcm9sZT1jYXB0aXZlISZyZXN0cmFpbnQ9cm9wZSEmYmluZFBvcz13cmlzdHNfZnJvbnQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1sb29zZSZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9ZHJlbmNoZWQhJndlYXIyPWZyYXllZCE
 - 確かめる点：
   - [ ] 濡れていても服が透けていない
   - [ ] ほつれが表現されている（大きな破れになっていない）
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, sculpted gladiator physique, heroic, delicate androgynous features, soft facial features, soft facial contours, gentle features, sanpaku, rose eyes, brown skin, flustered, blush, looking away, very long hair, absurdly long hair, pastel green hair, muscular male, broad shoulders, thick arms, relaxed eucalyptus green camp-collar shirt, plain deep navy t-shirt underneath, clothes drenched with water, frayed clothes, loose threads, restrained, rope, bound wrists, profile, looking afar, upper body, simple background, falling petals, bioluminescence, glowing flowers, playful, mythology
+masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, haughty aristocrat, refined arrogance, subtly masculine features, deep-set eyes, strong brow ridge, angular face, melancholic eyes, gray eyes, defiant expression, forced composure, very long hair, long straight hair, gray hair, muscular male, broad shoulders, thick arms, relaxed pale gold camp-collar shirt, plain peacock blue t-shirt underneath, tapered trousers, clothes drenched with water, frayed clothes, loose threads, restrained, rope, bound wrists, standing, looking at viewer, cowboy shot, dutch angle, rose garden, roses, rain, night, rim lighting, regal, baroque
 ```
 
 ネガティブ：
 
 ```text
-lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
+lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, extra arms, deformed, blurry, text, watermark, signature, 1girl, female, breasts, multiple boys, child, blood, wounds, bruises, restraints around neck, extra hands, missing fingers, fused fingers, rope belt, chains, handcuffs, leather straps, ribbon, bandages, tentacles, vines
 ```
 
 ## する側
 
 ### v19. 手錠を手にした支配者
 
-- 設定：美形タイプ：ハードボイルドな男｜紫煙の向こうの影。／衣装：スリーピーススーツ［淡金×栗色］／ポーズ：斜めに構えた立ち姿／構図：全身・目線の高さ／背景：尋問室／立場：余裕のある支配者／拘束：手錠／手に持つ・操る（する側）／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxOSZhZ2U9YTI1XzM0JmFyY2hldHlwZT1ub2lyX2RldGVjdGl2ZSZwcmVzZW50YXRpb249bWFzYyZidWlsZD10b25lZCZ3b3JsZD1ub2lyISZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD12ZXJ5X3Nob3J0JmhhaXJTdHlsZT1mYWRlX3VuZGVyY3V0JmhhaXJDb2xvcj1zdHJhd2JlcnJ5X2Jsb25kZSZleWVTaGFwZT1hbG1vbmQmZXllQ29sb3I9Ymx1ZV9ncmF5Jm91dGZpdD10aHJlZV9waWVjZSEmZXhwcmVzc2lvbj1zbXVnISZmYWNlPW92YWxfcmVmaW5lZCZza2luPXBvcmNlbGFpbiZtYXJrcz1ub25lJmdsYXNzZXM9bm9uZSZmYWNpYWxIYWlyPW5vbmUmaGFpckFjY2VudD1ub25lJm9jY3VwYXRpb249Z2FtYmxlciZhdXJhPWRlY2FkZW50Jm1haW5Db2xvcj1wYWxlX2dvbGQmYWNjZW50Q29sb3I9Y2hlc3RudXRfYnJvd24mcG9zZT10aHJlZV9xdWFydGVyISZwcm9wPW5vbmUmc2hvdD1mdWxsX2JvZHkmYW5nbGU9ZXllX2xldmVsJnNjZW5lPWludGVycm9nYXRpb25fcm9vbSEmdGltZT1tb29ubGl0X25pZ2h0JmxpZ2h0PWNoaWFyb3NjdXJvJmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAyNyZyb2xlPXJ1bGVyISZyZXN0cmFpbnQ9Y3VmZnMhJmJpbmRQb3M9aGVsZCEmYW5jaG9yPW5vbmUmdGlnaHRuZXNzPXNlY3VyZWQmYmxpbmRmb2xkPW5vbmUhJmRpc2FycmF5PW5vbmUhJndlYXIxPW5vbmUhJndlYXIyPW5vbmUh
+- 設定：美形タイプ：粋な若頭｜仁義と色気の境界線。／衣装：スリーピーススーツ［オックスブラッド×栗色］／ポーズ：斜めに構えた立ち姿／構図：胸上・目線の高さ／背景：尋問室／立場：余裕のある支配者／拘束：手錠／手に持つ・操る（する側）／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMxOSZhZ2U9YTYwcCZhcmNoZXR5cGU9c3R5bGlzaF95YWt1emEmcHJlc2VudGF0aW9uPWZlbSZidWlsZD1kZWxpY2F0ZSZ3b3JsZD1ub2lyISZjdWx0dXJlPW5vbmUmaGFpckxlbmd0aD1zaG9ydCZoYWlyU3R5bGU9YmFuZ3NfZXllcyZoYWlyQ29sb3I9d2hpdGUmZXllU2hhcGU9c2xlZXB5JmV5ZUNvbG9yPWJsYWNrJm91dGZpdD10aHJlZV9waWVjZSEmZXhwcmVzc2lvbj1zbXVnISZmYWNlPWdhdW50JnNraW49bGlnaHRfYmVpZ2UmbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPXlha3V6YSZhdXJhPWRlY2FkZW50Jm1haW5Db2xvcj1veGJsb29kJmFjY2VudENvbG9yPWNoZXN0bnV0X2Jyb3duJnBvc2U9dGhyZWVfcXVhcnRlciEmcHJvcD1ub25lJnNob3Q9cG9ydHJhaXQmYW5nbGU9ZXllX2xldmVsJnNjZW5lPWludGVycm9nYXRpb25fcm9vbSEmdGltZT1tb29ubGl0X25pZ2h0JmxpZ2h0PXNwb3RsaWdodCZhcnRTdHlsZT1ub25lJm5hbWU9d2VzdGVybl8wMjQmcm9sZT1ydWxlciEmcmVzdHJhaW50PWN1ZmZzISZiaW5kUG9zPWhlbGQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1zZWN1cmVkJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
 - 確かめる点：
   - [ ] 手錠を手に持っている（自分には掛かっていない）
   - [ ] 人物が1人だけ（相手が描かれていない）
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, hard-boiled noir, shadowed eyes, masculine features, oval face, refined features, almond-shaped eyes, blue-gray eyes, porcelain skin, smug smile, very short hair, undercut, fade haircut, strawberry blonde hair, toned body, lean muscular build, pale gold three-piece suit, waistcoat, chestnut brown necktie, tailored trousers, leather shoes, holding handcuffs, open handcuffs, handcuffs in hand, standing, looking at viewer, slight turn, full body, interrogation room, indoors, ceiling light, table, night, full moon, chiaroscuro, dramatic lighting, decadent, film noir
+masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, dangerous yakuza charm, feminine facial features, pretty face, gaunt cheeks, sharp cheekbones, pale face, sleepy eyes, black eyes, light beige skin, smug smile, short hair, hair between eyes, white hair, slender delicate build, narrow shoulders, oxblood red three-piece suit, waistcoat, chestnut brown necktie, holding handcuffs, open handcuffs, handcuffs in hand, standing, looking at viewer, slight turn, portrait, interrogation room, indoors, ceiling light, table, night, full moon, spotlight, decadent, film noir
 ```
 
 ネガティブ：
@@ -364,14 +366,15 @@ lowres, worst quality, bad anatomy, bad hands, extra fingers, missing fingers, e
 
 ### v20. 影の触手を操る
 
-- 設定：美形タイプ：黒騎士｜堕ちた騎士の昏い瞳。／衣装：黒騎士の鎧［炭墨色×墨色］／ポーズ：首の後ろに手を／構図：胸上・斜め45度／背景：天蓋付きの寝室／立場：余裕のある支配者／拘束：影の触手／手に持つ・操る（する側）／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
-- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC42Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMyMCZhZ2U9YTI1XzM0JmFyY2hldHlwZT1kYXJrX2tuaWdodCZwcmVzZW50YXRpb249c2xpZ2h0X21hc2MmYnVpbGQ9c2xpbSZ3b3JsZD1kYXJrX2ZhbnRhc3khJmN1bHR1cmU9c2xhdmljJmhhaXJMZW5ndGg9bWVkaXVtJmhhaXJTdHlsZT10b3VzbGVkX21lZGl1bSZoYWlyQ29sb3I9YXVidXJuJmV5ZVNoYXBlPW1vbm9saWQmZXllQ29sb3I9Z29sZCZvdXRmaXQ9ZGFya19rbmlnaHQmZXhwcmVzc2lvbj1yZWxpc2ghJmZhY2U9dGhpbl9saXBzJnNraW49YnJvd24mbWFya3M9bm9uZSZnbGFzc2VzPW5vbmUmZmFjaWFsSGFpcj1ub25lJmhhaXJBY2NlbnQ9bm9uZSZvY2N1cGF0aW9uPW5vbmUmYXVyYT1teXN0ZXJpb3VzJm1haW5Db2xvcj1jaGFyY29hbF9ncmF5JmFjY2VudENvbG9yPWlua19ibGFjayZwb3NlPWhhbmRfb25fbmVjayZwcm9wPW5vbmUmc2hvdD1wb3J0cmFpdCZhbmdsZT10aHJlZV9xdWFydGVyX3ZpZXcmc2NlbmU9Y2Fub3B5X2JlZHJvb20mdGltZT1kdXNrJmxpZ2h0PXN0cmVldGxpZ2h0JmFydFN0eWxlPW5vbmUmbmFtZT13ZXN0ZXJuXzAxNiZyb2xlPXJ1bGVyISZyZXN0cmFpbnQ9c2hhZG93X3RlbnRhY2xlcyEmYmluZFBvcz1oZWxkISZhbmNob3I9bm9uZSZ0aWdodG5lc3M9c2VjdXJlZCZibGluZGZvbGQ9bm9uZSEmZGlzYXJyYXk9bm9uZSEmd2VhcjE9bm9uZSEmd2VhcjI9bm9uZSE
+- 設定：美形タイプ：魔王｜ひれ伏すほど美しい絶望。／衣装：魔王の装束［ユーカリ色×漆黒］／ポーズ：魔法を放つ／構図：腰上・真横から／背景：天蓋付きの寝室／立場：余裕のある支配者／拘束：影の触手／手に持つ・操る（する側）／目隠し・視界：なし／衣装の乱れ：なし／衣装の状態：なし
+- 共有URL：https://nyuriwossan.github.io/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBudSZjPWNvaGVyZW50JnNlZWQ9dnMyMCZhZ2U9YTM1XzQ0JmFyY2hldHlwZT1kZW1vbl9raW5nJnByZXNlbnRhdGlvbj1hbmRybyZidWlsZD1hdmVyYWdlJndvcmxkPWRhcmtfZmFudGFzeSEmY3VsdHVyZT1ub25lJmhhaXJMZW5ndGg9dmVyeV9sb25nJmhhaXJTdHlsZT1zaWRlX2JyYWlkX2xvbmcmaGFpckNvbG9yPXN0cmF3YmVycnlfYmxvbmRlJmV5ZVNoYXBlPWdsb3dpbmcmZXllQ29sb3I9Y3JpbXNvbiZvdXRmaXQ9ZGVtb25fbG9yZCZleHByZXNzaW9uPXJlbGlzaCEmZmFjZT1hcXVpbGluZSZza2luPWJyb3duJm1hcmtzPW5vbmUmZ2xhc3Nlcz1ub25lJmZhY2lhbEhhaXI9bm9uZSZoYWlyQWNjZW50PW5vbmUmb2NjdXBhdGlvbj1ub25lJmF1cmE9bWVsYW5jaG9seSZtYWluQ29sb3I9ZXVjYWx5cHR1cyZhY2NlbnRDb2xvcj1qZXRfYmxhY2smcG9zZT1jYXN0aW5nX3NwZWxsJnByb3A9bm9uZSZzaG90PWNvd2JveV9zaG90JmFuZ2xlPWZyb21fc2lkZSZzY2VuZT1jYW5vcHlfYmVkcm9vbSZ0aW1lPW1vb25saXRfbmlnaHQmbGlnaHQ9Y2hpYXJvc2N1cm8mYXJ0U3R5bGU9bm9uZSZuYW1lPXdlc3Rlcm5fMDAyJnJvbGU9cnVsZXIhJnJlc3RyYWludD1zaGFkb3dfdGVudGFjbGVzISZiaW5kUG9zPWhlbGQhJmFuY2hvcj1ub25lJnRpZ2h0bmVzcz1zZWN1cmVkJmJsaW5kZm9sZD1ub25lISZkaXNhcnJheT1ub25lISZ3ZWFyMT1ub25lISZ3ZWFyMj1ub25lIQ
 - 確かめる点：
-  - [ ] 影の触手を操っているように見える（本人には巻き付いていない）
+  - [ ] 影の触手が出ている
+  - [ ] 手を外へ向けて触手を操っているように見える（本人には巻き付いていない）
   - [ ] 人物が1人だけ
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, dark knight, brooding menace, subtly masculine features, thin lips, refined mouth, monolid eyes, golden eyes, brown skin, evil smile, smug, medium hair, tousled hair, auburn hair, slim build, charcoal gray spiked dark armor, ink black tattered cape, slavic-inspired motifs, folk embroidery, tentacles, shadow, dark aura, hand on own neck, looking away, portrait, three-quarter view, bedroom, canopy bed, curtains, indoors, dusk, streetlight, mysterious atmosphere, dark fantasy
+masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, overwhelming demonic beauty, sinister majesty, androgynous features, aquiline nose, strong profile, glowing eyes, crimson eyes, brown skin, evil smile, smug, very long hair, braid over shoulder, strawberry blonde hair, average build, eucalyptus green ornate demon lord armor-robe, jet black spiked pauldrons, flowing cape, armored boots, tentacles, black tentacles, outstretched hand, dark aura, casting spell, glowing hand, magic circle, cowboy shot, from side, bedroom, canopy bed, curtains, indoors, night, full moon, chiaroscuro, dramatic lighting, melancholic atmosphere, dark fantasy
 ```
 
 ネガティブ：

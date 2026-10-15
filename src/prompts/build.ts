@@ -119,7 +119,8 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     on: true, tags: dedupe([...restraintTags, ...blindTags]), outfitTags: dedupe(clothes), restraintNat: set(v.role) && v.role!.en.length ? `${cap(joinNat(v.role!.en))}. ${restraintNat}`.trim() : restraintNat,
     blindNat: blind.length ? `${f?.tags?.includes('covered') ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
     clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
-    hideEyes, stripGaze, negative: set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...(b?.id === 'ankles' ? ['bound wrists'] : []), ...(b?.id === 'held' ? ['bound wrists', 'handcuffed'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
+    hideEyes, stripGaze, negative: [...(f?.tags?.includes('hood') ? ['blindfold'] : []), ...(set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...(b?.id === 'ankles' ? ['bound wrists', 'bracelet'] : []), ...(b?.id === 'held' ? ['bound wrists', 'handcuffed'] : []),
+      ...(bound && ['rope', 'silk_cord'].includes(r!.id) && b!.id !== 'torso_arms' ? ['rope belt'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [])], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
   };
 }
 
@@ -256,7 +257,8 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
 
   // 正のプロンプトに出ている語（髪のリボン・絆創膏など）は、ネガティブに入れない
   const posLower = positive.toLowerCase();
-  const materialWords = new Set(MATERIAL_NEGATIVE.map(([, w]) => w));
+  // 素材と、状況で足す語（腕輪・縄の帯・目隠し）は、ポジティブに同じ語があればネガティブから外す
+  const materialWords = new Set([...MATERIAL_NEGATIVE.map(([, w]) => w), 'bracelet', 'rope belt', 'blindfold']);
   const negBase = [...NEGATIVE_BASE, ...fb.negative.filter((w) => !materialWords.has(w) || !posLower.includes(w.split(' ').pop()!.replace(/s$/, '')))];
   const negative = S.negative && target !== 'japanese' && target !== 'naturalEnglish' ? negBase.join(', ')
     : S.negative && target === 'naturalEnglish' ? `Avoid: ${negBase.join(', ')}.` : '';

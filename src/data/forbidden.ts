@@ -159,7 +159,7 @@ export const WEAR_CATS: Category[] = [{ id: 'dirt', ja: '汚れ' }, { id: 'damag
 export const BOUND_POSES: Array<{ id: string; ja: string; en: string; posture: string; minShot: number; gaze: boolean; bind: string[]; armsUp?: boolean; headDown?: boolean }> = [
   { id: 'bound_front_stand', ja: '両手首を前で縛られて立つ', en: 'standing, looking at viewer', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_front'] },
   { id: 'bound_behind_lookback', ja: '後ろ手に縛られ、肩越しに振り返る', en: 'from behind, looking back over shoulder', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_behind'] },
-  { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, hands on lap', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_front'] },
+  { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, upright kneeling, own hands together', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_front'] },
   { id: 'bound_chair', ja: '椅子に座り、両手首を肘掛けへ固定', en: 'sitting, on chair', posture: 'sitting', minShot: 3, gaze: true, bind: ['armrests'] },
   { id: 'wall_chain_lookback', ja: '片手首を壁へつながれて振り返る', en: 'looking back, one arm up, against wall', posture: 'standing', minShot: 2, gaze: true, bind: ['one_wrist'] },
   { id: 'bound_overhead_stand', ja: '両手首を頭上で固定されて立つ', en: 'standing, arms up', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_overhead'], armsUp: true },
@@ -171,7 +171,7 @@ export const BOUND_POSES: Array<{ id: string; ja: string; en: string; posture: s
   { id: 'kneel_look_up', ja: '膝をつき、縛られたまま見上げる', en: 'kneeling, looking up, looking at viewer', posture: 'kneeling', minShot: 2, gaze: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
   { id: 'kneel_head_down', ja: '膝をつき、縛られて項垂れる', en: 'kneeling, sitting on heels, head down, looking down', posture: 'kneeling', minShot: 3, gaze: false, headDown: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
   // うつ伏せ（ポーズ構図工房の lying prone を参考。縛った腕では上体を支えない）
-  { id: 'prone_behind', ja: '後ろ手に縛られてうつ伏せ', en: 'on stomach, lying on stomach, prone, looking at viewer', posture: 'lying', minShot: 4, gaze: true, bind: ['wrists_behind'] },
+  { id: 'prone_behind', ja: '後ろ手に縛られてうつ伏せ', en: 'on stomach, lying on stomach, prone, head turned, sideways glance', posture: 'lying', minShot: 4, gaze: true, bind: ['wrists_behind'] },
   { id: 'prone_reach', ja: 'うつ伏せで、縛られた両手を前へ投げ出す', en: 'on stomach, lying on stomach, prone, arms forward, head up', posture: 'lying', minShot: 3, gaze: true, bind: ['wrists_front'] },
   { id: 'prone_ankles', ja: '足首を縛られ、うつ伏せで肘をつく', en: 'on stomach, lying on stomach, prone, on elbows, hands on floor', posture: 'lying', minShot: 4, gaze: true, bind: ['ankles'] }
 ];
@@ -215,12 +215,17 @@ export function materialTags(restraintId: string, bindId: string): string[] {
     straps: ['leather straps', 'restraints'],
     ribbon: ['ribbon', 'large bow', 'wrists tied with ribbon'],
     bandage: ['bandages', 'bandaged arm'],
-    tentacles: ['tentacles', 'restrained by tentacles'], shadow_tentacles: ['tentacles', 'shadow', 'dark aura'],
+    tentacles: ['tentacles', 'restrained by tentacles'], shadow_tentacles: ['tentacles', 'black tentacles', 'restrained by tentacles', 'dark aura'],
     vines: ['vines', 'entangled in vines'], rose_vines: ['vines', 'roses', 'entangled in vines']
   };
-  const tags = T[restraintId] ?? [];
+  const tags = [...(T[restraintId] ?? []), ...(bindId === 'armrests' ? ARMREST_TAGS[restraintId] ?? [] : [])];
   return ROPE_LIKE.has(restraintId) ? tags : tags.filter((x) => !/^bound /.test(x));
 }
+/** 椅子の肘掛けに固定するとき、素材ごとに足すタグ（3回目の実機確認で「固定されていない」ため） */
+const ARMREST_TAGS: Record<string, string[]> = {
+  rope: ['tied to chair'], silk_cord: ['tied to chair'], straps: ['wrist cuffs', 'strapped to chair'], cuffs: ['cuffed to chair'],
+  chain: ['chained to chair'], ornate_chain: ['chained to chair'], ribbon: ['tied to chair'], bandage: ['tied to chair']
+};
 /** 拘束位置のタグ（素材を問わない語だけ） */
 export const BIND_TAGS: Record<string, string[]> = {
   wrists_front: ['restrained'], wrists_behind: ['restrained', 'arms behind back'], wrists_overhead: ['restrained', 'arms up'],
@@ -232,9 +237,10 @@ export const CHAIN_ANCHOR_TAGS: Record<string, string[]> = { wall: ['chained to 
 /** 「する側」が手に持つ・操るときのタグ */
 export function heldTags(restraintId: string): string[] {
   const H: Record<string, string[]> = {
-    rope: ['holding rope'], silk_cord: ['holding rope'], chain: ['holding chain'], ornate_chain: ['holding chain', 'gold chain'], light_chains: ['glowing chain', 'magic'],
+    rope: ['holding rope'], silk_cord: ['holding rope'], chain: ['holding chain'], ornate_chain: ['holding chain', 'gold chain'], light_chains: ['glowing chain', 'outstretched hand', 'magic'],
     cuffs: ['holding handcuffs', 'open handcuffs', 'handcuffs in hand'], straps: ['holding leather strap'], ribbon: ['holding ribbon'], bandage: ['holding bandages'],
-    tentacles: ['tentacles'], shadow_tentacles: ['tentacles', 'shadow', 'dark aura'], vines: ['vines', 'magic'], rose_vines: ['vines', 'roses', 'magic']
+    tentacles: ['tentacles', 'outstretched hand', 'magic'], shadow_tentacles: ['tentacles', 'black tentacles', 'outstretched hand', 'dark aura'],
+    vines: ['vines', 'outstretched hand', 'magic'], rose_vines: ['vines', 'roses', 'outstretched hand', 'magic']
   };
   return H[restraintId] ?? [];
 }
@@ -242,6 +248,6 @@ export const BLIND_TAGS: Record<string, string[]> = {
   cloth: ['blindfold', 'covered eyes', 'black blindfold'], leather: ['blindfold', 'covered eyes', 'leather blindfold'],
   ribbon: ['blindfold', 'covered eyes', 'ribbon blindfold'], lace: ['blindfold', 'covered eyes', 'lace blindfold'],
   silk: ['blindfold', 'covered eyes', 'white blindfold'], bandage_eyes: ['covered eyes', 'bandage over eyes'],
-  hood_low: ['hood up', 'covered eyes', 'shaded face'], one_eye: ['bandage over one eye'], veil: ['veil', 'see-through veil'],
+  hood_low: ['hood up', 'hood over eyes', 'shaded face'], one_eye: ['bandage over one eye'], veil: ['veil', 'see-through veil'],
   masquerade: ['masquerade mask'], downcast: ['looking down'], eyes_closed: ['closed eyes']
 };

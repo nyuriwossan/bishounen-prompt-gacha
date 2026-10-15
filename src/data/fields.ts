@@ -14,7 +14,7 @@ import { CULTURE, CULTURE_CATS, WORLD, WORLD_CATS } from './worlds';
 import { ANCHOR, BIND_POS, BLINDFOLD, DISARRAY, RESTRAINT, ROLE, TIGHTNESS, WEAR, WEAR_CATS } from './forbidden';
 
 /** 辞書のバージョン。候補IDを削除・改名したら上げ、storage の migration に対応を書く。 */
-export const DATA_VERSION = '2026.10.6';
+export const DATA_VERSION = '2026.10.7';
 
 export const FIELDS: FieldDef[] = [
   // ---- 基本パネル ----
@@ -110,11 +110,11 @@ export const DEFAULT_IDS: Partial<Record<FieldId, string>> = {
 export const RELATED: Partial<Record<FieldId, FieldId[]>> = {
   hairLength: ['hairStyle'], hairStyle: ['hairLength'],
   pose: ['shot', 'prop', 'expression', 'glasses', 'outfit'], shot: ['pose', 'bindPos', 'anchor'], prop: ['pose', 'bindPos'],
-  expression: ['pose'], glasses: ['pose'], outfit: ['culture', 'pose'], culture: ['outfit'],
+  expression: ['pose'], glasses: ['pose', 'blindfold'], outfit: ['culture', 'pose'], culture: ['outfit'],
   time: ['scene', 'light'], scene: ['time'], light: ['time'],
   mainColor: ['accentColor'], accentColor: ['mainColor'],
   hairColor: ['hairAccentColor'], hairAccentColor: ['hairColor'],
   marks: ['kemonoSpecies', 'glasses'], kemonoSpecies: ['marks'],
-  role: ['bindPos', 'expression', 'blindfold'], angle: ['pose'], restraint: ['bindPos', 'anchor', 'tightness'], bindPos: ['restraint', 'anchor', 'pose', 'prop', 'role', 'shot'], anchor: ['bindPos', 'shot', 'pose'],
-  blindfold: ['pose', 'glasses', 'marks', 'hairStyle'], disarray: ['outfit'], wear1: ['wear2', 'outfit'], wear2: ['wear1', 'outfit']
+  role: ['bindPos', 'expression', 'blindfold', 'scene'], angle: ['pose', 'blindfold'], tightness: ['bindPos'], restraint: ['bindPos', 'anchor', 'tightness'], bindPos: ['restraint', 'anchor', 'tightness', 'pose', 'prop', 'role', 'shot'], anchor: ['bindPos', 'shot', 'pose'],
+  blindfold: ['pose', 'glasses', 'marks', 'hairStyle', 'angle'], disarray: ['outfit'], wear1: ['wear2', 'outfit'], wear2: ['wear1', 'outfit']
 };

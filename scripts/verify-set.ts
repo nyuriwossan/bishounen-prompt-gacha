@@ -18,29 +18,29 @@ interface Case { id: string; group: string; title: string; seed: string; mode?: 
 const CASES: Case[] = [
   // ---- 拘束の基本 ----
   { id: 'v01', group: '拘束の基本', title: '両手首を前で縄（基本形）', seed: 'vs01', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', tightness: 'secured', pose: 'bound_front_stand', shot: 'cowboy_shot', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['縄が手首だけに巻かれ、腕や首に回っていない', '縛られた両手・指が崩れていない', '縄以外の拘束具（鎖など）が混ざっていない'] },
+    checks: ['縄が手首だけに巻かれ、腰・腕・首に回っていない', '縛られた両手・指が崩れていない', '縄以外の拘束具（鎖など）が混ざっていない'] },
   { id: 'v02', group: '拘束の基本', title: '後ろ手に鎖、壁へ固定・肩越しに振り返る', seed: 'vs02', lock: { role: 'defiant', restraint: 'chain', bindPos: 'wrists_behind', anchor: 'wall', pose: 'bound_behind_lookback', shot: 'cowboy_shot', scene: 'dungeon_cell', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['鎖が壁の金具までつながって見える', '後ろ手の手首と指が見えている（省略されていない）', '肩や腕の向きが不自然でない'] },
   { id: 'v03', group: '拘束の基本', title: '頭上で吊る鎖（地下牢）', seed: 'vs03', lock: { role: 'prisoner', restraint: 'chain', bindPos: 'wrists_overhead', anchor: 'overhead', pose: 'bound_overhead_stand', shot: 'full_body', scene: 'dungeon_cell', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['両足が床に着いている（宙吊りになっていない）', '鎖が頭上の固定具につながっている', '屋内（牢）の背景になっている'] },
   { id: 'v04', group: '拘束の基本', title: '椅子の肘掛けに革ベルトで固定', seed: 'vs04', lock: { role: 'captive', restraint: 'straps', bindPos: 'armrests', anchor: 'chair', pose: 'bound_chair', shot: 'cowboy_shot', scene: 'interrogation_room', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['左右の手首がそれぞれ肘掛けに固定されている', '椅子と両手がどちらも画面に入っている'] },
+    checks: ['肘掛けのある椅子になっている', '左右の手首がそれぞれ肘掛けにベルトで固定されている', '椅子と両手がどちらも画面に入っている'] },
   // ---- 膝立ち・うつ伏せ ----
   { id: 'v05', group: '膝立ち・うつ伏せ', title: '後ろ手に縛られて膝立ち', seed: 'vs05', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'kneel_behind', shot: 'knee_up', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['上体を起こした膝立ちになっている', '後ろ手の縄と手が見える'] },
   { id: 'v06', group: '膝立ち・うつ伏せ', title: '頭上で吊られて膝立ち', seed: 'vs06', lock: { role: 'resigned', restraint: 'chain', bindPos: 'wrists_overhead', anchor: 'overhead', pose: 'kneel_overhead', shot: 'full_body', scene: 'dungeon_cell', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['両膝が床に着いている', '腕が頭上に上がり、鎖が固定具へつながっている'] },
   { id: 'v07', group: '膝立ち・うつ伏せ', title: '後ろ手に縛られてうつ伏せ', seed: 'vs07', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'prone_behind', shot: 'full_body', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['うつ伏せ（腹ばい）になっている。仰向けになっていない', '縛った腕で体を支えていない', '顔がこちらへ向いている'] },
+    checks: ['うつ伏せ（腹ばい）になっている。仰向けになっていない', '縛った腕で体を支えていない', '顔が横を向き、首の向きが自然（真正面を向きすぎない）'] },
   { id: 'v08', group: '膝立ち・うつ伏せ', title: '足首を縛られ、うつ伏せで肘をつく', seed: 'vs08', lock: { role: 'captive', restraint: 'rope', bindPos: 'ankles', pose: 'prone_ankles', shot: 'full_body', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['足首だけが縛られ、手は自由', '肘で上体を起こしている'] },
+    checks: ['足首だけが縛られ、手は自由（手首に縄の腕輪も出ていない）', '肘で上体を起こしている'] },
   // ---- 目隠し ----
   { id: 'v09', group: '目隠し', title: 'レースの目隠し×竜の瞳の美形（目が透けないか）', seed: 'vs09', lock: { role: 'captive', restraint: 'ribbon', bindPos: 'wrists_front', blindfold: 'lace', archetype: 'dragon_blood', eyeShape: 'slit_pupils', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['レース越しに目（縦長の瞳孔・光る目）が描かれていない', 'レースの目隠しに見える', '「こちらを見る」視線になっていない'] },
   { id: 'v10', group: '目隠し', title: '布の目隠し＋目元が特徴の美形タイプ', seed: 'vs10', lock: { role: 'prisoner', restraint: 'silk_cord', bindPos: 'wrists_behind', blindfold: 'cloth', eyeShape: 'piercing', eyeColor: 'gold', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['目隠しを貫通して目が描かれていない', '金色の瞳が出ていない（出力から外している）'] },
   { id: 'v11', group: '目隠し', title: 'フードを目深に被る', seed: 'vs11', lock: { role: 'captive', restraint: 'bandage', bindPos: 'wrists_front', blindfold: 'hood_low', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['フードで目元が隠れている', '頭飾り（冠など）と重なっていない'] },
+    checks: ['フードで目元が隠れている', '布の目隠しが出ていない', '頭飾り（冠など）と重なっていない'] },
   // ---- 拘束具の素材 ----
   { id: 'v12', group: '拘束具の素材', title: '触手（触手の巣）', seed: 'vs12', lock: { role: 'captive', restraint: 'tentacles', bindPos: 'wrists_overhead', world: 'dark_fantasy', scene: 'tentacle_lair', pose: 'bound_overhead_stand', shot: 'full_body', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['触手が手首に巻き付いている', '縄や鎖が混ざっていない', '露出や性的な描写に寄りすぎていない'] },
@@ -61,7 +61,7 @@ const CASES: Case[] = [
   { id: 'v19', group: 'する側', title: '手錠を手にした支配者', seed: 'vs19', lock: { role: 'ruler', restraint: 'cuffs', bindPos: 'held', expression: 'smug', scene: 'interrogation_room', world: 'noir', outfit: 'three_piece', pose: 'three_quarter', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['手錠を手に持っている（自分には掛かっていない）', '人物が1人だけ（相手が描かれていない）'] },
   { id: 'v20', group: 'する側', title: '影の触手を操る', seed: 'vs20', lock: { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held', world: 'dark_fantasy', expression: 'relish', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['影の触手を操っているように見える（本人には巻き付いていない）', '人物が1人だけ'] }
+    checks: ['影の触手が出ている', '手を外へ向けて触手を操っているように見える（本人には巻き付いていない）', '人物が1人だけ'] }
 ];
 
 interface Row { id: string; group: string; title: string; seed: string; url: string; pixai: string; negative: string; settingsJa: string; checks: string[] }

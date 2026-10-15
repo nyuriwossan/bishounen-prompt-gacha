@@ -1,5 +1,5 @@
 {
-  "total": 506,
+  "total": 518,
   "byRule": {
     "hair_length_style": 14,
     "pose_shot": 14,
@@ -15,6 +15,8 @@
     "restraint_bind": 14,
     "role_bind": 14,
     "bind_pose": 14,
+    "role_cage": 8,
+    "armrest_tightness": 2,
     "bind_shot": 14,
     "anchor_shot": 3,
     "bind_prop": 14,
@@ -30,6 +32,7 @@
     "bind_expression": 14,
     "lightchain_scene": 1,
     "prone_angle": 9,
+    "hood_angle": 2,
     "blind_glasses": 14,
     "blind_marks": 9,
     "blind_outfit": 14,
