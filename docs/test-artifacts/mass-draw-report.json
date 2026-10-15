@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-15T01:20:17.457Z",
+  "generatedAt": "2026-10-15T01:56:26.880Z",
   "dataVersion": "2026.10.4",
   "draws": 4200,
   "ok": 4200,
   "refusedByLockedConflict": 0,
   "exceptions": 0,
-  "drawsWithStuckField": 45,
-  "elapsedMs": 80487,
-  "msPerDraw": 19.16,
+  "drawsWithStuckField": 49,
+  "elapsedMs": 79438,
+  "msPerDraw": 18.91,
   "anomalies": [],
   "anomalyCount": 0,
   "anomalyKinds": {},
@@ -190,15 +190,15 @@
       },
       {
         "id": "deep_forest",
-        "share": 0.0212
-      },
-      {
-        "id": "studio",
-        "share": 0.0205
+        "share": 0.021
       },
       {
         "id": "gradient_night",
-        "share": 0.0205
+        "share": 0.0207
+      },
+      {
+        "id": "studio",
+        "share": 0.0202
       }
     ]
   },

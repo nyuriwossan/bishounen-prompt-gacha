@@ -67,6 +67,7 @@ npm run build        # 型検査 + 本番ビルド（dist/）
 npm run lint         # ESLint
 npm run test:browser # ブラウザ検証（要：npm run build、Playwright 用 Chromium）
 npm run report:examples  # docs/EXAMPLES.md の10名を再生成
+npm run report:verify    # docs/VERIFY-SET.md（禁断の調合の実機確認20例）を再生成
 ```
 
 `vite.config.ts` は `base: './'` で相対パス出力にしており、GitHub Pages のサブパス（`/bishounen-prompt-gacha/`）でも動きます。

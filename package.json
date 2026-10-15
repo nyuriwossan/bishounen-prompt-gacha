@@ -15,7 +15,8 @@
     "audit:draws": "vitest run tests/mass-draw.test.ts --reporter=verbose",
     "test:browser": "node tests/browser/run-browser.mjs",
     "report:examples": "vite-node scripts/examples.ts",
-    "report:catalog": "vite-node scripts/catalog.ts"
+    "report:catalog": "vite-node scripts/catalog.ts",
+    "report:verify": "vite-node scripts/verify-set.ts"
   },
   "devDependencies": {
     "@eslint/js": "9.29.0",

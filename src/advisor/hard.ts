@@ -126,6 +126,16 @@ export const PAIR_RULES: PairRule[] = [
     }
   },
   {
+    // 触手・蔓・光の鎖は、それ自体が相手を捕らえるので固定先を持たない
+    id: 'restraint_anchor', fields: ['restraint', 'anchor'],
+    check: ({ restraint: r, anchor: a }) => (r && a && a.id !== 'none' && has(r, 'summoned') ? `「${r.ja}」は固定先なしで描きます` : null)
+  },
+  {
+    // 手錠は締め具合を変えられない
+    id: 'restraint_tightness', fields: ['restraint', 'tightness'],
+    check: ({ restraint: r, tightness: t }) => (r && t && r.id === 'cuffs' && t.id !== 'secured' ? '手錠の締め方は「しっかり固定」だけです' : null)
+  },
+  {
     id: 'anchor_bind', fields: ['anchor', 'bindPos'],
     check: ({ anchor: a, bindPos: b }) => {
       if (!a || !b) return null;
@@ -143,7 +153,7 @@ export const PAIR_RULES: PairRule[] = [
       if (!a || !p || a.id === 'none') return null;
       if (a.id === 'chair' && !CHAIR_POSES.has(p.id)) return `椅子に固定したまま「${p.ja}」はできません`;
       if (a.id === 'overhead' && !['standing', 'kneeling'].includes(p.posture ?? '')) return `頭上の固定具につながれたまま「${p.ja}」はできません`;
-      if (['wall', 'pillar'].includes(a.id) && ['walking', 'running', 'jumping', 'floating'].includes(p.posture ?? '')) return `${a.ja}につながれたまま「${p.ja}」はできません`;
+      if (['wall', 'pillar'].includes(a.id) && ['walking', 'running', 'jumping', 'floating', 'lying'].includes(p.posture ?? '')) return `${a.ja}につながれたまま「${p.ja}」はできません`;
       return null;
     }
   },
@@ -161,7 +171,7 @@ export const PAIR_RULES: PairRule[] = [
     id: 'restraint_outfit', fields: ['restraint', 'outfit'],
     check: ({ restraint: r, outfit: o }) => {
       if (!r || !o || r.id === 'none') return null;
-      if (has(o, 'f_chain') && !has(r, 'chain')) return `衣装「${o.ja}」の鎖と、拘束具「${r.ja}」が混ざります`;
+      if (has(o, 'f_chain') && !['chain', 'ornate_chain'].includes(r.id)) return `衣装「${o.ja}」の鎖と、拘束具「${r.ja}」が混ざります`;
       if (has(o, 'f_strap') && r.id !== 'straps') return `衣装「${o.ja}」のベルト類と、拘束具「${r.ja}」が混ざります`;
       return null;
     }

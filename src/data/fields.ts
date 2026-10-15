@@ -115,6 +115,6 @@ export const RELATED: Partial<Record<FieldId, FieldId[]>> = {
   mainColor: ['accentColor'], accentColor: ['mainColor'],
   hairColor: ['hairAccentColor'], hairAccentColor: ['hairColor'],
   marks: ['kemonoSpecies', 'glasses'], kemonoSpecies: ['marks'],
-  role: ['bindPos', 'expression', 'blindfold'], restraint: ['bindPos'], bindPos: ['restraint', 'anchor', 'pose', 'prop', 'role', 'shot'], anchor: ['bindPos', 'shot', 'pose'],
+  role: ['bindPos', 'expression', 'blindfold'], restraint: ['bindPos', 'anchor', 'tightness'], bindPos: ['restraint', 'anchor', 'pose', 'prop', 'role', 'shot'], anchor: ['bindPos', 'shot', 'pose'],
   blindfold: ['pose', 'glasses', 'marks'], disarray: ['outfit'], wear1: ['wear2', 'outfit'], wear2: ['wear1', 'outfit']
 };

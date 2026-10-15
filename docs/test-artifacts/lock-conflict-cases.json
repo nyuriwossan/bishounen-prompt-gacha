@@ -1,5 +1,5 @@
 {
-  "total": 451,
+  "total": 467,
   "byRule": {
     "hair_length_style": 14,
     "pose_shot": 14,
@@ -18,6 +18,8 @@
     "bind_shot": 14,
     "anchor_shot": 3,
     "bind_prop": 14,
+    "restraint_anchor": 14,
+    "restraint_tightness": 2,
     "anchor_bind": 14,
     "anchor_pose": 14,
     "bind_scene": 14,

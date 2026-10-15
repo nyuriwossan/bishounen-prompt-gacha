@@ -442,9 +442,12 @@ describe('禁断の調合（アンリミテッドモード）', () => {
         if (v.wear2!.id !== 'none') expect(v.wear1!.id).not.toBe('none');
         if (v.blindfold!.tags?.includes('covered')) expect(v.glasses?.id ?? 'none').toBe('none');
         if (v.bindPos!.id === 'wrists_overhead' || v.anchor!.id === 'overhead') expect(['indoor', 'simple'], `${mode}#${i} ${v.scene!.id}`).toContain(v.scene!.place);
-        if (v.restraint!.id !== 'none' && v.outfit!.tags?.includes('f_chain')) expect(v.restraint!.tags).toContain('chain');
+        if (v.restraint!.id !== 'none' && v.outfit!.tags?.includes('f_chain')) expect(['chain', 'ornate_chain']).toContain(v.restraint!.id);
         if (v.restraint!.id !== 'none' && v.outfit!.tags?.includes('f_strap')) expect(v.restraint!.id).toBe('straps');
         if (v.disarray!.id === 'riding_up') expect(v.pose!.tags).toContain('arms_up');
+        if (v.restraint!.tags?.includes('summoned')) expect(v.anchor!.id).toBe('none');
+        if (v.pose!.posture === 'lying') expect(['wall', 'pillar']).not.toContain(v.anchor!.id);
+        if (v.restraint!.id === 'cuffs') expect(v.tightness!.id).toBe('secured');
         expect(r.stuck, `${mode}#${i}`).toEqual([]);
       }
     }
