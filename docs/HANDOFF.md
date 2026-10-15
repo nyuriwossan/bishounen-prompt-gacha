@@ -34,7 +34,7 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 
 - 作業用のデバッグスクリプトは `.dbg/` に置く（gitignore 済み）。
 - 大量抽選テストは約75秒の同期処理なので、100回ごとに `setImmediate` で制御を返している。外すと CI で vitest の RPC タイムアウト（`Timeout calling "onTaskUpdate"`）になる。CI のログはこの環境から取れないので、失敗したら新しい clone で `CI=true npx vitest run` を試す。
-- 文書の再生成：`npm run report:examples`（EXAMPLES.md）、`npm run report:catalog`（DATA-CATALOG.md）。
+- 文書の再生成：`npm run report:examples`（EXAMPLES.md）、`npm run report:catalog`（DATA-CATALOG.md）、`npm run report:verify`（禁断の実機確認セット）、`npm run report:verify-cosplay`（コスプレの実機確認セット）。
 - 公開確認：この環境からは github.io を開けない。`gh run list` と、`gh-pages` の配信ファイルのハッシュで確認する。
 
 ## 3. 構造の要点
@@ -176,7 +176,7 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 
 ## 8. 次にやること（2026-10-15 時点の未着手）
 
-- **コスプレ衣装の実機確認**（PixAI アプリ版）：特に逆バニー・バニーボーイ・紐ビキニ・チアリーダーが弾かれないか、ミニスカ系で体が女性化しないか（ネガティブONを推奨）、セーラー服・ミニスカポリスなどの衣装が描けるか。弾かれる・描けない語があれば差し替える。
+- **コスプレ衣装の実機確認**（PixAI アプリ版。`npm run report:verify-cosplay` → `docs/VERIFY-COSPLAY.md` と `docs/test-artifacts/verify-cosplay.json`、20例＝16種を正面の立ち姿・全身で1例ずつ＋組み合わせ4例。チェックリストは claude.ai の Artifact「コスプレ衣装 確認セット」）：特に逆バニー・バニーボーイ・紐ビキニ・チアリーダーが弾かれないか、ミニスカ系で体が女性化しないか（ネガティブONを推奨）、セーラー服・ミニスカポリスなどの衣装が描けるか。弾かれる・描けない語があれば差し替える。
 - 実機確認セット V04（腰を縄で椅子に縛りつける）の再確認。
 - ChatGPT 指示書の §6（このタイプで錬成）・§7（分類限定）は保留のまま。
 
@@ -193,4 +193,4 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
   - 1枚版
   - 5枚カルーセル版（共通ルール＋各画像の指示）
 - 必要であれば、新しい会話で作り直せる。
-- 実機確認のチェックリスト（claude.ai の Artifact「禁断の調合 確認セット」）。`docs/test-artifacts/verify-set.json` の内容を埋め込んだ単一 HTML。新しい会話では Artifact の一覧から URL を探し、read してから更新する。
+- 実機確認のチェックリスト（claude.ai の Artifact「禁断の調合 確認セット」と「コスプレ衣装 確認セット」。後者は前者と同じ作りで、`verify-cosplay.json` を埋め込み、全20例を判定の対象にする）。`docs/test-artifacts/verify-set.json` の内容を埋め込んだ単一 HTML。新しい会話では Artifact の一覧から URL を探し、read してから更新する。

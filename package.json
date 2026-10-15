@@ -16,7 +16,8 @@
     "test:browser": "node tests/browser/run-browser.mjs",
     "report:examples": "vite-node scripts/examples.ts",
     "report:catalog": "vite-node scripts/catalog.ts",
-    "report:verify": "vite-node scripts/verify-set.ts"
+    "report:verify": "vite-node scripts/verify-set.ts",
+    "report:verify-cosplay": "vite-node scripts/verify-cosplay.ts"
   },
   "devDependencies": {
     "@eslint/js": "9.29.0",
