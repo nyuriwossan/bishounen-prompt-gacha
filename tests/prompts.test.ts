@@ -321,16 +321,19 @@ describe('禁断の調合のタグ形式（PixAI SDXL での実機確認を反�
 });
 
 describe('禁断の調合：3回目の実機確認（ネガティブあり）を反映', () => {
-  it('椅子の背もたれに縄で縛りつける（肘掛けへの固定は廃止し、古い保存は置き換える）', () => {
+  it('椅子に腰を縄で縛りつける（肘掛けへの固定は廃止し、古い保存は置き換える）', () => {
     const s = make('chair', { role: 'captive', restraint: 'rope', bindPos: 'chair_back', anchor: 'chair', pose: 'bound_chair', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
     const tags = buildPrompt(s, 'pixai').positive.split(', ');
-    expect(tags).toEqual(expect.arrayContaining(['(rope:1.2)', '(bound torso:1.2)', '(bound arms:1.2)', '(tied to chair:1.2)', 'high-back chair', 'arms behind back']));
+    expect(tags).toEqual(expect.arrayContaining(['(rope:1.2)', '(rope around waist:1.2)', '(tied to chair:1.2)', 'chair', 'arms behind back']));
+    s.settings.negative = true;
+    expect(buildPrompt(s, 'pixai').negative).not.toContain('rope belt');
     expect(tags.join(', ')).not.toMatch(/armrest|armchair/);
   });
   it('フードでは、目の語に加えて頭の向き・視線の語（looking …）も出さない', () => {
     const s = make('hoodgaze', { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', blindfold: 'hood_low', pose: 'bound_behind_lookback', shot: 'cowboy_shot', angle: 'eye_level' }, { unlimitedEnabled: true });
     const p = buildPrompt(s, 'pixai').positive;
-    expect(p).not.toMatch(/\blooking\b|\beyes?\b|glance/);
+    // 髪型の「hair over one eye」は髪の形なので対象外
+    expect(p.replace(/hair over (one|both) eyes?/g, '')).not.toMatch(/\blooking\b|\beyes?\b|glance/);
     expect(p).toContain('hood pulled low');
   });
   it('ONのときは「人物 → ポーズ・構図 → 禁断演出 → 顔」の順にし、拘束具の要のタグに重みを付ける', () => {

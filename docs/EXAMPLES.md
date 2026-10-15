@@ -1,26 +1,26 @@
 # 完成プロンプト例（10名）
 
-辞書の版 2026.10.11。各例は表の「固定」とシードで再現できます。PixAI向けタグ（品質タグあり）・自然な英文・日本語設定を掲載。
+辞書の版 2026.10.12。各例は表の「固定」とシードで再現できます。PixAI向けタグ（品質タグあり）・自然な英文・日本語設定を掲載。
 
-## 1. 現代スーツ×吸血鬼風の妖艶な美形 — 「柔らかな黒髪の吸血鬼の伯爵」
+## 1. 現代スーツ×吸血鬼風の妖艶な美形 — 「明るい茶髪の吸血鬼の伯爵」
 
 - モード：まとまり重視／seed：`ex01`／固定：世界観=現代都会・夜、美形タイプ=吸血鬼の伯爵、衣装=スリーピーススーツ、年齢層=25〜34歳｜若き大人
 
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, pale vampire beauty, crimson-tinged lips, feminine facial features, pretty face, ethereal features, fine features, hooded eyes, red eyes, ebony skin, cold smile, long hair, messy long hair, soft black hair, tall, slim build, long legs, wine red three-piece suit, waistcoat, verdigris necktie, tailored trousers, leather shoes, hand on own chin, looking at viewer, feet out of frame, from above, dreamlike, surreal, moonlight, sophisticated, city
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, pale vampire beauty, crimson-tinged lips, androgynous features, straight nose bridge, defined jawline, sanpaku, burgundy eyes, knowing smile, long hair, braided hair, side braid, light brown hair, athletic build, broad shoulders, ivy green three-piece suit, waistcoat, jet black necktie, tailored trousers, looking down at viewer, cowboy shot, from side, simple background, dark background, light particles, candlelight, warm lighting, sophisticated, city
 ```
 
 **自然な英文**
 
 ```text
-A man in his late twenties to early thirties, strikingly handsome, with a pale vampiric beauty. He has a feminine, beautiful face while clearly remaining a man, ethereal features and fine features. He has hooded red eyes, ebony skin. His long soft black hair is styled as messy long hair, and he has a tall, slim figure with long legs. He wears a wine red three-piece suit, waistcoat, verdigris necktie, tailored trousers and leather shoes. He wears a cold smile; pose: hand on own chin, looking at viewer. A shot from the knees up, seen from above. The background is a fluid dreamscape, lit by moonlight. The mood is sophisticated, stylish, in a modern city after dark.
+A man in his late twenties to early thirties, strikingly handsome, with a pale vampiric beauty. He has androgynous features, straight nose bridge and defined jawline. He has sanpaku burgundy eyes. His long light brown hair is styled as braided hair and side braid, and he has an athletic build with broad shoulders. He wears an ivy green three-piece suit, waistcoat, jet black necktie and tailored trousers. He wears a knowing smile; pose: looking down at viewer. A cowboy shot from the thighs up, seen from the side. The background is a dark background scattered with light particles, lit by candlelight and warm lighting. The mood is sophisticated, stylish, in a modern city after dark.
 ```
 
 **日本語設定**
 
-> 25〜34歳、女性的な吸血鬼の伯爵（若き大人）。柔らかな黒髪の無造作な長髪に赤い瞳、奥二重の目元。スリーピーススーツ［ワインレッド×緑青色］をまとう。表情は「冷たい微笑」、ポーズは「顎に手を添える」。舞台は現代都会・夜、夢の中。
+> 25〜34歳、中性的な吸血鬼の伯爵（若き大人）。明るい茶髪のサイドの編み込みにワイン色の瞳、三白眼の目元。スリーピーススーツ［蔦の緑×漆黒］をまとう。表情は「含みのある微笑み」、ポーズは「見下ろす」。舞台は現代都会・夜、光の粒が舞う暗背景。
 
 ## 2. 和風ファンタジー×銀髪の神官 — 「銀髪の清廉な若き神官」
 
@@ -29,58 +29,58 @@ A man in his late twenties to early thirties, strikingly handsome, with a pale v
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, pure serene beauty, chaste grace, subtly masculine features, sharp jawline, defined cheekbones, fierce eyes, dark brown eyes, gentle smile, medium hair, spiky hair, messy hair, silver hair, toned body, lean muscular build, graphite gray kariginu, caramel brown sashinuki, eboshi hat, hand over own face, covering one eye, portrait, from side, tatami, japanese room, shouji, morning, soft lighting, natural light, pure, japanese fantasy
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, pure serene beauty, chaste grace, delicate androgynous features, soft facial features, full lips, defined lips, piercing gaze, amethyst eyes, ebony skin, gentle smile, short hair, textured crop haircut, silver hair, average build, eggplant purple kariginu, mint green sashinuki, eboshi hat, japanese-inspired motifs, asanoha pattern, standing, looking at viewer, upper body, shrine, torii, sunset, soft lighting, natural light, divine aura, japanese fantasy
 ```
 
 **自然な英文**
 
 ```text
-A man in his late twenties to early thirties, strikingly handsome, with a pure, serene grace. He has subtly masculine, well-balanced features, sharp jawline and defined cheekbones. He has fierce dark brown eyes. His medium-length silver hair is styled as spiky hair and messy hair, and he has a lean, toned body. He wears a graphite gray kariginu, caramel brown sashinuki and eboshi hat. He wears a gentle smile; pose: hand over own face, covering one eye. A portrait from the chest up, seen from the side. The background is a tatami tea room with paper sliding doors in the morning, lit by soft lighting and natural light. The mood is pure, clean-cut, in a mystical Japanese-inspired fantasy world.
+A man in his late twenties to early thirties, strikingly handsome, with a pure, serene grace. He has delicate, softly androgynous features, full lips and defined lips. He has piercing amethyst eyes, ebony skin. His short silver hair is styled as textured crop haircut, and he has an average build. He wears an eggplant purple kariginu, mint green sashinuki and eboshi hat, adorned with Japanese-inspired motifs such as asanoha patterns and family crests. He wears a gentle smile; pose: standing, looking at viewer. An upper-body shot. The background is the grounds of a Shinto shrine with a vermilion torii at sunset, lit by soft lighting and natural light. The mood is divine aura, holy, in a mystical Japanese-inspired fantasy world.
 ```
 
 **日本語設定**
 
-> 25〜34歳、豪商であるやや男性寄りな清廉な若き神官（若き大人）。銀髪の跳ねた癖っ毛に濃い茶色の瞳、獰猛な目つきの目元。狩衣（陰陽師）［グラファイト×キャラメル色］をまとう。表情は「穏やかな微笑み」、ポーズは「片手で顔を覆う」。舞台は和風ファンタジー、茶室の朝。
+> 25〜34歳、名家の若様であるやや女性寄りな清廉な若き神官（若き大人）。銀髪のテクスチャークロップにアメジストの瞳、射抜くような眼差し。狩衣（陰陽師）［茄子紺×ミント］をまとう。表情は「穏やかな微笑み」、ポーズは「自然な立ち姿」。舞台は和風ファンタジー、神社の境内の夕暮れ。
 
-## 3. 近未来SF×東洋的な刺繍衣装（カオス） — 「白髪の微笑む狂気」
+## 3. 近未来SF×東洋的な刺繍衣装（カオス） — 「オリーブ色髪の白き大神官」
 
 - モード：カオス／seed：`ex03`／固定：世界観=近未来SF、衣装=宮廷の華服、文化・意匠モチーフ=中華
 
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, sweet smile hiding madness, subtly masculine features, thin arched eyebrows, double eyelids, defined eyes, teal eyes, tan skin, bright smile, grin, medium hair, slicked back hair, white hair, extremely muscular build, massive shoulders, layered soft apricot silk hanfu, dusty rose brocade, jade pendant, hair crown, chinese-inspired motifs, cloud pattern embroidery, hand in own hair, looking at viewer, upper body, three-quarter view, office, window, city view, morning, lantern light, warm glow, cheerful, science fiction
+masterpiece, best quality, 1boy, solo, male focus, mature male, middle-aged man, handsome, serene high priest, sacred beauty, subtly masculine features, inverted triangular face, pointed chin, elongated eyes, narrow eyes, sky blue eyes, light beige skin, laughing, open mouth, medium hair, low ponytail, olive hair, muscular male, broad shoulders, thick arms, layered chalk white silk hanfu, antique gold brocade, jade pendant, hair crown, chinese-inspired motifs, cloud pattern embroidery, from behind, facing away, upper body, three-quarter view, greenhouse, plants, glass roof, night, neon lights, colorful lighting, melancholic atmosphere, science fiction
 ```
 
 **自然な英文**
 
 ```text
-A dignified elderly gentleman in his sixties or older, strikingly handsome, with a sweet smile that hides madness. He has subtly masculine, well-balanced features and thin arched eyebrows. He has defined teal eyes with double eyelids, tan skin. His medium-length white hair is styled as slicked back hair, and he has an extremely muscular, imposing physique. He wears a layered soft apricot silk hanfu, dusty rose brocade, jade pendant and hair crown, adorned with Chinese-inspired cloud and dragon embroidery. He wears a bright, carefree grin; pose: hand in own hair, looking at viewer. An upper-body shot, in three-quarter view. The background is a modern office in the morning, lit by lantern light and warm glow. The mood is cheerful, energetic, in a sleek near-future science-fiction world.
+A distinguished middle-aged man in his fifties, strikingly handsome, with a serene, sacred beauty. He has subtly masculine, well-balanced features, inverted triangular face and pointed chin. He has long, narrow sky blue eyes, light beige skin. His medium-length olive hair is styled as low ponytail, and he has a muscular build with broad shoulders and strong arms. He wears a layered chalk white silk hanfu, antique gold brocade, jade pendant and hair crown, adorned with Chinese-inspired cloud and dragon embroidery. He wears an open laugh; pose: from behind, facing away. An upper-body shot, in three-quarter view. The background is a glass greenhouse full of plants at night, lit by neon lights and colorful lighting. The mood is melancholic atmosphere, in a sleek near-future science-fiction world.
 ```
 
 **日本語設定**
 
-> 60歳以上、シェフであるやや男性寄りな微笑む狂気（老紳士）。白髪のオールバックに青緑の瞳、くっきり二重の目元。宮廷の華服［杏色×くすみローズ］をまとう。表情は「屈託のない笑顔」、ポーズは「髪をかき上げる」。舞台は近未来SF、オフィスの朝。
+> 45〜59歳、俳優であるやや男性寄りな白き大神官（壮年）。オリーブ色髪の低い位置の一つ結びに空色の瞳、切れ長の目元。宮廷の華服［白亜×古金色］をまとう。表情は「声を上げて笑う」、ポーズは「背を向けて佇む」。舞台は近未来SF、硝子の温室の夜。
 
-## 4. 中性的な容姿×筋肉質の大柄な男性 — 「白髪の心優しき大男」
+## 4. 中性的な容姿×筋肉質の大柄な男性 — 「スモーキーグレーの心優しき大男」
 
 - モード：まとまり重視／seed：`ex04`／固定：容姿傾向=中性的、体格=大柄・重厚、美形タイプ=心優しき大男
 
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, gentle giant, soft eyes, androgynous features, oval face, refined features, piercing gaze, golden brown eyes, tan skin, gentle smile, long hair, hair behind ear, white hair, large burly build, tall, broad chest, wine red kariyushi shirt, deep teal bingata pattern, slacks, ryukyuan-inspired motifs, bingata pattern, hand in own hair, looking at viewer, full body, wide shot, abstract background, ink wash, streetlight, warm, feudal japan
+masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, gentle giant, soft eyes, androgynous features, sharp jawline, defined cheekbones, piercing gaze, black eyes, porcelain skin, shy smile, light blush, long hair, braid over shoulder, smoky gray hair, large burly build, tall, broad chest, mocha brown trench coat over a dark suit, cerulean blue scarf, standing, looking at viewer, slight turn, portrait, from above, rooftop, city view, fence, night, full moon, firelight, embers, gentle atmosphere
 ```
 
 **自然な英文**
 
 ```text
-A mature man in his late thirties to early forties, strikingly handsome, a gentle giant with soft eyes. He has androgynous features, oval face and refined features. He has piercing golden brown eyes, tan skin. His long white hair is styled as hair behind ear, and he has a tall, burly frame with a broad chest. He wears a wine red kariyushi shirt, deep teal bingata pattern and slacks, adorned with Ryukyuan-inspired bingata textile motifs. He wears a gentle smile; pose: hand in own hair, looking at viewer. A wide full-body shot. The background is an abstract ink-wash background, lit by streetlight. The mood is warm, reassuring presence, in feudal-era Japan.
+A dignified elderly gentleman in his sixties or older, strikingly handsome, a gentle giant with soft eyes. He has androgynous features, sharp jawline and defined cheekbones. He has piercing black eyes, porcelain skin. His long smoky gray hair is styled as braid over shoulder, and he has a tall, burly frame with a broad chest. He wears a mocha brown trench coat over a dark suit and cerulean blue scarf. He wears a shy smile and a light blush; pose: standing, looking at viewer, slight turn. A portrait from the chest up, seen from above. The background is an urban rooftop on a night with a full moon, lit by firelight and embers. The mood is gentle atmosphere, in a contemporary everyday setting.
 ```
 
 **日本語設定**
 
-> 35〜44歳、中性的な心優しき大男（成熟）。白髪の耳かけに金茶の瞳、射抜くような眼差し。かりゆし［ワインレッド×青緑］をまとう。表情は「穏やかな微笑み」、ポーズは「髪をかき上げる」。舞台は和風時代劇、墨流しの抽象背景。
+> 60歳以上、中性的な心優しき大男（老紳士）。スモーキーグレーの肩に流した三つ編みに黒い瞳、射抜くような眼差し。トレンチコートとスーツ［モカ×セルリアンブルー］をまとう。表情は「はにかみ」、ポーズは「斜めに構えた立ち姿」。舞台は現代日常、屋上の月夜。
 
 ## 5. 60歳以上×気品ある老紳士 — 「銀髪の老紳士」
 
@@ -89,18 +89,18 @@ A mature man in his late thirties to early forties, strikingly handsome, a gentl
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, distinguished silver-haired gentleman, androgynous features, deep-set eyes, strong brow ridge, angular face, fierce eyes, golden eyes, ebony skin, gentle smile, long hair, slicked back hair, loose strands, hair strand, gray hair, toned body, lean muscular build, mustard yellow martial robe, chalk white sash, bracers, flowing sleeves, trousers, chinese-inspired motifs, cloud pattern embroidery, profile, looking afar, cowboy shot, slightly from below, lotus pond, water, autumn leaves, falling leaves, firelight, embers, aloof, wuxia
+masterpiece, best quality, 1boy, solo, male focus, old man, elderly gentleman, handsome, distinguished silver-haired gentleman, delicate androgynous features, soft facial features, oval face, refined features, fierce eyes, silver eyes, knowing smile, medium hair, hair over one eye, white hair, toned body, lean muscular build, mint green combat fatigues, hot pink tactical vest, cargo pants, combat boots, sitting on stairs, looking at viewer, feet out of frame, dutch angle, underground facility, day, firelight, embers, gentle atmosphere, military
 ```
 
 **自然な英文**
 
 ```text
-A dignified elderly gentleman in his sixties or older, strikingly handsome, a distinguished silver-haired gentleman. He has androgynous features, deep-set eyes, strong brow ridge and angular face. He has fierce golden eyes, ebony skin. His long gray hair is styled as slicked back hair, loose strands and hair strand, and he has a lean, toned body. He wears a mustard yellow martial robe, chalk white sash, bracers, flowing sleeves and trousers, adorned with Chinese-inspired cloud and dragon embroidery. He wears a gentle smile; pose: profile, looking afar. A cowboy shot from the thighs up, seen from slightly below. The background is a still pond covered in blooming lotus as autumn leaves swirl down, lit by firelight and embers. The mood is aloof, solitary, in a wuxia fantasy world of wandering martial artists.
+A dignified elderly gentleman in his sixties or older, strikingly handsome, a distinguished silver-haired gentleman. He has delicate, softly androgynous features, oval face and refined features. He has fierce silver eyes. His medium-length white hair is styled as hair over one eye, and he has a lean, toned body. He wears a mint green combat fatigues, hot pink tactical vest, cargo pants and combat boots. He wears a knowing smile; pose: sitting on stairs, looking at viewer. A shot from the knees up, with a tilted dutch angle. The background is an underground facility during the day, lit by firelight and embers. The mood is gentle atmosphere, in a fictional military setting.
 ```
 
 **日本語設定**
 
-> 60歳以上、名家の若様である中性的な銀髪の老紳士（老紳士）。灰色髪の崩したオールバックに金色の瞳、獰猛な目つきの目元。武侠の剣客［芥子色×白亜］をまとう。表情は「穏やかな微笑み」、ポーズは「横顔」。舞台は中華武侠ファンタジー、蓮池の落ち葉の舞う夕べ。
+> 60歳以上、諜報員であるやや女性寄りな銀髪の老紳士（老紳士）。白髪の片目隠れに銀色の瞳、獰猛な目つきの目元。野戦服［ミント×ホットピンク］をまとう。表情は「含みのある微笑み」、ポーズは「階段に腰掛ける」。舞台は架空の軍隊、地下施設の昼。
 
 ## 6. 黒髪の騎士（ハイファンタジー） — 「黒髪の実直な騎士」
 
@@ -109,38 +109,38 @@ A dignified elderly gentleman in his sixties or older, strikingly handsome, a di
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, steadfast knight, noble resolve, delicate androgynous features, soft facial features, weathered handsome face, fine lines around the eyes, calm eyes, soft gaze, emerald eyes, fair skin, serious, very long hair, long wavy hair, black hair, tall, slim build, long legs, copper plate armor, mustard yellow tabard, flowing cape, armored greaves, waving, smile, looking at viewer, cowboy shot, three-quarter view, simple background, falling petals, soft lighting, natural light, elegant, fantasy
+masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, steadfast knight, noble resolve, subtly masculine features, inverted triangular face, pointed chin, upturned eyes, steel blue eyes, determined expression, very long hair, very long straight hair, black hair, toned body, lean muscular build, sunset orange ornate paladin armor, caramel brown filigree, white cape, armored boots, kneeling on one knee, looking at viewer, feet out of frame, from above, gradient background, orange background, stained glass light, colorful light, elegant, fantasy
 ```
 
 **自然な英文**
 
 ```text
-A mature man in his late thirties to early forties, strikingly handsome, with a steadfast knight’s noble resolve. He has delicate, softly androgynous features, weathered handsome face and fine lines around the eyes. He has calm emerald eyes with a soft gaze, fair skin. His very long black hair is styled as long wavy hair, and he has a tall, slim figure with long legs. He wears a copper plate armor, mustard yellow tabard, flowing cape and armored greaves. He wears a serious expression; pose: waving, smile, looking at viewer. A cowboy shot from the thighs up, in three-quarter view. The background is a plain background with drifting petals, lit by soft lighting and natural light. The mood is elegant, graceful, in a classic high fantasy world.
+A mature man in his late thirties to early forties, strikingly handsome, with a steadfast knight’s noble resolve. He has subtly masculine, well-balanced features, inverted triangular face and pointed chin. He has upturned steel blue eyes. His very long black hair is styled as very long straight hair, and he has a lean, toned body. He wears a sunset orange ornate paladin armor, caramel brown filigree, white cape and armored boots. He wears a determined expression; pose: kneeling on one knee, looking at viewer. A shot from the knees up, seen from above. The background is a warm sunset-toned gradient background, lit by stained glass light and colorful light. The mood is elegant, graceful, in a classic high fantasy world.
 ```
 
 **日本語設定**
 
-> 35〜44歳、やや女性寄りな実直な騎士（成熟）。黒髪の長いウェーブにエメラルドの瞳、穏やかな目元。騎士の甲冑［銅色×芥子色］をまとう。表情は「真剣な表情」、ポーズは「手を振る」。舞台はハイファンタジー、舞う花びらの単色背景。
+> 35〜44歳、やや男性寄りな実直な騎士（成熟）。黒髪の腰まで届くストレートに鋼青の瞳、つり目。聖騎士の白銀鎧［夕焼け色×キャラメル色］をまとう。表情は「決意を秘めた表情」、ポーズは「片膝をつく」。舞台はハイファンタジー、暖色のグラデーション。
 
-## 7. 民族意匠：砂漠の王子 — 「紺色髪の砂漠の王子」
+## 7. 民族意匠：砂漠の王子 — 「ローズ色髪の砂漠の王子」
 
 - モード：まとまり重視／seed：`ex07`／固定：世界観=砂漠の王国、美形タイプ=砂漠の王子、文化・意匠モチーフ=アラビア
 
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, mature male, man in his late 30s, handsome, sun-gilded desert prince, subtly masculine features, thick eyebrows, straight eyebrows, large clear eyes, navy blue eyes, tan skin, smirk, medium hair, hair over one eye, navy blue hair, muscular male, broad shoulders, thick arms, bronze flowing robe, mauve gold jewelry, head scarf, loose trousers, sandals, arabian-inspired motifs, geometric pattern, sitting, head rest, elbow on table, looking at viewer, feet out of frame, from above, oasis, palm tree, day, soft lighting, natural light, playful, desert fantasy
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, sun-gilded desert prince, feminine facial features, pretty face, long face, elegant features, upturned eyes, burgundy eyes, determined expression, very long hair, single braid, rose hair, large burly build, tall, broad chest, aquamarine blue flowing robe, arabian-inspired motifs, geometric pattern, finger to own lips, looking at viewer, close-up, face focus, three-quarter view, palace, arabesque, arches, night, magical glow, glowing particles, pure, desert fantasy
 ```
 
 **自然な英文**
 
 ```text
-A mature man in his late thirties to early forties, strikingly handsome, with a sun-gilded princely beauty. He has subtly masculine, well-balanced features, thick eyebrows and straight eyebrows. He has large, clear navy blue eyes, tan skin. His medium-length navy blue hair is styled as hair over one eye, and he has a muscular build with broad shoulders and strong arms. He wears a bronze flowing robe, mauve gold jewelry, head scarf, loose trousers and sandals, adorned with Arabian-inspired geometric patterns and flowing robes. He wears a fearless smirk; pose: sitting, head rest, elbow on table, looking at viewer. A shot from the knees up, seen from above. The background is a palm-fringed desert oasis during the day, lit by soft lighting and natural light. The mood is playful, carefree, in a desert kingdom of palaces and caravans.
+A man in his late twenties to early thirties, strikingly handsome, with a sun-gilded princely beauty. He has a feminine, beautiful face while clearly remaining a man, long face and elegant features. He has upturned burgundy eyes. His very long rose hair is styled as single braid, and he has a tall, burly frame with a broad chest. He wears an aquamarine blue flowing robe, adorned with Arabian-inspired geometric patterns and flowing robes. He wears a determined expression; pose: finger to own lips, looking at viewer. A close-up of his face, in three-quarter view. The background is a palace hall of carved arabesque arches at night, lit by magical glow and glowing particles. The mood is pure, clean-cut, in a desert kingdom of palaces and caravans.
 ```
 
 **日本語設定**
 
-> 35〜44歳、砂漠の王であるやや男性寄りな砂漠の王子（成熟）。紺色髪の片目隠れに紺色の瞳、大きく澄んだ目。砂漠の王子［青銅色×モーブ］をまとう。表情は「不敵な笑み」、ポーズは「卓に頬杖」。舞台は砂漠の王国、オアシスの昼。
+> 25〜34歳、砂漠の王である女性的な砂漠の王子（若き大人）。ローズ色髪の背中の一本三つ編みにワイン色の瞳、つり目。砂漠の王子［藍玉色］をまとう。表情は「決意を秘めた表情」、ポーズは「唇に指を当てる」。舞台は砂漠の王国、アラベスクの宮殿の夜。
 
 ## 8. 儚げな美青年（雪の精） — 「白髪の雪の精のような青年」
 
@@ -149,55 +149,55 @@ A mature man in his late thirties to early forties, strikingly handsome, with a 
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, young man, handsome, bishounen, snow-white complexion, ethereal fragility, delicate androgynous features, soft facial features, high cheekbones, hollow cheeks, sanpaku, pale gray eyes, brown skin, mischievous grin, medium hair, slicked back hair, white hair, slender delicate build, narrow shoulders, worn rose quartz pink kimono, mustard yellow straw hat on back, reaching towards viewer, outstretched hand, looking at viewer, upper body, abstract background, light, candlelight, warm lighting, regal, fantasy
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, snow-white complexion, ethereal fragility, delicate androgynous features, soft facial features, slightly upturned mouth corners, hooded eyes, ice blue eyes, flustered, blush, looking away, very long hair, long wavy hair, white hair, slender delicate build, narrow shoulders, loosely worn sand beige kimono, denim blue inner layer, open collar, geta, sitting on windowsill, looking outside, full body, wide shot, three-quarter view, simple background, white background, studio lighting, soft lighting, refreshing atmosphere, fantasy
 ```
 
 **自然な英文**
 
 ```text
-A young man in his early twenties, strikingly handsome, with snow-pale skin and an ethereal fragility. He has delicate, softly androgynous features, high cheekbones and hollow cheeks. He has sanpaku pale gray eyes, brown skin. His medium-length white hair is styled as slicked back hair, and he has a slender, delicate build. He wears a worn rose quartz pink kimono and mustard yellow straw hat on back. He wears a mischievous grin; pose: reaching towards viewer, outstretched hand, looking at viewer. An upper-body shot. The background is a minimal luminous void, lit by candlelight and warm lighting. The mood is regal, commanding presence, in a classic high fantasy world.
+A man in his late twenties to early thirties, strikingly handsome, with snow-pale skin and an ethereal fragility. He has delicate, softly androgynous features and slightly upturned mouth corners. He has hooded ice blue eyes. His very long white hair is styled as long wavy hair, and he has a slender, delicate build. He wears a loosely worn sand beige kimono, denim blue inner layer, open collar and geta. He wears a flustered blush as he looks away; pose: sitting on windowsill, looking outside. A wide full-body shot, in three-quarter view. The background is a plain white background, lit by studio lighting and soft lighting. The mood is refreshing atmosphere, in a classic high fantasy world.
 ```
 
 **日本語設定**
 
-> 18〜24歳、やや女性寄りな雪の精のような青年（青年）。白髪のオールバックに淡い灰色の瞳、三白眼の目元。浪人の旅装［薔薇石英色×芥子色］をまとう。表情は「いたずらっぽい笑み」、ポーズは「手を差し伸べる」。舞台はハイファンタジー、光る抽象空間。
+> 25〜34歳、やや女性寄りな雪の精のような青年（若き大人）。白髪の長いウェーブに氷青の瞳、奥二重の目元。着崩した着物［砂色×デニムブルー］をまとう。表情は「赤面して目を逸らす」、ポーズは「窓辺に腰掛ける」。舞台はハイファンタジー、白背景。
 
-## 9. サイバーパンクの危険な男 — 「灰色髪のサイバーパンクの運び屋」
+## 9. サイバーパンクの危険な男 — 「銅色髪のサイバーパンクの運び屋」
 
 - モード：まとまり重視／seed：`ex09`／固定：世界観=サイバーパンク、美形タイプ=サイバーパンクの運び屋、年齢層=25〜34歳｜若き大人
 
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, neon-lit cyberpunk cool, delicate androgynous features, soft facial features, thin arched eyebrows, smiling eyes, gray eyes, dark skin, expressionless, short hair, undercut, fade haircut, gray hair, muscular male, broad shoulders, thick arms, midnight blue techwear jacket with straps and buckles, caramel brown accents, tactical joggers, standing, hand in pocket, looking at viewer, cowboy shot, dutch angle, cyberpunk, alley, holograms, dawn, holographic light, blue glow, pure
+masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, neon-lit cyberpunk cool, feminine facial features, pretty face, thin arched eyebrows, melancholic eyes, blue-gray eyes, fair skin, aloof expression, very long hair, parted bangs, copper hair, average build, gunmetal gray techwear jacket with straps and buckles, pearl gray accents, hand on own chest, looking at viewer, upper body, from above, cyberpunk, alley, holograms, dawn, holographic light, blue glow, regal
 ```
 
 **自然な英文**
 
 ```text
-A man in his late twenties to early thirties, strikingly handsome, with neon-lit cyberpunk cool. He has delicate, softly androgynous features and thin arched eyebrows. He has smiling gray eyes, dark skin. His short gray hair is styled as undercut and fade haircut, and he has a muscular build with broad shoulders and strong arms. He wears a midnight blue techwear jacket with straps and buckles, caramel brown accents and tactical joggers. He wears an expressionless face; pose: standing, hand in pocket, looking at viewer. A cowboy shot from the thighs up, with a tilted dutch angle. The background is a cyberpunk back alley full of holograms at dawn, lit by holographic light and blue glow. The mood is pure, clean-cut, in a neon-soaked cyberpunk megacity.
+A man in his late twenties to early thirties, strikingly handsome, with neon-lit cyberpunk cool. He has a feminine, beautiful face while clearly remaining a man and thin arched eyebrows. He has melancholic blue-gray eyes, fair skin. His very long copper hair is styled as parted bangs, and he has an average build. He wears a gunmetal gray techwear jacket with straps and buckles and pearl gray accents. He wears an aloof expression; pose: hand on own chest, looking at viewer. An upper-body shot, seen from above. The background is a cyberpunk back alley full of holograms at dawn, lit by holographic light and blue glow. The mood is regal, commanding presence, in a neon-soaked cyberpunk megacity.
 ```
 
 **日本語設定**
 
-> 25〜34歳、エンジニアであるやや女性寄りなサイバーパンクの運び屋（若き大人）。灰色髪のフェードのアンダーカットに灰色の瞳、笑うと細くなる目。テックウェア［真夜中の青×キャラメル色］をまとう。表情は「無表情」、ポーズは「片手をポケットに」。舞台はサイバーパンク、サイバー都市の裏路地の夜明け。
+> 25〜34歳、エンジニアである女性的なサイバーパンクの運び屋（若き大人）。銅色髪の分けた前髪に青灰色の瞳、憂いを帯びた目。テックウェア［ガンメタル×銀鼠］をまとう。表情は「冷淡な表情」、ポーズは「胸に手を当てる」。舞台はサイバーパンク、サイバー都市の裏路地の夜明け。
 
-## 10. ケモミミ美青年（狐） — 「狐耳のオリーブ色髪の妖狐めいた美形」
+## 10. ケモミミ美青年（狐） — 「狐耳の緑髪の妖狐めいた美形」
 
 - モード：まとまり重視／seed：`ex10`／固定：世界観=和風ファンタジー、美形タイプ=妖狐めいた美形、獣人の種族=狐、獣化の度合い=ケモミミ（耳と尾だけ）
 
 **PixAI向けタグ**
 
 ```text
-masterpiece, best quality, 1boy, solo, male focus, man in his late 20s, handsome, bishounen, fox-like enchanting beauty, androgynous features, symmetrical face, sculpted features, elongated eyes, narrow eyes, sky blue eyes, light beige skin, mischievous grin, long hair, high ponytail, olive hair, average build, pointed fox ears, fluffy fox tail, pine green kimono, deep crimson haori, finger to own lips, looking at viewer, portrait, from below, shrine, torii, night, lantern light, warm glow, sophisticated, japanese fantasy
+masterpiece, best quality, 1boy, solo, male focus, young man, handsome, fox-like enchanting beauty, masculine features, deep-set eyes, strong brow ridge, angular face, upturned eyes, olive eyes, ebony skin, mischievous grin, medium hair, mullet, green hair, slender delicate build, narrow shoulders, pointed fox ears, fluffy fox tail, loosely worn olive green kimono, bright gold inner layer, open collar, japanese-inspired motifs, asanoha pattern, pointing at viewer, portrait, three-quarter view, paper lantern, night street, wooden buildings, day, dappled sunlight, light rays, gentle atmosphere, japanese fantasy
 ```
 
 **自然な英文**
 
 ```text
-A man in his late twenties to early thirties, strikingly handsome, with a fox-like, enchanting beauty. He has androgynous features, symmetrical face and sculpted features. He has long, narrow sky blue eyes, light beige skin. His long olive hair is styled as high ponytail, and he has an average build. He is a kemonomimi man with pointed fox ears and fluffy fox tail, while keeping a handsome human face. He wears a pine green kimono and deep crimson haori. He wears a mischievous grin; pose: finger to own lips, looking at viewer. A portrait from the chest up, seen from below. The background is the grounds of a Shinto shrine with a vermilion torii at night, lit by lantern light and warm glow. The mood is sophisticated, stylish, in a mystical Japanese-inspired fantasy world.
+A young man in his early twenties, strikingly handsome, with a fox-like, enchanting beauty. He has distinctly masculine features, deep-set eyes, strong brow ridge and angular face. He has upturned olive eyes, ebony skin. His medium-length green hair is styled as mullet, and he has a slender, delicate build. He is a kemonomimi man with pointed fox ears and fluffy fox tail, while keeping a handsome human face. He wears a loosely worn olive green kimono, bright gold inner layer and open collar, adorned with Japanese-inspired motifs such as asanoha patterns and family crests. He wears a mischievous grin; pose: pointing at viewer. A portrait from the chest up, in three-quarter view. The background is a narrow old street lit by rows of paper lanterns during the day, lit by dappled sunlight and light rays. The mood is gentle atmosphere, in a mystical Japanese-inspired fantasy world.
 ```
 
 **日本語設定**
 
-> 25〜34歳、狐の耳と尾を持つ豪商である中性的な妖狐めいた美形（若き大人）。オリーブ色髪の高いポニーテールに空色の瞳、切れ長の目元。着物と羽織［松葉色×深紅］をまとう。表情は「いたずらっぽい笑み」、ポーズは「唇に指を当てる」。舞台は和風ファンタジー、神社の境内の夜。
+> 18〜24歳、狐の耳と尾を持つ豪商である男性的な妖狐めいた美形（青年）。緑髪のマレットにオリーブ色の瞳、つり目。着崩した着物［オリーブ×黄金］をまとう。表情は「いたずらっぽい笑み」、ポーズは「こちらを指差す」。舞台は和風ファンタジー、提灯の灯る夜の街並みの昼。

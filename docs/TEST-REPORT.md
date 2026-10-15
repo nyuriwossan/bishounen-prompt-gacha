@@ -1,6 +1,6 @@
 # TEST-REPORT
 
-実施日：2026-10-15（JST）／辞書の版 `2026.10.11`／Node.js 22.22.0／Vitest 3.2.7／Chromium 141（Playwright 1.56.1）
+実施日：2026-10-15（JST）／辞書の版 `2026.10.12`／Node.js 22.22.0／Vitest 3.2.7／Chromium 141（Playwright 1.56.1）
 
 ## まとめ
 

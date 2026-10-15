@@ -1,6 +1,6 @@
 {
   "engine": "chromium",
-  "at": "2026-10-15T10:06:40.116Z",
+  "at": "2026-10-15T10:21:03.076Z",
   "total": 95,
   "failed": 0,
   "results": [
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "青み銀髪の雪の精のような青年 / 銅色髪のエリート会社員"
+      "detail": "プラチナブロンドの名家の若様 / 灰色髪のエリート会社員"
     },
     {
       "name": "進むでやり直せる",
@@ -297,7 +297,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "細いメタルフレーム"
+      "detail": "片眼鏡"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -442,7 +442,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:41919/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMSZtPWJwbiZ"
+      "detail": "http://127.0.0.1:39983/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbiZ"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

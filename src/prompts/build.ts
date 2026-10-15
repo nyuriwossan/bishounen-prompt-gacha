@@ -136,7 +136,7 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     blindNat: blind.length ? `${f?.tags?.includes('covered') ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
     clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
     hideEyes, stripGaze, hood, negative: [...(f?.tags?.includes('hood') ? ['blindfold'] : []), ...(set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...(b?.id === 'ankles' ? ['bound wrists', 'bracelet'] : []), ...(b?.id === 'held' ? ['bound wrists', 'handcuffed'] : []),
-      ...(bound && ['rope', 'silk_cord'].includes(r!.id) && b!.id !== 'torso_arms' ? ['rope belt'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [])], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : '',
+      ...(bound && ['rope', 'silk_cord'].includes(r!.id) && !['torso_arms', 'chair_back'].includes(b!.id) ? ['rope belt'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [])], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : '',
     front: !tentacleBound, key, calm: tentacleBound
   };
 }

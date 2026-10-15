@@ -23,8 +23,8 @@ const CASES: Case[] = [
     checks: ['鎖が壁の金具までつながって見える', '後ろ手の手首と指が見えている（省略されていない）', '肩や腕の向きが不自然でない'] },
   { id: 'v03', group: '拘束の基本', title: '頭上で吊る鎖（地下牢）', seed: 'vs03', lock: { role: 'prisoner', restraint: 'chain', bindPos: 'wrists_overhead', anchor: 'overhead', pose: 'bound_overhead_stand', shot: 'full_body', scene: 'dungeon_cell', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['両足が床に着いている（宙吊りになっていない）', '鎖が頭上の固定具につながっている', '屋内（牢）の背景になっている'] },
-  { id: 'v04', group: '拘束の基本', title: '椅子の背もたれに縄で縛りつける', seed: 'vs04', lock: { role: 'captive', restraint: 'rope', bindPos: 'chair_back', anchor: 'chair', pose: 'bound_chair', shot: 'cowboy_shot', scene: 'interrogation_room', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['胸・腕が縄で椅子の背もたれに縛りつけられている', '手は背もたれの後ろに回っている', '縄以外の拘束具が混ざっていない'] },
+  { id: 'v04', group: '拘束の基本', title: '椅子に腰を縄で縛りつける', seed: 'vs04', lock: { role: 'captive', restraint: 'rope', bindPos: 'chair_back', anchor: 'chair', pose: 'bound_chair', shot: 'cowboy_shot', scene: 'interrogation_room', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
+    checks: ['腰が縄で椅子に縛りつけられている', '手は背もたれの後ろに回っている', '縄以外の拘束具が混ざっていない'] },
   // ---- 膝立ち・うつ伏せ ----
   { id: 'v05', group: '膝立ち・うつ伏せ', title: '後ろ手に縛られて膝立ち', seed: 'vs05', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'kneel_behind', shot: 'knee_up', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['上体を起こした膝立ちになっている', '後ろ手の縄と手が見える'] },
