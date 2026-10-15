@@ -26,7 +26,7 @@ Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 169件、約105秒
+npm run typecheck && npm run lint && npm test   # 171件、約105秒
 npm run build
 npm run test:browser                            # 92項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
@@ -142,6 +142,7 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - エンジン：禁断の連鎖（立場→拘束具→拘束位置→固定先→画角→ポーズ・持ち物）だけ1手先読み（`LOOKAHEAD`）。手動採用で直接の衝突項目だけで直せないときは、関連の関連まで広げてシードを変えて最大8回試す。
 - 出力：目が隠れる目隠しと「目を閉じる」では、目元・瞳の色・目と視線の語（美形タイプ・顔立ち・表情・ポーズの英語、自然文の句も含む）を外す（`eyeSafe` / `eyeSafeNat`）。日本語設定の目元・瞳の行と説明文も伏せる。「伏し目」は視線の語だけ外し、目の色は残す。髪型の `hair over one eye` などは髪の描写なので残している。拘束時は `clean uninjured skin` と、ネガティブ（ONのとき）に `blood, wounds, bruises, restraints around neck` など。`adult`・`nsfw`・`bondage` などは出さない（大量抽選で検査）。
 - UI：「禁断の調合（アンリミテッド）」のトグル。ONのときだけ9項目と「禁断演出だけ引き直す」（`GROUPS.forbidden`）を表示。共有URLのフラグ `u`。
+- 追加（同日）：膝立ち4種・うつ伏せ3種の拘束構図（`BOUND_POSES` の `bind` は配列で複数の拘束位置に対応）、腹がちらりと見える着崩し3種（`f_top` が必要、「ずり上がる」は腕を上げるポーズ `arms_up` のときだけ）。頭上の拘束・固定具は屋内かシンプル背景だけ（`bind_scene` / `anchor_scene`）。衣装に鎖・ハーネス類（`f_chain` / `f_strap`）があると別の拘束具は選ばない（`restraint_outfit`）。ネガティブに選ばなかった素材（正の側に出ている語は除く）と、正の側に `one clear restraint setup`。先読みを着崩し・表情→ポーズにも広げ、ポーズが決まらない抽選を0にした。
 - 画像での見え方（触手・リボンの巻き方など）は未確認。PixAI アプリ版で弾かれる語の一覧は公開されていないため、ユーザーの実機確認に頼る。
 
 ## 7. 既知の制限

@@ -1,5 +1,5 @@
 {
-  "total": 388,
+  "total": 451,
   "byRule": {
     "hair_length_style": 14,
     "pose_shot": 14,
@@ -20,6 +20,10 @@
     "bind_prop": 14,
     "anchor_bind": 14,
     "anchor_pose": 14,
+    "bind_scene": 14,
+    "anchor_scene": 14,
+    "restraint_outfit": 14,
+    "disarray_pose": 14,
     "blind_glasses": 14,
     "blind_marks": 9,
     "blind_outfit": 14,
@@ -29,7 +33,7 @@
     "wear1_outfit": 14,
     "wear2_outfit": 14,
     "wear_pair": 14,
-    "requires": 25
+    "requires": 32
   },
   "failures": []
 }

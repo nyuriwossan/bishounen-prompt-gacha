@@ -70,6 +70,11 @@ const EYE_WORDS = /\b(eyes?|[a-z]+-eyed|eyelash(es)?|lashes|eyelids?|sanpaku|jit
 /** 目隠しの句そのもの（外さない） */
 const OWN_EYE = /(blindfold|over (the |one )?eyes?|closed eyes|downcast eyes)/i;
 const BOUND_NEGATIVE = ['blood', 'wounds', 'bruises', 'restraints around neck', 'extra hands', 'missing fingers', 'fused fingers'];
+/** 拘束具の素材どうしが混ざらないよう、選ばなかった素材をネガティブに入れる */
+const MATERIAL_NEGATIVE: Array<[RegExp, string]> = [
+  [/^(rope|silk_cord)$/, 'rope'], [/chain/, 'chains'], [/^cuffs$/, 'handcuffs'], [/^straps$/, 'leather straps'], [/^ribbon$/, 'ribbon'],
+  [/^bandage$/, 'bandages'], [/tentacles/, 'tentacles'], [/vines/, 'vines']
+];
 export interface ForbiddenParts {
   on: boolean; tags: string[]; outfitTags: string[]; restraintNat: string; blindNat: string; clothesNat: string;
   hideEyes: boolean; stripGaze: boolean; negative: string[]; jaRows: Array<[string, string]>; jaProse: string;
@@ -92,7 +97,7 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     const anchor = set(a) && !(a!.id === 'chair' && b!.id === 'armrests') ? a!.en : [];
     restraintTags.push(...b!.en, material, ...(t ? t.en : []), ...anchor);
     if (r!.tags?.includes('chain')) restraintTags.push('chain links clearly visible');
-    restraintTags.push('clean uninjured skin');
+    restraintTags.push('one clear restraint setup', 'clean uninjured skin');
     restraintNat = `${cap(b!.en.join(', '))}, with ${material}${t ? `, ${t.en.join(', ')}` : ''}${anchor.length ? `, ${anchor.join(', ')}` : ''}.`;
   }
   const blind = set(f) ? f!.en : [];
@@ -110,7 +115,7 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     on: true, tags: dedupe([...role, ...restraintTags, ...blind]), outfitTags: dedupe(clothes), restraintNat,
     blindNat: blind.length ? `${f?.tags?.includes('covered') ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
     clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
-    hideEyes, stripGaze, negative: bound ? BOUND_NEGATIVE : [], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
+    hideEyes, stripGaze, negative: set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
   };
 }
 
@@ -243,7 +248,9 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
     compact = `【${titleOf(state)}】${japanese}`;
   }
 
-  const negBase = [...NEGATIVE_BASE, ...fb.negative];
+  // 正のプロンプトに出ている語（髪のリボン・絆創膏など）は、ネガティブに入れない
+  const posLower = positive.toLowerCase();
+  const negBase = [...NEGATIVE_BASE, ...fb.negative.filter((w) => !posLower.includes(w.split(' ').pop()!.replace(/s$/, '')))];
   const negative = S.negative && target !== 'japanese' && target !== 'naturalEnglish' ? negBase.join(', ')
     : S.negative && target === 'naturalEnglish' ? `Avoid: ${negBase.join(', ')}.` : '';
 

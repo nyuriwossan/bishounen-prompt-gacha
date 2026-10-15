@@ -435,11 +435,16 @@ describe('禁断の調合（アンリミテッドモード）', () => {
         const captorOnly = role.tags?.includes('captor') && !role.tags?.includes('captive');
         if (captorOnly) expect(['none', 'held']).toContain(b.id);
         if (v.restraint!.id === 'none') expect(b.id).toBe('none');
-        if (p.tags?.includes('bound')) expect(p.requires).toContain(`bindPos:${b.id}`);
+        if (p.tags?.includes('bound')) expect(p.requires![0].replace('bindPos:', '').split('|')).toContain(b.id);
         if (v.disarray!.id === 'tie_loosened') expect(v.outfit!.tags).toContain('tie');
         if (v.wear1!.cat === 'wet') expect(v.wear2!.cat).not.toBe('wet');
         if (v.wear2!.id !== 'none') expect(v.wear1!.id).not.toBe('none');
         if (v.blindfold!.tags?.includes('covered')) expect(v.glasses?.id ?? 'none').toBe('none');
+        if (v.bindPos!.id === 'wrists_overhead' || v.anchor!.id === 'overhead') expect(['indoor', 'simple'], `${mode}#${i} ${v.scene!.id}`).toContain(v.scene!.place);
+        if (v.restraint!.id !== 'none' && v.outfit!.tags?.includes('f_chain')) expect(v.restraint!.tags).toContain('chain');
+        if (v.restraint!.id !== 'none' && v.outfit!.tags?.includes('f_strap')) expect(v.restraint!.id).toBe('straps');
+        if (v.disarray!.id === 'riding_up') expect(v.pose!.tags).toContain('arms_up');
+        expect(r.stuck, `${mode}#${i}`).toEqual([]);
       }
     }
   });
@@ -453,6 +458,14 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     }
     expect(bound).toBeGreaterThan(25);
     expect(captiveExpr).toBeGreaterThan(30);
+  });
+  it('膝立ち・うつ伏せの拘束ポーズは、対応する拘束位置で出る', () => {
+    const seen = new Set<string>();
+    for (const [bind, poses] of [['wrists_behind', ['kneel_behind', 'prone_behind', 'kneel_look_up', 'kneel_head_down']], ['wrists_overhead', ['kneel_overhead']], ['wrists_front', ['prone_reach']], ['ankles', ['prone_ankles']]] as const) {
+      let s = set(set(set(onState('kp-' + bind), 'role', 'captive'), 'restraint', 'rope'), 'bindPos', bind);
+      for (let i = 0; i < 120; i++) { s = draw(s, { seed: `kp-${bind}-${i}` }).state; seen.add(s.fields.pose.id!); }
+      for (const p of poses) expect(seen.has(p), `${bind}:${p}`).toBe(true);
+    }
   });
   it('「禁断演出だけ引き直す」は、他の項目（髪・衣装・美形タイプ）を変えない', () => {
     const s = onState('fb-group');

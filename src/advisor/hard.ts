@@ -142,10 +142,33 @@ export const PAIR_RULES: PairRule[] = [
     check: ({ anchor: a, pose: p }) => {
       if (!a || !p || a.id === 'none') return null;
       if (a.id === 'chair' && !CHAIR_POSES.has(p.id)) return `椅子に固定したまま「${p.ja}」はできません`;
-      if (a.id === 'overhead' && p.posture !== 'standing') return `頭上の固定具につながれたまま「${p.ja}」はできません`;
+      if (a.id === 'overhead' && !['standing', 'kneeling'].includes(p.posture ?? '')) return `頭上の固定具につながれたまま「${p.ja}」はできません`;
       if (['wall', 'pillar'].includes(a.id) && ['walking', 'running', 'jumping', 'floating'].includes(p.posture ?? '')) return `${a.ja}につながれたまま「${p.ja}」はできません`;
       return null;
     }
+  },
+  {
+    // 上から吊る拘束は、天井や梁のある屋内（またはシンプル背景）だけ
+    id: 'bind_scene', fields: ['bindPos', 'scene'],
+    check: ({ bindPos: b, scene: s }) => (b && s && b.id === 'wrists_overhead' && !['indoor', 'simple'].includes(s.place ?? '') ? `頭上での拘束は屋内の背景だけです（現在：${s.ja}）` : null)
+  },
+  {
+    id: 'anchor_scene', fields: ['anchor', 'scene'],
+    check: ({ anchor: a, scene: s }) => (a && s && a.id === 'overhead' && !['indoor', 'simple'].includes(s.place ?? '') ? `頭上の固定具は屋内の背景だけです（現在：${s.ja}）` : null)
+  },
+  {
+    // 衣装の鎖・ハーネスと別の拘束具が同時に描かれて混ざらないように
+    id: 'restraint_outfit', fields: ['restraint', 'outfit'],
+    check: ({ restraint: r, outfit: o }) => {
+      if (!r || !o || r.id === 'none') return null;
+      if (has(o, 'f_chain') && !has(r, 'chain')) return `衣装「${o.ja}」の鎖と、拘束具「${r.ja}」が混ざります`;
+      if (has(o, 'f_strap') && r.id !== 'straps') return `衣装「${o.ja}」のベルト類と、拘束具「${r.ja}」が混ざります`;
+      return null;
+    }
+  },
+  {
+    id: 'disarray_pose', fields: ['disarray', 'pose'],
+    check: ({ disarray: d, pose: p }) => (d && p && has(d, 'arms_up') && !has(p, 'arms_up') ? `「${d.ja}」は腕を上げるポーズのときだけです（現在：${p.ja}）` : null)
   },
   {
     id: 'blind_glasses', fields: ['blindfold', 'glasses'],

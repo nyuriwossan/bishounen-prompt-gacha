@@ -181,7 +181,12 @@ const FEATURES: Array<[string, RegExp]> = [
   ['f_hood', /\bhood(ie|ed)?\b/i],
   ['f_headwear', /\b(crown|tiara|circlet|hat|cap|helmet|headdress|turban|kabuto|eboshi|veil|laurel|horned)\b/i],
   ['f_layered', /\b(over a|under|layered|inner|cardigan|jacket|coat|vest|waistcoat|haori|cloak|cape)\b/i],
-  ['f_sleeveless', /\b(sleeveless|tank top|bare arms|bare chest|shirtless)\b/i]
+  ['f_sleeveless', /\b(sleeveless|tank top|bare arms|bare chest|shirtless)\b/i],
+  // 裾のある上衣（腹がちらりと見える着崩しに使う）
+  ['f_top', /\b(shirt|t-shirt|tee|hoodie|sweater|sweatshirt|knit|pullover|blouse|turtleneck|polo|tank top|crop|track jacket)\b/i],
+  // 拘束具と混ざりやすい素材（禁断の調合で、別の拘束具と同時に出さない）
+  ['f_chain', /\bchains?\b/i],
+  ['f_strap', /\b(straps|harness)\b/i]
 ];
 export const OUTFIT: Option[] = OUTFIT_BASE.map((x) => {
   const text = `${x.upper ?? ''} ${x.lower ?? ''}`;

@@ -39,7 +39,7 @@ export const POSE: Option[] = [
   p('pointing', 'こちらを指差す', 'pointing at viewer', 'standing', 1, 1, true, ['confident', 'playful']),
   p('beckoning', '手招き', 'beckoning, looking at viewer', 'standing', 1, 2, true, ['alluring', 'playful']),
   p('waving', '手を振る', 'waving, smile, looking at viewer', 'standing', 1, 2, true, ['sunny', 'casual']),
-  p('stretching', '伸びをする', 'stretching, arms up', 'standing', 0, 2, false, ['casual', 'sunny'], { src: 'pcw:arms_up' }),
+  p('stretching', '伸びをする', 'stretching, arms up', 'standing', 0, 2, false, ['casual', 'sunny', 'arms_up'], { src: 'pcw:arms_up' }),
   p('looking_back', '肩越しに振り返る', 'looking back, looking at viewer over shoulder', 'standing', 2, 1, true, ['elegant', 'mystic'], { src: 'pcw:walk_turn' }),
   p('back_turned', '背を向けて佇む', 'from behind, facing away', 'standing', 2, 2, false, ['aloof', 'melancholy']),
   p('side_profile', '横顔', 'profile, looking afar', 'standing', 2, 0, false, ['melancholy', 'cool'], { src: 'pcw:side' }),
@@ -85,7 +85,7 @@ export const POSE: Option[] = [
   p('playing_music', '楽器を奏でる', 'playing instrument', 'standing', 2, 2, false, ['artist', 'elegant'], { requires: ['prop:#instrument'] }),
   p('aiming', '銃を構える', 'aiming at viewer', 'standing', 2, 2, true, ['danger', 'dynamic'], { requires: ['prop:#gun'] }),
   // 禁断の調合：拘束の構図（拘束位置を hard 条件にするので、アンリミテッドモードOFFでは出ない）。手は塞がっているので持ち物なし
-  ...BOUND_POSES.map((b) => p(b.id, b.ja, b.en, b.posture, 0, b.minShot as ShotLevel, b.gaze, ['bound'], { cat: 'bound', requires: [`bindPos:${b.bind}`] })),
+  ...BOUND_POSES.map((b) => p(b.id, b.ja, b.en, b.posture, 0, b.minShot as ShotLevel, b.gaze, ['bound', ...(b.armsUp ? ['arms_up'] : [])], { cat: 'bound', requires: [`bindPos:${b.bind.join('|')}`] })),
 ];
 export const POSE_CATS: Category[] = [
   { id: 'standing', ja: '立ち' }, { id: 'leaning', ja: 'もたれる' }, { id: 'sitting', ja: '座る' }, { id: 'crouching', ja: 'しゃがむ' },

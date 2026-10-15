@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-15T00:32:55.431Z",
+  "generatedAt": "2026-10-15T00:45:57.110Z",
   "dataVersion": "2026.10.3",
   "draws": 4200,
   "ok": 4200,
   "refusedByLockedConflict": 0,
   "exceptions": 0,
   "drawsWithStuckField": 49,
-  "elapsedMs": 75884,
-  "msPerDraw": 18.07,
+  "elapsedMs": 77748,
+  "msPerDraw": 18.51,
   "anomalies": [],
   "anomalyCount": 0,
   "anomalyKinds": {},
@@ -36,7 +36,7 @@
       },
       {
         "id": "relaxed_adult",
-        "share": 0.0212
+        "share": 0.0214
       },
       {
         "id": "vampire_count",
@@ -44,7 +44,7 @@
       },
       {
         "id": "old_family_heir",
-        "share": 0.0205
+        "share": 0.0207
       }
     ],
     "hairColor": [
@@ -62,11 +62,11 @@
       },
       {
         "id": "black",
-        "share": 0.0379
+        "share": 0.0376
       },
       {
         "id": "silver",
-        "share": 0.0364
+        "share": 0.0362
       }
     ],
     "outfit": [
@@ -102,7 +102,7 @@
       },
       {
         "id": "business",
-        "share": 0.074
+        "share": 0.0743
       },
       {
         "id": "wafu_fantasy",
@@ -120,7 +120,7 @@
       },
       {
         "id": "a25_34",
-        "share": 0.2562
+        "share": 0.256
       },
       {
         "id": "a35_44",
@@ -128,7 +128,7 @@
       },
       {
         "id": "a45_59",
-        "share": 0.1462
+        "share": 0.1464
       },
       {
         "id": "a60p",
@@ -138,15 +138,15 @@
     "presentation": [
       {
         "id": "andro",
-        "share": 0.2421
+        "share": 0.2419
       },
       {
         "id": "slight_masc",
-        "share": 0.2357
+        "share": 0.2352
       },
       {
         "id": "masc",
-        "share": 0.199
+        "share": 0.1995
       },
       {
         "id": "slight_fem",
@@ -154,13 +154,13 @@
       },
       {
         "id": "fem",
-        "share": 0.1469
+        "share": 0.1471
       }
     ],
     "hairLength": [
       {
         "id": "short",
-        "share": 0.2848
+        "share": 0.2845
       },
       {
         "id": "medium",
@@ -168,7 +168,7 @@
       },
       {
         "id": "long",
-        "share": 0.2057
+        "share": 0.206
       },
       {
         "id": "very_long",
@@ -186,19 +186,19 @@
       },
       {
         "id": "city_street",
-        "share": 0.0288
+        "share": 0.029
       },
       {
         "id": "laboratory",
         "share": 0.0231
       },
       {
-        "id": "gradient_warm",
-        "share": 0.019
+        "id": "petals_simple",
+        "share": 0.0195
       },
       {
-        "id": "simple_dark",
-        "share": 0.019
+        "id": "gradient_warm",
+        "share": 0.0193
       }
     ]
   },

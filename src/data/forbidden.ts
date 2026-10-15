@@ -113,7 +113,11 @@ export const DISARRAY: Option[] = [
   d('coat_open', 'コートを開ける', 'coat worn open', 'f_coat'),
   d('layer_open', '一枚を開いたまま', 'one layer hanging open', 'f_layered'),
   d('hood_up', 'フードを被る', 'hood up', 'f_hood'),
-  d('disheveled', '全体を着崩す', 'disheveled clothes', '')
+  d('disheveled', '全体を着崩す', 'disheveled clothes', ''),
+  // 腹がちらりと見える（露出はここまで。f_top は裾のある上衣）
+  d('midriff_peek', '裾から腹がちらり', 'midriff peek', 'f_top'),
+  d('bottom_unbuttoned', '下のボタンが外れて腹がのぞく', 'bottom buttons undone, midriff peek', 'f_shirt'),
+  d('riding_up', '腕を上げて服がずり上がる', 'shirt riding up, midriff peek', 'f_top', { tags: ['arms_up'] })
 ];
 
 // ---------------- 衣装の状態・加工（最大2件） ----------------
@@ -153,16 +157,25 @@ export const WEAR_CATS: Category[] = [{ id: 'dirt', ja: '汚れ' }, { id: 'damag
 
 // ---------------- 拘束の構図（ポーズに追加。拘束位置を hard 条件にする）----------------
 // 姿勢の句だけを持ち、拘束の描写は拘束位置・拘束具の側で出す（重複させない）。
-export const BOUND_POSES = [
-  { id: 'bound_front_stand', ja: '両手首を前で縛られて立つ', en: 'standing, looking at viewer', posture: 'standing', minShot: 2, gaze: true, bind: 'wrists_front' },
-  { id: 'bound_behind_lookback', ja: '後ろ手に縛られ、肩越しに振り返る', en: 'from behind, looking back over shoulder', posture: 'standing', minShot: 2, gaze: true, bind: 'wrists_behind' },
-  { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, on knees, bound hands resting near the lap', posture: 'kneeling', minShot: 3, gaze: true, bind: 'wrists_front' },
-  { id: 'bound_chair', ja: '椅子に座り、両手首を肘掛けへ固定', en: 'sitting on chair, both hands and both armrests clearly visible', posture: 'sitting', minShot: 3, gaze: true, bind: 'armrests' },
-  { id: 'wall_chain_lookback', ja: '片手首を壁へつながれて振り返る', en: 'looking back, restrained hand raised toward the wall', posture: 'standing', minShot: 2, gaze: true, bind: 'one_wrist' },
-  { id: 'bound_overhead_stand', ja: '両手首を頭上で固定されて立つ', en: 'standing, arms up', posture: 'standing', minShot: 2, gaze: true, bind: 'wrists_overhead' },
-  { id: 'ankles_floor', ja: '足首を縛られて床に座る', en: 'sitting on floor, knees up', posture: 'sitting', minShot: 4, gaze: true, bind: 'ankles' },
-  { id: 'chain_torso_stand', ja: '腕と胴体へ緩く巻いた演出的な立ち姿', en: 'standing, dramatic pose', posture: 'standing', minShot: 2, gaze: true, bind: 'torso_arms' }
-] as const;
+export const BOUND_POSES: Array<{ id: string; ja: string; en: string; posture: string; minShot: number; gaze: boolean; bind: string[]; armsUp?: boolean }> = [
+  { id: 'bound_front_stand', ja: '両手首を前で縛られて立つ', en: 'standing, looking at viewer', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_front'] },
+  { id: 'bound_behind_lookback', ja: '後ろ手に縛られ、肩越しに振り返る', en: 'from behind, looking back over shoulder', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_behind'] },
+  { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, on knees, bound hands resting near the lap', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_front'] },
+  { id: 'bound_chair', ja: '椅子に座り、両手首を肘掛けへ固定', en: 'sitting on chair, both hands and both armrests clearly visible', posture: 'sitting', minShot: 3, gaze: true, bind: ['armrests'] },
+  { id: 'wall_chain_lookback', ja: '片手首を壁へつながれて振り返る', en: 'looking back, restrained hand raised toward the wall', posture: 'standing', minShot: 2, gaze: true, bind: ['one_wrist'] },
+  { id: 'bound_overhead_stand', ja: '両手首を頭上で固定されて立つ', en: 'standing, arms up', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_overhead'], armsUp: true },
+  { id: 'ankles_floor', ja: '足首を縛られて床に座る', en: 'sitting on floor, knees up', posture: 'sitting', minShot: 4, gaze: true, bind: ['ankles'] },
+  { id: 'chain_torso_stand', ja: '腕と胴体へ緩く巻いた演出的な立ち姿', en: 'standing, dramatic pose', posture: 'standing', minShot: 2, gaze: true, bind: ['torso_arms'] },
+  // 膝立ち（ポーズ構図工房の「膝立ち：上体を両膝の上に起こす」を参考）
+  { id: 'kneel_behind', ja: '後ろ手に縛られて膝立ち', en: 'upright kneeling posture, torso lifted above both knees, looking at viewer', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_behind'] },
+  { id: 'kneel_overhead', ja: '両手首を頭上で吊られて膝立ち', en: 'upright kneeling posture, arms raised above the head, both knees on the floor', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_overhead'], armsUp: true },
+  { id: 'kneel_look_up', ja: '膝をつき、縛られたまま見上げる', en: 'kneeling, looking up at viewer', posture: 'kneeling', minShot: 2, gaze: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
+  { id: 'kneel_head_down', ja: '膝をつき、縛られて項垂れる', en: 'kneeling, sitting on heels, head lowered, hair falling forward', posture: 'kneeling', minShot: 3, gaze: false, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
+  // うつ伏せ（ポーズ構図工房の lying prone を参考。縛った腕では上体を支えない）
+  { id: 'prone_behind', ja: '後ろ手に縛られてうつ伏せ', en: 'lying prone, on stomach, cheek near the floor, head turned toward viewer', posture: 'lying', minShot: 4, gaze: true, bind: ['wrists_behind'] },
+  { id: 'prone_reach', ja: 'うつ伏せで、縛られた両手を前へ投げ出す', en: 'lying prone, on stomach, bound hands stretched forward on the floor, head raised', posture: 'lying', minShot: 3, gaze: true, bind: ['wrists_front'] },
+  { id: 'prone_ankles', ja: '足首を縛られ、うつ伏せで肘をつく', en: 'lying prone, on stomach, propped up on elbows', posture: 'lying', minShot: 4, gaze: true, bind: ['ankles'] }
+];
 
 // ---------------- 表情（立場に合わせて追加。立場がOFF＝なしでは出ない）----------------
 export const FORBIDDEN_EXPRESSIONS: Array<{ id: string; ja: string; en: string; side: 'captive' | 'captor' }> = [

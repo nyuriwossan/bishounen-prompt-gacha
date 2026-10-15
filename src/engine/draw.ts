@@ -158,9 +158,9 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
 interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset; notices: string[]; strict?: boolean; pending?: Set<FieldId> }
 
 /** 1手先読み：この候補を選ぶと、まだ引いていない関連項目に両立する候補が残らない場合は外す。
- * 禁断の調合の連鎖（立場→拘束具→拘束位置→固定先→画角→ポーズ）だけに使う（他の項目は従来どおりで十分速い） */
+ * 禁断の調合の連鎖（立場→拘束具→拘束位置→固定先・着崩し・表情→画角→ポーズ）だけに使う（他の項目は従来どおりで十分速い） */
 const LOOKAHEAD: Partial<Record<FieldId, FieldId[]>> = {
-  role: ['bindPos'], restraint: ['bindPos'], bindPos: ['anchor', 'shot', 'pose', 'prop'], anchor: ['shot', 'pose'], shot: ['pose']
+  role: ['bindPos'], restraint: ['bindPos'], bindPos: ['anchor', 'shot', 'pose', 'prop'], anchor: ['shot', 'pose'], disarray: ['pose'], expression: ['pose'], shot: ['pose']
 };
 function leavesRoom(f: FieldId, o: Option, determined: Values, pending: Set<FieldId> | undefined, s: ForgeState): boolean {
   const next = LOOKAHEAD[f];

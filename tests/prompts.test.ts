@@ -226,6 +226,15 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     expect(neg).toContain('restraints around neck');
     expect(buildPrompt(s, 'japanese').positive).toContain('拘束：鎖／両手首を頭上');
   });
+  it('拘束具が混ざらないよう、選ばなかった素材をネガティブに入れる（正の側に出ている語は入れない）', () => {
+    const s = on('fb-neg', { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', hairStyle: 'ribbon_tied', hairLength: 'long' });
+    s.settings.negative = true;
+    const neg = buildPrompt(s, 'pixai').negative.split(', ');
+    expect(neg).toEqual(expect.arrayContaining(['chains', 'handcuffs', 'tentacles', 'vines']));
+    expect(neg).not.toContain('rope');
+    expect(neg).not.toContain('ribbon');
+    expect(buildPrompt(s, 'pixai').positive).toContain('one clear restraint setup');
+  });
   it('「する側」は拘束具を手に持つ・操る（触手は操る）', () => {
     const s = on('fb-held', { role: 'ruler', restraint: 'tentacles', bindPos: 'held', world: 'dark_fantasy' });
     expect(buildPrompt(s, 'pixai').positive).toContain('controlling tentacles');
