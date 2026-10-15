@@ -1,6 +1,6 @@
 {
   "engine": "chromium",
-  "at": "2026-10-15T07:56:09.388Z",
+  "at": "2026-10-15T08:24:43.773Z",
   "total": 95,
   "failed": 0,
   "results": [
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "真珠色白髪の土地神 / 青み銀髪の雪の精のような青年"
+      "detail": "プラチナブロンドのジェンダーレス・モード / シャンパンブロンドの軍服の将校"
     },
     {
       "name": "進むでやり直せる",
@@ -297,7 +297,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "サングラス"
+      "detail": "ブローライン"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -442,7 +442,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:42091/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC45Jm09YnBuJmM"
+      "detail": "http://127.0.0.1:36893/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMCZtPWJwbiZ"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

@@ -321,10 +321,17 @@ describe('禁断の調合のタグ形式（PixAI SDXL での実機確認を反�
 });
 
 describe('禁断の調合：3回目の実機確認（ネガティブあり）を反映', () => {
-  it('肘掛けへの固定は、素材ごとに「椅子へ固定」のタグを足す', () => {
-    const s = make('arm', { role: 'captive', restraint: 'straps', bindPos: 'armrests', pose: 'bound_chair', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
+  it('椅子の背もたれに縄で縛りつける（肘掛けへの固定は廃止し、古い保存は置き換える）', () => {
+    const s = make('chair', { role: 'captive', restraint: 'rope', bindPos: 'chair_back', anchor: 'chair', pose: 'bound_chair', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
     const tags = buildPrompt(s, 'pixai').positive.split(', ');
-    expect(tags).toEqual(expect.arrayContaining(['armchair', 'hands on armrests', '(leather straps:1.2)', '(leather cuffs:1.2)', 'wrist cuffs', '(strapped to chair:1.2)']));
+    expect(tags).toEqual(expect.arrayContaining(['(rope:1.2)', '(bound torso:1.2)', '(bound arms:1.2)', '(tied to chair:1.2)', 'chair', 'arms behind back']));
+    expect(tags.join(', ')).not.toMatch(/armrest|armchair/);
+  });
+  it('フードでは、目の語に加えて頭の向き・視線の語（looking …）も出さない', () => {
+    const s = make('hoodgaze', { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', blindfold: 'hood_low', pose: 'bound_behind_lookback', shot: 'cowboy_shot', angle: 'eye_level' }, { unlimitedEnabled: true });
+    const p = buildPrompt(s, 'pixai').positive;
+    expect(p).not.toMatch(/\blooking\b|\beyes?\b|glance/);
+    expect(p).toContain('hood pulled low');
   });
   it('ONのときは「人物 → ポーズ・構図 → 禁断演出 → 顔」の順にし、拘束具の要のタグに重みを付ける', () => {
     const s = make('front', { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held', pose: 'beckoning', shot: 'upper_body', angle: 'eye_level' }, { unlimitedEnabled: true });
@@ -351,7 +358,7 @@ describe('禁断の調合：3回目の実機確認（ネガティブあり）を
     const s = make('hood', { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', blindfold: 'hood_low', pose: 'bound_front_kneel', shot: 'full_body', angle: 'eye_level' }, { unlimitedEnabled: true });
     s.settings.negative = true;
     const out = buildPrompt(s, 'pixai');
-    expect(out.positive).toContain('hood over eyes');
+    expect(out.positive).toContain('hood pulled low');
     expect(out.positive).not.toMatch(/covered eyes|blindfold/);
     expect(out.positive).not.toContain('hands on lap');
     expect(out.negative.split(', ')).toContain('blindfold');

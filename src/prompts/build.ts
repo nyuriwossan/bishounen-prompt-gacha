@@ -71,6 +71,8 @@ function dedupe(tags: string[]): string[] {
 /** 視線を示す語（伏し目・目を閉じる・目隠しのとき外す） */
 const GAZE_WORDS = /\b(gaze|gazing|glance|glances|glare|stare|staring|eye contact|looking (at|down at|up at) viewer)\b/i;
 /** 目が隠れているときに顔の欄から外す、目に関する語（表情に含まれるものも） */
+/** フードのときだけ外す、頭の向き・視線の語 */
+const HEAD_GAZE = /\b(looking|sideways glance)\b/i;
 const EYE_WORDS = /\b(eyes?|[a-z]+-eyed|eyelash(es)?|lashes|eyelids?|sanpaku|jitome|pupils?|irises)\b/i;
 /** 目隠しの句そのもの（外さない） */
 const OWN_EYE = /(blindfold|over (the |one )?eyes?|closed eyes|downcast eyes|covered eyes)/i;
@@ -82,7 +84,7 @@ const MATERIAL_NEGATIVE: Array<[RegExp, string]> = [
 ];
 export interface ForbiddenParts {
   on: boolean; tags: string[]; outfitTags: string[]; restraintNat: string; blindNat: string; clothesNat: string;
-  hideEyes: boolean; stripGaze: boolean; negative: string[]; jaRows: Array<[string, string]>; jaProse: string;
+  hideEyes: boolean; stripGaze: boolean; hood?: boolean; negative: string[]; jaRows: Array<[string, string]>; jaProse: string;
   /** タグ形式で先頭寄り（ポーズの直後）に置くか。触手で縛るときは置かない（5回目の実機確認で、先頭に置くとアプリで弾かれた） */
   front: boolean;
   /** タグ形式で重みを付けるタグ（拘束具が出ない・固定されないものの要） */
@@ -106,7 +108,7 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
   } else if (bound) {
     const where = b!.id === 'one_wrist' ? 'one wrist' : `the ${b!.nat}`;
     const material = `${r!.nat} around ${where}`;
-    const useAnchor = set(a) && !(a!.id === 'chair' && b!.id === 'armrests');
+    const useAnchor = set(a) && !(a!.id === 'chair' && b!.id === 'chair_back');
     const anchor = useAnchor ? a!.en : [];
     const chainAnchor = useAnchor && ['chain', 'ornate_chain'].includes(r!.id) ? CHAIN_ANCHOR_TAGS[a!.id] ?? [] : [];
     restraintTags.push(...materialTags(r!.id, b!.id), ...(BIND_TAGS[b!.id] ?? []), ...(useAnchor ? ANCHOR_TAGS[a!.id] ?? [] : []), ...chainAnchor);
@@ -120,6 +122,8 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
   const hideEyes = !!f?.tags?.includes('covered') || f?.id === 'eyes_closed';
   // 項垂れるポーズでも視線の語を外す（見上げる表情に引っ張られないように）
   const stripGaze = hideEyes || !!f?.tags?.includes('closed') || !!v.pose?.tags?.includes('head_down');
+  // フードは目を物で覆わないので、頭の向きの語（looking up / to the side など）も外して目を描かせない
+  const hood = !!f?.tags?.includes('hood');
   const clothes = [v.disarray, v.wear1, v.wear2].filter(set).flatMap((x) => x!.en);
   // 立場の語（captive / dominant など）は相手役を描かせやすいので、タグ形式には出さない（自然文と日本語には残す）
   const j = (o?: Option) => (set(o) ? o!.ja : '');
@@ -131,15 +135,15 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     on: true, tags: dedupe([...restraintTags, ...blindTags]), outfitTags: dedupe(clothes), restraintNat: set(v.role) && v.role!.en.length ? `${cap(joinNat(v.role!.en))}. ${restraintNat}`.trim() : restraintNat,
     blindNat: blind.length ? `${f?.tags?.includes('covered') ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
     clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
-    hideEyes, stripGaze, negative: [...(f?.tags?.includes('hood') ? ['blindfold'] : []), ...(set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...(b?.id === 'ankles' ? ['bound wrists', 'bracelet'] : []), ...(b?.id === 'held' ? ['bound wrists', 'handcuffed'] : []),
+    hideEyes, stripGaze, hood, negative: [...(f?.tags?.includes('hood') ? ['blindfold'] : []), ...(set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...(b?.id === 'ankles' ? ['bound wrists', 'bracelet'] : []), ...(b?.id === 'held' ? ['bound wrists', 'handcuffed'] : []),
       ...(bound && ['rope', 'silk_cord'].includes(r!.id) && b!.id !== 'torso_arms' ? ['rope belt'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [])], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : '',
     front: !tentacleBound, key, calm: tentacleBound
   };
 }
 
 /** 目隠し・目を閉じる・伏し目のときに、目や視線の語を含むタグを外す */
-export function eyeSafe(fb: Pick<ForbiddenParts, 'hideEyes' | 'stripGaze'>) {
-  return (t: string) => OWN_EYE.test(t) || !((fb.hideEyes && (EYE_WORDS.test(t) || GAZE_WORDS.test(t))) || (fb.stripGaze && GAZE_WORDS.test(t)));
+export function eyeSafe(fb: Pick<ForbiddenParts, 'hideEyes' | 'stripGaze' | 'hood'>) {
+  return (t: string) => OWN_EYE.test(t) || !((fb.hideEyes && (EYE_WORDS.test(t) || GAZE_WORDS.test(t))) || (fb.stripGaze && GAZE_WORDS.test(t)) || (fb.hood && HEAD_GAZE.test(t)));
 }
 /** 自然文の句から目・視線の部分を外す（句が丸ごと目の描写なら空にする） */
 function eyeSafeNat(fb: Pick<ForbiddenParts, 'hideEyes' | 'stripGaze'>, text: string): string {

@@ -241,7 +241,7 @@ export function shareBoosts(field: FieldId, v: Values, mode: Mode): ShareBoost[]
   const bound = v.bindPos && !['none', 'held'].includes(v.bindPos.id);
   // 縛っているなら、拘束の構図（対応する拘束位置のもの）を優先し、見せたい部位が入る画角にする
   if (field === 'pose' && bound) add('forbiddenPose', 'forbidden', (o) => !!o.tags?.includes('bound'));
-  if (field === 'shot' && bound) { const min = v.bindPos!.id === 'ankles' ? 4 : ['armrests', 'wrists_behind'].includes(v.bindPos!.id) ? 3 : 2; add('forbiddenShot', 'forbidden', (o) => (o.level ?? 5) >= min); }
+  if (field === 'shot' && bound) { const min = v.bindPos!.id === 'ankles' ? 4 : ['chair_back', 'wrists_behind'].includes(v.bindPos!.id) ? 3 : 2; add('forbiddenShot', 'forbidden', (o) => (o.level ?? 5) >= min); }
   // 縛っている・囚われ側なら、囚われの場所を出やすくする（世界観の一致は後で保証する）
   const captiveOnly = !!role && role.tags?.includes('captive') && !role.tags?.includes('captor');
   if (field === 'scene' && (bound || captiveOnly)) add('forbiddenScene', 'forbidden', (o) => o.cat === 'captivity');

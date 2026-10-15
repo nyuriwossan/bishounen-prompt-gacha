@@ -13,7 +13,7 @@ export interface Violation { rule: string; fields: FieldId[]; reasonJa: string }
 interface PairRule { id: string; fields: [FieldId, FieldId]; check: (v: Values) => string | null }
 
 /** 拘束位置が画面に入る最小の画角（0 顔アップ〜5 全身） */
-const BIND_MIN_SHOT: Record<string, number> = { held: 1, wrists_front: 2, wrists_behind: 2, wrists_overhead: 2, one_wrist: 1, armrests: 3, ankles: 4, torso_arms: 1 };
+const BIND_MIN_SHOT: Record<string, number> = { held: 1, wrists_front: 2, wrists_behind: 2, wrists_overhead: 2, one_wrist: 1, chair_back: 3, ankles: 4, torso_arms: 1 };
 /** 椅子に座っているポーズ（固定先「椅子」と両立する） */
 const CHAIR_POSES = new Set(['sitting_chair', 'crossed_legs', 'backwards_chair', 'chin_on_hand_table', 'throne_lounge', 'bound_chair']);
 /** 手を外へ向けるポーズ（片手でも、触手などを操る手として描ける） */
@@ -79,6 +79,7 @@ export const PAIR_RULES: PairRule[] = [
       if (r.id === 'none' && b.id !== 'none') return `拘束具がないのに、拘束位置「${b.ja}」が指定されています`;
       if (r.id !== 'none' && b.id === 'none') return `拘束具「${r.ja}」の使い方（拘束位置）が必要です`;
       if (r.id === 'cuffs' && b.id === 'torso_arms') return '手錠は腕と胴体には巻けません';
+      if (b.id === 'chair_back' && !['rope', 'silk_cord'].includes(r.id)) return `椅子の背もたれに縛りつけるのは縄・組紐だけです（現在：${r.ja}）`;
       return null;
     }
   },
@@ -104,7 +105,7 @@ export const PAIR_RULES: PairRule[] = [
       if (b.id === 'one_wrist') return hands >= 1 ? null : `片手首を縛ると、ポーズ「${p.ja}」に必要な手が足りません`;
       if (hands < 2) return `両手を縛ったまま、手を使うポーズ「${p.ja}」はできません`;
       if (b.id === 'wrists_overhead' && p.posture !== 'standing') return `頭上で固定したまま「${p.ja}」はできません`;
-      if (b.id === 'armrests' && p.posture !== 'sitting') return `肘掛けに固定するには座るポーズが必要です（現在：${p.ja}）`;
+      if (b.id === 'chair_back' && p.posture !== 'sitting') return `椅子に縛りつけるには座るポーズが必要です（現在：${p.ja}）`;
       return null;
     }
   },
@@ -122,9 +123,9 @@ export const PAIR_RULES: PairRule[] = [
     check: ({ role: ro, scene: s }) => (ro && s && onlySide(ro, 'captor') && /\bin cage\b/.test(s.en.join(' ')) ? `「${ro.ja}」が「${s.ja}」の檻の中に入っています` : null)
   },
   {
-    // 肘掛けに緩く巻くと、固定されていない絵になりやすい
-    id: 'armrest_tightness', fields: ['bindPos', 'tightness'],
-    check: ({ bindPos: b, tightness: t }) => (b && t && b.id === 'armrests' && t.id !== 'secured' ? `肘掛けへの固定は「しっかり固定」だけにします（現在：${t.ja}）` : null)
+    // 椅子に緩く巻くと、固定されていない絵になりやすい
+    id: 'chair_tightness', fields: ['bindPos', 'tightness'],
+    check: ({ bindPos: b, tightness: t }) => (b && t && b.id === 'chair_back' && t.id !== 'secured' ? `椅子への縛りつけは「しっかり固定」だけにします（現在：${t.ja}）` : null)
   },
   {
     id: 'bind_shot', fields: ['bindPos', 'shot'],
@@ -164,11 +165,11 @@ export const PAIR_RULES: PairRule[] = [
     id: 'anchor_bind', fields: ['anchor', 'bindPos'],
     check: ({ anchor: a, bindPos: b }) => {
       if (!a || !b) return null;
-      if (b.id === 'armrests' && a.id !== 'chair') return '肘掛けに固定するときは、固定先を椅子にしてください';
+      if (b.id === 'chair_back' && a.id !== 'chair') return '椅子に縛りつけるときは、固定先を椅子にしてください';
       if (a.id === 'none') return null;
       if (!isBound(b)) return `固定先「${a.ja}」は、縛っているときだけ指定できます`;
       if (a.id === 'overhead' && b.id !== 'wrists_overhead') return '頭上の固定具は、両手首を頭上で固定するときだけ使えます';
-      if (a.id === 'chair' && !['armrests', 'wrists_behind', 'torso_arms', 'ankles'].includes(b.id)) return `椅子への固定と拘束位置「${b.ja}」は合いません`;
+      if (a.id === 'chair' && !['chair_back', 'wrists_behind', 'torso_arms', 'ankles'].includes(b.id)) return `椅子への固定と拘束位置「${b.ja}」は合いません`;
       return null;
     }
   },
@@ -229,6 +230,11 @@ export const PAIR_RULES: PairRule[] = [
     // うつ伏せは下から煽ると仰向けに描かれやすい
     id: 'prone_angle', fields: ['pose', 'angle'],
     check: ({ pose: p, angle: a }) => (p && a && p.posture === 'lying' && p.tags?.includes('bound') && ['from_below', 'slightly_below', 'dutch'].includes(a.id) ? `うつ伏せの拘束と「${a.ja}」は合いません` : null)
+  },
+  {
+    // フードを被って見上げると、顔の下側が見えて目が描かれる（6回目の実機確認での指摘）
+    id: 'hood_pose', fields: ['blindfold', 'pose'],
+    check: ({ blindfold: f, pose: p }) => (f && p && has(f, 'hood') && /\blooking up\b/.test(p.en.join(' ')) ? `フードを被ったまま見上げるポーズ「${p.ja}」では目元が隠れません` : null)
   },
   {
     // フードの陰は、下から煽ると顔の下側が見えて目元が隠れない

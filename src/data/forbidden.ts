@@ -57,7 +57,8 @@ export const BIND_POS: Option[] = [
   o('wrists_behind', '両手首を後ろ', 'both wrists bound behind the back, bound hands clearly visible behind the waist', { tags: ['wrists'], nat: 'wrists' }),
   o('wrists_overhead', '両手首を頭上', 'both wrists secured overhead, arms raised above the head, both feet planted on the floor', { tags: ['wrists'], nat: 'wrists' }),
   o('one_wrist', '片手首', 'one wrist restrained, the other arm free', { tags: ['one_wrist'], nat: 'one wrist' }),
-  o('armrests', '椅子の肘掛け', 'each wrist secured to a chair armrest, seated upright', { tags: ['wrists'], nat: 'wrists' }),
+  // 2026.10.10：肘掛けに手首を固定する形は SDXL で描けなかったため、背もたれに身体ごと縛りつける形に置き換え（縄・組紐だけ）
+  o('chair_back', '椅子の背もたれに縛りつける', 'tied to the backrest of a chair with rope around the chest and upper arms, hands behind the chair, seated upright', { tags: ['torso'], nat: 'chest and upper arms' }),
   o('ankles', '両足首', 'both ankles bound together, hands free', { tags: ['ankles'], nat: 'ankles' }),
   o('torso_arms', '腕と胴体', 'restraints wrapped around the upper arms and torso, neck clear', { tags: ['torso'], nat: 'upper arms and torso' })
 ];
@@ -160,7 +161,7 @@ export const BOUND_POSES: Array<{ id: string; ja: string; en: string; posture: s
   { id: 'bound_front_stand', ja: '両手首を前で縛られて立つ', en: 'standing, looking at viewer', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_front'] },
   { id: 'bound_behind_lookback', ja: '後ろ手に縛られ、肩越しに振り返る', en: 'from behind, looking back over shoulder', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_behind'] },
   { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, upright kneeling, own hands together', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_front'] },
-  { id: 'bound_chair', ja: '椅子に座り、両手首を肘掛けへ固定', en: 'sitting, on chair', posture: 'sitting', minShot: 3, gaze: true, bind: ['armrests'] },
+  { id: 'bound_chair', ja: '椅子の背もたれに縄で縛りつけられて座る', en: 'sitting, on chair', posture: 'sitting', minShot: 3, gaze: true, bind: ['chair_back'] },
   { id: 'wall_chain_lookback', ja: '片手首を壁へつながれて振り返る', en: 'looking back, one arm up, against wall', posture: 'standing', minShot: 2, gaze: true, bind: ['one_wrist'] },
   { id: 'bound_overhead_stand', ja: '両手首を頭上で固定されて立つ', en: 'standing, arms up', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_overhead'], armsUp: true },
   { id: 'ankles_floor', ja: '足首を縛られて床に座る', en: 'sitting on floor, knees up', posture: 'sitting', minShot: 4, gaze: true, bind: ['ankles'] },
@@ -207,7 +208,7 @@ export const ROLE_EXPRESSIONS: Record<'captive' | 'captor', string[]> = {
 const ROPE_LIKE = new Set(['rope', 'silk_cord', 'bandage']);
 /** 拘束具の素材タグ（拘束位置に応じて「縛られた部位」のタグを足す） */
 export function materialTags(restraintId: string, bindId: string): string[] {
-  const part = bindId === 'ankles' ? 'bound legs, bound ankles' : bindId === 'torso_arms' ? 'bound arms' : 'bound wrists';
+  const part = bindId === 'ankles' ? 'bound legs, bound ankles' : bindId === 'torso_arms' ? 'bound arms' : bindId === 'chair_back' ? 'bound torso, bound arms' : 'bound wrists';
   const T: Record<string, string[]> = {
     rope: ['rope', ...part.split(', ')], silk_cord: ['rope', 'silk cord', ...part.split(', ')],
     chain: ['chain', 'chained'], ornate_chain: ['chain', 'chained', 'gold chain'],
@@ -219,14 +220,11 @@ export function materialTags(restraintId: string, bindId: string): string[] {
     tentacles: ['tentacles', 'restrained by tentacles'], shadow_tentacles: ['tentacles', 'black tentacles', 'restrained by tentacles', 'dark aura'],
     vines: ['vines', 'entangled in vines'], rose_vines: ['vines', 'roses', 'entangled in vines']
   };
-  const tags = [...(T[restraintId] ?? []), ...(bindId === 'armrests' ? ARMREST_TAGS[restraintId] ?? [] : [])];
+  const tags = [...(T[restraintId] ?? []), ...(bindId === 'chair_back' ? CHAIR_BACK_TAGS[restraintId] ?? [] : [])];
   return ROPE_LIKE.has(restraintId) ? tags : tags.filter((x) => !/^bound /.test(x));
 }
-/** 椅子の肘掛けに固定するとき、素材ごとに足すタグ（3回目の実機確認で「固定されていない」ため） */
-const ARMREST_TAGS: Record<string, string[]> = {
-  rope: ['tied to chair'], silk_cord: ['tied to chair'], straps: ['leather cuffs', 'wrist cuffs', 'strapped to chair'], cuffs: ['cuffed to chair'],
-  chain: ['chained to chair'], ornate_chain: ['chained to chair'], ribbon: ['tied to chair'], bandage: ['tied to chair']
-};
+/** 椅子の背もたれに縛りつけるとき、素材ごとに足すタグ（縄・組紐だけ） */
+const CHAIR_BACK_TAGS: Record<string, string[]> = { rope: ['tied to chair'], silk_cord: ['tied to chair'] };
 /** タグ形式で重みを付ける要のタグ（5回目の実機確認：革ベルト・包帯が出ない／固定されない） */
 export function keyTags(restraintId: string, bindId: string): string[] {
   const mat = materialTags(restraintId, bindId);
@@ -235,9 +233,9 @@ export function keyTags(restraintId: string, bindId: string): string[] {
 /** 拘束位置のタグ（素材を問わない語だけ） */
 export const BIND_TAGS: Record<string, string[]> = {
   wrists_front: ['restrained', 'own hands together'], wrists_behind: ['restrained', 'arms behind back'], wrists_overhead: ['restrained', 'arms up'],
-  one_wrist: ['restrained'], armrests: ['restrained', 'sitting', 'armchair', 'hands on armrests'], ankles: [], torso_arms: ['restrained']
+  one_wrist: ['restrained'], chair_back: ['restrained', 'sitting', 'chair', 'arms behind back'], ankles: [], torso_arms: ['restrained']
 };
-export const ANCHOR_TAGS: Record<string, string[]> = { wall: ['against wall'], pillar: ['against pillar'], chair: ['armchair'], overhead: [] };
+export const ANCHOR_TAGS: Record<string, string[]> = { wall: ['against wall'], pillar: ['against pillar'], chair: ['chair'], overhead: [] };
 /** 鎖・装飾鎖のときだけ足す固定先のタグ（ほかの素材に「chained」を混ぜない） */
 export const CHAIN_ANCHOR_TAGS: Record<string, string[]> = { wall: ['chained to wall'], pillar: ['chained to pillar'] };
 /** 「する側」が手に持つ・操るときのタグ */
@@ -254,6 +252,6 @@ export const BLIND_TAGS: Record<string, string[]> = {
   cloth: ['blindfold', 'covered eyes', 'black blindfold'], leather: ['blindfold', 'covered eyes', 'leather blindfold'],
   ribbon: ['blindfold', 'covered eyes', 'ribbon blindfold'], lace: ['blindfold', 'covered eyes', 'lace blindfold'],
   silk: ['blindfold', 'covered eyes', 'white blindfold'], bandage_eyes: ['covered eyes', 'bandage over eyes'],
-  hood_low: ['hood up', 'hood over eyes', 'shaded face'], one_eye: ['bandage over one eye'], veil: ['veil', 'see-through veil'],
+  hood_low: ['hood up', 'hood pulled low', 'shaded face'], one_eye: ['bandage over one eye'], veil: ['veil', 'see-through veil'],
   masquerade: ['masquerade mask'], downcast: ['looking down'], eyes_closed: ['closed eyes']
 };

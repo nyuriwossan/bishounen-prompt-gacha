@@ -111,7 +111,9 @@ export function normalizeState(raw: unknown, report: MigrationReport = { lostFie
 /** 候補IDの改名表（辞書を改訂したらここに追記する） */
 const ID_RENAMES: Partial<Record<FieldId, Record<string, string>>> = {
   // 2026.10.5：SDXL で「下のボタンだけ外す」が描けなかったため統合
-  disarray: { bottom_unbuttoned: 'midriff_peek' }
+  disarray: { bottom_unbuttoned: 'midriff_peek' },
+  // 2026.10.10：肘掛けへの固定を、椅子の背もたれへの縛りつけに置き換え
+  bindPos: { armrests: 'chair_back' }
 };
 function migrateId(field: FieldId, id: string): string {
   return ID_RENAMES[field]?.[id] ?? id;
