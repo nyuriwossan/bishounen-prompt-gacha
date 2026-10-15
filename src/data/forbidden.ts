@@ -227,9 +227,14 @@ const ARMREST_TAGS: Record<string, string[]> = {
   rope: ['tied to chair'], silk_cord: ['tied to chair'], straps: ['leather cuffs', 'wrist cuffs', 'strapped to chair'], cuffs: ['cuffed to chair'],
   chain: ['chained to chair'], ornate_chain: ['chained to chair'], ribbon: ['tied to chair'], bandage: ['tied to chair']
 };
+/** タグ形式で重みを付ける要のタグ（5回目の実機確認：革ベルト・包帯が出ない／固定されない） */
+export function keyTags(restraintId: string, bindId: string): string[] {
+  const mat = materialTags(restraintId, bindId);
+  return [mat[0], ...mat.filter((t) => /^bound |to chair$|^leather cuffs$/.test(t)), ...(bindId === 'wrists_front' ? ['own hands together'] : [])].filter(Boolean);
+}
 /** 拘束位置のタグ（素材を問わない語だけ） */
 export const BIND_TAGS: Record<string, string[]> = {
-  wrists_front: ['restrained'], wrists_behind: ['restrained', 'arms behind back'], wrists_overhead: ['restrained', 'arms up'],
+  wrists_front: ['restrained', 'own hands together'], wrists_behind: ['restrained', 'arms behind back'], wrists_overhead: ['restrained', 'arms up'],
   one_wrist: ['restrained'], armrests: ['restrained', 'sitting', 'armchair', 'hands on armrests'], ankles: [], torso_arms: ['restrained']
 };
 export const ANCHOR_TAGS: Record<string, string[]> = { wall: ['against wall'], pillar: ['against pillar'], chair: ['armchair'], overhead: [] };

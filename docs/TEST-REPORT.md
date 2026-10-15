@@ -1,6 +1,6 @@
 # TEST-REPORT
 
-実施日：2026-10-15（JST）／辞書の版 `2026.10.8`／Node.js 22.22.0／Vitest 3.2.7／Chromium 141（Playwright 1.56.1）
+実施日：2026-10-15（JST）／辞書の版 `2026.10.9`／Node.js 22.22.0／Vitest 3.2.7／Chromium 141（Playwright 1.56.1）
 
 ## まとめ
 
@@ -8,7 +8,7 @@
 |---|---|
 | 型検査 `npm run typecheck` | エラー 0 |
 | ESLint `npm run lint` | エラー 0・警告 0 |
-| 単体・結合・性質テスト `npm test` | **183 / 183 合格**（5ファイル、約155秒） |
+| 単体・結合・性質テスト `npm test` | **184 / 184 合格**（5ファイル、約155秒） |
 | 大量抽選 | **4,200回**（禁断の調合ONの600回を含む）：hard 違反 0・禁断演出の漏れ（OFF時）0・弾かれやすい語（adult・nsfw など）0・hard 違反 0・例外 0・美形アンカー欠落 0・女性/未成年語 0・ロック変更 0・完全重複 0 |
 | ロック競合ケース | **388件**：すべて抽選せずに衝突項目・理由・解除候補を返し、状態は不変 |
 | ブラウザ検証 `npm run test:browser` | **95 / 95 合格**（Chromium） |
@@ -94,4 +94,4 @@ hard ルールから矛盾する候補の組を機械的に列挙し、両方を
 - Google Fonts（Shippori Mincho）は検証環境では取得できず、システム明朝で表示した状態を確認した。
 - PixAI・NovelAI での実際の生成結果は検証していない（画像生成はこのアプリの範囲外）。新しい美形タイプ12種も、プロンプトの組み合わせ（各タイプ×3モード×10シード＝360件で、動物の部位・髪の長さの重複・hard 違反がないこと、各5例の目視）までを確認した。
 - 開発用依存（vitest・typescript-eslint 配下）に `npm audit` の指摘が残る。配信物には含まれない。
-- **公開状況**：GitHub Actions（型検査・lint・テスト183件・ビルド）が成功し、`gh-pages` へ反映。GitHub の deployment status は `success`（`https://nyuriwossan.github.io/bishounen-prompt-gacha/`）。`gh-pages` の配信ファイル5点は、上記ブラウザ検証に使ったビルドとハッシュが一致することを確認した。ただし、この作業環境からは github.io に接続できないため、**公開URLを直接開いての表示確認は未実施**。
+- **公開状況**：GitHub Actions（型検査・lint・テスト184件・ビルド）が成功し、`gh-pages` へ反映。GitHub の deployment status は `success`（`https://nyuriwossan.github.io/bishounen-prompt-gacha/`）。`gh-pages` の配信ファイル5点は、上記ブラウザ検証に使ったビルドとハッシュが一致することを確認した。ただし、この作業環境からは github.io に接続できないため、**公開URLを直接開いての表示確認は未実施**。

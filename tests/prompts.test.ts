@@ -324,16 +324,28 @@ describe('禁断の調合：3回目の実機確認（ネガティブあり）を
   it('肘掛けへの固定は、素材ごとに「椅子へ固定」のタグを足す', () => {
     const s = make('arm', { role: 'captive', restraint: 'straps', bindPos: 'armrests', pose: 'bound_chair', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
     const tags = buildPrompt(s, 'pixai').positive.split(', ');
-    expect(tags).toEqual(expect.arrayContaining(['armchair', 'hands on armrests', 'leather straps', 'wrist cuffs', 'strapped to chair']));
+    expect(tags).toEqual(expect.arrayContaining(['armchair', 'hands on armrests', '(leather straps:1.2)', '(leather cuffs:1.2)', 'wrist cuffs', '(strapped to chair:1.2)']));
   });
-  it('禁断演出のタグは人物（1boy, solo, male focus）の直後に置き、素材のタグを先にする', () => {
-    const s = make('front', { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held' }, { unlimitedEnabled: true });
+  it('ONのときは「人物 → ポーズ・構図 → 禁断演出 → 顔」の順にし、拘束具の要のタグに重みを付ける', () => {
+    const s = make('front', { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held', pose: 'beckoning', shot: 'upper_body', angle: 'eye_level' }, { unlimitedEnabled: true });
     const tags = buildPrompt(s, 'pixai').positive.split(', ');
     const i = tags.indexOf('male focus');
-    expect(tags.slice(i + 1, i + 3)).toEqual(['tentacles', 'black tentacles']);
-    const b = make('bandage', { role: 'captive', restraint: 'bandage', bindPos: 'wrists_front', pose: 'bound_front_stand', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
+    expect(tags.slice(i + 1, i + 7)).toEqual(['beckoning', 'looking at viewer', 'upper body', 'tentacles', 'black tentacles', 'outstretched hand']);
+    const b = make('bandage', { role: 'captive', restraint: 'bandage', bindPos: 'wrists_front', pose: 'bound_front_stand', shot: 'cowboy_shot', angle: 'eye_level' }, { unlimitedEnabled: true });
     const bt = buildPrompt(b, 'pixai').positive.split(', ');
-    expect(bt.slice(bt.indexOf('male focus') + 1, bt.indexOf('male focus') + 4)).toEqual(['bandages', 'bandaged wrist', 'bound wrists']);
+    const j = bt.indexOf('cowboy shot');
+    expect(bt.slice(j + 1, j + 4)).toEqual(['(bandages:1.2)', 'bandaged wrist', '(bound wrists:1.2)']);
+    expect(bt).toContain('(own hands together:1.2)');
+    expect(buildPrompt(b, 'novelai').positive).toContain('{bound wrists}');
+    expect(buildPrompt(b, 'genericTags').positive).not.toMatch(/[({]/);
+  });
+  it('触手で縛るときは禁断演出を衣装の後ろに置き、重みを付けず、妖艶さを強める語を外す', () => {
+    const s = make('tent', { role: 'captive', restraint: 'tentacles', bindPos: 'wrists_overhead', pose: 'bound_overhead_stand', archetype: 'nocturnal_tempter', scene: 'tentacle_lair', shot: 'full_body' }, { unlimitedEnabled: true });
+    const p = buildPrompt(s, 'pixai').positive;
+    const tags = p.split(', ');
+    expect(tags.indexOf('tentacles')).toBeGreaterThan(tags.indexOf('handsome'));
+    expect(p).not.toMatch(/:1\.2\)/);
+    expect(p).not.toMatch(/alluring|seduct|tempt/i);
   });
   it('フードは「目隠し」を呼ばないタグにして、ネガティブに blindfold を入れる', () => {
     const s = make('hood', { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', blindfold: 'hood_low', pose: 'bound_front_kneel', shot: 'full_body', angle: 'eye_level' }, { unlimitedEnabled: true });

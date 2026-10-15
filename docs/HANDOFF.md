@@ -26,7 +26,7 @@ Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 183件、約155秒
+npm run typecheck && npm run lint && npm test   # 184件、約155秒
 npm run build
 npm run test:browser                            # 95項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
@@ -56,7 +56,7 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 | 獣人（種族） | 29 |
 
 - 項目は全44（`FIELD_IDS`。うち9つが禁断の調合）。
-- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.8`）は `fields.ts` にある。
+- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.9`）は `fields.ts` にある。
 - 衣装のテンプレートでは `{c1}` をメインカラー、`{c2}` を差し色として扱う。
 
 ### 抽選（`src/engine/`）
@@ -150,6 +150,7 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - 実機確認2回目：判定19例中OK 12。対応：肘掛けは `armchair, hands on armrests`、うつ伏せは `on stomach, lying on stomach, prone` で下からのアングルを禁止（`prone_angle`）、足首だけのときは `restrained` を出さずネガティブに `bound wrists`、鳥籠は `in cage, caged, inside giant birdcage`、光の鎖×魔法陣の祭壇を禁止、手錠を持つは `open handcuffs, handcuffs in hand`＋ネガティブに `bound wrists, handcuffed`、`chained to wall/pillar` は鎖・装飾鎖のときだけ。持ち物を前提にするポーズは拘束中に出さない。表情：拘束される側（される側だけの立場、または実際に縛られている）は喜んだ表情を出さない（`JOYFUL_EXPRESSIONS`）、する側だけの立場は愉悦の笑みに限る（`PLEASURE_EXPRESSIONS`、新表情「愉悦の笑み」「嬉しそうに見下ろす笑み」）。壁に鎖でつなぐ描写は SDXL では難しいまま。`DATA_VERSION` 2026.10.6。
 - 実機確認3回目（ネガティブあり）：20例中OK 17。対応：肘掛けは「しっかり固定」だけ（`armrest_tightness`）で、素材ごとに `strapped to chair, wrist cuffs` / `tied to chair` などを足す（`ARMREST_TAGS`）。フードは `hood up, hood over eyes, shaded face`（`covered eyes` が布の目隠しを呼んだ）＋ネガティブに `blindfold`、下から煽るアングルを禁止（`hood_angle`）。前で縛った膝立ちは `hands on lap` をやめ `upright kneeling, own hands together`。触手・蔓・光の鎖を操るときは両手が空くか手を外へ向けるポーズに限り（`held_summoned_pose`）、胸上より引き、`outstretched hand` を足す。影の触手は `black tentacles`（`shadow` が触手を消した）。後ろ手のうつ伏せは `head turned, sideways glance`。縄で手首を縛るときはネガティブに `rope belt`、足首だけのときは `bracelet`。する側だけの立場は鳥籠・座敷牢（`in cage`）に入れない（`role_cage`）。確認ページは再確認3例＋任意3例に絞る表示を追加。`DATA_VERSION` 2026.10.7。
 - 実機確認4回目：V04（革ベルトが出ない）・V11（包帯が手首を縛らない）・V20（影の触手が出ない）が残った。対応：タグ形式では禁断演出のタグを `1boy, solo, male focus` の直後へ移し、素材のタグを拘束位置のタグより先にした（強調ONなら最初の素材タグも強調）。包帯は `bound wrists` を使ってよい素材に加え、`bandages, bandaged wrist, bound wrists`。肘掛け×革ベルトに `leather cuffs`。`DATA_VERSION` 2026.10.8。
+- 実機確認5回目：V20 OK。V04・V11 は固定されず、V12（触手×夜の誘惑者）がアプリで弾かれた。対応：禁断の調合ONのタグ形式は「人物 → ポーズ・構図 → 禁断演出 → 顔・髪・衣装 → 背景」の順（ユーザー提案：構図を先頭に）。拘束具の要のタグ（`keyTags`：最初の素材タグ、`bound …`、`… to chair`、`leather cuffs`、前で縛るときの `own hands together`）に、強調の設定にかかわらず重みを付ける（PixAI `(tag:1.2)`、NovelAI `{tag}`、汎用タグは付けない）。触手・影の触手で縛るときだけは、禁断演出を衣装の後ろに置き、重みを付けず、`alluring / seductive / provocative` などの語をタグ形式から外す（`calm`）。前で縛るときは `own hands together`。`DATA_VERSION` 2026.10.9。
 - 画像での見え方（触手・リボンの巻き方など）は未確認。PixAI アプリ版で弾かれる語の一覧は公開されていないため、ユーザーの実機確認に頼る。
 
 ## 7. 既知の制限

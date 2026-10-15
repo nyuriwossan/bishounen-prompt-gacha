@@ -6,7 +6,11 @@
  */
 import { hairColorShort } from '../data/appearance';
 import { optionOf } from '../data/fields';
-import { ANCHOR_TAGS, BIND_TAGS, BLIND_TAGS, CHAIN_ANCHOR_TAGS, heldTags, materialTags } from '../data/forbidden';
+import { ANCHOR_TAGS, BIND_TAGS, BLIND_TAGS, CHAIN_ANCHOR_TAGS, heldTags, keyTags, materialTags } from '../data/forbidden';
+
+const TENTACLES = new Set(['tentacles', 'shadow_tentacles']);
+/** 触手で縛るときにタグ形式から外す、妖艶さを強める語 */
+const SUGGESTIVE = /\b(alluring|seduct\w*|seductive|sensual|tempt\w*|provocative|sultry|bewitching)\b/i;
 import { valuesOf } from '../engine/draw';
 import { isActive, isEffective } from '../engine/state';
 import type { FieldId, ForgeState, Option, OutputTarget } from '../types';
@@ -79,9 +83,15 @@ const MATERIAL_NEGATIVE: Array<[RegExp, string]> = [
 export interface ForbiddenParts {
   on: boolean; tags: string[]; outfitTags: string[]; restraintNat: string; blindNat: string; clothesNat: string;
   hideEyes: boolean; stripGaze: boolean; negative: string[]; jaRows: Array<[string, string]>; jaProse: string;
+  /** タグ形式で先頭寄り（ポーズの直後）に置くか。触手で縛るときは置かない（5回目の実機確認で、先頭に置くとアプリで弾かれた） */
+  front: boolean;
+  /** タグ形式で重みを付けるタグ（拘束具が出ない・固定されないものの要） */
+  key: string[];
+  /** 触手で縛るときは、妖艶さを強める語をタグ形式から外す */
+  calm: boolean;
 }
 export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf> = valuesOf(state)): ForbiddenParts {
-  const none: ForbiddenParts = { on: false, tags: [], outfitTags: [], restraintNat: '', blindNat: '', clothesNat: '', hideEyes: false, stripGaze: false, negative: [], jaRows: [], jaProse: '' };
+  const none: ForbiddenParts = { on: false, tags: [], outfitTags: [], restraintNat: '', blindNat: '', clothesNat: '', hideEyes: false, stripGaze: false, negative: [], jaRows: [], jaProse: '', front: false, key: [], calm: false };
   if (!state.optionalModules.unlimitedEnabled) return none;
   const set = (o?: Option) => !!o && o.id !== 'none';
   const r = v.restraint, b = v.bindPos, a = v.anchor, t = v.tightness, f = v.blindfold;
@@ -102,6 +112,8 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     restraintTags.push(...materialTags(r!.id, b!.id), ...(BIND_TAGS[b!.id] ?? []), ...(useAnchor ? ANCHOR_TAGS[a!.id] ?? [] : []), ...chainAnchor);
     restraintNat = `${cap(b!.en.join(', '))}, with ${material}${t ? `, ${t.en.join(', ')}` : ''}${anchor.length ? `, ${anchor.join(', ')}` : ''}, one clear restraint setup, clean uninjured skin.`;
   }
+  const tentacleBound = bound && TENTACLES.has(r!.id);
+  const key = bound && !tentacleBound ? keyTags(r!.id, b!.id) : [];
   const blind = set(f) ? f!.en : [];
   const blindTags = set(f) ? BLIND_TAGS[f!.id] ?? f!.en : [];
   // 目が隠れる（目隠し）・目を閉じる → 目の色・形・視線をすべて外す。伏し目 → 視線だけ外す
@@ -120,7 +132,8 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     blindNat: blind.length ? `${f?.tags?.includes('covered') ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
     clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
     hideEyes, stripGaze, negative: [...(f?.tags?.includes('hood') ? ['blindfold'] : []), ...(set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...(b?.id === 'ankles' ? ['bound wrists', 'bracelet'] : []), ...(b?.id === 'held' ? ['bound wrists', 'handcuffed'] : []),
-      ...(bound && ['rope', 'silk_cord'].includes(r!.id) && b!.id !== 'torso_arms' ? ['rope belt'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [])], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
+      ...(bound && ['rope', 'silk_cord'].includes(r!.id) && b!.id !== 'torso_arms' ? ['rope belt'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [])], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : '',
+    front: !tentacleBound, key, calm: tentacleBound
   };
 }
 
@@ -235,14 +248,23 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   if (target === 'pixai' || target === 'novelai' || target === 'genericTags') {
     const q = target === 'genericTags' ? [] : quality;
     // 禁断演出のタグは人物の直後（先頭寄り）に置く。後ろにあると、長いプロンプトで拘束具や触手が描かれにくい（4回目の実機確認）
-    const all = dedupe([...q, ...lora, ...subject, ...forbidden, ...face, ...hair, ...outfitTags, ...pose, ...scene, ...meta, ...free]);
+    // 禁断の調合がONのときは、ポーズ・構図 → 禁断演出 → 人物 の順にする（先頭寄りのタグほど効きやすい。4〜5回目の実機確認）
+    // 触手で縛るときだけは禁断演出を衣装の後ろに置き、妖艶さを強める語を外す（先頭に置くとアプリで弾かれた）
+    const calm = (t: string) => !(fb.calm && SUGGESTIVE.test(t));
+    const core = fb.on
+      ? [...q, ...lora, ...subject, ...pose, ...(fb.front ? forbidden : []), ...face, ...hair, ...outfitTags, ...(fb.front ? [] : forbidden), ...scene, ...meta]
+      : [...q, ...lora, ...subject, ...face, ...hair, ...outfitTags, ...forbidden, ...pose, ...scene, ...meta];
+    const all = dedupe([...core.filter(calm), ...free]);
     const emphSet = new Set(['handsome', v.archetype?.en[0], forbidden.find((t) => t !== 'restrained')].filter(Boolean) as string[]);
-    positive = all.map((t) => (emphSet.has(t) ? emph(t) : t)).join(', ');
+    // 拘束具の要のタグは、強調の設定にかかわらず重みを付ける（PixAI は (tag:1.2)、NovelAI は {tag}）
+    const keySet = new Set(fb.key);
+    const weigh = (t: string) => (keySet.has(t) && target === 'pixai' ? `(${t}:1.2)` : keySet.has(t) && target === 'novelai' ? `{${t}}` : emphSet.has(t) ? emph(t) : t);
+    positive = all.map(weigh).join(', ');
     const short = dedupe([...q, ...lora, ...subject, ...forbidden.slice(0, 3), ...en('age').slice(0, 1), 'handsome', ...(v.archetype?.en.slice(0, 1) ?? []),
       ...(mascPres ? [] : en('presentation').slice(0, 1)), ...en('hairLength'), ...en('hairStyle').slice(0, 1), ...en('hairColor'), ...en('eyeColor'),
       ...kemonoTags.slice(0, 2), ...outfit.tags.slice(0, 2), ...en('expression').slice(0, 1), ...en('shot').slice(0, 1),
       ...(bgOn ? en('scene').slice(0, 1) : []), ...(v.artStyle?.en ?? []), ...free]);
-    compact = short.map((t) => (emphSet.has(t) ? emph(t) : t)).join(', ');
+    compact = short.filter((t) => !(fb.calm && SUGGESTIVE.test(t))).map(weigh).join(', ');
   } else if (target === 'naturalEnglish') {
     const sentences = naturalSentences(state, v, outfit.nat, kemonoTags, shotLevel);
     positive = [lora.join(' '), sentences.join(' '), free.length ? `Additional details: ${free.join(', ')}.` : ''].filter(Boolean).join(' ');

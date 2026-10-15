@@ -353,11 +353,11 @@ describe('シードと重複回避', () => {
     expect(same).toBeLessThanOrEqual(2);
   });
   it('候補不足のときは重複回避をゆるめる（候補が直近だけでも止まらない）', () => {
-    const s = set(fresh('relax'), 'hairStyle', 'very_long_straight');
+    const s = set(set(fresh('relax'), 'archetype', 'gentle_prince', false), 'hairStyle', 'very_long_straight');
     s.settings.seed = '';
     const recent = { hairLength: ['very_long'] };
     const r = draw(s, { targets: ['hairLength'], recent });
-    expect(r.ok).toBe(true);
+    expect(r.ok, JSON.stringify(r.conflicts)).toBe(true);
     expect(r.state.fields.hairLength.id).toBe('very_long');
   });
 });
@@ -517,7 +517,7 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     const seen = new Set<string>();
     for (const [bind, poses] of [['wrists_behind', ['kneel_behind', 'prone_behind', 'kneel_look_up', 'kneel_head_down']], ['wrists_overhead', ['kneel_overhead']], ['wrists_front', ['prone_reach']], ['ankles', ['prone_ankles']]] as const) {
       let s = set(set(set(onState('kp-' + bind), 'role', 'captive'), 'restraint', 'rope'), 'bindPos', bind);
-      for (let i = 0; i < 120; i++) { s = draw(s, { seed: `kp-${bind}-${i}` }).state; seen.add(s.fields.pose.id!); }
+      for (let i = 0; i < 240; i++) { s = draw(s, { seed: `kp-${bind}-${i}` }).state; seen.add(s.fields.pose.id!); }
       for (const p of poses) expect(seen.has(p), `${bind}:${p}`).toBe(true);
     }
   });

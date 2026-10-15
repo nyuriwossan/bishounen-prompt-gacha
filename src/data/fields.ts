@@ -14,7 +14,7 @@ import { CULTURE, CULTURE_CATS, WORLD, WORLD_CATS } from './worlds';
 import { ANCHOR, BIND_POS, BLINDFOLD, DISARRAY, RESTRAINT, ROLE, TIGHTNESS, WEAR, WEAR_CATS } from './forbidden';
 
 /** 辞書のバージョン。候補IDを削除・改名したら上げ、storage の migration に対応を書く。 */
-export const DATA_VERSION = '2026.10.8';
+export const DATA_VERSION = '2026.10.9';
 
 export const FIELDS: FieldDef[] = [
   // ---- 基本パネル ----
