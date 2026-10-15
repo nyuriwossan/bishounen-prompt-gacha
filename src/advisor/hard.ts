@@ -4,6 +4,7 @@
  */
 import { fieldDef } from '../data/fields';
 import { matchRef } from '../engine/match';
+import { JOYFUL_EXPRESSIONS, PLEASURE_EXPRESSIONS } from '../data/forbidden';
 import type { FieldId, Option } from '../types';
 
 export type Values = Partial<Record<FieldId, Option>>;
@@ -93,6 +94,8 @@ export const PAIR_RULES: PairRule[] = [
     check: ({ bindPos: b, pose: p }) => {
       if (!b || !p || b.id === 'none') return null;
       const bound = has(p, 'bound'), hands = p.hands ?? 2;
+      // 持ち物を前提にするポーズ（花を差し出す・銃を構えるなど）は、手を縛る・拘束具を持つときは不可
+      if (b.id !== 'ankles' && p.requires?.some((r) => r.startsWith('prop:'))) return `拘束中は、持ち物を使うポーズ「${p.ja}」はできません`;
       if (b.id === 'held') return !bound && hands >= 1 ? null : `拘束具を持つ手が、ポーズ「${p.ja}」では空いていません`;
       if (b.id === 'ankles') return ['walking', 'running', 'jumping'].includes(p.posture ?? '') ? `足首を縛ったまま「${p.ja}」はできません` : null;
       if (bound) return null; // 拘束の構図は requires で拘束位置と対応済み
@@ -180,6 +183,30 @@ export const PAIR_RULES: PairRule[] = [
   {
     id: 'disarray_pose', fields: ['disarray', 'pose'],
     check: ({ disarray: d, pose: p }) => (d && p && has(d, 'arms_up') && !has(p, 'arms_up') ? `「${d.ja}」は腕を上げるポーズのときだけです（現在：${p.ja}）` : null)
+  },
+  {
+    // 拘束される側は喜んだ表情にしない／拘束する側は嬉しそう・愉悦の笑み
+    id: 'role_expression', fields: ['role', 'expression'],
+    check: ({ role: ro, expression: e }) => {
+      if (!ro || !e) return null;
+      if (onlySide(ro, 'captive') && JOYFUL_EXPRESSIONS.has(e.id)) return `「${ro.ja}」に喜んだ表情「${e.ja}」は合いません`;
+      if (onlySide(ro, 'captor') && !PLEASURE_EXPRESSIONS.has(e.id)) return `「${ro.ja}」は愉悦を感じている笑みにします（現在：${e.ja}）`;
+      return null;
+    }
+  },
+  {
+    id: 'bind_expression', fields: ['bindPos', 'expression'],
+    check: ({ bindPos: b, expression: e }) => (b && e && isBound(b) && JOYFUL_EXPRESSIONS.has(e.id) ? `縛られている人物に喜んだ表情「${e.ja}」は合いません` : null)
+  },
+  {
+    // 光の鎖と魔法陣は混ざって描かれるので同時に出さない
+    id: 'lightchain_scene', fields: ['restraint', 'scene'],
+    check: ({ restraint: r, scene: s }) => (r && s && r.id === 'light_chains' && s.id === 'ritual_altar' ? '光の鎖は魔法陣と混ざるため、祭壇の背景とは組み合わせません' : null)
+  },
+  {
+    // うつ伏せは下から煽ると仰向けに描かれやすい
+    id: 'prone_angle', fields: ['pose', 'angle'],
+    check: ({ pose: p, angle: a }) => (p && a && p.posture === 'lying' && p.tags?.includes('bound') && ['from_below', 'slightly_below', 'dutch'].includes(a.id) ? `うつ伏せの拘束と「${a.ja}」は合いません` : null)
   },
   {
     id: 'blind_glasses', fields: ['blindfold', 'glasses'],

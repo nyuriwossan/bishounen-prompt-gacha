@@ -7,6 +7,7 @@ import { hashSeed, seededRandom, weightedPick } from '../src/engine/rng';
 import { cloneState, emptyState, isActive } from '../src/engine/state';
 import { applyShares, softWeight } from '../src/engine/weights';
 import { matchAny } from '../src/engine/match';
+import { JOYFUL_EXPRESSIONS, PLEASURE_EXPRESSIONS } from '../src/data/forbidden';
 import type { FieldId, ForgeState } from '../src/types';
 
 const fresh = (seed = 'base', mode: ForgeState['settings']['coherence'] = 'coherent', items = false) => {
@@ -148,7 +149,7 @@ describe('hard 制約', () => {
     expect(checkAdopt(s, 'archetype', 'glasses_intellectual').blockingOff).toEqual(['glasses']);
   });
   it('スイッチをONにすると、その場で抽選して埋める（固定中の値は変えない）', () => {
-    let s = fresh('on');
+    let s = fresh('on', 'wild');
     s.optionalModules.glassesEnabled = true;
     const ids = new Set<string>();
     for (let i = 0; i < 30; i++) { const r = fillModule(s, 'glasses'); if (r) ids.add(r.state.fields.glasses.id!); }
@@ -446,6 +447,10 @@ describe('禁断の調合（アンリミテッドモード）', () => {
         if (v.restraint!.id !== 'none' && v.outfit!.tags?.includes('f_strap')) expect(v.restraint!.id).toBe('straps');
         if (v.disarray!.id === 'riding_up') expect(v.pose!.tags).toContain('arms_up');
         if (v.restraint!.tags?.includes('summoned')) expect(v.anchor!.id).toBe('none');
+        // 拘束される側・縛られている人物は喜んだ表情にしない／する側だけの立場は愉悦の笑み
+        const captiveOnly = role.tags?.includes('captive') && !role.tags?.includes('captor');
+        if (captiveOnly || !['none', 'held'].includes(b.id)) expect(JOYFUL_EXPRESSIONS.has(v.expression!.id), `${mode}#${i} ${v.expression!.id}`).toBe(false);
+        if (captorOnly) expect(PLEASURE_EXPRESSIONS.has(v.expression!.id), `${mode}#${i} ${v.expression!.id}`).toBe(true);
         if (v.pose!.posture === 'lying') expect(['wall', 'pillar']).not.toContain(v.anchor!.id);
         if (v.restraint!.id === 'cuffs') expect(v.tightness!.id).toBe('secured');
         expect(r.stuck, `${mode}#${i}`).toEqual([]);

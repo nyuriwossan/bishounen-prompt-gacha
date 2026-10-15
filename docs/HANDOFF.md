@@ -26,7 +26,7 @@ Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 177件、約105秒
+npm run typecheck && npm run lint && npm test   # 178件、約105秒
 npm run build
 npm run test:browser                            # 95項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
@@ -56,7 +56,7 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 | 獣人（種族） | 29 |
 
 - 項目は全44（`FIELD_IDS`。うち9つが禁断の調合）。
-- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.5`）は `fields.ts` にある。
+- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.6`）は `fields.ts` にある。
 - 衣装のテンプレートでは `{c1}` をメインカラー、`{c2}` を差し色として扱う。
 
 ### 抽選（`src/engine/`）
@@ -147,6 +147,7 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - 追加（同日）：おまかせスタイルの分類「禁断」に5種（囚われの王子・触手の森・鎖と地下牢・リボンの贈り物・支配する側。`group: 'forbidden'`）。画面では禁断ONのときだけ分類とスタイルを出し、OFFにすると選択も外す（`App.tsx` の useEffect）。先読みをスタイルの条件に合わせて判断するようにし（`leavesRoom` の preset）、衣装→拘束具も先読みに追加。禁断ONのときは「候補が少なめ」の通知を出さない。
 - 追加（同日）：実機確認セット `npm run report:verify`（`scripts/verify-set.ts` → `docs/VERIFY-SET.md` と `docs/test-artifacts/verify-set.json`）。20例を固定＋シードで再現し、共有URL・PixAIタグ・ネガティブ・確かめる点を出す。ユーザー向けのチェックリストは claude.ai のアーティファクト（会話内）。作成時の見直しで、触手・蔓・光の鎖は固定先なし（`restraint_anchor`）、うつ伏せは壁・柱に固定しない、手錠の締め方は「しっかり」だけ（`restraint_tightness`）、衣装の鎖と一緒に出せるのは鎖・装飾鎖だけ、を追加。
 - 実機確認1回目（PixAI SDXL、ネガティブなし）：20例中OK 5。主因は (1) ポーズ構図工房由来の長い英語の句がタグ形式では効かない、(2) 素材を問わない「bound」が縄を呼ぶ、(3) captive / dominant が相手役を呼ぶ（人物が2人に分裂）。対応：タグ形式は danbooru 風の短いタグ（`forbidden.ts` の `materialTags` / `BIND_TAGS` / `BLIND_TAGS` / `ANCHOR_TAGS` / `heldTags`）にし、長い句は自然な英文だけに残す。縄・組紐以外では bound を使わない。立場の語はタグ形式に出さない。囚われの場所に `indoors` と固有の世界観ID、うつ伏せ×寝室は `on bed`、項垂れるポーズは視線の語を外す、フード×冠の髪型を禁止、柱×壁にもたれるを禁止。「下のボタンが外れて腹がのぞく」は SDXL で描けず `midriff_peek` へ統合（`ID_RENAMES`）。`DATA_VERSION` 2026.10.5。モジュールの説明にネガティブ併用を案内。
+- 実機確認2回目：判定19例中OK 12。対応：肘掛けは `armchair, hands on armrests`、うつ伏せは `on stomach, lying on stomach, prone` で下からのアングルを禁止（`prone_angle`）、足首だけのときは `restrained` を出さずネガティブに `bound wrists`、鳥籠は `in cage, caged, inside giant birdcage`、光の鎖×魔法陣の祭壇を禁止、手錠を持つは `open handcuffs, handcuffs in hand`＋ネガティブに `bound wrists, handcuffed`、`chained to wall/pillar` は鎖・装飾鎖のときだけ。持ち物を前提にするポーズは拘束中に出さない。表情：拘束される側（される側だけの立場、または実際に縛られている）は喜んだ表情を出さない（`JOYFUL_EXPRESSIONS`）、する側だけの立場は愉悦の笑みに限る（`PLEASURE_EXPRESSIONS`、新表情「愉悦の笑み」「嬉しそうに見下ろす笑み」）。壁に鎖でつなぐ描写は SDXL では難しいまま。`DATA_VERSION` 2026.10.6。
 - 画像での見え方（触手・リボンの巻き方など）は未確認。PixAI アプリ版で弾かれる語の一覧は公開されていないため、ユーザーの実機確認に頼る。
 
 ## 7. 既知の制限

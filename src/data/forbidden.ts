@@ -171,9 +171,9 @@ export const BOUND_POSES: Array<{ id: string; ja: string; en: string; posture: s
   { id: 'kneel_look_up', ja: '膝をつき、縛られたまま見上げる', en: 'kneeling, looking up, looking at viewer', posture: 'kneeling', minShot: 2, gaze: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
   { id: 'kneel_head_down', ja: '膝をつき、縛られて項垂れる', en: 'kneeling, sitting on heels, head down, looking down', posture: 'kneeling', minShot: 3, gaze: false, headDown: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
   // うつ伏せ（ポーズ構図工房の lying prone を参考。縛った腕では上体を支えない）
-  { id: 'prone_behind', ja: '後ろ手に縛られてうつ伏せ', en: 'lying, on stomach, looking at viewer', posture: 'lying', minShot: 4, gaze: true, bind: ['wrists_behind'] },
-  { id: 'prone_reach', ja: 'うつ伏せで、縛られた両手を前へ投げ出す', en: 'lying, on stomach, arms forward, head up', posture: 'lying', minShot: 3, gaze: true, bind: ['wrists_front'] },
-  { id: 'prone_ankles', ja: '足首を縛られ、うつ伏せで肘をつく', en: 'lying, on stomach, on elbows', posture: 'lying', minShot: 4, gaze: true, bind: ['ankles'] }
+  { id: 'prone_behind', ja: '後ろ手に縛られてうつ伏せ', en: 'on stomach, lying on stomach, prone, looking at viewer', posture: 'lying', minShot: 4, gaze: true, bind: ['wrists_behind'] },
+  { id: 'prone_reach', ja: 'うつ伏せで、縛られた両手を前へ投げ出す', en: 'on stomach, lying on stomach, prone, arms forward, head up', posture: 'lying', minShot: 3, gaze: true, bind: ['wrists_front'] },
+  { id: 'prone_ankles', ja: '足首を縛られ、うつ伏せで肘をつく', en: 'on stomach, lying on stomach, prone, on elbows, hands on floor', posture: 'lying', minShot: 4, gaze: true, bind: ['ankles'] }
 ];
 
 // ---------------- 表情（立場に合わせて追加。立場がOFF＝なしでは出ない）----------------
@@ -184,12 +184,18 @@ export const FORBIDDEN_EXPRESSIONS: Array<{ id: string; ja: string; en: string; 
   { id: 'resigned', ja: '諦めたような表情', en: 'resigned expression', side: 'captive' },
   { id: 'bewildered', ja: '困惑した表情', en: 'bewildered expression', side: 'captive' },
   { id: 'smug', ja: '得意げな笑み', en: 'smug smile', side: 'captor' },
-  { id: 'cold_glare', ja: '冷たい視線', en: 'cold stare', side: 'captor' }
+  { id: 'cold_glare', ja: '冷たい視線', en: 'cold stare', side: 'captor' },
+  { id: 'relish', ja: '愉悦の笑み', en: 'evil smile, smug', side: 'captor' },
+  { id: 'delighted_captor', ja: '嬉しそうに見下ろす笑み', en: 'happy, smile, looking down at viewer', side: 'captor' }
 ];
+/** 拘束される側には出さない、喜んでいる・楽しそうな表情（2026-10-15 ユーザーの希望） */
+export const JOYFUL_EXPRESSIONS = new Set(['gentle_smile', 'closed_smile', 'tender', 'relieved', 'bright_smile', 'laughing', 'smile_eyes_closed', 'confident_smile', 'mischievous', 'teasing', 'smug', 'relish', 'delighted_captor']);
+/** 拘束する側（する側だけの立場）の表情：嬉しそう・愉悦を感じている笑みに限る（2026-10-15 ユーザーの希望） */
+export const PLEASURE_EXPRESSIONS = new Set(['smug', 'relish', 'delighted_captor', 'knowing_smile', 'provocative', 'smirk', 'confident_smile', 'teasing', 'mischievous', 'cold_smile', 'unhinged']);
 /** 立場ごとに出やすくする既存の表情 */
 export const ROLE_EXPRESSIONS: Record<'captive' | 'captor', string[]> = {
   captive: ['wary', 'defiant', 'frustrated', 'resigned', 'bewildered', 'quiet_tears', 'determined', 'flustered', 'sad_smile', 'intense_stare'],
-  captor: ['smug', 'cold_glare', 'knowing_smile', 'provocative', 'confident_smile', 'expressionless', 'cold_smile', 'smirk', 'teasing']
+  captor: ['smug', 'relish', 'delighted_captor', 'knowing_smile', 'provocative', 'smirk', 'confident_smile', 'teasing', 'cold_smile']
 };
 
 /* ---------------- タグ形式（PixAI / NovelAI / 汎用タグ）用の短いタグ ----------------
@@ -200,11 +206,11 @@ export const ROLE_EXPRESSIONS: Record<'captive' | 'captor', string[]> = {
 const ROPE_LIKE = new Set(['rope', 'silk_cord']);
 /** 拘束具の素材タグ（拘束位置に応じて「縛られた部位」のタグを足す） */
 export function materialTags(restraintId: string, bindId: string): string[] {
-  const part = bindId === 'ankles' ? 'bound ankles' : bindId === 'torso_arms' ? 'bound arms' : 'bound wrists';
+  const part = bindId === 'ankles' ? 'bound legs, bound ankles' : bindId === 'torso_arms' ? 'bound arms' : 'bound wrists';
   const T: Record<string, string[]> = {
-    rope: ['rope', part], silk_cord: ['rope', 'silk cord', part],
+    rope: ['rope', ...part.split(', ')], silk_cord: ['rope', 'silk cord', ...part.split(', ')],
     chain: ['chain', 'chained'], ornate_chain: ['chain', 'chained', 'gold chain'],
-    light_chains: ['glowing chain', 'magic', 'chain'],
+    light_chains: ['glowing chain', 'chain', 'light particles'],
     cuffs: [bindId === 'ankles' ? 'shackles' : 'handcuffs'],
     straps: ['leather straps', 'restraints'],
     ribbon: ['ribbon', 'large bow', 'wrists tied with ribbon'],
@@ -218,14 +224,16 @@ export function materialTags(restraintId: string, bindId: string): string[] {
 /** 拘束位置のタグ（素材を問わない語だけ） */
 export const BIND_TAGS: Record<string, string[]> = {
   wrists_front: ['restrained'], wrists_behind: ['restrained', 'arms behind back'], wrists_overhead: ['restrained', 'arms up'],
-  one_wrist: ['restrained'], armrests: ['restrained', 'sitting', 'chair', 'armrest'], ankles: ['restrained'], torso_arms: ['restrained']
+  one_wrist: ['restrained'], armrests: ['restrained', 'sitting', 'armchair', 'hands on armrests'], ankles: [], torso_arms: ['restrained']
 };
-export const ANCHOR_TAGS: Record<string, string[]> = { wall: ['against wall'], pillar: ['against pillar'], chair: ['chair'], overhead: [] };
+export const ANCHOR_TAGS: Record<string, string[]> = { wall: ['against wall'], pillar: ['against pillar'], chair: ['armchair'], overhead: [] };
+/** 鎖・装飾鎖のときだけ足す固定先のタグ（ほかの素材に「chained」を混ぜない） */
+export const CHAIN_ANCHOR_TAGS: Record<string, string[]> = { wall: ['chained to wall'], pillar: ['chained to pillar'] };
 /** 「する側」が手に持つ・操るときのタグ */
 export function heldTags(restraintId: string): string[] {
   const H: Record<string, string[]> = {
     rope: ['holding rope'], silk_cord: ['holding rope'], chain: ['holding chain'], ornate_chain: ['holding chain', 'gold chain'], light_chains: ['glowing chain', 'magic'],
-    cuffs: ['holding handcuffs'], straps: ['holding leather strap'], ribbon: ['holding ribbon'], bandage: ['holding bandages'],
+    cuffs: ['holding handcuffs', 'open handcuffs', 'handcuffs in hand'], straps: ['holding leather strap'], ribbon: ['holding ribbon'], bandage: ['holding bandages'],
     tentacles: ['tentacles'], shadow_tentacles: ['tentacles', 'shadow', 'dark aura'], vines: ['vines', 'magic'], rose_vines: ['vines', 'roses', 'magic']
   };
   return H[restraintId] ?? [];

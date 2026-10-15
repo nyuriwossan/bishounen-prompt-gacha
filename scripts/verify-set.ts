@@ -44,7 +44,7 @@ const CASES: Case[] = [
   // ---- 拘束具の素材 ----
   { id: 'v12', group: '拘束具の素材', title: '触手（触手の巣）', seed: 'vs12', lock: { role: 'captive', restraint: 'tentacles', bindPos: 'wrists_overhead', world: 'dark_fantasy', scene: 'tentacle_lair', pose: 'bound_overhead_stand', shot: 'full_body', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['触手が手首に巻き付いている', '縄や鎖が混ざっていない', '露出や性的な描写に寄りすぎていない'] },
-  { id: 'v13', group: '拘束具の素材', title: '光の鎖（魔法陣の祭壇）', seed: 'vs13', lock: { role: 'captive', restraint: 'light_chains', bindPos: 'torso_arms', world: 'high_fantasy', scene: 'ritual_altar', pose: 'chain_torso_stand', shot: 'cowboy_shot', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
+  { id: 'v13', group: '拘束具の素材', title: '光の鎖（大聖堂）', seed: 'vs13', lock: { role: 'captive', restraint: 'light_chains', bindPos: 'torso_arms', world: 'high_fantasy', scene: 'cathedral', pose: 'chain_torso_stand', shot: 'cowboy_shot', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['光る鎖に見える（普通の鎖になっていない）', '腕と胴体に巻かれ、首には回っていない'] },
   { id: 'v14', group: '拘束具の素材', title: 'ラッピングのリボン（巨大な鳥籠）', seed: 'vs14', lock: { role: 'captive', restraint: 'ribbon', bindPos: 'wrists_front', tightness: 'decorative', scene: 'giant_birdcage', blindfold: 'ribbon', world: 'european_court', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['手首のリボンが蝶結びの「贈り物」らしく見える', '目隠しのリボンと手首のリボンが別々に描けている'] },
@@ -60,7 +60,7 @@ const CASES: Case[] = [
   // ---- する側 ----
   { id: 'v19', group: 'する側', title: '手錠を手にした支配者', seed: 'vs19', lock: { role: 'ruler', restraint: 'cuffs', bindPos: 'held', expression: 'smug', scene: 'interrogation_room', world: 'noir', outfit: 'three_piece', pose: 'three_quarter', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['手錠を手に持っている（自分には掛かっていない）', '人物が1人だけ（相手が描かれていない）'] },
-  { id: 'v20', group: 'する側', title: '影の触手を操る', seed: 'vs20', lock: { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held', world: 'dark_fantasy', expression: 'cold_glare', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
+  { id: 'v20', group: 'する側', title: '影の触手を操る', seed: 'vs20', lock: { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held', world: 'dark_fantasy', expression: 'relish', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['影の触手を操っているように見える（本人には巻き付いていない）', '人物が1人だけ'] }
 ];
 

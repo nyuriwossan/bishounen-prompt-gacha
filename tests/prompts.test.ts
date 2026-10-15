@@ -226,7 +226,8 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     const nat = buildPrompt(s, 'naturalEnglish').positive;
     expect(nat).toContain('chains around the wrists');
     expect(nat).toContain('attached to an overhead fixture');
-    expect(p.positive).not.toMatch(/\b(adult|nsfw|bondage|bdsm|nude|naked|neck)\b/i);
+    expect(p.positive).not.toMatch(/\b(adult|nsfw|bondage|bdsm|nude|naked)\b/i);
+    expect(tags.join(', ')).not.toMatch(/\bneck\b/i);
     const neg = buildPrompt({ ...s, settings: { ...s.settings, negative: true } }, 'pixai').negative;
     expect(neg).toContain('restraints around neck');
     expect(buildPrompt(s, 'japanese').positive).toContain('拘束：鎖／両手首を頭上');
@@ -316,5 +317,18 @@ describe('禁断の調合のタグ形式（PixAI SDXL での実機確認を反�
     const p = buildPrompt(s, 'pixai').positive;
     expect(p).toContain('head down');
     expect(p).not.toMatch(/\b(stare|gaze|looking at viewer)\b/);
+  });
+});
+
+describe('禁断の調合：素材の語を混ぜない', () => {
+  it('鎖・装飾鎖以外では chain / chained を出さない（3モード×各60回）', () => {
+    for (const mode of ['coherent', 'balanced', 'wild'] as const) {
+      let s = emptyState(); s.settings.coherence = mode; s.optionalModules.unlimitedEnabled = true;
+      for (let i = 0; i < 60; i++) {
+        s = draw(s, { seed: `mat-${mode}-${i}` }).state;
+        const fb = buildPrompt(s, 'pixai').sections.find((x) => x.id === 'forbidden')?.tags ?? [];
+        if (!['chain', 'ornate_chain', 'light_chains'].includes(s.fields.restraint.id!)) expect(fb.join(', '), `${mode}#${i} ${s.fields.restraint.id}`).not.toMatch(/\bchain(ed|s)?\b/);
+      }
+    }
   });
 });

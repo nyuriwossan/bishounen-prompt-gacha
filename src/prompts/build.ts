@@ -6,7 +6,7 @@
  */
 import { hairColorShort } from '../data/appearance';
 import { optionOf } from '../data/fields';
-import { ANCHOR_TAGS, BIND_TAGS, BLIND_TAGS, heldTags, materialTags } from '../data/forbidden';
+import { ANCHOR_TAGS, BIND_TAGS, BLIND_TAGS, CHAIN_ANCHOR_TAGS, heldTags, materialTags } from '../data/forbidden';
 import { valuesOf } from '../engine/draw';
 import { isActive, isEffective } from '../engine/state';
 import type { FieldId, ForgeState, Option, OutputTarget } from '../types';
@@ -98,7 +98,8 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     const material = `${r!.nat} around ${where}`;
     const useAnchor = set(a) && !(a!.id === 'chair' && b!.id === 'armrests');
     const anchor = useAnchor ? a!.en : [];
-    restraintTags.push(...(BIND_TAGS[b!.id] ?? []), ...materialTags(r!.id, b!.id), ...(useAnchor ? ANCHOR_TAGS[a!.id] ?? [] : []));
+    const chainAnchor = useAnchor && ['chain', 'ornate_chain'].includes(r!.id) ? CHAIN_ANCHOR_TAGS[a!.id] ?? [] : [];
+    restraintTags.push(...(BIND_TAGS[b!.id] ?? []), ...materialTags(r!.id, b!.id), ...(useAnchor ? ANCHOR_TAGS[a!.id] ?? [] : []), ...chainAnchor);
     restraintNat = `${cap(b!.en.join(', '))}, with ${material}${t ? `, ${t.en.join(', ')}` : ''}${anchor.length ? `, ${anchor.join(', ')}` : ''}, one clear restraint setup, clean uninjured skin.`;
   }
   const blind = set(f) ? f!.en : [];
@@ -118,7 +119,7 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     on: true, tags: dedupe([...restraintTags, ...blindTags]), outfitTags: dedupe(clothes), restraintNat: set(v.role) && v.role!.en.length ? `${cap(joinNat(v.role!.en))}. ${restraintNat}`.trim() : restraintNat,
     blindNat: blind.length ? `${f?.tags?.includes('covered') ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
     clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
-    hideEyes, stripGaze, negative: set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
+    hideEyes, stripGaze, negative: set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...(b?.id === 'ankles' ? ['bound wrists'] : []), ...(b?.id === 'held' ? ['bound wrists', 'handcuffed'] : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
   };
 }
 
