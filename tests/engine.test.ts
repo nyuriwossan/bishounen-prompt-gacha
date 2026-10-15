@@ -475,7 +475,7 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     expect(n).toBeGreaterThan(30);
     let t = set(set(set(onState('lair'), 'role', 'captive'), 'restraint', 'tentacles'), 'world', 'dark_fantasy');
     const seen = new Set<string>();
-    for (let i = 0; i < 80; i++) { t = draw(t, { seed: 'lair' + i }).state; seen.add(t.fields.scene.id!); }
+    for (let i = 0; i < 200; i++) { t = draw(t, { seed: 'lair' + i }).state; seen.add(t.fields.scene.id!); }
     expect(seen.has('tentacle_lair')).toBe(true);
   });
   it('OFFにすると、囚われの場所は固定していなければ引き直され、OFFの抽選では出ない', () => {

@@ -85,7 +85,7 @@ export const POSE: Option[] = [
   p('playing_music', '楽器を奏でる', 'playing instrument', 'standing', 2, 2, false, ['artist', 'elegant'], { requires: ['prop:#instrument'] }),
   p('aiming', '銃を構える', 'aiming at viewer', 'standing', 2, 2, true, ['danger', 'dynamic'], { requires: ['prop:#gun'] }),
   // 禁断の調合：拘束の構図（拘束位置を hard 条件にするので、アンリミテッドモードOFFでは出ない）。手は塞がっているので持ち物なし
-  ...BOUND_POSES.map((b) => p(b.id, b.ja, b.en, b.posture, 0, b.minShot as ShotLevel, b.gaze, ['bound', ...(b.armsUp ? ['arms_up'] : [])], { cat: 'bound', requires: [`bindPos:${b.bind.join('|')}`] })),
+  ...BOUND_POSES.map((b) => p(b.id, b.ja, b.en, b.posture, 0, b.minShot as ShotLevel, b.gaze, ['bound', ...(b.armsUp ? ['arms_up'] : []), ...(b.headDown ? ['head_down'] : [])], { cat: 'bound', requires: [`bindPos:${b.bind.join('|')}`] })),
 ];
 export const POSE_CATS: Category[] = [
   { id: 'standing', ja: '立ち' }, { id: 'leaning', ja: 'もたれる' }, { id: 'sitting', ja: '座る' }, { id: 'crouching', ja: 'しゃがむ' },

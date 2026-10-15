@@ -1,5 +1,5 @@
 {
-  "total": 467,
+  "total": 468,
   "byRule": {
     "hair_length_style": 14,
     "pose_shot": 14,
@@ -29,6 +29,7 @@
     "blind_glasses": 14,
     "blind_marks": 9,
     "blind_outfit": 14,
+    "blind_hair": 1,
     "blind_role": 14,
     "blind_expression": 14,
     "disarray_outfit": 14,

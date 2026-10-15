@@ -154,6 +154,7 @@ export const PAIR_RULES: PairRule[] = [
       if (a.id === 'chair' && !CHAIR_POSES.has(p.id)) return `椅子に固定したまま「${p.ja}」はできません`;
       if (a.id === 'overhead' && !['standing', 'kneeling'].includes(p.posture ?? '')) return `頭上の固定具につながれたまま「${p.ja}」はできません`;
       if (['wall', 'pillar'].includes(a.id) && ['walking', 'running', 'jumping', 'floating', 'lying'].includes(p.posture ?? '')) return `${a.ja}につながれたまま「${p.ja}」はできません`;
+      if (a.id === 'pillar' && p.id === 'leaning_wall') return '柱につながれたまま、壁にもたれることはできません';
       return null;
     }
   },
@@ -191,6 +192,10 @@ export const PAIR_RULES: PairRule[] = [
   {
     id: 'blind_outfit', fields: ['blindfold', 'outfit'],
     check: ({ blindfold: f, outfit: o }) => (f && o && has(f, 'hood') && has(o, 'f_headwear') ? `フードと、衣装「${o.ja}」の頭飾りは同時に描けません` : null)
+  },
+  {
+    id: 'blind_hair', fields: ['blindfold', 'hairStyle'],
+    check: ({ blindfold: f, hairStyle: h }) => (f && h && has(f, 'hood') && /crown/.test(h.en.join(' ')) ? `フードと、髪型「${h.ja}」の冠は同時に描けません` : null)
   },
   {
     id: 'blind_role', fields: ['blindfold', 'role'],

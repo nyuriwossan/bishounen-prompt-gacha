@@ -220,7 +220,12 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     const s = on('fb-bind', { role: 'captive', restraint: 'chain', bindPos: 'wrists_overhead', anchor: 'overhead', tightness: 'secured' });
     const p = buildPrompt(s, 'pixai');
     const tags = p.sections.find((x) => x.id === 'forbidden')!.tags;
-    expect(tags).toEqual(expect.arrayContaining(['captive', 'both wrists secured overhead', 'chains around the wrists', 'securely bound', 'attached to an overhead fixture', 'chain links clearly visible']));
+    // タグ形式は短いタグ。鎖では素材を問わない「bound」を使わず、相手役を呼ぶ立場の語も出さない
+    expect(tags).toEqual(expect.arrayContaining(['restrained', 'arms up', 'chain', 'chained']));
+    expect(tags.join(', ')).not.toMatch(/\bbound\b|captive|dominant|prisoner/);
+    const nat = buildPrompt(s, 'naturalEnglish').positive;
+    expect(nat).toContain('chains around the wrists');
+    expect(nat).toContain('attached to an overhead fixture');
     expect(p.positive).not.toMatch(/\b(adult|nsfw|bondage|bdsm|nude|naked|neck)\b/i);
     const neg = buildPrompt({ ...s, settings: { ...s.settings, negative: true } }, 'pixai').negative;
     expect(neg).toContain('restraints around neck');
@@ -233,18 +238,20 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     expect(neg).toEqual(expect.arrayContaining(['chains', 'handcuffs', 'tentacles', 'vines']));
     expect(neg).not.toContain('rope');
     expect(neg).not.toContain('ribbon');
-    expect(buildPrompt(s, 'pixai').positive).toContain('one clear restraint setup');
+    expect(buildPrompt(s, 'naturalEnglish').positive).toContain('one clear restraint setup');
+    expect(buildPrompt(s, 'pixai').positive).toContain('bound wrists');
   });
   it('「する側」は拘束具を手に持つ・操る（触手は操る）', () => {
     const s = on('fb-held', { role: 'ruler', restraint: 'tentacles', bindPos: 'held', world: 'dark_fantasy' });
-    expect(buildPrompt(s, 'pixai').positive).toContain('controlling tentacles');
+    expect(buildPrompt(s, 'pixai').positive).toContain('tentacles');
+    expect(buildPrompt(s, 'naturalEnglish').positive).toContain('controlling tentacles');
     const r = on('fb-held2', { role: 'binder', restraint: 'rope', bindPos: 'held' });
     expect(buildPrompt(r, 'pixai').positive).toContain('holding rope');
   });
   it('衣装の乱れと状態は衣装の欄に入り、自然文と日本語にも出る', () => {
     const s = on('fb-wear', { outfit: 'three_piece', disarray: 'tie_loosened', wear1: 'rain_soaked', wear2: 'frayed' });
     const outfitTags = buildPrompt(s, 'pixai').sections.find((x) => x.id === 'outfit')!.tags;
-    expect(outfitTags).toEqual(expect.arrayContaining(['loosened necktie', 'rain-soaked clothes', 'clothes with frayed edges']));
+    expect(outfitTags).toEqual(expect.arrayContaining(['loosened necktie', 'rain-soaked clothes', 'frayed clothes']));
     expect(buildPrompt(s, 'naturalEnglish').positive).toContain('Clothing details: loosened necktie');
     expect(buildPrompt(s, 'japanese').positive).toContain('衣装の状態：雨に濡れている・ほつれ');
   });
@@ -280,5 +287,34 @@ describe('目隠し・目を閉じる・伏し目と目の描写', () => {
       expect(p).not.toMatch(GAZE);
       expect(p.split(', ')).toEqual(expect.arrayContaining(optionOf('eyeColor', s.fields.eyeColor.id)!.en));
     }
+  });
+});
+
+describe('禁断の調合のタグ形式（PixAI SDXL での実機確認を反映）', () => {
+  it('相手役を呼ぶ立場の語を出さず、縄・組紐以外では「bound」を使わない（3モード×各60回）', () => {
+    for (const mode of ['coherent', 'balanced', 'wild'] as const) {
+      let s = emptyState(); s.settings.coherence = mode; s.optionalModules.unlimitedEnabled = true;
+      for (let i = 0; i < 60; i++) {
+        s = draw(s, { seed: `sdxl-${mode}-${i}` }).state;
+        const out = buildPrompt(s, 'pixai');
+        expect(out.positive, `${mode}#${i}`).not.toMatch(/\b(captive|prisoner|dominant|watchful|predatory)\b/);
+        const fb = out.sections.find((x) => x.id === 'forbidden')?.tags ?? [];
+        if (!['rope', 'silk_cord'].includes(s.fields.restraint.id!)) expect(fb.join(', '), `${mode}#${i} ${s.fields.restraint.id}`).not.toMatch(/\bbound\b/);
+        // 長い説明の句はタグ形式に入れない
+        for (const t of fb) expect(t.split(' ').length, t).toBeLessThanOrEqual(4);
+      }
+    }
+  });
+  it('寝室でうつ伏せなら「ベッドの上」にして、床の語を入れない', () => {
+    const s = make('bed', { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'prone_behind', scene: 'canopy_bedroom', shot: 'full_body' }, { unlimitedEnabled: true });
+    const tags = buildPrompt(s, 'pixai').positive.split(', ');
+    expect(tags).toContain('on bed');
+    expect(tags.some((t) => /floor/.test(t))).toBe(false);
+  });
+  it('項垂れるポーズでは、視線の語（眼差し・こちらを見る）を外す', () => {
+    const s = make('head', { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'kneel_head_down', expression: 'intense_stare', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
+    const p = buildPrompt(s, 'pixai').positive;
+    expect(p).toContain('head down');
+    expect(p).not.toMatch(/\b(stare|gaze|looking at viewer)\b/);
   });
 });

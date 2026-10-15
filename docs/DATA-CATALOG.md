@@ -1,6 +1,6 @@
 # DATA-CATALOG — 辞書の件数と構成
 
-辞書の版：`2026.10.4`。件数は `src/data/fields.ts` の登録から自動集計（`npm run report:catalog` で再生成。下限は `tests/data.test.ts` で検査）。
+辞書の版：`2026.10.5`。件数は `src/data/fields.ts` の登録から自動集計（`npm run report:catalog` で再生成。下限は `tests/data.test.ts` で検査）。
 
 ## 指示書の目標との対応
 
@@ -61,13 +61,13 @@
 | 固定先 | `anchor` | 任意：禁断の調合（unlimited） | 5 | — | 新規 5 |
 | 締め方 | `tightness` | 任意：禁断の調合（unlimited） | 3 | — | 新規 3 |
 | 目隠し・視界 | `blindfold` | 任意：禁断の調合（unlimited） | 13 | — | 新規 13 |
-| 衣装の乱れ | `disarray` | 任意：禁断の調合（unlimited） | 17 | — | 新規 17 |
+| 衣装の乱れ | `disarray` | 任意：禁断の調合（unlimited） | 16 | — | 新規 16 |
 | 衣装の状態① | `wear1` | 任意：禁断の調合（unlimited） | 28 | 3 | 新規 28 |
 | 衣装の状態② | `wear2` | 任意：禁断の調合（unlimited） | 28 | 3 | 新規 28 |
 | 画風 | `artStyle` | 任意：画風・名前 | 9 | — | 新規 9 |
 | 呼び名 | `name` | 任意：画風・名前（name） | 224 | 6 | OCメーカー 224 |
 
-合計 1711 候補（髪色・配色は複数項目で共有するため重複計上を含む）。「新規」には既存工房の語彙を参考に再構成したものを含む（詳細は SOURCE-AUDIT.md）。
+合計 1710 候補（髪色・配色は複数項目で共有するため重複計上を含む）。「新規」には既存工房の語彙を参考に再構成したものを含む（詳細は SOURCE-AUDIT.md）。
 
 ## 美形アーキタイプの分類
 

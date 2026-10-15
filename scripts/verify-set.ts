@@ -53,8 +53,8 @@ const CASES: Case[] = [
   // ---- 着崩し・衣装の状態 ----
   { id: 'v16', group: '着崩し・衣装の状態', title: '腕を上げて服がずり上がる（腹ちらり）', seed: 'vs16', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_overhead', pose: 'bound_overhead_stand', disarray: 'riding_up', outfit: 'oversized_tee_wide', shot: 'cowboy_shot', scene: 'abandoned_factory', blindfold: 'none', wear1: 'none', wear2: 'none' },
     checks: ['腹がちらりと見える程度（それ以上の露出になっていない）', '服がずり上がって見える'] },
-  { id: 'v17', group: '着崩し・衣装の状態', title: '下のボタンが外れて腹がのぞく', seed: 'vs17', lock: { role: 'defiant', restraint: 'cuffs', bindPos: 'wrists_front', disarray: 'bottom_unbuttoned', outfit: 'white_shirt', scene: 'prison_cell', blindfold: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['シャツの下側だけが開いている', '露出がそれ以上広がっていない'] },
+  { id: 'v17', group: '着崩し・衣装の状態', title: '裾から腹がちらり（腕は下ろしたまま）', seed: 'vs17', lock: { role: 'defiant', restraint: 'cuffs', bindPos: 'wrists_front', disarray: 'midriff_peek', outfit: 'zip_hoodie_tee', scene: 'prison_cell', blindfold: 'none', wear1: 'none', wear2: 'none' },
+    checks: ['裾から腹がちらりと見える程度', '露出がそれ以上広がっていない'] },
   { id: 'v18', group: '着崩し・衣装の状態', title: 'ずぶ濡れ＋ほつれ（透けないか）', seed: 'vs18', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', wear1: 'drenched', wear2: 'frayed', outfit: 'camp_collar_shirt', time: 'rainy_night', blindfold: 'none', disarray: 'none' },
     checks: ['濡れていても服が透けていない', 'ほつれが表現されている（大きな破れになっていない）'] },
   // ---- する側 ----

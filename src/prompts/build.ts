@@ -6,6 +6,7 @@
  */
 import { hairColorShort } from '../data/appearance';
 import { optionOf } from '../data/fields';
+import { ANCHOR_TAGS, BIND_TAGS, BLIND_TAGS, heldTags, materialTags } from '../data/forbidden';
 import { valuesOf } from '../engine/draw';
 import { isActive, isEffective } from '../engine/state';
 import type { FieldId, ForgeState, Option, OutputTarget } from '../types';
@@ -68,7 +69,7 @@ const GAZE_WORDS = /\b(gaze|gazing|glance|glances|glare|stare|staring|eye contac
 /** 目が隠れているときに顔の欄から外す、目に関する語（表情に含まれるものも） */
 const EYE_WORDS = /\b(eyes?|[a-z]+-eyed|eyelash(es)?|lashes|eyelids?|sanpaku|jitome|pupils?|irises)\b/i;
 /** 目隠しの句そのもの（外さない） */
-const OWN_EYE = /(blindfold|over (the |one )?eyes?|closed eyes|downcast eyes)/i;
+const OWN_EYE = /(blindfold|over (the |one )?eyes?|closed eyes|downcast eyes|covered eyes)/i;
 const BOUND_NEGATIVE = ['blood', 'wounds', 'bruises', 'restraints around neck', 'extra hands', 'missing fingers', 'fused fingers'];
 /** 拘束具の素材どうしが混ざらないよう、選ばなかった素材をネガティブに入れる */
 const MATERIAL_NEGATIVE: Array<[RegExp, string]> = [
@@ -87,32 +88,34 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
   const restraintTags: string[] = [];
   let restraintNat = '';
   const bound = set(r) && set(b) && b!.id !== 'held';
+  // タグ形式は短いタグ（materialTags / BIND_TAGS など）、自然な英文は従来の詳しい句
   if (set(r) && b?.id === 'held') {
     const phrase = `${r!.tags?.includes('summoned') ? 'controlling' : 'holding'} ${r!.nat}`;
-    restraintTags.push(phrase);
+    restraintTags.push(...heldTags(r!.id));
     restraintNat = `He is ${phrase}.`;
   } else if (bound) {
     const where = b!.id === 'one_wrist' ? 'one wrist' : `the ${b!.nat}`;
     const material = `${r!.nat} around ${where}`;
-    const anchor = set(a) && !(a!.id === 'chair' && b!.id === 'armrests') ? a!.en : [];
-    restraintTags.push(...b!.en, material, ...(t ? t.en : []), ...anchor);
-    if (r!.tags?.includes('chain')) restraintTags.push('chain links clearly visible');
-    restraintTags.push('one clear restraint setup', 'clean uninjured skin');
-    restraintNat = `${cap(b!.en.join(', '))}, with ${material}${t ? `, ${t.en.join(', ')}` : ''}${anchor.length ? `, ${anchor.join(', ')}` : ''}.`;
+    const useAnchor = set(a) && !(a!.id === 'chair' && b!.id === 'armrests');
+    const anchor = useAnchor ? a!.en : [];
+    restraintTags.push(...(BIND_TAGS[b!.id] ?? []), ...materialTags(r!.id, b!.id), ...(useAnchor ? ANCHOR_TAGS[a!.id] ?? [] : []));
+    restraintNat = `${cap(b!.en.join(', '))}, with ${material}${t ? `, ${t.en.join(', ')}` : ''}${anchor.length ? `, ${anchor.join(', ')}` : ''}, one clear restraint setup, clean uninjured skin.`;
   }
   const blind = set(f) ? f!.en : [];
+  const blindTags = set(f) ? BLIND_TAGS[f!.id] ?? f!.en : [];
   // 目が隠れる（目隠し）・目を閉じる → 目の色・形・視線をすべて外す。伏し目 → 視線だけ外す
   const hideEyes = !!f?.tags?.includes('covered') || f?.id === 'eyes_closed';
-  const stripGaze = hideEyes || !!f?.tags?.includes('closed');
+  // 項垂れるポーズでも視線の語を外す（見上げる表情に引っ張られないように）
+  const stripGaze = hideEyes || !!f?.tags?.includes('closed') || !!v.pose?.tags?.includes('head_down');
   const clothes = [v.disarray, v.wear1, v.wear2].filter(set).flatMap((x) => x!.en);
-  const role = set(v.role) ? v.role!.en : [];
+  // 立場の語（captive / dominant など）は相手役を描かせやすいので、タグ形式には出さない（自然文と日本語には残す）
   const j = (o?: Option) => (set(o) ? o!.ja : '');
   const restraintJa = set(r) ? [r!.ja, j(b), bound ? [j(a), t?.ja].filter(Boolean).join('・') : ''].filter(Boolean).join('／') : 'なし';
   const wearJa = [j(v.wear1), j(v.wear2)].filter(Boolean).join('・') || 'なし';
   const jaRows: Array<[string, string]> = [['立場', j(v.role) || '指定しない'], ['拘束', restraintJa], ['目隠し・視界', j(f) || 'なし'], ['衣装の乱れ', j(v.disarray) || 'なし'], ['衣装の状態', wearJa]];
   const proseBits = [j(v.role), set(r) ? `${r!.ja}${set(b) ? `（${b!.ja}）` : ''}` : '', j(f), j(v.disarray), wearJa !== 'なし' ? wearJa : ''].filter(Boolean);
   return {
-    on: true, tags: dedupe([...role, ...restraintTags, ...blind]), outfitTags: dedupe(clothes), restraintNat,
+    on: true, tags: dedupe([...restraintTags, ...blindTags]), outfitTags: dedupe(clothes), restraintNat: set(v.role) && v.role!.en.length ? `${cap(joinNat(v.role!.en))}. ${restraintNat}`.trim() : restraintNat,
     blindNat: blind.length ? `${f?.tags?.includes('covered') ? 'His eyes are hidden by' : 'He has'} ${joinNat(blind)}.` : '',
     clothesNat: clothes.length ? `Clothing details: ${joinNat(clothes)}.` : '',
     hideEyes, stripGaze, negative: set(r) ? [...(bound ? BOUND_NEGATIVE : []), ...MATERIAL_NEGATIVE.filter(([re]) => !re.test(r!.id) && !(r!.tags?.includes('chain') && re.source === 'chain')).map(([, w]) => w)] : [], jaRows, jaProse: proseBits.length ? `禁断演出：${proseBits.join('、')}。` : ''
@@ -200,7 +203,9 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   const hair = dedupe([...en('hairLength'), ...en('hairStyle'), ...en('hairColor'), ...(accentOn ? [...en('hairAccentColor'), ...en('hairAccent')] : []), ...en('build'), ...kemonoTags]);
   const outfitTags = dedupe([...outfit.tags, ...(v.culture && v.culture.id !== 'none' ? v.culture.en : []), ...fb.outfitTags]);
   const forbidden = fb.tags;
-  const pose = dedupe(M.poseEnabled ? [...en('pose'), ...en('prop'), ...en('shot'), ...en('angle')] : [...en('shot')]).filter(keep);
+  // 寝室でうつ伏せ・寝転ぶなら「ベッドの上」にする（床の語と混ざって上半身だけ床になるのを防ぐ）
+  const onBed = v.pose?.posture === 'lying' && v.scene?.id === 'canopy_bedroom' && bgOn;
+  const pose = dedupe(M.poseEnabled ? [...en('pose').filter((t) => !(onBed && /floor/.test(t))), ...(onBed ? ['on bed'] : []), ...en('prop'), ...en('shot'), ...en('angle')] : [...en('shot')]).filter(keep);
   const scene = dedupe(bgOn ? [...en('scene'), ...(simpleBg ? [] : en('time')), ...en('light')] : []);
   const meta = dedupe([...(v.aura?.en.slice(0, 1) ?? []), ...(v.world?.en ?? []), ...(v.artStyle?.en ?? [])]);
   const sections: PromptSection[] = [

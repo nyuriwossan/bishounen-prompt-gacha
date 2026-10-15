@@ -116,7 +116,6 @@ export const DISARRAY: Option[] = [
   d('disheveled', '全体を着崩す', 'disheveled clothes', ''),
   // 腹がちらりと見える（露出はここまで。f_top は裾のある上衣）
   d('midriff_peek', '裾から腹がちらり', 'midriff peek', 'f_top'),
-  d('bottom_unbuttoned', '下のボタンが外れて腹がのぞく', 'bottom buttons undone, midriff peek', 'f_shirt'),
   d('riding_up', '腕を上げて服がずり上がる', 'shirt riding up, midriff peek', 'f_top', { tags: ['arms_up'] })
 ];
 
@@ -134,7 +133,7 @@ export const WEAR: Option[] = [
   w('sand_covered', '砂まみれ', 'sand-covered clothes', 'dirt'),
   w('salt_stained', '塩・海水の跡', 'salt-stained clothes', 'dirt'),
   w('paint_splattered', '絵の具の飛沫', 'paint-splattered clothes', 'dirt'),
-  w('frayed', 'ほつれ', 'clothes with frayed edges', 'damage', ['tear']),
+  w('frayed', 'ほつれ', 'frayed clothes, loose threads', 'damage', ['tear']),
   w('torn_light', '軽い破れ', 'slightly torn sleeve', 'damage', ['tear']),
   w('torn_places', '所々の破れ', 'clothes torn in several places', 'damage', ['tear', 'heavy_tear']),
   w('tattered', 'ぼろぼろ', 'tattered clothes', 'damage', ['tear', 'heavy_tear']),
@@ -157,24 +156,24 @@ export const WEAR_CATS: Category[] = [{ id: 'dirt', ja: '汚れ' }, { id: 'damag
 
 // ---------------- 拘束の構図（ポーズに追加。拘束位置を hard 条件にする）----------------
 // 姿勢の句だけを持ち、拘束の描写は拘束位置・拘束具の側で出す（重複させない）。
-export const BOUND_POSES: Array<{ id: string; ja: string; en: string; posture: string; minShot: number; gaze: boolean; bind: string[]; armsUp?: boolean }> = [
+export const BOUND_POSES: Array<{ id: string; ja: string; en: string; posture: string; minShot: number; gaze: boolean; bind: string[]; armsUp?: boolean; headDown?: boolean }> = [
   { id: 'bound_front_stand', ja: '両手首を前で縛られて立つ', en: 'standing, looking at viewer', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_front'] },
   { id: 'bound_behind_lookback', ja: '後ろ手に縛られ、肩越しに振り返る', en: 'from behind, looking back over shoulder', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_behind'] },
-  { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, on knees, bound hands resting near the lap', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_front'] },
-  { id: 'bound_chair', ja: '椅子に座り、両手首を肘掛けへ固定', en: 'sitting on chair, both hands and both armrests clearly visible', posture: 'sitting', minShot: 3, gaze: true, bind: ['armrests'] },
-  { id: 'wall_chain_lookback', ja: '片手首を壁へつながれて振り返る', en: 'looking back, restrained hand raised toward the wall', posture: 'standing', minShot: 2, gaze: true, bind: ['one_wrist'] },
+  { id: 'bound_front_kneel', ja: '両手首を前で縛られて膝立ち', en: 'kneeling, hands on lap', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_front'] },
+  { id: 'bound_chair', ja: '椅子に座り、両手首を肘掛けへ固定', en: 'sitting, on chair', posture: 'sitting', minShot: 3, gaze: true, bind: ['armrests'] },
+  { id: 'wall_chain_lookback', ja: '片手首を壁へつながれて振り返る', en: 'looking back, one arm up, against wall', posture: 'standing', minShot: 2, gaze: true, bind: ['one_wrist'] },
   { id: 'bound_overhead_stand', ja: '両手首を頭上で固定されて立つ', en: 'standing, arms up', posture: 'standing', minShot: 2, gaze: true, bind: ['wrists_overhead'], armsUp: true },
   { id: 'ankles_floor', ja: '足首を縛られて床に座る', en: 'sitting on floor, knees up', posture: 'sitting', minShot: 4, gaze: true, bind: ['ankles'] },
-  { id: 'chain_torso_stand', ja: '腕と胴体へ緩く巻いた演出的な立ち姿', en: 'standing, dramatic pose', posture: 'standing', minShot: 2, gaze: true, bind: ['torso_arms'] },
+  { id: 'chain_torso_stand', ja: '腕と胴体へ緩く巻いた演出的な立ち姿', en: 'standing', posture: 'standing', minShot: 2, gaze: true, bind: ['torso_arms'] },
   // 膝立ち（ポーズ構図工房の「膝立ち：上体を両膝の上に起こす」を参考）
-  { id: 'kneel_behind', ja: '後ろ手に縛られて膝立ち', en: 'upright kneeling posture, torso lifted above both knees, looking at viewer', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_behind'] },
-  { id: 'kneel_overhead', ja: '両手首を頭上で吊られて膝立ち', en: 'upright kneeling posture, arms raised above the head, both knees on the floor', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_overhead'], armsUp: true },
-  { id: 'kneel_look_up', ja: '膝をつき、縛られたまま見上げる', en: 'kneeling, looking up at viewer', posture: 'kneeling', minShot: 2, gaze: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
-  { id: 'kneel_head_down', ja: '膝をつき、縛られて項垂れる', en: 'kneeling, sitting on heels, head lowered, hair falling forward', posture: 'kneeling', minShot: 3, gaze: false, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
+  { id: 'kneel_behind', ja: '後ろ手に縛られて膝立ち', en: 'kneeling, upright kneeling, looking at viewer', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_behind'] },
+  { id: 'kneel_overhead', ja: '両手首を頭上で吊られて膝立ち', en: 'kneeling, arms up', posture: 'kneeling', minShot: 3, gaze: true, bind: ['wrists_overhead'], armsUp: true },
+  { id: 'kneel_look_up', ja: '膝をつき、縛られたまま見上げる', en: 'kneeling, looking up, looking at viewer', posture: 'kneeling', minShot: 2, gaze: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
+  { id: 'kneel_head_down', ja: '膝をつき、縛られて項垂れる', en: 'kneeling, sitting on heels, head down, looking down', posture: 'kneeling', minShot: 3, gaze: false, headDown: true, bind: ['wrists_front', 'wrists_behind', 'torso_arms'] },
   // うつ伏せ（ポーズ構図工房の lying prone を参考。縛った腕では上体を支えない）
-  { id: 'prone_behind', ja: '後ろ手に縛られてうつ伏せ', en: 'lying prone, on stomach, cheek near the floor, head turned toward viewer', posture: 'lying', minShot: 4, gaze: true, bind: ['wrists_behind'] },
-  { id: 'prone_reach', ja: 'うつ伏せで、縛られた両手を前へ投げ出す', en: 'lying prone, on stomach, bound hands stretched forward on the floor, head raised', posture: 'lying', minShot: 3, gaze: true, bind: ['wrists_front'] },
-  { id: 'prone_ankles', ja: '足首を縛られ、うつ伏せで肘をつく', en: 'lying prone, on stomach, propped up on elbows', posture: 'lying', minShot: 4, gaze: true, bind: ['ankles'] }
+  { id: 'prone_behind', ja: '後ろ手に縛られてうつ伏せ', en: 'lying, on stomach, looking at viewer', posture: 'lying', minShot: 4, gaze: true, bind: ['wrists_behind'] },
+  { id: 'prone_reach', ja: 'うつ伏せで、縛られた両手を前へ投げ出す', en: 'lying, on stomach, arms forward, head up', posture: 'lying', minShot: 3, gaze: true, bind: ['wrists_front'] },
+  { id: 'prone_ankles', ja: '足首を縛られ、うつ伏せで肘をつく', en: 'lying, on stomach, on elbows', posture: 'lying', minShot: 4, gaze: true, bind: ['ankles'] }
 ];
 
 // ---------------- 表情（立場に合わせて追加。立場がOFF＝なしでは出ない）----------------
@@ -191,4 +190,50 @@ export const FORBIDDEN_EXPRESSIONS: Array<{ id: string; ja: string; en: string; 
 export const ROLE_EXPRESSIONS: Record<'captive' | 'captor', string[]> = {
   captive: ['wary', 'defiant', 'frustrated', 'resigned', 'bewildered', 'quiet_tears', 'determined', 'flustered', 'sad_smile', 'intense_stare'],
   captor: ['smug', 'cold_glare', 'knowing_smile', 'provocative', 'confident_smile', 'expressionless', 'cold_smile', 'smirk', 'teasing']
+};
+
+/* ---------------- タグ形式（PixAI / NovelAI / 汎用タグ）用の短いタグ ----------------
+ * 2026-10-15 の実機確認（PixAI SDXL）で、ポーズ構図工房由来の長い英語の句はタグ形式ではほぼ効かず、
+ * 素材を問わない「bound」が縄を呼ぶ・「captive / dominant」が相手役を呼ぶ、ことが分かった。
+ * そこでタグ形式では danbooru 風の短いタグにし、長い句は自然な英文だけに残す（en / nat はそのまま）。
+ * 縄・組紐以外では「bound」を使わず「restrained」と素材名で表す。 */
+const ROPE_LIKE = new Set(['rope', 'silk_cord']);
+/** 拘束具の素材タグ（拘束位置に応じて「縛られた部位」のタグを足す） */
+export function materialTags(restraintId: string, bindId: string): string[] {
+  const part = bindId === 'ankles' ? 'bound ankles' : bindId === 'torso_arms' ? 'bound arms' : 'bound wrists';
+  const T: Record<string, string[]> = {
+    rope: ['rope', part], silk_cord: ['rope', 'silk cord', part],
+    chain: ['chain', 'chained'], ornate_chain: ['chain', 'chained', 'gold chain'],
+    light_chains: ['glowing chain', 'magic', 'chain'],
+    cuffs: [bindId === 'ankles' ? 'shackles' : 'handcuffs'],
+    straps: ['leather straps', 'restraints'],
+    ribbon: ['ribbon', 'large bow', 'wrists tied with ribbon'],
+    bandage: ['bandages', 'bandaged arm'],
+    tentacles: ['tentacles', 'restrained by tentacles'], shadow_tentacles: ['tentacles', 'shadow', 'dark aura'],
+    vines: ['vines', 'entangled in vines'], rose_vines: ['vines', 'roses', 'entangled in vines']
+  };
+  const tags = T[restraintId] ?? [];
+  return ROPE_LIKE.has(restraintId) ? tags : tags.filter((x) => !/^bound /.test(x));
+}
+/** 拘束位置のタグ（素材を問わない語だけ） */
+export const BIND_TAGS: Record<string, string[]> = {
+  wrists_front: ['restrained'], wrists_behind: ['restrained', 'arms behind back'], wrists_overhead: ['restrained', 'arms up'],
+  one_wrist: ['restrained'], armrests: ['restrained', 'sitting', 'chair', 'armrest'], ankles: ['restrained'], torso_arms: ['restrained']
+};
+export const ANCHOR_TAGS: Record<string, string[]> = { wall: ['against wall'], pillar: ['against pillar'], chair: ['chair'], overhead: [] };
+/** 「する側」が手に持つ・操るときのタグ */
+export function heldTags(restraintId: string): string[] {
+  const H: Record<string, string[]> = {
+    rope: ['holding rope'], silk_cord: ['holding rope'], chain: ['holding chain'], ornate_chain: ['holding chain', 'gold chain'], light_chains: ['glowing chain', 'magic'],
+    cuffs: ['holding handcuffs'], straps: ['holding leather strap'], ribbon: ['holding ribbon'], bandage: ['holding bandages'],
+    tentacles: ['tentacles'], shadow_tentacles: ['tentacles', 'shadow', 'dark aura'], vines: ['vines', 'magic'], rose_vines: ['vines', 'roses', 'magic']
+  };
+  return H[restraintId] ?? [];
+}
+export const BLIND_TAGS: Record<string, string[]> = {
+  cloth: ['blindfold', 'covered eyes', 'black blindfold'], leather: ['blindfold', 'covered eyes', 'leather blindfold'],
+  ribbon: ['blindfold', 'covered eyes', 'ribbon blindfold'], lace: ['blindfold', 'covered eyes', 'lace blindfold'],
+  silk: ['blindfold', 'covered eyes', 'white blindfold'], bandage_eyes: ['covered eyes', 'bandage over eyes'],
+  hood_low: ['hood up', 'covered eyes', 'shaded face'], one_eye: ['bandage over one eye'], veil: ['veil', 'see-through veil'],
+  masquerade: ['masquerade mask'], downcast: ['looking down'], eyes_closed: ['closed eyes']
 };
