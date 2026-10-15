@@ -1,5 +1,5 @@
 {
-  "total": 520,
+  "total": 597,
   "byRule": {
     "hair_length_style": 14,
     "pose_shot": 14,
@@ -11,6 +11,12 @@
     "color_duplicate": 14,
     "hair_accent_duplicate": 14,
     "ears_kemono": 14,
+    "outfit_ears_kemono": 14,
+    "outfit_no_forbidden_role": 10,
+    "outfit_no_forbidden_restraint": 13,
+    "outfit_no_forbidden_blindfold": 12,
+    "outfit_no_forbidden_disarray": 14,
+    "outfit_no_forbidden_wear1": 14,
     "eyepatch_monocle": 1,
     "restraint_bind": 14,
     "role_bind": 14,

@@ -132,6 +132,11 @@ describe('安全性：成人・男性1名', () => {
   it('既定辞書に単独の "adult" がない（年齢は young man などで表す）', () => expect(all.filter(([, t]) => /\badult\b/i.test(t))).toEqual([]));
   it('年齢層はすべて18歳以上', () => { for (const a of opts('age')) expect(a.ageMin).toBeGreaterThanOrEqual(18); });
   it('学生服・制服の学校系や水着・下着は通常の衣装辞書に含めない', () => {
-    expect(opts('outfit').filter((o) => /school|swim|lingerie|bikini|bunny/i.test(o.upper ?? ''))).toEqual([]);
+    expect(opts('outfit').filter((o) => o.cat !== 'cosplay' && /school|swim|lingerie|bikini|bunny/i.test(`${o.upper ?? ''} ${o.lower ?? ''}`))).toEqual([]);
+  });
+  it('コスプレ衣装（専用スイッチがONのときだけ）も、学校系・下着・露出を直接示す語は使わない', () => {
+    const cos = opts('outfit').filter((o) => o.cat === 'cosplay');
+    expect(cos.length).toBe(16);
+    expect(cos.filter((o) => /school|student|serafuku|uniform skirt|lingerie|underwear|nude|naked|topless|shirtless|nsfw|lewd/i.test(`${o.upper ?? ''} ${o.lower ?? ''}`))).toEqual([]);
   });
 });

@@ -8,6 +8,7 @@
  */
 import { allViolations, candidateViolations, type Values, type Violation } from '../advisor/hard';
 import { DATA_VERSION, DRAW_ORDER, fieldDef, optionOf, RELATED } from '../data/fields';
+import { isCosplay } from '../data/outfits';
 import type { DrawConflict, DrawResult, FieldId, ForgeState, Option, StylePreset } from '../types';
 import { matchAny } from './match';
 import { newSeed, seededRandom, weightedPick, type Rng } from './rng';
@@ -188,15 +189,36 @@ function requiresFitPreset(o: Option, determined: Values, preset: StylePreset | 
   });
 }
 
+/** 衣装の抽選範囲。コスプレOFFならコスプレ衣装を外し、ONなら自動の抽選はコスプレ枠だけから行う。
+ * 一覧から引く（strict）ときは、ONなら一覧のとおり（通常の衣装も可）。
+ * 獣人ONでは耳付きの衣装を、禁断ONでは禁断と組まない衣装（セーラー服）を、自動の抽選から外す */
+function outfitPool(s: ForgeState, determined: Values, ctx: PickCtx): { options: Option[]; cosplayOnly: boolean } {
+  const all = fieldDef('outfit').options;
+  const m = s.optionalModules;
+  if (!m.cosplayEnabled) return { options: all.filter((o) => !isCosplay(o)), cosplayOnly: false };
+  if (ctx.strict) return { options: all, cosplayOnly: false };
+  const pool = all.filter((o) => isCosplay(o)
+    && !(m.kemonoEnabled && o.tags?.includes('f_ears'))
+    && !(m.unlimitedEnabled && o.tags?.includes('no_forbidden')));
+  // 固定中の項目と両立するコスプレ衣装がなければ、通常の衣装から選ぶ
+  if (!pool.some((o) => candidateViolations('outfit', o, determined).length === 0)) {
+    ctx.notices.push('固定中の項目と両立するコスプレ衣装がないため、通常の衣装から選びました。');
+    return { options: all.filter((o) => !isCosplay(o)), cosplayOnly: false };
+  }
+  return { options: pool, cosplayOnly: true };
+}
+
 function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: PickCtx): Option | null {
   const def = fieldDef(f);
-  const compatibleNow = def.options.filter((o) => candidateViolations(f, o, determined).length === 0);
+  const scope = f === 'outfit' ? outfitPool(s, determined, ctx) : { options: def.options, cosplayOnly: false };
+  const compatibleNow = scope.options.filter((o) => candidateViolations(f, o, determined).length === 0);
   const roomy = compatibleNow.filter((o) => leavesRoom(f, o, determined, ctx.pending, s, ctx.preset));
   const allCompatible = roomy.length ? roomy : compatibleNow;
   const presetFit = allCompatible.filter((o) => requiresFitPreset(o, determined, ctx.preset));
   const compatible = presetFit.length ? presetFit : allCompatible;
   let pool = compatible;
-  const filter = ctx.preset?.filters[f];
+  // コスプレONの衣装は、おまかせスタイルの衣装の条件より優先する（コスプレ枠だけから引く）
+  const filter = scope.cosplayOnly ? undefined : ctx.preset?.filters[f];
   if (filter && filter.length) {
     const narrowed = compatible.filter((o) => matchAny(o, filter));
     if (narrowed.length) pool = narrowed;
@@ -228,13 +250,15 @@ function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: P
 // ---------------------------------------------------------------
 // 手動選択・固定
 
-export interface AdoptCheck { ok: boolean; violations: Violation[]; blockingLocked: FieldId[]; conflictingUnlocked: FieldId[]; /** OFFのため両立できない項目（眼鏡・特徴・持ち物） */ blockingOff: FieldId[] }
+export interface AdoptCheck { ok: boolean; violations: Violation[]; blockingLocked: FieldId[]; conflictingUnlocked: FieldId[]; /** OFFのため両立できない項目（眼鏡・特徴・持ち物） */ blockingOff: FieldId[]; /** コスプレ衣装のスイッチがOFF */ blockingCosplay?: boolean }
 
 /** 手動採用の事前確認 */
 export function checkAdopt(state: ForgeState, field: FieldId, id: string): AdoptCheck {
   const opt = optionOf(field, id);
   if (!opt) return { ok: false, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [] };
   if (!isActive(state, field)) return { ok: true, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [] };
+  // コスプレ衣装は、スイッチがOFFの間は選べない
+  if (field === 'outfit' && isCosplay(opt) && !state.optionalModules.cosplayEnabled) return { ok: false, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [], blockingCosplay: true };
   const others = valuesOf(state, (g) => g !== field);
   const violations = candidateViolations(field, opt, others);
   const involved = [...new Set(violations.flatMap((v) => v.fields))].filter((g) => g !== field);
@@ -252,12 +276,16 @@ export function followColors(state: ForgeState, field: FieldId): FieldId[] {
   if (field !== 'outfit') return [];
   return (['mainColor', 'accentColor'] as FieldId[]).filter((f) => !state.fields[f].locked && state.fields[f].source !== 'manual' && isActive(state, f));
 }
+export const COSPLAY_OFF_NOTICE = 'コスプレ衣装がOFFのため、この候補は選べません。詳細な調合の「コスプレ衣装」でONにすると選べます。';
 const FOLLOW_NOTICE = '自動で出た衣装の色を、選んだ服に合わせて引き直しました。';
 
 /** 手動採用。競合する未固定項目があれば、それらだけを引き直す（ロック項目は変えない）。衣装なら自動で出た色も服に合わせる */
 export function adopt(state: ForgeState, field: FieldId, id: string, lock: boolean, opts: { seed?: string; recent?: RecentMap } = {}): DrawOutcome {
   const check = checkAdopt(state, field, id);
   const seed = opts.seed ?? newSeed();
+  if (check.blockingCosplay) {
+    return { ok: false, state, notices: [COSPLAY_OFF_NOTICE], conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed };
+  }
   if (check.blockingOff.length) {
     return {
       ok: false, state, notices: [`「${check.blockingOff.map(label).join('・')}」がOFFのため、この候補は選べません。詳細な調合でONにすると選べます。`],
@@ -335,7 +363,13 @@ export function setModule(state: ForgeState, key: keyof ForgeState['optionalModu
 /** モジュールをOFFにしたあと、OFFの項目を前提にしていた値（例：囚われの場所、眼鏡を押し上げるポーズ）を、固定していなければ引き直す */
 export function repairAfterModuleOff(state: ForgeState, recent?: RecentMap): DrawOutcome | null {
   const viols = allViolations(valuesOf(state));
-  const targets = [...new Set(viols.flatMap((v) => v.fields))].filter((f) => isActive(state, f) && !state.fields[f].locked);
+  const set = new Set(viols.flatMap((v) => v.fields));
+  // コスプレOFF：固定していないコスプレ衣装は、通常の衣装（と自動で出た色）に引き直す
+  if (!state.optionalModules.cosplayEnabled && isCosplay(optionOf('outfit', state.fields.outfit.id)) && !state.fields.outfit.locked) {
+    set.add('outfit');
+    for (const c of followColors(state, 'outfit')) set.add(c);
+  }
+  const targets = [...set].filter((f) => isActive(state, f) && !state.fields[f].locked);
   if (!targets.length) return null;
   const r = draw(state, { targets, recent });
   return r.ok ? r : null;
@@ -345,6 +379,11 @@ export function repairAfterModuleOff(state: ForgeState, recent?: RecentMap): Dra
 export function fillModule(state: ForgeState, module: Parameters<typeof moduleKey>[0], recent?: RecentMap): DrawOutcome | null {
   // 禁断の調合：ONにしたら、禁断演出とそれに合わせる表情・ポーズ・画角をまとめて引く（「なし」も通常どおり出る）
   if (module === 'unlimited') return draw(state, { targets: GROUPS.forbidden, recent });
+  // コスプレ：ONにしたら、固定していない衣装と自動で出た色を、コスプレ枠から引き直す
+  if (module === 'cosplay') {
+    if (state.fields.outfit.locked) return null;
+    return draw(state, { targets: ['outfit', ...followColors(state, 'outfit')], recent });
+  }
   // 眼鏡・特徴・持ち物は「なし」のままだとONにした手応えがないので、固定していなければ引き直す
   const fields = DRAW_ORDER.filter((f) => fieldDef(f).module === module && isActive(state, f)
     && (!optionOf(f, state.fields[f].id) || (OFF_AS_NONE.includes(f) && state.fields[f].id === 'none' && !state.fields[f].locked)));

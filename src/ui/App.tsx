@@ -20,7 +20,7 @@ import { SavedView } from './SavedView';
 
 const MODULE_OF: Record<keyof ForgeModules, Parameters<typeof fillModule>[1]> = {
   kemonoEnabled: 'kemono', backgroundEnabled: 'background', poseEnabled: 'pose', facialHairEnabled: 'facialHair', hairAccentEnabled: 'hairAccent', nameEnabled: 'name',
-  glassesEnabled: 'glasses', marksEnabled: 'marks', propEnabled: 'prop', unlimitedEnabled: 'unlimited'
+  glassesEnabled: 'glasses', marksEnabled: 'marks', propEnabled: 'prop', unlimitedEnabled: 'unlimited', cosplayEnabled: 'cosplay'
 };
 
 function initialState(): { state: ForgeState; notes: string[] } {

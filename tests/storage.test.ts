@@ -213,3 +213,22 @@ describe('禁断の調合と保存', () => {
     expect(st.fields.tightness.id).toBe('loose');
   });
 });
+
+describe('コスプレ衣装と保存', () => {
+  it('共有URL・JSONでスイッチを運び、記録のないデータは衣装から推定する', () => {
+    const s = sample('cos-share');
+    s.optionalModules.cosplayEnabled = true;
+    s.fields.outfit = { id: 'maid_classic', source: 'manual', locked: true };
+    const back = decodeShare(encodeShare(s)).state!;
+    expect(back.optionalModules.cosplayEnabled).toBe(true);
+    expect(back.fields.outfit).toEqual({ id: 'maid_classic', source: 'manual', locked: true });
+    // スイッチの記録がない旧データ：通常の衣装ならOFF、コスプレ衣装ならON（見た目を保つ）
+    const plain = JSON.parse(JSON.stringify(sample('cos-old')));
+    delete plain.optionalModules.cosplayEnabled;
+    plain.fields.outfit = { id: 'three_piece', source: 'random', locked: false };
+    expect(normalizeState(plain).optionalModules.cosplayEnabled).toBe(false);
+    const cos = JSON.parse(JSON.stringify(plain));
+    cos.fields.outfit = { id: 'bikini', source: 'manual', locked: false };
+    expect(normalizeState(cos).optionalModules.cosplayEnabled).toBe(true);
+  });
+});

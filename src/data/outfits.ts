@@ -168,7 +168,28 @@ const OUTFIT_BASE: Option[] = [
   fit('sky_pirate', '空賊の外套', 'sf', ['steampunk', 'fantasy'], '{c1} long coat, {c2} goggles, harness', 'trousers, boots', ['pirate', 'coat', 'danger'], { w: 0.6 }),
   fit('winter_noble', '毛皮の外套', 'court', ['north', 'court', 'fantasy'], '{c1} fur-lined coat, {c2} brooch, gloves', 'trousers, boots', ['noble', 'fur', 'gloves', 'winter']),
   fit('pajamas', 'くつろぎの部屋着', 'casual', ['modern'], 'loose {c1} button-up pajama shirt, {c2} piping', 'pajama pants', ['casual', 'soft', 'home'], { w: 0.4 }),
-  fit('bathrobe', 'バスローブ', 'casual', ['modern', 'urban'], '{c1} bathrobe, {c2} trim, towel around neck', 'slippers', ['casual', 'alluring', 'home', 'exposed'], { w: 0.3 })
+  fit('bathrobe', 'バスローブ', 'casual', ['modern', 'urban'], '{c1} bathrobe, {c2} trim, towel around neck', 'slippers', ['casual', 'alluring', 'home', 'exposed'], { w: 0.3 }),
+  // ---- コスプレ（「コスプレ衣装から引く」がONのときだけ抽選。OFFの間は手でも選べない）----
+  // 女性向けの衣装を男性が着る想定。性別は 1boy / male focus と、ネガティブの 1girl・breasts で保つ。
+  // 露出の多いものは exposed（着崩し・大きな破れを重ねない）。nsfw / nude / shirtless などの語は使わない。
+  // 世界観は問わない（worlds を空にして重みを中立にする）。
+  // セーラー服は学校を連想させる語（school / serafuku）を使わず、禁断の調合とは同時に出さない（no_forbidden）。
+  fit('maid_classic', 'メイド服（ロング）', 'cosplay', [], 'male maid, {c1} maid dress, white frilled apron, maid headdress, {c2} ribbon', 'long skirt, black stockings, mary janes', ['cosplay', 'maid', 'frills']),
+  fit('maid_mini', 'ミニスカメイド', 'cosplay', [], 'male maid, {c1} maid dress, white frilled apron, maid headdress, {c2} ribbon', 'frilled miniskirt, white thighhighs, mary janes', ['cosplay', 'maid', 'frills', 'miniskirt']),
+  fit('bikini', 'ビキニ', 'cosplay', [], '{c1} bikini, {c2} trim', 'barefoot', ['cosplay', 'swim', 'exposed']),
+  fit('string_bikini', '紐ビキニ', 'cosplay', [], '{c1} string bikini, {c2} side ties', 'barefoot', ['cosplay', 'swim', 'exposed']),
+  fit('swim_trunks', '水着と開襟シャツ', 'cosplay', [], 'open {c1} shirt', '{c2} swim trunks, sandals', ['cosplay', 'swim', 'exposed']),
+  fit('nurse_mini', 'ミニスカナース', 'cosplay', [], '{c1} nurse uniform, nurse cap, {c2} trim', 'miniskirt, white thighhighs, white shoes', ['cosplay', 'nurse', 'miniskirt']),
+  fit('sailor_suit', 'セーラー服', 'cosplay', [], '{c1} sailor collar blouse, {c2} neckerchief', 'pleated skirt, loafers', ['cosplay', 'sailor', 'no_forbidden']),
+  fit('bunny_boy', 'バニーボーイ', 'cosplay', [], '{c1} bunny suit, bunny ears, {c2} bowtie, detached collar, wrist cuffs', 'fishnet pantyhose, high heels', ['cosplay', 'bunny', 'exposed']),
+  fit('reverse_bunny', '逆バニー', 'cosplay', [], '{c1} reverse bunnysuit, bunny ears, {c2} bowtie', '{c2} briefs, high heels', ['cosplay', 'bunny', 'exposed']),
+  fit('china_mini', 'ミニスカチャイナ', 'cosplay', [], '{c1} short china dress, mandarin collar, {c2} piping', 'side slit, bare legs, flat shoes', ['cosplay', 'miniskirt']),
+  fit('police_mini', 'ミニスカポリス', 'cosplay', [], '{c1} police uniform, police hat, {c2} necktie, badge', 'miniskirt, black pantyhose, ankle boots', ['cosplay', 'tie', 'miniskirt']),
+  fit('santa_mini', 'ミニスカサンタ', 'cosplay', [], '{c1} santa costume, santa hat, white fur trim, {c2} belt', 'miniskirt, white thighhighs, boots', ['cosplay', 'winter', 'miniskirt']),
+  fit('cheerleader', 'チアリーダー', 'cosplay', [], '{c1} cheerleader uniform, sleeveless crop top, {c2} stripes', 'short shorts, sneakers', ['cosplay', 'sporty', 'exposed']),
+  fit('harness_shirt', 'ハーネスと開襟シャツ', 'cosplay', [], 'open {c1} shirt, {c2} leather chest harness', 'fitted trousers, boots', ['cosplay', 'alluring', 'danger']),
+  fit('ballet_dancer', 'バレエダンサー', 'cosplay', [], '{c1} fitted ballet costume, {c2} short jacket', 'white tights, ballet shoes', ['cosplay', 'stage', 'elegant']),
+  fit('ringleader', 'サーカス団長', 'cosplay', [], '{c1} ringleader tailcoat, gold trim, {c2} waistcoat, top hat', 'white breeches, thighhigh boots', ['cosplay', 'stage', 'hat'])
 ];
 
 /* 衣装の特徴タグ（f_*）。禁断の調合の「衣装の乱れ」が、その衣装に実在する部位だけを選ぶために使う。
@@ -186,7 +207,9 @@ const FEATURES: Array<[string, RegExp]> = [
   ['f_top', /\b(shirt|t-shirt|tee|hoodie|sweater|sweatshirt|knit|pullover|blouse|turtleneck|polo|tank top|crop|track jacket)\b/i],
   // 拘束具と混ざりやすい素材（禁断の調合で、別の拘束具と同時に出さない）
   ['f_chain', /\bchains?\b/i],
-  ['f_strap', /\b(straps|harness)\b/i]
+  ['f_strap', /\b(straps|harness)\b/i],
+  // 衣装に付いた動物の耳（獣人の耳と同時に描かない）
+  ['f_ears', /\bbunny ears\b/i]
 ];
 export const OUTFIT: Option[] = OUTFIT_BASE.map((x) => {
   const text = `${x.upper ?? ''} ${x.lower ?? ''}`;
@@ -198,5 +221,8 @@ export const OUTFIT_CATS: Category[] = [
   { id: 'suit', ja: 'スーツ・フォーマル' }, { id: 'daily', ja: '日常着・きれいめ' }, { id: 'casual', ja: 'カジュアル・ストリート' }, { id: 'court', ja: '貴族・王族' },
   { id: 'military', ja: '軍服・制服' }, { id: 'armor', ja: '甲冑・戦装束' }, { id: 'mage', ja: '魔術・聖職' },
   { id: 'japanese', ja: '和装' }, { id: 'chinese', ja: '中華・東アジア' }, { id: 'world', ja: '世界の意匠' },
-  { id: 'dark', ja: 'ゴシック・夜' }, { id: 'sf', ja: 'SF・テック' }, { id: 'work', ja: '職業服' }, { id: 'stage', ja: '舞台・芸能' }
+  { id: 'dark', ja: 'ゴシック・夜' }, { id: 'sf', ja: 'SF・テック' }, { id: 'work', ja: '職業服' }, { id: 'stage', ja: '舞台・芸能' },
+  { id: 'cosplay', ja: 'コスプレ' }
 ];
+/** コスプレ衣装か（専用スイッチがONのときだけ抽選・選択できる） */
+export const isCosplay = (o: { cat?: string } | undefined) => o?.cat === 'cosplay';

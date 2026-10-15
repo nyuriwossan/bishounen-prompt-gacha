@@ -68,6 +68,18 @@ export const PAIR_RULES: PairRule[] = [
     check: ({ marks: m, kemonoSpecies: k }) => (m && k && m.id === 'pointy_ears' ? '尖った人の耳と、獣人の耳は同時に付けられません' : null)
   },
   {
+    id: 'outfit_ears_kemono', fields: ['outfit', 'kemonoSpecies'],
+    check: ({ outfit: o, kemonoSpecies: k }) => (o && k && has(o, 'f_ears') ? `衣装「${o.ja}」の耳と、獣人の耳は同時に付けられません` : null)
+  },
+  // コスプレのセーラー服は、禁断の調合（立場・拘束・目隠し・着崩し・衣装の状態）と同時に出さない
+  ...(['role', 'restraint', 'blindfold', 'disarray', 'wear1'] as FieldId[]).map((g): PairRule => ({
+    id: `outfit_no_forbidden_${g}`, fields: ['outfit', g],
+    check: (v) => {
+      const o = v.outfit, x = v[g];
+      return o && x && x.id !== 'none' && has(o, 'no_forbidden') ? `衣装「${o.ja}」は、禁断の調合と組み合わせません` : null;
+    }
+  })),
+  {
     id: 'eyepatch_monocle', fields: ['marks', 'glasses'],
     check: ({ marks: m, glasses: g }) => (m && g && m.id === 'eyepatch' && g.id === 'monocle' ? '眼帯と片眼鏡は同時に描けません' : null)
   },

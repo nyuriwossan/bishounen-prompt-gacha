@@ -1,7 +1,7 @@
 {
   "engine": "chromium",
-  "at": "2026-10-15T10:21:03.076Z",
-  "total": 95,
+  "at": "2026-10-15T11:56:24.567Z",
+  "total": 99,
   "failed": 0,
   "results": [
     {
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "プラチナブロンドの名家の若様 / 灰色髪のエリート会社員"
+      "detail": "濃い茶髪の凛とした侍 / 栗色髪の吸血鬼の伯爵"
     },
     {
       "name": "進むでやり直せる",
@@ -290,6 +290,26 @@
       "detail": ""
     },
     {
+      "name": "コスプレ衣装は既定OFFで、衣装はコスプレ以外",
+      "ok": true,
+      "detail": "オーバーサイズTシャツとワイドパンツ"
+    },
+    {
+      "name": "OFFの間は、衣装の候補に「コスプレ」の分類を出さない",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ONにすると衣装がコスプレになり、錬成してもコスプレ枠から引く",
+      "ok": true,
+      "detail": "紐ビキニ / メイド服（ロング） / バレエダンサー / セーラー服 / 水着と開襟シャツ"
+    },
+    {
+      "name": "OFFに戻すと、コスプレ衣装を通常の衣装に引き直す",
+      "ok": true,
+      "detail": "宮廷の華服"
+    },
+    {
       "name": "眼鏡・特徴・持ち物は既定でOFF（出力しない）",
       "ok": true,
       "detail": ""
@@ -297,7 +317,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "片眼鏡"
+      "detail": "丸眼鏡"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -442,7 +462,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:39983/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbiZ"
+      "detail": "http://127.0.0.1:35731/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbiZ"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

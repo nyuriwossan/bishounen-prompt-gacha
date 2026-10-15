@@ -20,6 +20,7 @@ const GROUPS: Array<{ id: FieldGroup; ja: string; hint: string; module?: keyof F
   { id: 'pose', ja: 'ポーズ・構図', hint: '画角・アングル・ポーズ・持ち物', module: 'poseEnabled', moduleLabel: 'ポーズ・アングルを出力する', moduleHint: 'OFFでも構図（画角）は出力します。' },
   { id: 'scene', ja: '背景・光', hint: '場所・時間帯・光', module: 'backgroundEnabled', moduleLabel: '背景と光を出力する', moduleHint: 'OFFにすると人物だけのプロンプトになります。' },
   { id: 'kemono', ja: '獣人モード（任意）', hint: '耳・尾・角などを加える', module: 'kemonoEnabled', moduleLabel: '獣人モードを使う', moduleHint: '顔は人のまま。獣化はケモミミ〜標準獣人まで。' },
+  { id: 'cosplay', ja: 'コスプレ衣装（任意）', hint: 'メイド服・ビキニ・ミニスカ・バニーなど', module: 'cosplayEnabled', moduleLabel: 'コスプレ衣装から引く', moduleHint: '初期はOFF。ONの間、衣装は必ずコスプレ枠（16種）から引きます。おまかせスタイルの衣装の条件より優先します。通常の衣装も手で選べます。獣人ONでは耳付きの衣装を、禁断ONではセーラー服を自動では引きません。' },
   { id: 'forbidden', ja: '禁断の調合（アンリミテッド）', hint: '拘束・目隠し・着崩し・衣装の傷み', module: 'unlimitedEnabled', moduleLabel: 'アンリミテッドモードを使う', moduleHint: '初期はOFF。ONの間だけ、禁断演出を抽選・出力します。人物は成人男性1名のままです。プロンプト画面でネガティブもONにすると、人物の分裂や拘束具の混ざりを抑えやすくなります。' },
   { id: 'style', ja: '画風・呼び名', hint: '画風は抽選で変わりません' }
 ];

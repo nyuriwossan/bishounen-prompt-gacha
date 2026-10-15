@@ -540,3 +540,93 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     expect(adopt(s, 'expression', 'wary', true).ok).toBe(true);
   });
 });
+
+describe('コスプレ衣装', () => {
+  const on = (seed: string, mods: Partial<ForgeState['optionalModules']> = {}) => {
+    const s = emptyState(); Object.assign(s.optionalModules, { cosplayEnabled: true }, mods);
+    return draw(s, { seed }).state;
+  };
+  const cat = (s: ForgeState) => optionOf('outfit', s.fields.outfit.id)?.cat;
+
+  it('OFFの間は抽選に出ず、手でも選べない', () => {
+    for (let i = 0; i < 200; i++) expect(cat(draw(emptyState(), { seed: 'cos-off' + i }).state)).not.toBe('cosplay');
+    const s = draw(emptyState(), { seed: 'cos-off' }).state;
+    expect(checkAdopt(s, 'outfit', 'bikini').blockingCosplay).toBe(true);
+    const r = adopt(s, 'outfit', 'bikini', false, { seed: 'a' });
+    expect(r.ok).toBe(false);
+    expect(r.notices[0]).toMatch(/コスプレ衣装がOFF/);
+  });
+
+  it('ONの間は、おまかせスタイルの衣装の条件があっても必ずコスプレ枠から引く', () => {
+    const seen = new Set<string>();
+    for (let i = 0; i < 240; i++) {
+      const s = emptyState(); s.optionalModules.cosplayEnabled = true;
+      const preset = STYLE_PRESETS[i % STYLE_PRESETS.length];
+      const r = draw(s, { seed: 'cos-on' + i, preset: preset.group === 'forbidden' ? undefined : preset });
+      expect(r.ok).toBe(true);
+      expect(cat(r.state)).toBe('cosplay');
+      seen.add(r.state.fields.outfit.id!);
+    }
+    // 16種すべてに届く
+    expect(seen.size).toBe(fieldDef('outfit').options.filter((o) => o.cat === 'cosplay').length);
+  });
+
+  it('獣人ONでは兎耳の衣装を、禁断ONではセーラー服を自動で引かない', () => {
+    for (let i = 0; i < 200; i++) {
+      expect(optionOf('outfit', on('cos-k' + i, { kemonoEnabled: true }).fields.outfit.id)?.tags).not.toContain('f_ears');
+      expect(on('cos-u' + i, { unlimitedEnabled: true }).fields.outfit.id).not.toBe('sailor_suit');
+    }
+  });
+
+  it('セーラー服は禁断演出と、兎耳は獣の耳と両立しない（hard）', () => {
+    const v = valuesOf(on('cos-h', { unlimitedEnabled: true }));
+    v.outfit = optionOf('outfit', 'sailor_suit');
+    v.role = optionOf('role', 'captive');
+    expect(allViolations(v).map((x) => x.rule)).toContain('outfit_no_forbidden_role');
+    v.role = optionOf('role', 'none');
+    v.outfit = optionOf('outfit', 'bunny_boy');
+    v.kemonoSpecies = fieldDef('kemonoSpecies').options[0];
+    expect(allViolations(v).map((x) => x.rule)).toContain('outfit_ears_kemono');
+  });
+
+  it('ONにすると未固定の衣装をコスプレ枠から引き直し、固定中の衣装は変えない', () => {
+    const s = draw(emptyState(), { seed: 'cos-fill' }).state;
+    s.optionalModules.cosplayEnabled = true;
+    const r = fillModule(s, 'cosplay')!;
+    expect(r.ok).toBe(true);
+    expect(cat(r.state)).toBe('cosplay');
+    const locked = toggleLock(s, 'outfit');
+    expect(fillModule(locked, 'cosplay')).toBeNull();
+  });
+
+  it('OFFにすると未固定のコスプレ衣装を通常の衣装に戻し、固定中なら残す', () => {
+    const s = on('cos-repair');
+    s.optionalModules.cosplayEnabled = false;
+    const r = repairAfterModuleOff(s)!;
+    expect(r.ok).toBe(true);
+    expect(cat(r.state)).not.toBe('cosplay');
+    const locked = toggleLock(s, 'outfit');
+    expect(repairAfterModuleOff(locked)?.state.fields.outfit.id ?? locked.fields.outfit.id).toBe(locked.fields.outfit.id);
+  });
+
+  it('ONでも、通常の衣装は手で選べ、一覧から引くときは一覧に従う', () => {
+    const s = on('cos-manual');
+    const r = adopt(s, 'outfit', 'three_piece', false, { seed: 'm' });
+    expect(r.ok).toBe(true);
+    expect(r.state.fields.outfit.id).toBe('three_piece');
+    const w = drawWithin(s, 'outfit', ['three_piece', 'tuxedo'], false);
+    expect(w.ok).toBe(true);
+    expect(['three_piece', 'tuxedo']).toContain(w.state.fields.outfit.id);
+  });
+
+  it('固定中の項目と両立するコスプレ衣装がなければ、通常の衣装から選んで知らせる', () => {
+    // 「コートの前を開ける」はコートのある衣装だけ。コスプレ枠にはコートがない
+    const s = on('cos-none', { unlimitedEnabled: true });
+    s.fields.disarray = { id: 'coat_open', source: 'manual', locked: true };
+    const r = draw(s, { seed: 'cos-none2', targets: ['outfit'] });
+    expect(r.ok).toBe(true);
+    expect(cat(r.state)).not.toBe('cosplay');
+    expect(optionOf('outfit', r.state.fields.outfit.id)?.tags).toContain('f_coat');
+    expect(r.notices.join(' ')).toMatch(/両立するコスプレ衣装がない/);
+  });
+});

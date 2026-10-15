@@ -99,8 +99,8 @@ export interface Category {
   subs?: Array<{ id: string; ja: string }>;
 }
 
-export type FieldGroup = 'basic' | 'face' | 'role' | 'pose' | 'scene' | 'kemono' | 'forbidden' | 'style';
-export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name' | 'glasses' | 'marks' | 'prop' | 'unlimited';
+export type FieldGroup = 'basic' | 'face' | 'role' | 'pose' | 'scene' | 'kemono' | 'cosplay' | 'forbidden' | 'style';
+export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name' | 'glasses' | 'marks' | 'prop' | 'unlimited' | 'cosplay';
 
 export const FIELD_IDS = [
   'age', 'archetype', 'presentation', 'build', 'world', 'culture',
@@ -165,6 +165,8 @@ export interface ForgeModules {
   propEnabled: boolean;
   /** 禁断の調合（拘束・目隠し・着崩し・衣装の傷み）。既定OFF。OFFの間は一切抽選・出力しない */
   unlimitedEnabled: boolean;
+  /** コスプレ衣装（メイド服・ビキニ・ミニスカなど）。既定OFF。ONの間、衣装の抽選はコスプレ枠だけから行う */
+  cosplayEnabled: boolean;
 }
 
 /** おまかせスタイル（抽選の方向性。選ぶだけでは結果を変えない） */

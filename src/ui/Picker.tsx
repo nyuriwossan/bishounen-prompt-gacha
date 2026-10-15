@@ -32,14 +32,16 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
     return def.options.filter((o) => {
       if (cat !== 'all' && o.cat !== cat) return false;
       const c = checks.get(o.id)!;
-      if (!showBlocked && (c.blockingLocked.length || c.blockingOff.length)) return false;
+      if (!showBlocked && (c.blockingLocked.length || c.blockingOff.length || c.blockingCosplay)) return false;
       if (!q) return true;
       return [o.ja, o.desc ?? '', o.en.join(' '), catLabel.get(o.cat ?? '') ?? '', o.nat ?? ''].some((t) => norm(t).includes(q));
     });
   }, [def, cat, query, showBlocked, checks, catLabel]);
   const drawable = filtered.filter((o) => checks.get(o.id)!.ok);
   const currentId = forge.fields[field].id;
-  const cats = def.categories?.filter((c) => def.options.some((o) => o.cat === c.id)) ?? [];
+  // コスプレOFFの間は「コスプレ」の分類チップを出さない（両立しない候補も表示するときは出す）
+  const cats = def.categories?.filter((c) => def.options.some((o) => o.cat === c.id)
+    && (field !== 'outfit' || c.id !== 'cosplay' || forge.optionalModules.cosplayEnabled || showBlocked)) ?? [];
 
   return (
     <dialog class="sheet" ref={ref} onClose={onClose} onClick={(e) => { if (e.target === e.currentTarget) e.currentTarget.close(); }} aria-labelledby="picker-title">
@@ -82,8 +84,9 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
 
 function OptionRow({ o, current, check, catLabel, onPick }: { o: Option; current: boolean; check: ReturnType<typeof checkAdopt>; catLabel?: string; onPick: () => void }) {
   const name = (f: FieldId) => fieldDef(f).short ?? fieldDef(f).ja;
-  const blocked = check.blockingLocked.length > 0 || check.blockingOff.length > 0;
-  const why = check.blockingOff.length ? `${check.blockingOff.map(name).join('・')}がOFFです。詳細な調合でONにすると選べます`
+  const blocked = check.blockingLocked.length > 0 || check.blockingOff.length > 0 || !!check.blockingCosplay;
+  const why = check.blockingCosplay ? 'コスプレ衣装がOFFです。詳細な調合の「コスプレ衣装」でONにすると選べます'
+    : check.blockingOff.length ? `${check.blockingOff.map(name).join('・')}がOFFです。詳細な調合でONにすると選べます`
     : blocked ? `固定中の${check.blockingLocked.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}と両立しません：${check.violations[0]?.reasonJa ?? ''}`
     : check.conflictingUnlocked.length ? `採用すると「${check.conflictingUnlocked.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}」を合わせて引き直します` : '';
   const en = o.en.length ? o.en.slice(0, 3).join(', ') : o.upper ? o.upper.replace(/\{c1\}/g, '◆').replace(/\{c2\}/g, '◇') : '';

@@ -4,6 +4,7 @@
  * 参考：creative-idea-gacha（保存件数・容量上限・型検証）、character-appearance（選択IDを正本にする方針）
  */
 import { DATA_VERSION, optionOf } from '../data/fields';
+import { isCosplay } from '../data/outfits';
 import { cloneState, DEFAULT_MODULES, DEFAULT_SETTINGS, emptyState, SCHEMA_VERSION } from '../engine/state';
 import { FIELD_IDS, type FieldId, type ForgeState } from '../types';
 
@@ -100,6 +101,8 @@ export function normalizeState(raw: unknown, report: MigrationReport = { lostFie
   const mods = isObj(raw.optionalModules) ? raw.optionalModules : {};
   for (const k of Object.keys(DEFAULT_MODULES) as Array<keyof typeof DEFAULT_MODULES>) if (typeof mods[k] === 'boolean') base.optionalModules[k] = mods[k] as boolean;
   migrateItemModules(base, mods, legacy);
+  // コスプレ衣装なのにスイッチの記録がなければONにする（見た目を保つ）
+  if (typeof mods.cosplayEnabled !== 'boolean' && isCosplay(optionOf('outfit', base.fields.outfit.id))) base.optionalModules.cosplayEnabled = true;
   base.lastSeed = str(raw.lastSeed, 64);
   base.drawCount = typeof raw.drawCount === 'number' && raw.drawCount >= 0 ? Math.floor(raw.drawCount) : 0;
   if (typeof raw.dataVersion === 'string' && raw.dataVersion !== DATA_VERSION) report.notes.push(`辞書の版が異なります（保存時 ${str(raw.dataVersion, 20)} → 現在 ${DATA_VERSION}）。`);
@@ -264,8 +267,8 @@ export function encodeShare(state: ForgeState): string {
   }).filter(Boolean);
   const m = state.optionalModules;
   const flags = [m.kemonoEnabled ? 'k' : '', m.backgroundEnabled ? 'b' : '', m.poseEnabled ? 'p' : '', m.facialHairEnabled ? 'f' : '', m.hairAccentEnabled ? 'h' : '', m.nameEnabled ? 'n' : '',
-    m.glassesEnabled ? 'g' : '', m.marksEnabled ? 'x' : '', m.propEnabled ? 'o' : '', m.unlimitedEnabled ? 'u' : ''].join('');
-  // v=2：眼鏡(g)・特徴(x)・持ち物(o) のスイッチを含む。v=1 は値から推定する
+    m.glassesEnabled ? 'g' : '', m.marksEnabled ? 'x' : '', m.propEnabled ? 'o' : '', m.unlimitedEnabled ? 'u' : '', m.cosplayEnabled ? 'y' : ''].join('');
+  // v=2：眼鏡(g)・特徴(x)・持ち物(o) のスイッチを含む。v=1 は値から推定する。コスプレ(y) は無ければOFF
   const s = [`v=2`, `d=${DATA_VERSION}`, `m=${flags}`, `c=${state.settings.coherence}`, `seed=${state.lastSeed}`, ...pairs].join('&');
   return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
@@ -290,9 +293,11 @@ export function decodeShare(code: string): { state: ForgeState | null; report: M
     const flags = params.get('m') ?? '';
     s.optionalModules = {
       kemonoEnabled: flags.includes('k'), backgroundEnabled: flags.includes('b'), poseEnabled: flags.includes('p'), facialHairEnabled: flags.includes('f'), hairAccentEnabled: flags.includes('h'), nameEnabled: flags.includes('n'),
-      glassesEnabled: flags.includes('g'), marksEnabled: flags.includes('x'), propEnabled: flags.includes('o'), unlimitedEnabled: flags.includes('u')
+      glassesEnabled: flags.includes('g'), marksEnabled: flags.includes('x'), propEnabled: flags.includes('o'), unlimitedEnabled: flags.includes('u'),
+      cosplayEnabled: flags.includes('y')
     };
     if (ver === '1') migrateItemModules(s, {}, 'preserve');
+    if (!flags.includes('y') && isCosplay(optionOf('outfit', s.fields.outfit.id))) s.optionalModules.cosplayEnabled = true;
     const c = params.get('c');
     if (c === 'coherent' || c === 'balanced' || c === 'wild') s.settings.coherence = c;
     s.lastSeed = (params.get('seed') ?? '').slice(0, 64);

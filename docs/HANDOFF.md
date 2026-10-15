@@ -11,14 +11,14 @@
 | 公開URL | https://nyuriwossan.github.io/bishounen-prompt-gacha/ |
 | 構成 | Vite 6 + TypeScript 5.8 + Preact 10.29.8／Vitest 3.2／playwright-core 1.56（`/opt/pw-browsers` の Chromium） |
 | 公開方式 | `main` に push すると GitHub Actions が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` へ force-push する。Pages API はこの環境から使えないため、この方式にしている |
-| 最新の変更 | 禁断の調合（アンリミテッドモード、§6）。その前に眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。どちらも iPhone 実機での確認はまだ |
+| 最新の変更 | コスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
 | git の作者 | `user.name nyuriwossan` / `user.email nyuriwo@gmail.com`（リポジトリのローカル設定） |
 
 コミットメッセージの末尾には、次の2行を付けています。
 
 ```
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
+Claude-Session: https://claude.ai/code/session_017pfiKzKSjF6r9hSU3RhRok
 ```
 
 新しい会話では、セッションURLをその会話のものに差し替えてください。
@@ -26,9 +26,9 @@ Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 185件、約155秒
+npm run typecheck && npm run lint && npm test   # 195件、約160秒
 npm run build
-npm run test:browser                            # 95項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 99項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
@@ -44,7 +44,7 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 | 項目 | 件数 |
 |---|---:|
 | 美形タイプ | 124（11分類） |
-| 衣装 | 142 |
+| 衣装 | 158（うちコスプレ16） |
 | 色 | 128 |
 | 職業 | 96 |
 | ポーズ | 65 |
@@ -67,13 +67,13 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
   2. 群ごとの確率の下限（`shareBoosts` / `applyShares`）
   3. 裾切り（min-p と top-p）
   4. 直近の重複回避（段階的に緩める）
-- 3モードの差（世界観に合う衣装の割合／美形タイプの好みに合う割合）：
+- 3モードの差（世界観に合う衣装の割合／美形タイプの好みに合う割合。おまかせスタイルなし・コスプレOFFの各44件）：
 
 | モード | 世界観に合う衣装 | 好みに合う項目 |
 |---|---:|---:|
-| まとまり重視（coherent） | 96.7% | 82.0% |
-| バランス（balanced） | 86.9% | 43.5% |
-| カオス（wild） | 41.0% | 7.6% |
+| まとまり重視（coherent） | 95.5% | 83.0% |
+| バランス（balanced） | 86.4% | 47.9% |
+| カオス（wild） | 36.4% | 7.2% |
 
 ### 組み合わせ制約（`src/advisor/`）
 
@@ -157,23 +157,37 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - ユーザーの所見：PixAI の SDXL でも、モデルによって拘束が描けるかどうかが変わる。確認結果はモデル依存。
 - 画像での見え方（触手・リボンの巻き方など）は未確認。PixAI アプリ版で弾かれる語の一覧は公開されていないため、ユーザーの実機確認に頼る。
 
-## 7. 次にやること（2026-10-15 時点の未着手）
+## 7. 2026-10-15 の変更：コスプレ衣装
 
-- **コスプレ風の衣装**（ユーザーの要望）：メイド服、男性用ビキニ、男性用ナース服（ミニスカ）、男性用セーラー服など。
-  - 未決定：通常の衣装に入れるか、禁断の調合（ON のときだけ）に入れるか、新しい分類「コスプレ」にするか。最初にユーザーへ確認する。
-  - 注意：PixAI アプリ版は `adult` などで弾かれる。ビキニ・ミニスカは肌の露出が増えるので、`nsfw / nude / lewd` などの語を出さない（mass-draw テストの BLOCKED で検査）。弾かれないかはユーザーの実機確認が要る。
-  - 衣装の特徴タグ（`f_top` など、outfits.ts の語から付与）と、着崩し・濡れの組み合わせ制約に影響する。
+ユーザーの要望（メイド服・男性用ビキニ・ミニスカナース・セーラー服、逆バニー・ミニスカチャイナ・ミニスカポリス・ミニスカサンタ）に、Manus の案（バニーボーイ・水着と開襟シャツ・ハーネスと開襟シャツ・バレエダンサー・サーカス団長・チアリーダー）から選んで加えた。置き場所はユーザーの選択で「新しい分類＋専用スイッチ、ONなら100%コスプレ枠」。
+
+- ユーザーの実機確認（実装前）：PixAI アプリ版で、男性に女性用の `bikini` / `string bikini` を着せても「センシティブ」判定で通った。
+- データ：`outfits.ts` の cat `cosplay` に16種。`worlds` は空（世界観を問わず重み中立）、`w` はすべて1。露出の多いもの（ビキニ・紐ビキニ・水着・バニー・逆バニー・チア）は `exposed`（着崩し・大きな破れを重ねない）。兎耳の衣装は特徴タグ `f_ears`（`bunny ears` から自動付与）。セーラー服は `no_forbidden`。
+  - 語の方針：`male maid` を使う。セーラー服は `school` / `serafuku` を使わず `sailor collar blouse, neckerchief, pleated skirt`。逆バニーは股間の露出でアプリ版の判定が上がらないよう `{c2} briefs` を足した（未確認）。`nsfw / nude / shirtless / lingerie` などは使わない（`data.test.ts` で検査）。性別はタグの `1boy, solo, male focus` とネガティブの `1girl, female, breasts` で保つ。
+- スイッチ：`ForgeModules.cosplayEnabled`（既定 false、ModuleId `cosplay`、項目を持たないモジュール）。画面は詳細な調合の「コスプレ衣装（任意）」。共有URLのフラグ `y`。記録のない保存データ・共有URLは、衣装がコスプレならON（`storage.ts`）。
+- エンジン（`draw.ts` の `outfitPool`）：
+  - OFF：コスプレ衣装は抽選・一覧から引く・手で選ぶ、のどれにも出ない（`checkAdopt().blockingCosplay`、候補シートでは「コスプレ」の分類チップも隠す）。
+  - ON：自動の抽選はコスプレ枠だけ。おまかせスタイルの衣装の条件は無視する（コスプレ優先）。獣人ONでは `f_ears`、禁断ONでは `no_forbidden` を自動の抽選から外す。固定中の項目と両立するコスプレ衣装がなければ通常の衣装から選び、通知する（例：着崩し「コートの前を開ける」を固定）。
+  - ONでも、通常の衣装は手で選べ、「この中から引く」は一覧に従う。
+  - ONにした直後は未固定の衣装と自動の色を引き直す（`fillModule`）。OFFにすると未固定のコスプレ衣装を通常の衣装へ戻す（`repairAfterModuleOff`）。固定中の衣装は変えない。
+- hard（`hard.ts`）：`outfit_ears_kemono`（衣装の兎耳×獣人の耳）、`outfit_no_forbidden_{role,restraint,blindfold,disarray,wear1}`（セーラー服×禁断演出）。
+- `DATA_VERSION` は据え置き（2026.10.12）。OFFの抽選はコスプレ衣装を候補から外すので、同じシードの結果が変わらない。EXAMPLES.md・VERIFY-SET.md の再生成で差分なしを確認済み。
+- テスト：engine 8件、storage 1件、data 1件（通常の衣装に水着・兎耳を入れない検査はコスプレ以外に限定）、mass-draw に条件「コスプレON」（漏れ・ON時にコスプレ以外・兎耳×獣人・セーラー服×禁断を検査）、ブラウザ4項目。スクリーンショット `cosplay-outfit-390.jpg`。
+
+## 8. 次にやること（2026-10-15 時点の未着手）
+
+- **コスプレ衣装の実機確認**（PixAI アプリ版）：特に逆バニー・バニーボーイ・紐ビキニ・チアリーダーが弾かれないか、ミニスカ系で体が女性化しないか（ネガティブONを推奨）、セーラー服・ミニスカポリスなどの衣装が描けるか。弾かれる・描けない語があれば差し替える。
 - 実機確認セット V04（腰を縄で椅子に縛りつける）の再確認。
 - ChatGPT 指示書の §6（このタイプで錬成）・§7（分類限定）は保留のまま。
 
-## 8. 既知の制限
+## 9. 既知の制限
 
 - Safari/WebKit の自動検証は未実施。ただし、iPhone 実機でユーザーが候補シートの修正を確認済み。
 - NAI / PixAI での生成結果の品質は、ユーザーの実地確認に頼っている。
   - 6枚生成して好評だった。
 - 開発用依存に `npm audit` の指摘が残る（配信物は0件）。
 
-## 9. これまでに作ったもの（会話内のみ・リポジトリ外）
+## 10. これまでに作ったもの（会話内のみ・リポジトリ外）
 
 - SNS告知用：ChatGPT 向けの「使い方説明画像」の指示書を2種類。
   - 1枚版

@@ -27,7 +27,8 @@ export const DEFAULT_MODULES: ForgeModules = {
   glassesEnabled: false,
   marksEnabled: false,
   propEnabled: false,
-  unlimitedEnabled: false
+  unlimitedEnabled: false,
+  cosplayEnabled: false
 };
 
 export function emptyState(): ForgeState {
@@ -51,7 +52,7 @@ export function cloneState(s: ForgeState): ForgeState {
 const MODULE_KEY: Record<ModuleId, keyof ForgeModules> = {
   pose: 'poseEnabled', background: 'backgroundEnabled', kemono: 'kemonoEnabled',
   facialHair: 'facialHairEnabled', hairAccent: 'hairAccentEnabled', name: 'nameEnabled',
-  glasses: 'glassesEnabled', marks: 'marksEnabled', prop: 'propEnabled', unlimited: 'unlimitedEnabled'
+  glasses: 'glassesEnabled', marks: 'marksEnabled', prop: 'propEnabled', unlimited: 'unlimitedEnabled', cosplay: 'cosplayEnabled'
 };
 /** 親モジュール：持ち物はポーズを出力するときだけ意味を持つ */
 const MODULE_PARENT: Partial<Record<ModuleId, ModuleId>> = { prop: 'pose' };

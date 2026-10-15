@@ -216,6 +216,29 @@ try {
     check('OFFに戻すと、禁断の分類が消え、選んでいた禁断のスタイルも外れる', !(await page.isVisible('.preset-groups .chip:has-text("禁断")')) && !(await page.isVisible('.preset-pending')));
     await page.click('details.group summary:has-text("禁断の調合")');
 
+    // コスプレ衣装：既定OFF。ONの間は衣装をコスプレ枠だけから引く
+    const COSPLAY = ['メイド服（ロング）', 'ミニスカメイド', 'ビキニ', '紐ビキニ', '水着と開襟シャツ', 'ミニスカナース', 'セーラー服', 'バニーボーイ', '逆バニー', 'ミニスカチャイナ', 'ミニスカポリス', 'ミニスカサンタ', 'チアリーダー', 'ハーネスと開襟シャツ', 'バレエダンサー', 'サーカス団長'];
+    const outfitVal = async () => (await page.textContent('.frow >> nth=11 >> .fval')).trim();
+    const isCos = (v) => COSPLAY.some((n) => v.startsWith(n));
+    check('コスプレ衣装は既定OFFで、衣装はコスプレ以外', !isCos(await outfitVal()), await outfitVal());
+    await page.click('.frow >> nth=11 >> .fval');
+    await page.waitForSelector('dialog.sheet');
+    check('OFFの間は、衣装の候補に「コスプレ」の分類を出さない', !(await page.isVisible('dialog.sheet .cats .chip:has-text("コスプレ")')));
+    await page.click('dialog.sheet .sheet-head .icon-btn');
+    await page.waitForTimeout(150);
+    await page.click('details.group summary:has-text("コスプレ衣装")');
+    await page.click('label.toggle:has-text("コスプレ衣装から引く") input');
+    await page.waitForTimeout(200);
+    let cosAll = isCos(await outfitVal());
+    const cosSeen = [await outfitVal()];
+    for (let i = 0; i < 4; i++) { await page.click('.forge-btn'); await page.waitForTimeout(150); cosSeen.push(await outfitVal()); cosAll = cosAll && isCos(cosSeen.at(-1)); }
+    check('ONにすると衣装がコスプレになり、錬成してもコスプレ枠から引く', cosAll, cosSeen.join(' / '));
+    await page.locator('.frow >> nth=11').screenshot({ path: path.join(SHOTS, 'cosplay-outfit-390.jpg'), type: 'jpeg', quality: 70 });
+    await page.click('label.toggle:has-text("コスプレ衣装から引く") input');
+    await page.waitForTimeout(200);
+    check('OFFに戻すと、コスプレ衣装を通常の衣装に引き直す', !isCos(await outfitVal()), await outfitVal());
+    await page.click('details.group summary:has-text("コスプレ衣装")');
+
     // 眼鏡・特徴・持ち物：既定OFF。ONにするとその場で値が入る
     await page.click('details.group summary:has-text("顔・肌・装身具")');
     const glassesRow = page.locator('.frow:has-text("眼鏡")').first();
