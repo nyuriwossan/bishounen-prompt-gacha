@@ -6,6 +6,7 @@ import { adopt, checkAdopt, draw, drawWithin, fillModule, GROUPS, repairAfterMod
 import { hashSeed, seededRandom, weightedPick } from '../src/engine/rng';
 import { cloneState, emptyState, isActive } from '../src/engine/state';
 import { applyShares, softWeight } from '../src/engine/weights';
+import { matchAny } from '../src/engine/match';
 import type { FieldId, ForgeState } from '../src/types';
 
 const fresh = (seed = 'base', mode: ForgeState['settings']['coherence'] = 'coherent', items = false) => {
@@ -481,6 +482,20 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     expect(optionOf('scene', r.state.fields.scene.id)!.cat).not.toBe('captivity');
     let f = fresh('cap-off');
     for (let i = 0; i < 80; i++) { f = draw(f, { seed: 'co' + i }).state; expect(optionOf('scene', f.fields.scene.id)!.cat).not.toBe('captivity'); }
+  });
+  it('禁断のおまかせスタイル5種は、条件の範囲だけで引き、条件外への逃げや通知を出さない', () => {
+    for (const p of STYLE_PRESETS.filter((x) => x.group === 'forbidden')) {
+      let s = onState('fp-' + p.id);
+      for (let i = 0; i < 40; i++) {
+        const r = draw(s, { seed: `${p.id}-${i}`, preset: p });
+        expect(r.ok).toBe(true);
+        expect(r.notices, `${p.id}#${i}`).toEqual([]);
+        s = r.state;
+        const v = valuesOf(s);
+        for (const [f, refs] of Object.entries(p.filters) as Array<[FieldId, string[]]>) expect(matchAny(v[f], refs), `${p.id}#${i} ${f}=${v[f]?.id}`).toBe(true);
+      }
+    }
+    expect(STYLE_PRESETS.filter((x) => x.group === 'forbidden').length).toBe(5);
   });
   it('膝立ち・うつ伏せの拘束ポーズは、対応する拘束位置で出る', () => {
     const seen = new Set<string>();

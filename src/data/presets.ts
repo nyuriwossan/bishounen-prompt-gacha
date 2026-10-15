@@ -25,11 +25,17 @@ export const STYLE_PRESETS: StylePreset[] = [
   { id: 'mage', group: 'fantasy', ja: '魔法使い・神官', icon: '✨', desc: '魔術師・聖職・陰陽師・道士。', filters: { occupation: ['cat:mystic', 'cat:sacred'], outfit: ['cat:mage', 'kariginu', 'taoist', 'oracle', 'monk_kesa'] } },
   { id: 'scifi', group: 'fantasy', ja: '近未来・サイバー', icon: '🛰', desc: 'ネオンと宇宙とテクノロジー。', filters: { world: ['near_future', 'cyberpunk', 'space_opera', 'post_apocalyptic'], outfit: ['cat:sf', 'techwear'] } },
   { id: 'royalty', group: 'fantasy', ja: '王族・貴族', icon: '⚜', desc: '玉座と宮廷の気高い美形。', filters: { archetype: ['cat:noble'], occupation: ['cat:royal'] } },
-  { id: 'kemono', group: 'fantasy', ja: 'ケモミミ美青年', icon: '🦊', desc: '獣人モードをONにして、耳と尾のある美青年を錬成。', filters: { kemonoLevel: ['lv1', 'lv2'] }, modules: { kemonoEnabled: true } }
+  { id: 'kemono', group: 'fantasy', ja: 'ケモミミ美青年', icon: '🦊', desc: '獣人モードをONにして、耳と尾のある美青年を錬成。', filters: { kemonoLevel: ['lv1', 'lv2'] }, modules: { kemonoEnabled: true } },
+  // ---- 禁断の調合（ONのときだけ画面に出す）。拘束具・背景・立場の方向だけを決め、人物は通常どおり引く ----
+  { id: 'captive_prince', group: 'forbidden', ja: '囚われの王子', icon: '🕊', desc: '高貴な美形が、鳥籠や地下牢で装飾的に拘束される。', filters: { role: ['#captive'], archetype: ['cat:noble', 'cat:fragile', 'cat:alluring'], outfit: ['cat:court', '#royal', '#noble', '#elegant'], restraint: ['ornate_chain', 'silk_cord', 'ribbon', 'chain', 'light_chains'], scene: ['giant_birdcage', 'dungeon_cell', 'canopy_bedroom', 'zashikirou'] } },
+  { id: 'tentacle_forest', group: 'forbidden', ja: '触手の森', icon: '🐙', desc: '触手・影・蔓に絡め取られる幻想の囚われ。', filters: { role: ['#captive'], restraint: ['tentacles', 'shadow_tentacles', 'vines', 'rose_vines'], world: ['high_fantasy', 'dark_fantasy', 'mythic', 'supernatural', 'wafu_fantasy'], scene: ['tentacle_lair', 'deep_forest', 'ruined_garden', 'ancient_ruins', 'cave_entrance', 'ritual_altar'] } },
+  { id: 'chain_dungeon', group: 'forbidden', ja: '鎖と地下牢', icon: '⛓', desc: '鎖や手錠で繋がれ、牢や尋問室に閉じ込められる。汚れや破れも出やすい。', filters: { role: ['#captive'], restraint: ['chain', 'cuffs', 'ornate_chain'], scene: ['dungeon_cell', 'prison_cell', 'interrogation_room'], wear1: ['none', 'cat:dirt', 'cat:damage'] } },
+  { id: 'ribbon_gift', group: 'forbidden', ja: 'リボンの贈り物', icon: '🎀', desc: 'リボンで結ばれ、目隠しも柔らかな素材で。甘い囚われ。', filters: { role: ['captive', 'ambiguous', 'offscreen'], restraint: ['ribbon'], blindfold: ['none', 'ribbon', 'lace', 'silk'], scene: ['canopy_bedroom', 'giant_birdcage', 'cat:simple'], expression: ['flustered', 'shy', 'bewildered', 'wary', 'gentle_smile', 'knowing_smile'] } },
+  { id: 'dominator', group: 'forbidden', ja: '支配する側', icon: '🗝', desc: '拘束具を手にした、余裕のある支配者・追い詰める側。', filters: { role: ['#captor'], bindPos: ['held'], expression: ['smug', 'cold_glare', 'knowing_smile', 'provocative', 'cold_smile', 'smirk'], archetype: ['cat:danger', 'cat:noble', 'cat:urban'] } }
 ];
 
 /** おまかせスタイルの分類（画面で切り替える。切り替えだけでは錬成しない） */
 export const PRESET_GROUPS: Array<{ id: PresetGroup | 'all'; ja: string }> = [
   { id: 'all', ja: 'すべて' }, { id: 'contemporary', ja: '現代・日常' }, { id: 'fantasy', ja: '幻想・世界観' },
-  { id: 'beauty', ja: '美形・雰囲気' }, { id: 'looks', ja: '外見特集' }
+  { id: 'beauty', ja: '美形・雰囲気' }, { id: 'looks', ja: '外見特集' }, { id: 'forbidden', ja: '禁断' }
 ];

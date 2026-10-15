@@ -198,6 +198,11 @@ try {
     const fbRows = page.locator('details.group:has-text("禁断の調合") .frow');
     const fbVals = async () => fbRows.evaluateAll((els) => els.map((e) => e.querySelector('.fval').textContent));
     check('ONにすると、禁断演出の9項目と引き直しボタンが出る', (await fbRows.count()) === 9 && (await page.isVisible('text=禁断演出だけ引き直す')));
+    check('ONのときだけ、おまかせスタイルに「禁断」の分類が出る', await page.isVisible('.preset-groups .chip:has-text("禁断")'));
+    await page.click('.preset-groups .chip:has-text("禁断")');
+    const fbPresets = await page.$$eval('.presets .chip', (els) => els.map((e) => e.textContent.trim()));
+    check('「禁断」の分類で、禁断のスタイル5種が選べる', fbPresets.length === 6 && fbPresets.some((x) => x.includes('囚われの王子')), fbPresets.join('/'));
+    await page.click('.presets .chip:has-text("鎖と地下牢")');
     const hairBefore = await page.textContent('.frow:has-text("髪の色") .fval');
     const fb1 = await fbVals();
     let fbChanged = false;
@@ -208,6 +213,7 @@ try {
     await page.click('label.toggle:has-text("アンリミテッドモードを使う") input');
     await page.waitForTimeout(150);
     check('OFFに戻すと、項目と引き直しボタンが消える', (await fbRows.count()) === 0 && !(await page.isVisible('text=禁断演出だけ引き直す')));
+    check('OFFに戻すと、禁断の分類が消え、選んでいた禁断のスタイルも外れる', !(await page.isVisible('.preset-groups .chip:has-text("禁断")')) && !(await page.isVisible('.preset-pending')));
     await page.click('details.group summary:has-text("禁断の調合")');
 
     // 眼鏡・特徴・持ち物：既定OFF。ONにするとその場で値が入る

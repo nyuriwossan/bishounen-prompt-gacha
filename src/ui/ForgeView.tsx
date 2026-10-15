@@ -51,9 +51,13 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
   const traits = [o('age')?.ja.split('｜')[0], o('world')?.ja, o('build')?.ja, o('presentation')?.ja].filter(Boolean) as string[];
   const name = forge.optionalModules.nameEnabled ? o('name') : undefined;
   const mode = forge.settings.coherence;
-  const [presetGroup, setPresetGroup] = useState<PresetGroup | 'all'>('all');
+  const [presetGroupRaw, setPresetGroup] = useState<PresetGroup | 'all'>('all');
+  // 禁断のスタイルは、禁断の調合がONのときだけ見せる
+  const unlimited = forge.optionalModules.unlimitedEnabled;
+  const presetGroup = !unlimited && presetGroupRaw === 'forbidden' ? 'all' : presetGroupRaw;
+  const groups = PRESET_GROUPS.filter((g) => unlimited || g.id !== 'forbidden');
   // 完全ランダム（分類なし）は常に先頭。分類を切り替えても、選択中のスタイルは解除しない
-  const shownPresets = presets.filter((p) => !p.group || presetGroup === 'all' || p.group === presetGroup);
+  const shownPresets = presets.filter((p) => (unlimited || p.group !== 'forbidden') && (!p.group || presetGroup === 'all' || p.group === presetGroup));
 
   return (
     <section class="screen" aria-label="錬成">
@@ -82,7 +86,7 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
 
         <div>
           <div class="cats preset-groups" role="group" aria-label="おまかせスタイルの分類">
-            {PRESET_GROUPS.map((g) => (
+            {groups.map((g) => (
               <button key={g.id} type="button" class="chip" aria-pressed={presetGroup === g.id} onClick={() => setPresetGroup(g.id)}>{g.ja}</button>
             ))}
           </div>

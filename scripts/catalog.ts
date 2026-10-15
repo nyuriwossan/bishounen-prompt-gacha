@@ -13,7 +13,7 @@ L.push(`| 美形アーキタイプ | 100種以上 | ${n('archetype')} |`, `| 顔
   `| 世界観・派生舞台 | 20種類以上 | ${n('world')}（＋文化モチーフ${n('culture')}） |`, `| 職業・立場 | 60種以上 | ${n('occupation')} |`, `| 男性キャラ向け衣装セット | 100種以上 | ${n('outfit')}（配色${n('mainColor')}色×差し色） |`,
   `| ポーズ・構図プリセット | 50種以上 | ポーズ${n('pose')}・画角${n('shot')}・アングル${n('angle')}・持ち物${n('prop')} |`,
   `| 背景・照明組み合わせ | 80種以上 | 背景${scene}（空間${FIELDS.find(f=>f.id==='scene')!.options.filter(o=>o.place!=='simple').length}・シンプル/抽象${FIELDS.find(f=>f.id==='scene')!.options.filter(o=>o.place==='simple').length}）× 光${light} × 時間帯・天候${time}（hard 制約で成立しない組み合わせは除外） |`,
-  `| おまかせスタイル | 10〜25種 | ${STYLE_PRESETS.length} |`, '');
+  `| おまかせスタイル | 10〜25種（禁断を除く） | ${STYLE_PRESETS.filter((p) => p.group !== 'forbidden').length}（＋禁断 ${STYLE_PRESETS.filter((p) => p.group === 'forbidden').length}） |`, '');
 L.push('## 項目別', '', '| 項目 | ID | 区分 | 件数 | 大分類 | 出典（件数） |', '|---|---|---|---:|---:|---|');
 let total = 0;
 for (const f of FIELDS) {

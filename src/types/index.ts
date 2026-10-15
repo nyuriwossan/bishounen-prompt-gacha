@@ -180,7 +180,7 @@ export interface StylePreset {
   /** 画面での分類（完全ランダムは分類なしで常に先頭に出す） */
   group?: PresetGroup;
 }
-export type PresetGroup = 'contemporary' | 'fantasy' | 'beauty' | 'looks';
+export type PresetGroup = 'contemporary' | 'fantasy' | 'beauty' | 'looks' | 'forbidden';
 
 export interface ForgeState {
   schemaVersion: number;

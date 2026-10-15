@@ -26,9 +26,9 @@ Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 173件、約105秒
+npm run typecheck && npm run lint && npm test   # 174件、約105秒
 npm run build
-npm run test:browser                            # 92項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 95項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
@@ -52,7 +52,7 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 | 呼び名 | 224 |
 | 世界観 | 26 |
 | 文化 | 22 |
-| おまかせスタイル | 22（4分類＋完全ランダム） |
+| おまかせスタイル | 22（4分類＋完全ランダム）＋禁断5 |
 | 獣人（種族） | 29 |
 
 - 項目は全44（`FIELD_IDS`。うち9つが禁断の調合）。
@@ -144,6 +144,7 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - UI：「禁断の調合（アンリミテッド）」のトグル。ONのときだけ9項目と「禁断演出だけ引き直す」（`GROUPS.forbidden`）を表示。共有URLのフラグ `u`。
 - 追加（同日）：膝立ち4種・うつ伏せ3種の拘束構図（`BOUND_POSES` の `bind` は配列で複数の拘束位置に対応）、腹がちらりと見える着崩し3種（`f_top` が必要、「ずり上がる」は腕を上げるポーズ `arms_up` のときだけ）。頭上の拘束・固定具は屋内かシンプル背景だけ（`bind_scene` / `anchor_scene`）。衣装に鎖・ハーネス類（`f_chain` / `f_strap`）があると別の拘束具は選ばない（`restraint_outfit`）。ネガティブに選ばなかった素材（正の側に出ている語は除く）と、正の側に `one clear restraint setup`。先読みを着崩し・表情→ポーズにも広げ、ポーズが決まらない抽選を0にした。
 - 追加（同日）：囚われの場所の背景8種（`scene.ts` の cat `captivity`、`requires: role:!none` で禁断ONのときだけ。触手の巣は触手のときだけ）。縛っている・囚われ側では出やすくする（`forbiddenScene`、世界観の一致は従来どおり優先）。モジュールをOFFにしたとき、OFFの項目を前提にしていた未固定の値を引き直す（`repairAfterModuleOff`）。`DATA_VERSION` 2026.10.4。
+- 追加（同日）：おまかせスタイルの分類「禁断」に5種（囚われの王子・触手の森・鎖と地下牢・リボンの贈り物・支配する側。`group: 'forbidden'`）。画面では禁断ONのときだけ分類とスタイルを出し、OFFにすると選択も外す（`App.tsx` の useEffect）。先読みをスタイルの条件に合わせて判断するようにし（`leavesRoom` の preset）、衣装→拘束具も先読みに追加。禁断ONのときは「候補が少なめ」の通知を出さない。
 - 画像での見え方（触手・リボンの巻き方など）は未確認。PixAI アプリ版で弾かれる語の一覧は公開されていないため、ユーザーの実機確認に頼る。
 
 ## 7. 既知の制限

@@ -61,6 +61,9 @@ export function App() {
   const [changed, setChanged] = useState<FieldId[]>([]);
   const [sweep, setSweep] = useState(0);
   const [pendingPreset, setPendingPreset] = useState<StylePreset | null>(null);
+  // 禁断の調合をOFFにしたら、禁断のスタイルの選択も外す（OFFのまま禁断の条件で引かない）
+  const unlimitedOn = forge.optionalModules.unlimitedEnabled;
+  useEffect(() => { if (!unlimitedOn && pendingPreset?.group === 'forbidden') setPendingPreset(null); }, [unlimitedOn, pendingPreset]);
   const [theme, setTheme] = useState<'dark' | 'light' | null>(() => { try { return (localStorage.getItem('bpg:theme') as 'dark' | 'light' | null) ?? null; } catch { return null; } });
   const undo = useRef<ForgeState[]>([]);
   const redo = useRef<ForgeState[]>([]);

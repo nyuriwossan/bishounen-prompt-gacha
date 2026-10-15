@@ -22,7 +22,8 @@ describe('辞書の件数（指示書の目標）', () => {
     expect(opts('scene').length).toBeGreaterThanOrEqual(60);
   });
   it('おまかせスタイルは10〜25種で、完全ランダム以外はすべて分類を持つ', () => {
-    expect(STYLE_PRESETS.length).toBeGreaterThanOrEqual(10); expect(STYLE_PRESETS.length).toBeLessThanOrEqual(25);
+    const normal = STYLE_PRESETS.filter((p) => p.group !== 'forbidden');
+    expect(normal.length).toBeGreaterThanOrEqual(10); expect(normal.length).toBeLessThanOrEqual(25);
     expect(STYLE_PRESETS.filter((p) => p.id !== 'random' && !p.group).map((p) => p.id)).toEqual([]);
   });
 });

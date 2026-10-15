@@ -160,13 +160,20 @@ interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset;
 /** 1手先読み：この候補を選ぶと、まだ引いていない関連項目に両立する候補が残らない場合は外す。
  * 禁断の調合の連鎖（立場→拘束具→拘束位置→固定先・着崩し・表情→画角→ポーズ）だけに使う（他の項目は従来どおりで十分速い） */
 const LOOKAHEAD: Partial<Record<FieldId, FieldId[]>> = {
-  role: ['bindPos'], restraint: ['bindPos'], bindPos: ['anchor', 'shot', 'pose', 'prop'], anchor: ['shot', 'pose'], disarray: ['pose'], expression: ['pose'], shot: ['pose']
+  outfit: ['restraint'], role: ['bindPos'], restraint: ['bindPos'], bindPos: ['anchor', 'shot', 'pose', 'prop'], anchor: ['shot', 'pose'], disarray: ['pose'], expression: ['pose'], shot: ['pose']
 };
-function leavesRoom(f: FieldId, o: Option, determined: Values, pending: Set<FieldId> | undefined, s: ForgeState): boolean {
+function leavesRoom(f: FieldId, o: Option, determined: Values, pending: Set<FieldId> | undefined, s: ForgeState, preset?: StylePreset): boolean {
   const next = LOOKAHEAD[f];
   if (!next || !pending || !s.optionalModules.unlimitedEnabled) return true;
   const v = { ...determined, [f]: o };
-  return next.every((g) => !pending.has(g) || !isActive(s, g) || fieldDef(g).options.some((x) => candidateViolations(g, x, v).length === 0));
+  return next.every((g) => {
+    if (!pending.has(g) || !isActive(s, g)) return true;
+    // おまかせスタイルの条件がある項目は、その条件に合う候補が残るかで判断する（例：触手の森で、鎖付きの衣装を先に引かない）
+    const filter = preset?.filters[g];
+    const narrowed = filter?.length ? fieldDef(g).options.filter((x) => matchAny(x, filter)) : [];
+    const pool = narrowed.length ? narrowed : fieldDef(g).options;
+    return pool.some((x) => candidateViolations(g, x, v).length === 0);
+  });
 }
 
 /** 候補の requires が、まだ決まっていない項目についておまかせスタイルの条件と両立できるか（例：銀髪特集で「黒髪クール」を引かない） */
@@ -184,7 +191,7 @@ function requiresFitPreset(o: Option, determined: Values, preset: StylePreset | 
 function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: PickCtx): Option | null {
   const def = fieldDef(f);
   const compatibleNow = def.options.filter((o) => candidateViolations(f, o, determined).length === 0);
-  const roomy = compatibleNow.filter((o) => leavesRoom(f, o, determined, ctx.pending, s));
+  const roomy = compatibleNow.filter((o) => leavesRoom(f, o, determined, ctx.pending, s, ctx.preset));
   const allCompatible = roomy.length ? roomy : compatibleNow;
   const presetFit = allCompatible.filter((o) => requiresFitPreset(o, determined, ctx.preset));
   const compatible = presetFit.length ? presetFit : allCompatible;
@@ -197,7 +204,8 @@ function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: P
     else if (compatible.length) ctx.notices.push(`おまかせスタイルの条件に合う「${label(f)}」が他の項目と両立しないため、条件外から選びました。`);
   }
   if (!pool.length) return null;
-  if (pool.length <= 2 && def.options.length > 6 && def.group !== 'forbidden') ctx.notices.push(`「${label(f)}」は今の条件だと候補が少なめです（${pool.length}件）。`);
+  // 禁断の調合は組み合わせで候補が大きく絞られるのが普通なので、「少なめ」の通知は出さない
+  if (pool.length <= 2 && def.options.length > 6 && def.group !== 'forbidden' && !s.optionalModules.unlimitedEnabled) ctx.notices.push(`「${label(f)}」は今の条件だと候補が少なめです（${pool.length}件）。`);
 
   // 避ける直近の数は候補数の半分まで（年齢層5種などの小さな候補で行き詰まらないように）
   const keep = Math.floor(pool.length / 2);
