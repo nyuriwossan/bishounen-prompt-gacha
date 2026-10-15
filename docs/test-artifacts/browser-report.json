@@ -1,6 +1,6 @@
 {
   "engine": "chromium",
-  "at": "2026-10-14T23:59:55.173Z",
+  "at": "2026-10-15T00:34:01.184Z",
   "total": 92,
   "failed": 0,
   "results": [
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "黒髪クール / 銅色髪のアンニュイな色男"
+      "detail": "黒髪の中華宮廷の皇子 / アッシュブロンドの塩顔ミニマル"
     },
     {
       "name": "進むでやり直せる",
@@ -282,7 +282,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "黒縁眼鏡"
+      "detail": "細いメタルフレーム"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -427,7 +427,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:42921/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4zJm09YnBuJmM"
+      "detail": "http://127.0.0.1:44821/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4zJm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

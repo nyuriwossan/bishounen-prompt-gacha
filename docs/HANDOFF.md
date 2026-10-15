@@ -26,7 +26,7 @@ Claude-Session: https://claude.ai/code/session_015Hxd36561ZqUmFyAM3FPr5
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 167件、約105秒
+npm run typecheck && npm run lint && npm test   # 169件、約105秒
 npm run build
 npm run test:browser                            # 92項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
@@ -140,7 +140,7 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - OFFの扱い：`OFF_AS_NONE` に9項目を追加。OFFなら判定・出力とも「なし」。大量抽選で漏れ0件を検査している。
 - hard ルール（`hard.ts`）：拘束具と拘束位置、立場と拘束位置、拘束位置×ポーズ（手・姿勢）・画角・持ち物、固定先×拘束位置・ポーズ・画角、目隠し×眼鏡・眼帯・頭飾り・立場・視線の表情、着崩し×衣装の特徴（露出のある衣装は着崩さない）、状態×衣装（鎧は破れない・露出衣装に大きな破れを重ねない）、状態①②（②は①があるとき、濡れは1件、同じものは不可）。
 - エンジン：禁断の連鎖（立場→拘束具→拘束位置→固定先→画角→ポーズ・持ち物）だけ1手先読み（`LOOKAHEAD`）。手動採用で直接の衝突項目だけで直せないときは、関連の関連まで広げてシードを変えて最大8回試す。
-- 出力：目が隠れる目隠しでは目元・瞳の色・目の語と `looking at viewer` を外す。拘束時は `clean uninjured skin` と、ネガティブ（ONのとき）に `blood, wounds, bruises, restraints around neck` など。`adult`・`nsfw`・`bondage` などは出さない（大量抽選で検査）。
+- 出力：目が隠れる目隠しと「目を閉じる」では、目元・瞳の色・目と視線の語（美形タイプ・顔立ち・表情・ポーズの英語、自然文の句も含む）を外す（`eyeSafe` / `eyeSafeNat`）。日本語設定の目元・瞳の行と説明文も伏せる。「伏し目」は視線の語だけ外し、目の色は残す。髪型の `hair over one eye` などは髪の描写なので残している。拘束時は `clean uninjured skin` と、ネガティブ（ONのとき）に `blood, wounds, bruises, restraints around neck` など。`adult`・`nsfw`・`bondage` などは出さない（大量抽選で検査）。
 - UI：「禁断の調合（アンリミテッド）」のトグル。ONのときだけ9項目と「禁断演出だけ引き直す」（`GROUPS.forbidden`）を表示。共有URLのフラグ `u`。
 - 画像での見え方（触手・リボンの巻き方など）は未確認。PixAI アプリ版で弾かれる語の一覧は公開されていないため、ユーザーの実機確認に頼る。
 

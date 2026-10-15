@@ -240,3 +240,36 @@ describe('禁断の調合（アンリミテッドモード）', () => {
     expect(buildPrompt(s, 'japanese').positive).toContain('衣装の状態：雨に濡れている・ほつれ');
   });
 });
+
+describe('目隠し・目を閉じる・伏し目と目の描写', () => {
+  const EYE = /\b(eyes?|[a-z]+-eyed|gaze|gazing|glance|glare|stare|staring|eye contact|eyelash(es)?|lashes|eyelids?|sanpaku|jitome|looking (at|down at|up at) viewer)\b/i;
+  const OWN = /(blindfold|over (the |one )?eyes?|closed eyes|downcast eyes)/i;
+  const run = (bf: string, i: number, mode: 'coherent' | 'balanced' | 'wild') => {
+    const s0 = emptyState(); s0.settings.coherence = mode; s0.optionalModules.unlimitedEnabled = true;
+    s0.fields.blindfold = { id: bf, source: 'manual', locked: true };
+    const r = draw(s0, { seed: `eye-${bf}-${i}` });
+    expect(r.ok).toBe(true);
+    return r.state;
+  };
+  it('目が隠れる目隠しと「目を閉じる」では、顔・ポーズ・自然文に目と視線の語を出さない（各60回）', () => {
+    for (const bf of ['lace', 'cloth', 'leather', 'ribbon', 'silk', 'bandage_eyes', 'hood_low', 'eyes_closed']) {
+      for (let i = 0; i < 60; i++) {
+        const s = run(bf, i, (['coherent', 'balanced', 'wild'] as const)[i % 3]);
+        const out = buildPrompt(s, 'pixai');
+        for (const id of ['face', 'pose'] as const) for (const t of out.sections.find((x) => x.id === id)!.tags) if (!OWN.test(t)) expect(t, `${bf}#${i} ${id}`).not.toMatch(EYE);
+        const sentences = buildPrompt(s, 'naturalEnglish').positive.split(/(?<=\.)\s/).filter((x) => !/^His .* hair is styled/.test(x) && !OWN.test(x));
+        for (const x of sentences) expect(x, `${bf}#${i}`).not.toMatch(EYE);
+        expect(buildPrompt(s, 'japanese').positive).toContain('目元・瞳：（目隠し・閉じた目のため出力しない）');
+      }
+    }
+  });
+  it('伏し目では目の色は残し、視線の語（こちらを見る・眼差しなど）だけ外す', () => {
+    const GAZE = /\b(gaze|gazing|glance|glare|stare|staring|eye contact|looking (at|down at|up at) viewer)\b/i;
+    for (let i = 0; i < 60; i++) {
+      const s = run('downcast', i, (['coherent', 'balanced', 'wild'] as const)[i % 3]);
+      const p = buildPrompt(s, 'pixai').positive;
+      expect(p).not.toMatch(GAZE);
+      expect(p.split(', ')).toEqual(expect.arrayContaining(optionOf('eyeColor', s.fields.eyeColor.id)!.en));
+    }
+  });
+});
