@@ -99,7 +99,7 @@ export function forbiddenParts(state: ForgeState, v: ReturnType<typeof valuesOf>
     const useAnchor = set(a) && !(a!.id === 'chair' && b!.id === 'armrests');
     const anchor = useAnchor ? a!.en : [];
     const chainAnchor = useAnchor && ['chain', 'ornate_chain'].includes(r!.id) ? CHAIN_ANCHOR_TAGS[a!.id] ?? [] : [];
-    restraintTags.push(...(BIND_TAGS[b!.id] ?? []), ...materialTags(r!.id, b!.id), ...(useAnchor ? ANCHOR_TAGS[a!.id] ?? [] : []), ...chainAnchor);
+    restraintTags.push(...materialTags(r!.id, b!.id), ...(BIND_TAGS[b!.id] ?? []), ...(useAnchor ? ANCHOR_TAGS[a!.id] ?? [] : []), ...chainAnchor);
     restraintNat = `${cap(b!.en.join(', '))}, with ${material}${t ? `, ${t.en.join(', ')}` : ''}${anchor.length ? `, ${anchor.join(', ')}` : ''}, one clear restraint setup, clean uninjured skin.`;
   }
   const blind = set(f) ? f!.en : [];
@@ -234,12 +234,13 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   let positive = '', compact = '';
   if (target === 'pixai' || target === 'novelai' || target === 'genericTags') {
     const q = target === 'genericTags' ? [] : quality;
-    const all = dedupe([...q, ...lora, ...subject, ...face, ...hair, ...outfitTags, ...forbidden, ...pose, ...scene, ...meta, ...free]);
-    const emphSet = new Set(['handsome', v.archetype?.en[0]].filter(Boolean) as string[]);
+    // 禁断演出のタグは人物の直後（先頭寄り）に置く。後ろにあると、長いプロンプトで拘束具や触手が描かれにくい（4回目の実機確認）
+    const all = dedupe([...q, ...lora, ...subject, ...forbidden, ...face, ...hair, ...outfitTags, ...pose, ...scene, ...meta, ...free]);
+    const emphSet = new Set(['handsome', v.archetype?.en[0], forbidden.find((t) => t !== 'restrained')].filter(Boolean) as string[]);
     positive = all.map((t) => (emphSet.has(t) ? emph(t) : t)).join(', ');
-    const short = dedupe([...q, ...lora, ...subject, ...en('age').slice(0, 1), 'handsome', ...(v.archetype?.en.slice(0, 1) ?? []),
+    const short = dedupe([...q, ...lora, ...subject, ...forbidden.slice(0, 3), ...en('age').slice(0, 1), 'handsome', ...(v.archetype?.en.slice(0, 1) ?? []),
       ...(mascPres ? [] : en('presentation').slice(0, 1)), ...en('hairLength'), ...en('hairStyle').slice(0, 1), ...en('hairColor'), ...en('eyeColor'),
-      ...kemonoTags.slice(0, 2), ...outfit.tags.slice(0, 2), ...forbidden.slice(0, 3), ...en('expression').slice(0, 1), ...en('shot').slice(0, 1),
+      ...kemonoTags.slice(0, 2), ...outfit.tags.slice(0, 2), ...en('expression').slice(0, 1), ...en('shot').slice(0, 1),
       ...(bgOn ? en('scene').slice(0, 1) : []), ...(v.artStyle?.en ?? []), ...free]);
     compact = short.map((t) => (emphSet.has(t) ? emph(t) : t)).join(', ');
   } else if (target === 'naturalEnglish') {

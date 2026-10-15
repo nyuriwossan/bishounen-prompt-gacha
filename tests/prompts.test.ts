@@ -300,7 +300,7 @@ describe('禁断の調合のタグ形式（PixAI SDXL での実機確認を反�
         const out = buildPrompt(s, 'pixai');
         expect(out.positive, `${mode}#${i}`).not.toMatch(/\b(captive|prisoner|dominant|watchful|predatory)\b/);
         const fb = out.sections.find((x) => x.id === 'forbidden')?.tags ?? [];
-        if (!['rope', 'silk_cord'].includes(s.fields.restraint.id!)) expect(fb.join(', '), `${mode}#${i} ${s.fields.restraint.id}`).not.toMatch(/\bbound\b/);
+        if (!['rope', 'silk_cord', 'bandage'].includes(s.fields.restraint.id!)) expect(fb.join(', '), `${mode}#${i} ${s.fields.restraint.id}`).not.toMatch(/\bbound\b/);
         // 長い説明の句はタグ形式に入れない
         for (const t of fb) expect(t.split(' ').length, t).toBeLessThanOrEqual(4);
       }
@@ -325,6 +325,15 @@ describe('禁断の調合：3回目の実機確認（ネガティブあり）を
     const s = make('arm', { role: 'captive', restraint: 'straps', bindPos: 'armrests', pose: 'bound_chair', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
     const tags = buildPrompt(s, 'pixai').positive.split(', ');
     expect(tags).toEqual(expect.arrayContaining(['armchair', 'hands on armrests', 'leather straps', 'wrist cuffs', 'strapped to chair']));
+  });
+  it('禁断演出のタグは人物（1boy, solo, male focus）の直後に置き、素材のタグを先にする', () => {
+    const s = make('front', { role: 'ruler', restraint: 'shadow_tentacles', bindPos: 'held' }, { unlimitedEnabled: true });
+    const tags = buildPrompt(s, 'pixai').positive.split(', ');
+    const i = tags.indexOf('male focus');
+    expect(tags.slice(i + 1, i + 3)).toEqual(['tentacles', 'black tentacles']);
+    const b = make('bandage', { role: 'captive', restraint: 'bandage', bindPos: 'wrists_front', pose: 'bound_front_stand', shot: 'cowboy_shot' }, { unlimitedEnabled: true });
+    const bt = buildPrompt(b, 'pixai').positive.split(', ');
+    expect(bt.slice(bt.indexOf('male focus') + 1, bt.indexOf('male focus') + 4)).toEqual(['bandages', 'bandaged wrist', 'bound wrists']);
   });
   it('フードは「目隠し」を呼ばないタグにして、ネガティブに blindfold を入れる', () => {
     const s = make('hood', { role: 'captive', restraint: 'rope', bindPos: 'wrists_front', blindfold: 'hood_low', pose: 'bound_front_kneel', shot: 'full_body', angle: 'eye_level' }, { unlimitedEnabled: true });

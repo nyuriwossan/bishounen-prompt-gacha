@@ -1,6 +1,6 @@
 {
   "engine": "chromium",
-  "at": "2026-10-15T06:37:59.708Z",
+  "at": "2026-10-15T07:30:36.272Z",
   "total": 95,
   "failed": 0,
   "results": [
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "茶髪の爽やか好青年 / 白髪の雪の精のような青年"
+      "detail": "アッシュブロンドのエリート会社員 / 白髪のサイバーパンクの運び屋"
     },
     {
       "name": "進むでやり直せる",
@@ -297,7 +297,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "リムレス"
+      "detail": "ハーフリム"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -442,7 +442,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:46165/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC43Jm09YnBuJmM"
+      "detail": "http://127.0.0.1:32925/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC44Jm09YnBuJmM"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",

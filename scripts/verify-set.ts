@@ -24,7 +24,7 @@ const CASES: Case[] = [
   { id: 'v03', group: '拘束の基本', title: '頭上で吊る鎖（地下牢）', seed: 'vs03', lock: { role: 'prisoner', restraint: 'chain', bindPos: 'wrists_overhead', anchor: 'overhead', pose: 'bound_overhead_stand', shot: 'full_body', scene: 'dungeon_cell', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['両足が床に着いている（宙吊りになっていない）', '鎖が頭上の固定具につながっている', '屋内（牢）の背景になっている'] },
   { id: 'v04', group: '拘束の基本', title: '椅子の肘掛けに革ベルトで固定', seed: 'vs04', lock: { role: 'captive', restraint: 'straps', bindPos: 'armrests', anchor: 'chair', pose: 'bound_chair', shot: 'cowboy_shot', scene: 'interrogation_room', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['肘掛けのある椅子になっている', '左右の手首がそれぞれ肘掛けにベルトで固定されている', '椅子と両手がどちらも画面に入っている'] },
+    checks: ['肘掛けのある椅子になっている', '革ベルト（または革の枷）が手首に出ている', '左右の手首がそれぞれ肘掛けに固定されている', '椅子と両手がどちらも画面に入っている'] },
   // ---- 膝立ち・うつ伏せ ----
   { id: 'v05', group: '膝立ち・うつ伏せ', title: '後ろ手に縛られて膝立ち', seed: 'vs05', lock: { role: 'captive', restraint: 'rope', bindPos: 'wrists_behind', pose: 'kneel_behind', shot: 'knee_up', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['上体を起こした膝立ちになっている', '後ろ手の縄と手が見える'] },
@@ -40,7 +40,7 @@ const CASES: Case[] = [
   { id: 'v10', group: '目隠し', title: '布の目隠し＋目元が特徴の美形タイプ', seed: 'vs10', lock: { role: 'prisoner', restraint: 'silk_cord', bindPos: 'wrists_behind', blindfold: 'cloth', eyeShape: 'piercing', eyeColor: 'gold', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['目隠しを貫通して目が描かれていない', '金色の瞳が出ていない（出力から外している）'] },
   { id: 'v11', group: '目隠し', title: 'フードを目深に被る', seed: 'vs11', lock: { role: 'captive', restraint: 'bandage', bindPos: 'wrists_front', blindfold: 'hood_low', disarray: 'none', wear1: 'none', wear2: 'none' },
-    checks: ['フードで目元が隠れている', '布の目隠しが出ていない', '頭飾り（冠など）と重なっていない'] },
+    checks: ['フードで目元が隠れている', '包帯で両手首が縛られている', '布の目隠しが出ていない', '頭飾り（冠など）と重なっていない'] },
   // ---- 拘束具の素材 ----
   { id: 'v12', group: '拘束具の素材', title: '触手（触手の巣）', seed: 'vs12', lock: { role: 'captive', restraint: 'tentacles', bindPos: 'wrists_overhead', world: 'dark_fantasy', scene: 'tentacle_lair', pose: 'bound_overhead_stand', shot: 'full_body', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none' },
     checks: ['触手が手首に巻き付いている', '縄や鎖が混ざっていない', '露出や性的な描写に寄りすぎていない'] },

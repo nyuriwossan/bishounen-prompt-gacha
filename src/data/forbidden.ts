@@ -203,7 +203,8 @@ export const ROLE_EXPRESSIONS: Record<'captive' | 'captor', string[]> = {
  * 素材を問わない「bound」が縄を呼ぶ・「captive / dominant」が相手役を呼ぶ、ことが分かった。
  * そこでタグ形式では danbooru 風の短いタグにし、長い句は自然な英文だけに残す（en / nat はそのまま）。
  * 縄・組紐以外では「bound」を使わず「restrained」と素材名で表す。 */
-const ROPE_LIKE = new Set(['rope', 'silk_cord']);
+/** 「bound」を使ってよい素材（縄・組紐・包帯。4回目の実機確認で、包帯は bound がないと手首に巻かれなかった） */
+const ROPE_LIKE = new Set(['rope', 'silk_cord', 'bandage']);
 /** 拘束具の素材タグ（拘束位置に応じて「縛られた部位」のタグを足す） */
 export function materialTags(restraintId: string, bindId: string): string[] {
   const part = bindId === 'ankles' ? 'bound legs, bound ankles' : bindId === 'torso_arms' ? 'bound arms' : 'bound wrists';
@@ -214,7 +215,7 @@ export function materialTags(restraintId: string, bindId: string): string[] {
     cuffs: [bindId === 'ankles' ? 'shackles' : 'handcuffs'],
     straps: ['leather straps', 'restraints'],
     ribbon: ['ribbon', 'large bow', 'wrists tied with ribbon'],
-    bandage: ['bandages', 'bandaged arm'],
+    bandage: ['bandages', 'bandaged wrist', ...part.split(', ')],
     tentacles: ['tentacles', 'restrained by tentacles'], shadow_tentacles: ['tentacles', 'black tentacles', 'restrained by tentacles', 'dark aura'],
     vines: ['vines', 'entangled in vines'], rose_vines: ['vines', 'roses', 'entangled in vines']
   };
@@ -223,7 +224,7 @@ export function materialTags(restraintId: string, bindId: string): string[] {
 }
 /** 椅子の肘掛けに固定するとき、素材ごとに足すタグ（3回目の実機確認で「固定されていない」ため） */
 const ARMREST_TAGS: Record<string, string[]> = {
-  rope: ['tied to chair'], silk_cord: ['tied to chair'], straps: ['wrist cuffs', 'strapped to chair'], cuffs: ['cuffed to chair'],
+  rope: ['tied to chair'], silk_cord: ['tied to chair'], straps: ['leather cuffs', 'wrist cuffs', 'strapped to chair'], cuffs: ['cuffed to chair'],
   chain: ['chained to chair'], ornate_chain: ['chained to chair'], ribbon: ['tied to chair'], bandage: ['tied to chair']
 };
 /** 拘束位置のタグ（素材を問わない語だけ） */
