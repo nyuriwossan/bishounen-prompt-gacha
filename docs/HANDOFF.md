@@ -1,4 +1,4 @@
-# 引き継ぎ資料（2026-10-15 更新）
+# 引き継ぎ資料（2026-10-21 更新）
 
 新しい会話では、このファイルを最初に読んでから作業を始めてください。
 
@@ -11,7 +11,7 @@
 | 公開URL | https://nyuriwossan.github.io/bishounen-prompt-gacha/ |
 | 構成 | Vite 6 + TypeScript 5.8 + Preact 10.29.8／Vitest 3.2／playwright-core 1.56（`/opt/pw-browsers` の Chromium） |
 | 公開方式 | `main` に push すると GitHub Actions が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` へ force-push する。Pages API はこの環境から使えないため、この方式にしている |
-| 最新の変更 | コスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
+| 最新の変更 | サービスワーカーのキャッシュ削除範囲の修正（§7.5、2026-10-21）。その前にコスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
 | git の作者 | `user.name nyuriwossan` / `user.email nyuriwo@gmail.com`（リポジトリのローカル設定） |
 
 コミットメッセージの末尾には、次の2行を付けています。
@@ -26,9 +26,9 @@ Claude-Session: https://claude.ai/code/session_017pfiKzKSjF6r9hSU3RhRok
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 195件、約160秒
+npm run typecheck && npm run lint && npm test   # 205件、約135〜160秒
 npm run build
-npm run test:browser                            # 99項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 105項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
@@ -181,6 +181,15 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
   - バレエダンサー（`ballet_dancer`）を削除。保存データ・共有URLに残っていれば、辞書から消えた候補として引き直される。`DATA_VERSION` は据え置き（OFFの抽選・禁断の確認セット・EXAMPLES は再生成で差分なし）。
   - 確認セットは2回目（再確認 C04・C06・C07・C12・C18・C19・C20、余裕があれば未判定の C02）。C19 は組紐、C20 は鎖を手に持つ形に変更。
 - 実機確認2回目（ネガティブなし）：C02・C04・C06・C07・C12・C19・C20 OK。効いたのは正の側のタグの修正（ミニ丈・紐ビキニの下を明示など）。C18（筋肉質の成熟した美形×ビキニ）は2回とも民族衣装・腰布風になった。ユーザーの見立ては SDXL の限界。ネガティブの `loincloth, tribal` はまだ試していない。
+
+## 7.5 2026-10-21 の修正：サービスワーカーが他アプリのキャッシュを消していた
+
+- 不具合：`public/sw.js` の activate が「自分のキャッシュ以外をすべて削除」していた。Cache Storage はオリジン（`nyuriwossan.github.io`）全体で共有されるため、同じオリジンの他の自作アプリ（font-logo-workshop の Workbox キャッシュなど）のオフライン用キャッシュまで消え、そのアプリは次にオンラインで開くまでオフライン起動できなくなっていた。fetch も `caches.match`（オリジン全体の検索）で、他アプリのキャッシュから返す可能性があった。
+- 修正：キャッシュ名を `PREFIX = 'bpg-'` ＋版（`CACHE = PREFIX + 'v2'`）にした。activate は「`bpg-` で始まり、`CACHE` と異なるもの」だけを削除する。fetch のキャッシュ参照（オフライン時の `./index.html` フォールバックを含む）は `caches.open(CACHE)` 経由で自分のキャッシュだけを見る。HTML はネットワーク優先・その他はキャッシュ優先・同一オリジンの GET だけ、は変えていない。
+- 運用ルール：**キャッシュ名は必ず `bpg-` で始める。中身を変えたら版を上げる**（`bpg-v2` → `bpg-v3`）。版を上げると、古い `bpg-` の版は次の activate で片付く。`bpg-` 以外の名前を作ったり消したりしない。localStorage の `bpg:v1:*` とは別物。
+- テスト：`tests/sw.test.ts`（10件。sw.js を node:vm で偽の Cache Storage 上に読み込んで install・activate・fetch を発火）と、ブラウザ検証の6項目（実際の Chromium で他アプリのキャッシュを作ってから activate、オフライン再読み込み、未保存URLのフォールバック）。どちらも修正前の sw.js で失敗することを確認済み。
+- 既に修正前の版で消されたキャッシュは戻せない。消された側のアプリは、オンラインで一度開けば元に戻る。
+- 他の自作アプリ（同じオリジン）の sw.js が同じ書き方をしていないかは未確認。同じ書き方なら、こちらの `bpg-v2` が消される側になる。
 
 ## 8. 次にやること（2026-10-15 時点の未着手）
 

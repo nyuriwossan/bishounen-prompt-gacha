@@ -400,6 +400,49 @@ try {
     check('容量不足でも実行時エラーなし', errors.length === 0, errors.join(' / '));
     await ctx.close();
   }
+  // ---- サービスワーカー：同じオリジンの他アプリのキャッシュを消さない／オフラインで起動できる ----
+  {
+    const { ctx, page, errors } = await newPage({ width: 390, height: 844 });
+    const ORIGIN = new URL(URL_).origin;
+    const FOREIGN = ['workbox-precache-v2-https://example/', 'other-app-v1'];
+    // 同じオリジンの別パス（他アプリ相当）で、他アプリのキャッシュと旧版 bpg-v1 を先に作っておく
+    await page.goto(`${ORIGIN}/other-app/`);
+    await page.evaluate(async (names) => {
+      for (const n of names) await (await window.caches.open(n)).put(`/other-app/${encodeURIComponent(n)}`, new window.Response(n));
+      await (await window.caches.open('bpg-v1')).put('/bishounen-prompt-gacha/index.html', new window.Response('old'));
+    }, FOREIGN);
+    errors.length = 0; // 他アプリ相当のパスは配信していない（404）ので、エラーはアプリを開いてから数える
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    const controlled = await page.evaluate(async () => {
+      await navigator.serviceWorker.ready;
+      if (!navigator.serviceWorker.controller) await new Promise((r) => navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }));
+      return !!navigator.serviceWorker.controller;
+    });
+    check('サービスワーカーが有効になり、ページを制御する', controlled);
+    const after = await page.evaluate(async (names) => {
+      const keys = await window.caches.keys();
+      const sizes = {};
+      for (const n of names) sizes[n] = keys.includes(n) ? (await (await window.caches.open(n)).keys()).length : -1;
+      return { keys, sizes };
+    }, FOREIGN);
+    check('activate で他アプリのキャッシュ（Workbox 等）を消さない', FOREIGN.every((n) => after.sizes[n] === 1), JSON.stringify(after.keys));
+    check('activate で旧版 bpg-v1 を消し、bpg-v2 を残す', !after.keys.includes('bpg-v1') && after.keys.includes('bpg-v2'), JSON.stringify(after.keys));
+    // 制御下で一度読み込み、JS・CSS をキャッシュしてからオフラインにする
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    await page.waitForTimeout(300);
+    await ctx.setOffline(true);
+    await page.reload({ waitUntil: 'load' });
+    const offlineReload = await page.waitForSelector('.label-title', { timeout: 10000 }).then(() => true, () => false);
+    check('オフラインで再読み込みしても起動する', offlineReload);
+    await page.goto(`${URL_}?offline-fallback=1`, { waitUntil: 'load' }).catch(() => undefined);
+    const fallback = await page.waitForSelector('.label-title', { timeout: 10000 }).then(() => true, () => false);
+    check('オフラインで未保存の URL を開くと index.html にフォールバックして起動する', fallback);
+    await ctx.setOffline(false);
+    check('サービスワーカーの検証中に実行時エラーなし', errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
 } finally {
   await browser.close();
   server.close();

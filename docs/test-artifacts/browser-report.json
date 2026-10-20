@@ -1,7 +1,7 @@
 {
   "engine": "chromium",
-  "at": "2026-10-15T12:52:11.652Z",
-  "total": 99,
+  "at": "2026-10-20T22:58:56.298Z",
+  "total": 105,
   "failed": 0,
   "results": [
     {
@@ -162,7 +162,7 @@
     {
       "name": "戻すで直前の結果に戻る",
       "ok": true,
-      "detail": "白髪の涼やかな軍師 / 青み黒髪のウルフヘアの気だるい美形"
+      "detail": "金髪の若き公爵 / 赤髪の気まぐれな猫系"
     },
     {
       "name": "進むでやり直せる",
@@ -292,7 +292,7 @@
     {
       "name": "コスプレ衣装は既定OFFで、衣装はコスプレ以外",
       "ok": true,
-      "detail": "ゆるいクルーネックニットとスラックス"
+      "detail": "ジップパーカーと無地のTシャツ"
     },
     {
       "name": "OFFの間は、衣装の候補に「コスプレ」の分類を出さない",
@@ -302,12 +302,12 @@
     {
       "name": "ONにすると衣装がコスプレになり、錬成してもコスプレ枠から引く",
       "ok": true,
-      "detail": "逆バニー / ミニスカナース / 逆バニー / ミニスカポリス / メイド服（ロング）"
+      "detail": "ミニスカチャイナ / ミニスカサンタ / チアリーダー / サーカス団長 / ビキニ"
     },
     {
       "name": "OFFに戻すと、コスプレ衣装を通常の衣装に引き直す",
       "ok": true,
-      "detail": "開襟シャツとTシャツ"
+      "detail": "宮廷の華服"
     },
     {
       "name": "眼鏡・特徴・持ち物は既定でOFF（出力しない）",
@@ -317,7 +317,7 @@
     {
       "name": "眼鏡をONにすると、行が有効になり「なし」以外の眼鏡が入る",
       "ok": true,
-      "detail": "黒縁眼鏡"
+      "detail": "色付きレンズ"
     },
     {
       "name": "プロンプトに男性1名・美形アンカーが含まれる",
@@ -462,7 +462,7 @@
     {
       "name": "共有URLを作れる",
       "ok": true,
-      "detail": "http://127.0.0.1:45215/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbiZ"
+      "detail": "http://127.0.0.1:42793/bishounen-prompt-gacha/#s=dj0yJmQ9MjAyNi4xMC4xMiZtPWJwbiZ"
     },
     {
       "name": "共有URLを直接開くと同じ美青年が出る（サブパス）",
@@ -496,6 +496,36 @@
     },
     {
       "name": "容量不足でも実行時エラーなし",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "サービスワーカーが有効になり、ページを制御する",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "activate で他アプリのキャッシュ（Workbox 等）を消さない",
+      "ok": true,
+      "detail": "[\"workbox-precache-v2-https://example/\",\"other-app-v1\",\"bpg-v2\"]"
+    },
+    {
+      "name": "activate で旧版 bpg-v1 を消し、bpg-v2 を残す",
+      "ok": true,
+      "detail": "[\"workbox-precache-v2-https://example/\",\"other-app-v1\",\"bpg-v2\"]"
+    },
+    {
+      "name": "オフラインで再読み込みしても起動する",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "オフラインで未保存の URL を開くと index.html にフォールバックして起動する",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "サービスワーカーの検証中に実行時エラーなし",
       "ok": true,
       "detail": ""
     }
