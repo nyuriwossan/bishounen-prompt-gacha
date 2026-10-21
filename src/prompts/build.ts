@@ -12,6 +12,7 @@ const TENTACLES = new Set(['tentacles', 'shadow_tentacles']);
 /** 触手で縛るときにタグ形式から外す、妖艶さを強める語 */
 const SUGGESTIVE = /\b(alluring|seduct\w*|seductive|sensual|tempt\w*|provocative|sultry|bewitching)\b/i;
 import { valuesOf } from '../engine/draw';
+import { isPrefOff } from '../engine/prefs';
 import { isActive, isEffective } from '../engine/state';
 import type { FieldId, ForgeState, Option, OutputTarget } from '../types';
 
@@ -185,7 +186,8 @@ export function outfitParts(outfit: Option | undefined, c1: Option | undefined, 
 
 /** タイトルを意味の切れ目ごとに分ける（画面で語の途中改行を防ぐ） */
 export function titleParts(state: ForgeState): string[] {
-  const hair = optionOf('hairColor', state.fields.hairColor.id);
+  // 辞書・抽選設定で髪の色をOFFにしているときは、タイトルにも出さない
+  const hair = isPrefOff('hairColor') ? undefined : optionOf('hairColor', state.fields.hairColor.id);
   const arch = optionOf('archetype', state.fields.archetype.id);
   const species = state.optionalModules.kemonoEnabled ? optionOf('kemonoSpecies', state.fields.kemonoSpecies.id) : undefined;
   const archName = arch?.ja ?? '美青年';
@@ -310,12 +312,26 @@ function naturalSentences(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   const extras = [...(v.skin?.en ?? []), ...(v.marks?.en ?? []), ...(v.glasses?.en ?? []), ...(M.facialHairEnabled ? v.facialHair?.en ?? [] : [])];
   const fb = fbEye;
   const extrasOk = extras.filter(eyeSafe(fb));
-  if (fb.hideEyes) { if (extrasOk.length) out.push(`He has ${joinNat(extrasOk)}.`); }
+  // 目元・瞳の色をどちらも辞書・抽選設定でOFFにしているときは、目の句を作らない（既定の「eyes」も足さない）
+  const eyesOff = isPrefOff('eyeShape') && isPrefOff('eyeColor');
+  if (fb.hideEyes || eyesOff) { if (extrasOk.length) out.push(`He has ${joinNat(extrasOk)}.`); }
   else out.push(`He has ${eyeSafeNat(fb, eyeTpl.replace('{c}', eyeC).replace(/\s+/g, ' ')) || `${eyeC} eyes`}${extrasOk.length ? `, ${joinNat(extrasOk)}` : ''}.`);
   const hairC = colorWord(v.hairColor, / hair$/);
   const accentOn = isEffective(state, 'hairAccentColor') && v.hairAccent && v.hairAccent.id !== 'none';
   const accent = accentOn && v.hairAccentColor ? ` with ${colorWord(v.hairAccentColor, / hair$/)} ${ACCENT_NOUN[v.hairAccent!.id] ?? 'accents'}` : '';
-  out.push(`His ${LEN_WORD[v.hairLength?.id ?? 'short'] ?? ''} ${hairC} hair${accent} is styled as ${joinNat(v.hairStyle?.en ?? ['loose hair'])}, and he has ${v.build?.nat ?? 'a balanced build'}.`.replace(/\s+/g, ' '));
+  const hairOff = (['hairLength', 'hairStyle', 'hairColor', 'build'] as FieldId[]).filter((f) => isPrefOff(f));
+  if (!hairOff.length) out.push(`His ${LEN_WORD[v.hairLength?.id ?? 'short'] ?? ''} ${hairC} hair${accent} is styled as ${joinNat(v.hairStyle?.en ?? ['loose hair'])}, and he has ${v.build?.nat ?? 'a balanced build'}.`.replace(/\s+/g, ' '));
+  else {
+    // 辞書・抽選設定でOFFにした髪・体格の部分は、既定の語（short / loose hair / a balanced build）で埋めずに省く
+    const len = isPrefOff('hairLength') ? '' : LEN_WORD[v.hairLength?.id ?? 'short'] ?? '';
+    const color = isPrefOff('hairColor') ? '' : hairC;
+    const style = !isPrefOff('hairStyle') && v.hairStyle ? ` is styled as ${joinNat(v.hairStyle.en)}` : '';
+    const anyHair = !!(len || color || style || accent);
+    const hairBit = anyHair ? `His ${len} ${color} hair${accent}${style || ' frames his face'}` : '';
+    const buildBit = !isPrefOff('build') && v.build ? v.build.nat ?? '' : '';
+    const sentence = hairBit && buildBit ? `${hairBit}, and he has ${buildBit}.` : hairBit ? `${hairBit}.` : buildBit ? `He has ${buildBit}.` : '';
+    if (sentence) out.push(sentence.replace(/\s+/g, ' '));
+  }
   if (M.kemonoEnabled && kemonoTags.length) out.push(`He is a kemonomimi man with ${joinNat(kemonoTags)}, while keeping a handsome human face.`);
   if (outfitNat) out.push(`He wears ${outfitNat}${v.culture && v.culture.id !== 'none' ? `, adorned with ${v.culture.nat}` : ''}.`);
   if (fb.clothesNat) out.push(fb.clothesNat);
@@ -326,7 +342,8 @@ function naturalSentences(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   if (M.poseEnabled && v.pose) {
     const prop = v.prop && v.prop.id !== 'none' ? `, ${v.prop.en.join(', ')}` : '';
     const poseEn = v.pose.en.filter(eyeSafe(fb));
-    out.push(`He wears ${expr || 'a calm expression'}; pose: ${poseEn.join(', ')}${prop}.`);
+    if (isPrefOff('expression')) out.push(`Pose: ${poseEn.join(', ')}${prop}.`);
+    else out.push(`He wears ${expr || 'a calm expression'}; pose: ${poseEn.join(', ')}${prop}.`);
   } else if (expr) out.push(`He has ${expr}.`);
   const shotNat = SHOT_NAT[v.shot?.id ?? 'upper_body'] ?? 'A portrait';
   const angle = M.poseEnabled && v.angle && ANGLE_NAT[v.angle.id] ? `, ${ANGLE_NAT[v.angle.id]}` : '';
@@ -348,10 +365,12 @@ function japaneseSettings(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   const j = (f: FieldId) => v[f]?.ja ?? '—';
   const rows: Array<[string, string]> = [];
   if (M.nameEnabled && v.name) rows.push(['呼び名', v.name.ja]);
+  const hairParts = (['hairLength', 'hairStyle', 'hairColor'] as FieldId[]).filter((f) => !isPrefOff(f)).map(j);
+  const eyeParts = (['eyeShape', 'eyeColor'] as FieldId[]).filter((f) => !isPrefOff(f)).map(j);
   rows.push(['年齢', j('age')], ['美形タイプ', `${j('archetype')}${v.archetype?.desc ? `｜${v.archetype.desc}` : ''}`], ['容姿傾向', j('presentation')], ['体格', j('build')],
     ['世界観', j('world')], ['文化・意匠', v.culture && v.culture.id !== 'none' ? v.culture.ja : '指定なし'],
-    ['髪', [j('hairLength'), j('hairStyle'), j('hairColor')].join('・') + (isEffective(state, 'hairAccentColor') && v.hairAccent?.id !== 'none' ? `（${j('hairAccent')}：${j('hairAccentColor')}）` : '')],
-    ['目元・瞳', forbiddenParts(state, v).hideEyes ? '（目隠し・閉じた目のため出力しない）' : `${j('eyeShape')}・${j('eyeColor')}`], ['顔立ち', j('face')], ['肌', j('skin')]);
+    ['髪', hairParts.join('・') + (isEffective(state, 'hairAccentColor') && v.hairAccent?.id !== 'none' ? `（${j('hairAccent')}：${j('hairAccentColor')}）` : '')],
+    ['目元・瞳', forbiddenParts(state, v).hideEyes ? '（目隠し・閉じた目のため出力しない）' : eyeParts.join('・')], ['顔立ち', j('face')], ['肌', j('skin')]);
   if (M.marksEnabled) rows.push(['特徴', j('marks')]);
   if (M.glassesEnabled) rows.push(['眼鏡', j('glasses')]);
   if (M.facialHairEnabled) rows.push(['ひげ', j('facialHair')]);
@@ -362,7 +381,12 @@ function japaneseSettings(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   if (M.kemonoEnabled) rows.push(['獣人', `${j('kemonoSpecies')}・${j('kemonoLevel')}`]);
   rows.push(...forbiddenParts(state, v).jaRows);
   rows.push(['雰囲気', j('aura')], ['職業・立場', j('occupation')], ['画風', j('artStyle')]);
-  return rows;
+  // 辞書・抽選設定でOFFにした項目の行は出さない（髪・目元は、すべての部分がOFFのときだけ消す）
+  const OFF_ROWS: Record<string, FieldId[]> = {
+    容姿傾向: ['presentation'], 体格: ['build'], 世界観: ['world'], '文化・意匠': ['culture'], 髪: ['hairLength', 'hairStyle', 'hairColor'], '目元・瞳': ['eyeShape', 'eyeColor'],
+    顔立ち: ['face'], 肌: ['skin'], 衣装: ['outfit'], 表情: ['expression'], 雰囲気: ['aura'], '職業・立場': ['occupation'], 衣装の乱れ: ['disarray'], 衣装の状態: ['wear1']
+  };
+  return rows.filter(([k]) => !(OFF_ROWS[k] && OFF_ROWS[k].every((f) => isPrefOff(f))));
 }
 
 function japaneseProse(state: ForgeState, v: ReturnType<typeof valuesOf>, outfitJa: string): string {
@@ -373,10 +397,24 @@ function japaneseProse(state: ForgeState, v: ReturnType<typeof valuesOf>, outfit
   const kemono = M.kemonoEnabled && v.kemonoSpecies ? `${v.kemonoSpecies.ja}の耳と尾を持つ` : '';
   const s1 = `${v.age?.ja.split('｜')[0] ?? ''}、${kemono}${occ}${pres}${v.archetype?.ja ?? '美青年'}（${age}）。`;
   const eyeJa = v.eyeShape?.ja ?? '';
-  const eyePart = forbiddenParts(state, v).hideEyes ? '' : `に${v.eyeColor?.ja ?? ''}、${/(目元|目|瞳|眼差し|まつ毛)$/.test(eyeJa) ? eyeJa : `${eyeJa}の目元`}`;
-  const s2 = `${v.hairColor ? hairColorShort(v.hairColor) : '髪'}の${v.hairStyle?.ja ?? ''}${eyePart}。`;
-  const s3 = `${outfitJa ? `${outfitJa}をまとう。` : ''}表情は「${v.expression?.ja ?? '—'}」${M.poseEnabled && v.pose ? `、ポーズは「${v.pose.ja}」${v.prop && v.prop.id !== 'none' ? `、手には${v.prop.ja}` : ''}` : ''}。`;
-  const s4 = `舞台は${v.world?.ja ?? '—'}${M.backgroundEnabled && v.scene ? `、${v.scene.ja}${v.scene.place !== 'simple' && v.time ? `の${v.time.ja}` : ''}` : ''}。`;
+  const eyeOffShape = isPrefOff('eyeShape'), eyeOffColor = isPrefOff('eyeColor');
+  const prefsOffAny = ['hairColor', 'hairStyle', 'eyeShape', 'eyeColor', 'expression', 'world'].some((f) => isPrefOff(f as FieldId));
+  if (!prefsOffAny) {
+    const eyePart = forbiddenParts(state, v).hideEyes ? '' : `に${v.eyeColor?.ja ?? ''}、${/(目元|目|瞳|眼差し|まつ毛)$/.test(eyeJa) ? eyeJa : `${eyeJa}の目元`}`;
+    const s2 = `${v.hairColor ? hairColorShort(v.hairColor) : '髪'}の${v.hairStyle?.ja ?? ''}${eyePart}。`;
+    const s3 = `${outfitJa ? `${outfitJa}をまとう。` : ''}表情は「${v.expression?.ja ?? '—'}」${M.poseEnabled && v.pose ? `、ポーズは「${v.pose.ja}」${v.prop && v.prop.id !== 'none' ? `、手には${v.prop.ja}` : ''}` : ''}。`;
+    const s4 = `舞台は${v.world?.ja ?? '—'}${M.backgroundEnabled && v.scene ? `、${v.scene.ja}${v.scene.place !== 'simple' && v.time ? `の${v.time.ja}` : ''}` : ''}。`;
+    return [s1, s2, s3, s4, forbiddenParts(state, v).jaProse].join('');
+  }
+  // 辞書・抽選設定でOFFにした項目は、文から省く（「—」で埋めない）
+  const hairBits = [!isPrefOff('hairColor') && v.hairColor ? `${hairColorShort(v.hairColor)}の` : '', !isPrefOff('hairStyle') ? v.hairStyle?.ja ?? '' : ''].join('');
+  const eyeBits = forbiddenParts(state, v).hideEyes ? [] : [eyeOffColor ? '' : v.eyeColor?.ja ?? '', eyeOffShape ? '' : /(目元|目|瞳|眼差し|まつ毛)$/.test(eyeJa) ? eyeJa : `${eyeJa}の目元`].filter(Boolean);
+  const s2 = hairBits || eyeBits.length ? `${hairBits.replace(/の$/, '')}${hairBits && eyeBits.length ? 'に' : ''}${eyeBits.join('、')}。` : '';
+  const exprPart = isPrefOff('expression') ? '' : `表情は「${v.expression?.ja ?? '—'}」`;
+  const posePart = M.poseEnabled && v.pose ? `ポーズは「${v.pose.ja}」${v.prop && v.prop.id !== 'none' ? `、手には${v.prop.ja}` : ''}` : '';
+  const s3 = `${outfitJa ? `${outfitJa}をまとう。` : ''}${[exprPart, posePart].filter(Boolean).join('、')}${exprPart || posePart ? '。' : ''}`;
+  const place = [isPrefOff('world') ? '' : v.world?.ja ?? '', M.backgroundEnabled && v.scene ? `${v.scene.ja}${v.scene.place !== 'simple' && v.time ? `の${v.time.ja}` : ''}` : ''].filter(Boolean);
+  const s4 = place.length ? `舞台は${place.join('、')}。` : '';
   return [s1, s2, s3, s4, forbiddenParts(state, v).jaProse].join('');
 }
 

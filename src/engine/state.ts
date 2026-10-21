@@ -1,4 +1,5 @@
 import { DATA_VERSION, DEFAULT_IDS, fieldDef, FIELDS } from '../data/fields';
+import { isPrefOff } from './prefs';
 import { FIELD_IDS, type FieldId, type ForgeModules, type ForgeSettings, type ForgeState, type ModuleId, type Selection } from '../types';
 
 export const SCHEMA_VERSION = 1;
@@ -64,6 +65,8 @@ export const moduleKey = (m: ModuleId) => MODULE_KEY[m];
 
 /** 任意モジュールが有効か（モジュールに属さない項目は常に有効） */
 export function isActive(state: ForgeState, field: FieldId): boolean {
+  // 辞書・抽選設定でOFFにした項目（と、衣装に連動する項目）は、抽選も出力もしない。値と固定状態は保持する
+  if (isPrefOff(field)) return false;
   const def = fieldDef(field);
   if (!def.module) return true;
   const parent = MODULE_PARENT[def.module];

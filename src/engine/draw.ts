@@ -12,6 +12,7 @@ import { isCosplay } from '../data/outfits';
 import type { DrawConflict, DrawResult, FieldId, ForgeState, Option, StylePreset } from '../types';
 import { matchAny } from './match';
 import { newSeed, seededRandom, weightedPick, type Rng } from './rng';
+import { allowedOf, hasPrefs, isPrefOff, REQUIRED_FIELDS, requiresOffFields } from './prefs';
 import { cloneState, isActive, moduleKey, OFF_AS_NONE } from './state';
 import { applyShares, shareBoosts, softWeight } from './weights';
 
@@ -31,7 +32,63 @@ export interface DrawOptions {
   /** true ならおまかせ条件に合う候補が無いとき、条件外から選ばない */
   strictFilter?: boolean;
 }
-export interface DrawOutcome extends DrawResult { recent: RecentMap; stuck: FieldId[]; seed: string }
+export interface DrawOutcome extends DrawResult { recent: RecentMap; stuck: FieldId[]; seed: string; /** 辞書・抽選設定の除外・OFFが原因で成立しなかった項目（設定を開く導線） */ prefsFields?: FieldId[];
+  /** 原因の種類：zero 抽選対象が0件／preset スタイルの条件に合う候補をすべて除外／stuck 両立する候補をすべて除外／off 項目がOFF */
+  prefsKind?: 'zero' | 'preset' | 'stuck' | 'off' }
+
+/** 自動の抽選の母集団（除外を適用する前）。衣装はコスプレのスイッチで変わる */
+function baseOptions(f: FieldId, s: ForgeState, strict = false): Option[] {
+  const all = fieldDef(f).options;
+  if (f !== 'outfit') return all;
+  const m = s.optionalModules;
+  if (!m.cosplayEnabled) return all.filter((o) => !isCosplay(o));
+  if (strict) return all;
+  return all.filter((o) => isCosplay(o) && !(m.kemonoEnabled && o.tags?.includes('f_ears')) && !(m.unlimitedEnabled && o.tags?.includes('no_forbidden')));
+}
+
+/** 内部用の絞り込み（一覧から引く・ONにした直後）は、おまかせスタイルとして扱わない */
+const isStylePreset = (p: StylePreset | null | undefined): p is StylePreset => !!p && p.id !== 'within' && p.id !== 'module-on';
+
+/** おまかせスタイルの条件に合う候補を、辞書・抽選設定ですべて除外している項目（抽選前に説明するため） */
+export function presetPrefsConflicts(state: ForgeState, preset: StylePreset | null | undefined, targets?: FieldId[]): Array<{ field: FieldId; message: string }> {
+  if (!isStylePreset(preset)) return [];
+  const s = cloneState(state);
+  if (preset.modules) Object.assign(s.optionalModules, preset.modules);
+  const list = targets ?? drawableFields(s);
+  const out: Array<{ field: FieldId; message: string }> = [];
+  for (const [f, filter] of Object.entries(preset.filters) as Array<[FieldId, string[]]>) {
+    if (!filter?.length || !list.includes(f)) continue;
+    // コスプレONの衣装はスタイルの衣装の条件を使わない
+    if (f === 'outfit' && s.optionalModules.cosplayEnabled) continue;
+    const base = baseOptions(f, s).filter((o) => matchAny(o, filter));
+    if (base.length && !allowedOf(f, base).length) {
+      out.push({ field: f, message: `おまかせスタイル「${preset.ja}」の条件（${label(f)}）に合う候補を、すべて抽選から除外しています。スタイルを外すか、辞書・抽選設定で除外を見直してください。` });
+    }
+  }
+  return out;
+}
+
+function prefsPrecheck(s: ForgeState, targets: FieldId[], opts: DrawOptions): { message: string; fields: FieldId[]; kind: 'zero' | 'preset' } | null {
+  const zero = targets.filter((f) => !allowedOf(f, baseOptions(f, s, !!opts.strictFilter)).length);
+  if (zero.length) {
+    const names = zero.map((f) => `「${label(f)}${f === 'outfit' && s.optionalModules.cosplayEnabled && !opts.strictFilter ? '（コスプレ枠）' : ''}」`).join('');
+    const offable = zero.every((f) => !REQUIRED_FIELDS[f]);
+    return { message: `${names}に抽選対象の候補が0件のため、錬成しませんでした。辞書・抽選設定で候補を選ぶ${offable ? 'か、この項目をOFFにしてください' : 'ようにしてください'}。`, fields: zero, kind: 'zero' };
+  }
+  const conflicts = presetPrefsConflicts(s, opts.preset, targets);
+  if (conflicts.length) return { message: conflicts.map((c) => c.message).join(' '), fields: conflicts.map((c) => c.field), kind: 'preset' };
+  return null;
+}
+
+/** 除外が原因で両立する候補が残らなかったときの説明（原因になった固定項目を挙げる） */
+function prefsStuckMessage(f: FieldId, s: ForgeState, determined: Values, within: boolean): string {
+  if (within) return 'この一覧には、他の項目と両立する抽選対象の候補がありません。抽選から除外した候補は、行を押せば手で選べます。';
+  const allowed = allowedOf(f, baseOptions(f, s));
+  const involved = [...new Set(allowed.flatMap((o) => candidateViolations(f, o, determined).flatMap((v) => v.fields)))]
+    .filter((g) => g !== f && s.fields[g].locked);
+  const hint = involved.length ? `${involved.map((g) => `「${label(g)}」`).join('')}の固定を見直してください` : '関連する項目もまとめて引き直してください';
+  return `「${label(f)}」に選べる候補がありません（両立する候補をすべて抽選から除外しています）。抽選対象を増やすか、${hint}。結果は変えていません。`;
+}
 
 /** 裾の切り方：top-p（累積確率）と min-p（最有力候補の何割未満を切るか）。まとまり重視ほど、相性の悪い長い裾を切る */
 const TOP_P: Record<ForgeState['settings']['coherence'], number> = { coherent: 0.95, balanced: 0.99, wild: 1 };
@@ -107,12 +164,27 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
     return { ok: true, state: input, notices: [lockedCount ? '対象の項目はすべて固定中です。固定を外すと引き直せます。' : '引き直せる項目がありません。'], conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed };
   }
 
+  // 1.5 辞書・抽選設定：抽選対象が0件の項目や、おまかせスタイルの条件に合う候補をすべて除外している項目があれば、抽選しない（黙って条件をゆるめない）
+  const prefsStop = prefsPrecheck(s, targets, opts);
+  if (prefsStop) return { ok: false, state: input, notices: [prefsStop.message], conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed, prefsFields: prefsStop.fields, prefsKind: prefsStop.kind };
+
   // 2. 順に抽選
   const targetSet = new Set(targets);
   const determined: Values = valuesOf(s, (f) => !targetSet.has(f));
   for (const f of targets) {
     const pending = new Set(targets.slice(targets.indexOf(f) + 1));
-    const picked = pickFor(f, s, determined, rng, { useRecent, recent, preset: opts.preset, notices, strict: opts.strictFilter, pending });
+    const ctx: PickCtx = { useRecent, recent, preset: opts.preset, notices, strict: opts.strictFilter, pending };
+    const picked = pickFor(f, s, determined, rng, ctx);
+    if (!picked) {
+      // 除外がなければ候補があった → 除外した候補を復活させず、元の値で黙って済ませず、今回の抽選全体を取り消す
+      const unfiltered = poolFor(f, s, determined, { ...ctx, notices: [] }, false);
+      if (unfiltered && unfiltered.length) {
+        return {
+          ok: false, state: input, notices: [prefsStuckMessage(f, s, determined, !!opts.strictFilter && opts.preset?.id === 'within')],
+          conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed, prefsFields: [f], prefsKind: 'stuck'
+        };
+      }
+    }
     if (picked) {
       s.fields[f] = { id: picked.id, source: opts.preset && opts.preset.filters[f] ? 'preset' : 'random', locked: false };
       determined[f] = picked;
@@ -140,7 +212,7 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
   if (remaining.length) {
     return {
       ok: false, state: input,
-      notices: ['条件を満たす組み合わせが見つからなかったため、結果を出しませんでした。'],
+      notices: ['条件を満たす組み合わせが見つからなかったため、結果を出しませんでした。', ...(hasPrefs() ? ['辞書・抽選設定の除外が影響している可能性があります。'] : [])],
       conflicts: toConflicts(remaining, s), changed: [], recent: opts.recent ?? {}, stuck, seed
     };
   }
@@ -163,58 +235,68 @@ interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset;
 const LOOKAHEAD: Partial<Record<FieldId, FieldId[]>> = {
   outfit: ['restraint'], role: ['bindPos'], restraint: ['bindPos'], bindPos: ['anchor', 'shot', 'pose', 'prop'], anchor: ['shot', 'pose'], disarray: ['pose'], expression: ['pose'], shot: ['pose']
 };
-function leavesRoom(f: FieldId, o: Option, determined: Values, pending: Set<FieldId> | undefined, s: ForgeState, preset?: StylePreset): boolean {
+function leavesRoom(f: FieldId, o: Option, determined: Values, pending: Set<FieldId> | undefined, s: ForgeState, preset?: StylePreset, usePrefs = true): boolean {
   const next = LOOKAHEAD[f];
   if (!next || !pending || !s.optionalModules.unlimitedEnabled) return true;
   const v = { ...determined, [f]: o };
   return next.every((g) => {
     if (!pending.has(g) || !isActive(s, g)) return true;
+    // 先読みも、抽選から除外した候補は「残る候補」に数えない
+    const options = usePrefs ? allowedOf(g, fieldDef(g).options) : fieldDef(g).options;
     // おまかせスタイルの条件がある項目は、その条件に合う候補が残るかで判断する（例：触手の森で、鎖付きの衣装を先に引かない）
     const filter = preset?.filters[g];
-    const narrowed = filter?.length ? fieldDef(g).options.filter((x) => matchAny(x, filter)) : [];
-    const pool = narrowed.length ? narrowed : fieldDef(g).options;
+    const narrowed = filter?.length ? options.filter((x) => matchAny(x, filter)) : [];
+    const pool = narrowed.length ? narrowed : options;
     return pool.some((x) => candidateViolations(g, x, v).length === 0);
   });
 }
 
 /** 候補の requires が、まだ決まっていない項目についておまかせスタイルの条件と両立できるか（例：銀髪特集で「黒髪クール」を引かない） */
-function requiresFitPreset(o: Option, determined: Values, preset: StylePreset | undefined): boolean {
+function requiresFitPreset(o: Option, determined: Values, preset: StylePreset | undefined, usePrefs = true): boolean {
   if (!preset || !o.requires) return true;
   return o.requires.every((req) => {
     const i = req.indexOf(':');
     const g = req.slice(0, i) as FieldId, refs = req.slice(i + 1).split('|');
     const filter = preset.filters[g];
     if (!filter?.length || determined[g]) return true;
-    return fieldDef(g).options.some((x) => matchAny(x, filter) && refs.some((r) => matchAny(x, [r])));
+    const options = usePrefs ? allowedOf(g, fieldDef(g).options) : fieldDef(g).options;
+    return options.some((x) => matchAny(x, filter) && refs.some((r) => matchAny(x, [r])));
   });
 }
 
 /** 衣装の抽選範囲。コスプレOFFならコスプレ衣装を外し、ONなら自動の抽選はコスプレ枠だけから行う。
  * 一覧から引く（strict）ときは、ONなら一覧のとおり（通常の衣装も可）。
  * 獣人ONでは耳付きの衣装を、禁断ONでは禁断と組まない衣装（セーラー服）を、自動の抽選から外す */
-function outfitPool(s: ForgeState, determined: Values, ctx: PickCtx): { options: Option[]; cosplayOnly: boolean } {
+function outfitPool(s: ForgeState, determined: Values, ctx: PickCtx, usePrefs = true): { options: Option[]; cosplayOnly: boolean } {
   const all = fieldDef('outfit').options;
+  const allowed = usePrefs ? allowedOf('outfit', all) : all;
   const m = s.optionalModules;
-  if (!m.cosplayEnabled) return { options: all.filter((o) => !isCosplay(o)), cosplayOnly: false };
-  if (ctx.strict) return { options: all, cosplayOnly: false };
-  const pool = all.filter((o) => isCosplay(o)
+  if (!m.cosplayEnabled) return { options: allowed.filter((o) => !isCosplay(o)), cosplayOnly: false };
+  if (ctx.strict) return { options: allowed, cosplayOnly: false };
+  const cosplay = (xs: Option[]) => xs.filter((o) => isCosplay(o)
     && !(m.kemonoEnabled && o.tags?.includes('f_ears'))
     && !(m.unlimitedEnabled && o.tags?.includes('no_forbidden')));
+  const fits = (xs: Option[]) => xs.some((o) => candidateViolations('outfit', o, determined).length === 0);
+  const pool = cosplay(allowed);
   // 固定中の項目と両立するコスプレ衣装がなければ、通常の衣装から選ぶ
-  if (!pool.some((o) => candidateViolations('outfit', o, determined).length === 0)) {
+  if (!fits(pool)) {
+    // 両立するコスプレ衣装はあるのに、すべて抽選から除外している → 通常の衣装へ逃がさず、抽選を成立させない
+    if (usePrefs && fits(cosplay(all))) return { options: [], cosplayOnly: true };
     ctx.notices.push('固定中の項目と両立するコスプレ衣装がないため、通常の衣装から選びました。');
-    return { options: all.filter((o) => !isCosplay(o)), cosplayOnly: false };
+    return { options: allowed.filter((o) => !isCosplay(o)), cosplayOnly: false };
   }
   return { options: pool, cosplayOnly: true };
 }
 
-function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: PickCtx): Option | null {
+/** 抽選の候補集合（重み付けの前）。順序：抽選対象の候補（除外・OFF前提を外す）→ 決定済みの値との hard 制約 → 先読み → おまかせスタイルの条件。
+ * usePrefs=false は「除外がなければ候補があったか」の判定用（乱数は使わない） */
+function poolFor(f: FieldId, s: ForgeState, determined: Values, ctx: PickCtx, usePrefs = true): Option[] | null {
   const def = fieldDef(f);
-  const scope = f === 'outfit' ? outfitPool(s, determined, ctx) : { options: def.options, cosplayOnly: false };
+  const scope = f === 'outfit' ? outfitPool(s, determined, ctx, usePrefs) : { options: usePrefs ? allowedOf(f, def.options) : def.options, cosplayOnly: false };
   const compatibleNow = scope.options.filter((o) => candidateViolations(f, o, determined).length === 0);
-  const roomy = compatibleNow.filter((o) => leavesRoom(f, o, determined, ctx.pending, s, ctx.preset));
+  const roomy = compatibleNow.filter((o) => leavesRoom(f, o, determined, ctx.pending, s, ctx.preset, usePrefs));
   const allCompatible = roomy.length ? roomy : compatibleNow;
-  const presetFit = allCompatible.filter((o) => requiresFitPreset(o, determined, ctx.preset));
+  const presetFit = allCompatible.filter((o) => requiresFitPreset(o, determined, ctx.preset, usePrefs));
   const compatible = presetFit.length ? presetFit : allCompatible;
   let pool = compatible;
   // コスプレONの衣装は、おまかせスタイルの衣装の条件より優先する（コスプレ枠だけから引く）
@@ -223,9 +305,16 @@ function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: P
     const narrowed = compatible.filter((o) => matchAny(o, filter));
     if (narrowed.length) pool = narrowed;
     else if (ctx.strict) return null;
-    else if (compatible.length) ctx.notices.push(`おまかせスタイルの条件に合う「${label(f)}」が他の項目と両立しないため、条件外から選びました。`);
+    // ONにした直後の「なし以外」（module-on）で、なし以外をすべて除外しているときは、黙って「なし」から選ぶ（条件ではなく手応えのための絞り込み）
+    else if (compatible.length && !(ctx.preset?.id === 'module-on' && usePrefs && !allowedOf(f, def.options).some((o) => matchAny(o, filter)))) ctx.notices.push(`おまかせスタイルの条件に合う「${label(f)}」が他の項目と両立しないため、条件外から選びました。`);
   }
-  if (!pool.length) return null;
+  return pool;
+}
+
+function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: PickCtx): Option | null {
+  const def = fieldDef(f);
+  const pool = poolFor(f, s, determined, ctx);
+  if (!pool || !pool.length) return null;
   // 禁断の調合は組み合わせで候補が大きく絞られるのが普通なので、「少なめ」の通知は出さない
   if (pool.length <= 2 && def.options.length > 6 && def.group !== 'forbidden' && !s.optionalModules.unlimitedEnabled) ctx.notices.push(`「${label(f)}」は今の条件だと候補が少なめです（${pool.length}件）。`);
 
@@ -250,21 +339,23 @@ function pickFor(f: FieldId, s: ForgeState, determined: Values, rng: Rng, ctx: P
 // ---------------------------------------------------------------
 // 手動選択・固定
 
-export interface AdoptCheck { ok: boolean; violations: Violation[]; blockingLocked: FieldId[]; conflictingUnlocked: FieldId[]; /** OFFのため両立できない項目（眼鏡・特徴・持ち物） */ blockingOff: FieldId[]; /** コスプレ衣装のスイッチがOFF */ blockingCosplay?: boolean }
+export interface AdoptCheck { ok: boolean; violations: Violation[]; blockingLocked: FieldId[]; conflictingUnlocked: FieldId[]; /** OFFのため両立できない項目（眼鏡・特徴・持ち物） */ blockingOff: FieldId[]; /** コスプレ衣装のスイッチがOFF */ blockingCosplay?: boolean; /** この項目そのものを辞書・抽選設定でOFFにしている */ blockingPrefOff?: boolean }
 
-/** 手動採用の事前確認 */
+/** 手動採用の事前確認。抽選から除外した候補も手では選べる（除外は自動の抽選だけの制限） */
 export function checkAdopt(state: ForgeState, field: FieldId, id: string): AdoptCheck {
   const opt = optionOf(field, id);
   if (!opt) return { ok: false, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [] };
+  if (isPrefOff(field)) return { ok: false, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [], blockingPrefOff: true };
   if (!isActive(state, field)) return { ok: true, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [] };
   // コスプレ衣装は、スイッチがOFFの間は選べない
   if (field === 'outfit' && isCosplay(opt) && !state.optionalModules.cosplayEnabled) return { ok: false, violations: [], blockingLocked: [], conflictingUnlocked: [], blockingOff: [], blockingCosplay: true };
   const others = valuesOf(state, (g) => g !== field);
   const violations = candidateViolations(field, opt, others);
   const involved = [...new Set(violations.flatMap((v) => v.fields))].filter((g) => g !== field);
-  const blockingOff = involved.filter((g) => !isActive(state, g));
+  // 辞書・抽選設定でOFFの項目を前提にする候補（髪の色OFFの「黒髪クール」、衣装OFFの「ネクタイを緩める」など）も選べない
+  const blockingOff = [...new Set([...involved.filter((g) => !isActive(state, g)), ...requiresOffFields(opt)])];
   return {
-    ok: violations.length === 0, violations,
+    ok: violations.length === 0 && blockingOff.length === 0, violations,
     blockingLocked: involved.filter((g) => state.fields[g].locked && isActive(state, g)),
     conflictingUnlocked: involved.filter((g) => !state.fields[g].locked && isActive(state, g)),
     blockingOff
@@ -276,6 +367,10 @@ export function followColors(state: ForgeState, field: FieldId): FieldId[] {
   if (field !== 'outfit') return [];
   return (['mainColor', 'accentColor'] as FieldId[]).filter((f) => !state.fields[f].locked && state.fields[f].source !== 'manual' && isActive(state, f));
 }
+/** 辞書・抽選設定でOFFにした項目は、抽選も手動の変更もしない */
+export function prefOffNotice(field: FieldId): string {
+  return `「${label(field)}」は辞書・抽選設定でOFFにしています。抽選・出力をせず、値と固定はそのまま保っています。ONにすると変更できます。`;
+}
 export const COSPLAY_OFF_NOTICE = 'コスプレ衣装がOFFのため、この候補は選べません。詳細な調合の「コスプレ衣装」でONにすると選べます。';
 const FOLLOW_NOTICE = '自動で出た衣装の色を、選んだ服に合わせて引き直しました。';
 
@@ -283,12 +378,17 @@ const FOLLOW_NOTICE = '自動で出た衣装の色を、選んだ服に合わせ
 export function adopt(state: ForgeState, field: FieldId, id: string, lock: boolean, opts: { seed?: string; recent?: RecentMap } = {}): DrawOutcome {
   const check = checkAdopt(state, field, id);
   const seed = opts.seed ?? newSeed();
+  if (check.blockingPrefOff) {
+    return { ok: false, state, notices: [prefOffNotice(field)], conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed, prefsFields: [field], prefsKind: 'off' };
+  }
   if (check.blockingCosplay) {
     return { ok: false, state, notices: [COSPLAY_OFF_NOTICE], conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed };
   }
   if (check.blockingOff.length) {
+    const viaPrefs = check.blockingOff.filter((g) => isPrefOff(g));
     return {
-      ok: false, state, notices: [`「${check.blockingOff.map(label).join('・')}」がOFFのため、この候補は選べません。詳細な調合でONにすると選べます。`],
+      ok: false, state, notices: [`「${check.blockingOff.map(label).join('・')}」がOFFのため、この候補は選べません。${viaPrefs.length ? '辞書・抽選設定' : '詳細な調合'}でONにすると選べます。`],
+      prefsFields: viaPrefs.length ? viaPrefs : undefined, prefsKind: viaPrefs.length ? 'off' : undefined,
       conflicts: [], changed: [], recent: opts.recent ?? {}, stuck: [], seed
     };
   }

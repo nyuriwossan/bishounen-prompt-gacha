@@ -3,12 +3,14 @@ import { advise } from '../advisor/advisor';
 import { DRAW_ORDER, fieldDef } from '../data/fields';
 import { STYLE_PRESETS } from '../data/presets';
 import { adopt, draw, drawWithin, fillModule, GROUPS, relatedTargets, repairAfterModuleOff, toggleLock, unlockAll, type DrawOutcome, type RecentMap } from '../engine/draw';
+import { getDrawPrefs, setDrawPrefs, type DrawPrefs } from '../engine/prefs';
 import { cloneState, emptyState } from '../engine/state';
 import { titleOf } from '../prompts/build';
-import { decodeShare, loadCurrent, loadRecent, missingFields, pushHistory, saveCurrent, saveRecent } from '../storage/storage';
+import { decodeShare, loadCurrent, loadPrefs, loadRecent, missingFields, pushHistory, savePrefs, saveCurrent, saveRecent } from '../storage/storage';
 import type { FieldId, ForgeModules, ForgeState, StylePreset } from '../types';
 import type { AppActions, ConflictView, Tab, Toast } from './types';
 import { copyText } from './clipboard';
+import { DictView } from './DictView';
 import { ForgeView } from './ForgeView';
 import { HelpView } from './HelpView';
 import { IconBook, IconFlask, IconHelp, IconMoon, IconScroll, IconSun } from './icons';
@@ -23,13 +25,22 @@ const MODULE_OF: Record<keyof ForgeModules, Parameters<typeof fillModule>[1]> = 
   glassesEnabled: 'glasses', marksEnabled: 'marks', propEnabled: 'prop', unlimitedEnabled: 'unlimited', cosplayEnabled: 'cosplay'
 };
 
+/** 共有URL・お気に入り・履歴の結果に、個人のOFF設定が掛かっているときの一言 */
+export function prefsAppliedNote(): string {
+  const off = getDrawPrefs().disabled;
+  return off.length ? `個人の抽選・出力設定を適用中（${off.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}はOFFのため出力しません。保存元の内容は変えていません）。` : '';
+}
+
 function initialState(): { state: ForgeState; notes: string[] } {
-  const notes: string[] = [];
+  // 辞書・抽選設定は、最初の抽選より前に読み込んでエンジンへ渡す
+  const prefs = loadPrefs();
+  setDrawPrefs(prefs.prefs);
+  const notes: string[] = [...prefs.notes];
   let state: ForgeState | null = null;
   const hash = typeof location !== 'undefined' ? location.hash : '';
   if (hash.startsWith('#s=')) {
     const r = decodeShare(hash.slice(3));
-    if (r.state) { state = r.state; notes.push('共有URLの美青年を読み込みました。'); }
+    if (r.state) { state = r.state; notes.push('共有URLの美青年を読み込みました。'); const n = prefsAppliedNote(); if (n) notes.push(n); }
     if (r.report.lostFields.length) notes.push(`共有URLの一部（${r.report.lostFields.map((x) => fieldDef(x.field as FieldId).ja).join('・')}）は辞書に無いため引き直しました。`);
     try { history.replaceState(null, '', location.pathname + location.search); } catch { /* noop */ }
   }
@@ -40,6 +51,8 @@ function initialState(): { state: ForgeState; notes: string[] } {
   }
   if (!state) {
     const r = draw(emptyState());
+    // 辞書・抽選設定のせいで最初の錬成が成立しないときは、除外した候補を使わずに、理由を伝える
+    if (!r.ok) notes.push(...r.notices);
     return { state: r.state, notes };
   }
   const missing = missingFields(state).filter((f) => fieldDef(f).randomizable !== false);
@@ -61,6 +74,11 @@ export function App() {
   const [changed, setChanged] = useState<FieldId[]>([]);
   const [sweep, setSweep] = useState(0);
   const [pendingPreset, setPendingPreset] = useState<StylePreset | null>(null);
+  // 辞書・抽選設定（ForgeState の外。戻す／進むでは変わらない）
+  const [prefs, setPrefsState] = useState<DrawPrefs>(() => getDrawPrefs());
+  const [prefsSave, setPrefsSave] = useState<'idle' | 'saved' | 'failed'>('idle');
+  const [dictField, setDictField] = useState<FieldId | null>(null);
+  const [dictBack, setDictBack] = useState<Tab>('forge');
   // 禁断の調合をOFFにしたら、禁断のスタイルの選択も外す（OFFのまま禁断の条件で引かない）
   const unlimitedOn = forge.optionalModules.unlimitedEnabled;
   useEffect(() => { if (!unlimitedOn && pendingPreset?.group === 'forbidden') setPendingPreset(null); }, [unlimitedOn, pendingPreset]);
@@ -96,7 +114,7 @@ export function App() {
 
   const handleOutcome = useCallback((r: DrawOutcome, success?: string) => {
     if (!r.ok) {
-      setConflict({ notices: r.notices, conflicts: r.conflicts, stuck: r.stuck });
+      setConflict({ notices: r.notices, conflicts: r.conflicts, stuck: r.stuck, prefsFields: r.prefsFields, prefsKind: r.prefsKind });
       return false;
     }
     recent.current = r.recent;
@@ -149,6 +167,12 @@ export function App() {
       if (on) {
         const r = fillModule(s, MODULE_OF[key], recent.current);
         if (r && r.ok) { commit(r.state, { changed: r.changed }); return; }
+        // ONにした項目を、辞書・抽選設定のせいで埋められなかったとき：ONにはするが値は変えず、理由を伝える
+        if (r && !r.ok && r.prefsFields?.length) {
+          commit(s);
+          showToast({ text: r.notices.join(' '), action: { label: '設定を開く', run: () => actions.openDict(r.prefsFields![0]) } }, 6000);
+          return;
+        }
       } else {
         const r = repairAfterModuleOff(s, recent.current);
         if (r) { commit(r.state, { changed: r.changed }); return; }
@@ -156,13 +180,23 @@ export function App() {
       commit(s);
     },
     redrawRelated: (fields: FieldId[]) => { setConflict(null); handleOutcome(draw(forge, { targets: relatedTargets(forge, fields), recent: recent.current })); },
+    openDict: (f?: FieldId) => {
+      setConflict(null); setPicker(null);
+      if (tab !== 'dict') setDictBack(tab);
+      setDictField(f ?? null); setTab('dict'); window.scrollTo({ top: 0 });
+    },
     unlockAndRetry: (fields: FieldId[]) => {
       let s = forge;
       for (const f of fields) if (s.fields[f].locked) s = toggleLock(s, f);
       setConflict(null);
       handleOutcome(draw(s, { recent: recent.current }));
     },
-    load: (s: ForgeState, message: string) => { commit(cloneState(s), { changed: DRAW_ORDER }); setTab('forge'); showToast(message, 2400); },
+    load: (s: ForgeState, message: string) => {
+      commit(cloneState(s), { changed: DRAW_ORDER }); setTab('forge');
+      // 呼び出した結果は除外を理由に書き換えない。OFFの項目は出力されないことだけ伝える
+      const note = prefsAppliedNote();
+      showToast(note ? `${message} ${note}` : message, note ? 5200 : 2400);
+    },
     copy: async (text: string, label = 'コピーしました。') => {
       const how = await copyText(text);
       if (how === 'manual') setManualCopy(text); else showToast(label, 1800);
@@ -183,7 +217,15 @@ export function App() {
     return () => window.removeEventListener('keydown', onKey);
   });
 
-  const issues = useMemo(() => advise(forge), [forge]);
+  /** 設定の変更：エンジンへ即時に渡し、自動保存する。保存できなければ成功表示を出さない */
+  const changePrefs = useCallback((next: DrawPrefs) => {
+    setDrawPrefs(next);
+    const saved = getDrawPrefs();
+    setPrefsState(saved);
+    setPrefsSave(savePrefs(saved) ? 'saved' : 'failed');
+  }, []);
+
+  const issues = useMemo(() => advise(forge), [forge, prefs]);
   const title = titleOf(forge);
   const effectiveTheme = theme ?? 'dark';
 
@@ -201,12 +243,16 @@ export function App() {
 
       <main>
         {tab === 'forge' && (
-          <ForgeView forge={forge} title={title} issues={issues} changed={changed} sweep={sweep} actions={actions}
+          <ForgeView forge={forge} title={title} issues={issues} changed={changed} sweep={sweep} actions={actions} prefs={prefs}
             canUndo={undo.current.length > 0} canRedo={redo.current.length > 0} presets={STYLE_PRESETS} pendingPreset={pendingPreset} />
         )}
-        {tab === 'prompt' && <PromptView forge={forge} actions={actions} />}
-        {tab === 'saved' && <SavedView forge={forge} actions={actions} />}
-        {tab === 'help' && <HelpView />}
+        {tab === 'prompt' && <PromptView forge={forge} actions={actions} prefs={prefs} />}
+        {tab === 'saved' && <SavedView forge={forge} actions={actions} prefs={prefs} onPrefs={changePrefs} />}
+        {tab === 'help' && <HelpView onOpenDict={() => actions.openDict()} />}
+        {tab === 'dict' && (
+          <DictView forge={forge} prefs={prefs} saveState={prefsSave} field={dictField} onField={(f) => { setDictField(f); window.scrollTo({ top: 0 }); }}
+            onChange={changePrefs} onModule={actions.setModule} onBack={() => { setTab(dictBack); setDictField(null); window.scrollTo({ top: 0 }); }} />
+        )}
       </main>
 
       {tab === 'forge' && (
@@ -222,7 +268,7 @@ export function App() {
         <ul>
           {([['forge', '錬成', IconFlask], ['prompt', 'プロンプト', IconScroll], ['saved', '保存', IconBook], ['help', 'ヘルプ', IconHelp]] as const).map(([id, label, Icon]) => (
             <li key={id}>
-              <button type="button" aria-current={tab === id ? 'page' : undefined} onClick={() => { setTab(id); window.scrollTo({ top: 0 }); }}>
+              <button type="button" aria-current={tab === id || (tab === 'dict' && dictBack === id) ? 'page' : undefined} onClick={() => { setTab(id); setDictField(null); window.scrollTo({ top: 0 }); }}>
                 <Icon />{label}
               </button>
             </li>
@@ -251,7 +297,7 @@ function ConflictSheet({ view, forge, onClose, actions }: { view: ConflictView; 
   const unlockable = [...new Set(view.conflicts.flatMap((c) => c.unlockCandidates))];
   return (
     <dialog class="sheet" ref={ref} onClose={onClose} onClick={(e) => { if (e.target === e.currentTarget) e.currentTarget.close(); }} aria-labelledby="conflict-title">
-      <div class="sheet-head"><h2 id="conflict-title">{view.conflicts.length ? '錬成できませんでした' : '一部の項目を引き直せませんでした'}</h2>
+      <div class="sheet-head"><h2 id="conflict-title">{view.conflicts.length || view.prefsFields?.length ? '錬成できませんでした' : '一部の項目を引き直せませんでした'}</h2>
         <button class="btn small" type="button" onClick={onClose}>閉じる</button></div>
       <div class="sheet-body">
         {view.notices.map((n) => <p key={n}>{n}</p>)}
@@ -269,6 +315,8 @@ function ConflictSheet({ view, forge, onClose, actions }: { view: ConflictView; 
         <div class="btns">
           {unlockable.length > 0 && <button class="btn primary" type="button" onClick={() => actions.unlockAndRetry(unlockable)}>{unlockable.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}の固定を外して錬成</button>}
           {view.stuck.length > 0 && <button class="btn primary" type="button" onClick={() => actions.redrawRelated(view.stuck)}>関連する項目もまとめて引き直す</button>}
+          {view.prefsKind === 'stuck' && view.prefsFields?.length && <button class="btn primary" type="button" onClick={() => actions.redrawRelated(view.prefsFields!)}>関連する項目もまとめて引き直す</button>}
+          {view.prefsFields?.length ? <button class="btn" type="button" onClick={() => actions.openDict(view.prefsFields![0])}>辞書・抽選設定を開く（{view.prefsFields.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}）</button> : null}
           <button class="btn" type="button" onClick={onClose}>このままにする</button>
         </div>
       </div>

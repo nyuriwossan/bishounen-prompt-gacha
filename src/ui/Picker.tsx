@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { fieldDef } from '../data/fields';
 import { checkAdopt } from '../engine/draw';
+import { isExcluded, isPrefOff } from '../engine/prefs';
 import type { FieldId, ForgeState, Option } from '../types';
 import { IconClose } from './icons';
 
@@ -38,6 +39,9 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
     });
   }, [def, cat, query, showBlocked, checks, catLabel]);
   const drawable = filtered.filter((o) => checks.get(o.id)!.ok);
+  // 「この中から引く」は自動の抽選なので、抽選から除外した候補は使わない（手で選ぶことはできる）
+  const drawPool = drawable.filter((o) => !isExcluded(field, o.id));
+  const excludedShown = drawable.length - drawPool.length;
   const currentId = forge.fields[field].id;
   // コスプレOFFの間は「コスプレ」の分類チップを出さない（両立しない候補も表示するときは出す）
   const cats = def.categories?.filter((c) => def.options.some((o) => o.cat === c.id)
@@ -62,40 +66,41 @@ export function Picker({ field, forge, onClose, onAdopt, onDrawWithin }: Props) 
           </div>
         )}
         <label class="check"><input type="checkbox" checked={showBlocked} onChange={(e) => setShowBlocked((e.target as HTMLInputElement).checked)} />固定中・OFFの項目と両立しない候補も表示する</label>
-        <p class="count-note" aria-live="polite">{filtered.length}件{filtered.length !== drawable.length ? `（うち今すぐ両立するのは${drawable.length}件）` : ''}</p>
+        <p class="count-note" aria-live="polite">{filtered.length}件{filtered.length !== drawable.length ? `（うち今すぐ両立するのは${drawable.length}件）` : ''}{excludedShown ? `。抽選対象外が${excludedShown}件あります（手では選べます）` : ''}</p>
         {filtered.length === 0 ? (
           <p class="empty">条件に合う候補がありません。検索語や分類を変えてみてください。</p>
         ) : (
           <ul class="opts">
-            {filtered.slice(0, limit).map((o) => <OptionRow key={o.id} o={o} current={o.id === currentId} check={checks.get(o.id)!} catLabel={catLabel.get(o.cat ?? '')} onPick={() => onAdopt(field, o.id, lockAfter)} />)}
+            {filtered.slice(0, limit).map((o) => <OptionRow key={o.id} o={o} current={o.id === currentId} excluded={isExcluded(field, o.id)} check={checks.get(o.id)!} catLabel={catLabel.get(o.cat ?? '')} onPick={() => onAdopt(field, o.id, lockAfter)} />)}
           </ul>
         )}
         {filtered.length > limit && <div class="btns" style={{ marginTop: '10px' }}><button class="btn" type="button" onClick={() => setLimit(limit + PAGE)}>さらに表示（残り{filtered.length - limit}件）</button></div>}
       </div>
       <div class="sheet-foot">
         <label class="check"><input type="checkbox" checked={lockAfter} onChange={(e) => setLockAfter((e.target as HTMLInputElement).checked)} />採用後に固定する</label>
-        <button class="btn primary" type="button" disabled={!drawable.length} onClick={() => onDrawWithin(field, drawable.map((o) => o.id), lockAfter)}>
-          この中から引く（{drawable.length}件）
+        <button class="btn primary" type="button" disabled={!drawPool.length} onClick={() => onDrawWithin(field, drawPool.map((o) => o.id), lockAfter)}>
+          この中から引く（{drawPool.length}件）
         </button>
       </div>
     </dialog>
   );
 }
 
-function OptionRow({ o, current, check, catLabel, onPick }: { o: Option; current: boolean; check: ReturnType<typeof checkAdopt>; catLabel?: string; onPick: () => void }) {
+function OptionRow({ o, current, excluded, check, catLabel, onPick }: { o: Option; current: boolean; excluded: boolean; check: ReturnType<typeof checkAdopt>; catLabel?: string; onPick: () => void }) {
   const name = (f: FieldId) => fieldDef(f).short ?? fieldDef(f).ja;
   const blocked = check.blockingLocked.length > 0 || check.blockingOff.length > 0 || !!check.blockingCosplay;
   const why = check.blockingCosplay ? 'コスプレ衣装がOFFです。詳細な調合の「コスプレ衣装」でONにすると選べます'
-    : check.blockingOff.length ? `${check.blockingOff.map(name).join('・')}がOFFです。詳細な調合でONにすると選べます`
+    : check.blockingOff.length ? `${check.blockingOff.map(name).join('・')}がOFFです。${check.blockingOff.some((f) => isPrefOff(f)) ? '辞書・抽選設定' : '詳細な調合'}でONにすると選べます`
     : blocked ? `固定中の${check.blockingLocked.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}と両立しません：${check.violations[0]?.reasonJa ?? ''}`
     : check.conflictingUnlocked.length ? `採用すると「${check.conflictingUnlocked.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}」を合わせて引き直します` : '';
   const en = o.en.length ? o.en.slice(0, 3).join(', ') : o.upper ? o.upper.replace(/\{c1\}/g, '◆').replace(/\{c2\}/g, '◇') : '';
   const desc = [catLabel, o.desc, en].filter(Boolean).join('｜');
   return (
     <li class={`opt${current ? ' current' : ''}${blocked ? ' blocked' : ''}`}>
-      <button class="pick" type="button" onClick={onPick} disabled={blocked} aria-label={`${o.ja}を採用${why ? `。${why}` : ''}`}>
+      <button class="pick" type="button" onClick={onPick} disabled={blocked} aria-label={`${o.ja}を採用${excluded ? '。抽選対象外（手では選べます）' : ''}${why ? `。${why}` : ''}`}>
         <span class="oname">{o.hex && <span class="swatch" style={{ background: o.hex }} />}{o.ja}</span>
         {desc && <span class="odesc">{desc}</span>}
+        {excluded && <span class="excl">抽選対象外（辞書・抽選設定で除外中。手で選んでも除外の設定は変わりません）</span>}
         {why && <span class="why">{why}</span>}
       </button>
     </li>

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { BASIC_FIELDS, fieldDef, FIELDS, optionOf } from '../data/fields';
 import { PRESET_GROUPS } from '../data/presets';
-import { lockCount } from '../engine/draw';
+import { lockCount, presetPrefsConflicts } from '../engine/draw';
+import { hasPrefs, isExcluded, isPrefOff, type DrawPrefs } from '../engine/prefs';
 import { isActive, isEffective } from '../engine/state';
 import { outfitColorUse, shotLevelOf, titleParts } from '../prompts/build';
 import type { FieldGroup, FieldId, ForgeModules, ForgeState, Issue, Mode, PresetGroup, StylePreset } from '../types';
 import { IconDice, IconLock } from './icons';
+import { prefsSummary } from './DictView';
 import type { AppActions } from './types';
 
 const MODE_NOTE: Record<Mode, string> = {
@@ -35,10 +37,10 @@ const EXTRA_MODULES: Array<{ key: keyof ForgeModules; ja: string; hint: string; 
 
 interface Props {
   forge: ForgeState; title: string; issues: Issue[]; changed: FieldId[]; sweep: number; actions: AppActions;
-  canUndo: boolean; canRedo: boolean; presets: StylePreset[]; pendingPreset: StylePreset | null;
+  canUndo: boolean; canRedo: boolean; presets: StylePreset[]; pendingPreset: StylePreset | null; prefs: DrawPrefs;
 }
 
-export function ForgeView({ forge, title, issues, changed, sweep, actions, canUndo, canRedo, presets, pendingPreset }: Props) {
+export function ForgeView({ forge, title, issues, changed, sweep, actions, canUndo, canRedo, presets, pendingPreset, prefs }: Props) {
   const labelRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = labelRef.current;
@@ -48,7 +50,11 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
     el.classList.add('sweep');
   }, [sweep]);
   const locks = lockCount(forge);
-  const o = (f: FieldId) => optionOf(f, forge.fields[f].id);
+  // 辞書・抽選設定でOFFにした項目は、ラベルにも出さない
+  const o = (f: FieldId) => (isPrefOff(f) ? undefined : optionOf(f, forge.fields[f].id));
+  const summary = prefsSummary(forge, prefs);
+  const presetWarn = pendingPreset ? presetPrefsConflicts(forge, pendingPreset) : [];
+  const presetOff = pendingPreset ? (Object.keys(pendingPreset.filters) as FieldId[]).filter((f) => isPrefOff(f)) : [];
   const traits = [o('age')?.ja.split('｜')[0], o('world')?.ja, o('build')?.ja, o('presentation')?.ja].filter(Boolean) as string[];
   const name = forge.optionalModules.nameEnabled ? o('name') : undefined;
   const mode = forge.settings.coherence;
@@ -100,7 +106,10 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
           </div>
           {pendingPreset && (
             <div class="preset-pending">
-              <span><b>{pendingPreset.ja}</b>：{pendingPreset.desc}<br /><small>選んだだけでは変わりません。固定中の項目はそのまま残ります。</small></span>
+              <span><b>{pendingPreset.ja}</b>：{pendingPreset.desc}<br /><small>選んだだけでは変わりません。固定中の項目はそのまま残ります。</small>
+                {presetWarn.map((w) => <small key={w.field} class="warn-line" role="alert">{w.message}</small>)}
+                {presetOff.length > 0 && <small class="warn-line">{presetOff.map((f) => `「${fieldDef(f).short ?? fieldDef(f).ja}」`).join('')}は辞書・抽選設定でOFFのため、このスタイルの条件のうちその項目は反映されません。</small>}
+              </span>
               <span class="btns">
                 <button class="btn small primary" type="button" onClick={actions.forgeAll}>この方向で錬成</button>
                 <button class="btn small" type="button" onClick={() => actions.choosePreset(null)}>やめる</button>
@@ -117,6 +126,18 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
             <button class="chip quiet" type="button" onClick={actions.redo} disabled={!canRedo} aria-label="やり直す">進む</button>
           </span>
         </div>
+
+        {hasPrefs(prefs) || summary ? (
+          <div class="prefs-bar">
+            <span><b>好み設定あり</b>：{summary || '設定あり'}</span>
+            <button class="btn small" type="button" onClick={() => actions.openDict()}>設定を開く</button>
+          </div>
+        ) : (
+          <div class="prefs-bar quiet">
+            <span>抽選に出す候補を、項目ごとに選べます。</span>
+            <button class="chip quiet" type="button" onClick={() => actions.openDict()}>辞書・抽選設定</button>
+          </div>
+        )}
 
         <div class="row-actions" role="group" aria-label="部分的に引き直す">
           <button class="chip" type="button" onClick={() => actions.drawGroup('direction')} title="年齢・美形タイプ・容姿傾向・世界観・意匠を保って、他を引き直します">同じ方向性で引く</button>
@@ -172,7 +193,7 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
               <input class="input" value={forge.settings.seed} maxLength={64} placeholder={`例：${forge.lastSeed || 'abc12345'}`}
                 onChange={(e) => actions.setSettings({ seed: (e.target as HTMLInputElement).value.trim() })} />
             </label>
-            <p class="count-note">同じシード・同じ辞書の版・同じ固定と設定なら、同じ美青年が出ます。画像生成サービス側のseedとは別物です。固定シード中は「直近と同じ候補を避ける」働きを止めます。</p>
+            <p class="count-note">同じシード・同じ辞書の版・同じ固定と設定（辞書・抽選設定の抽選対象を含む）なら、同じ美青年が出ます。画像生成サービス側のseedとは別物です。固定シード中は「直近と同じ候補を避ける」働きを止めます。</p>
             <div class="btns">
               <button class="btn small" type="button" onClick={() => actions.setSettings({ seed: forge.lastSeed })} disabled={!forge.lastSeed}>直前のシードを固定</button>
               <button class="btn small" type="button" onClick={() => actions.setSettings({ seed: '' })} disabled={!forge.settings.seed}>固定をやめる</button>
@@ -219,20 +240,27 @@ function FieldRow({ field, forge, actions, changed }: { field: FieldId; forge: F
     if (use.main) outfitColors.push({ f: 'mainColor', key: 'メイン' });
     if (use.accent) outfitColors.push({ f: 'accentColor', key: '差し色' });
   }
-  const status = !active ? '出力しない' : accentIdle ? (field === 'hairAccentColor' ? '単色のため未使用' : '未使用') : sel.source === 'manual' ? '手動' : sel.source === 'preset' ? 'おまかせ' : '';
+  // 辞書・抽選設定でOFF：抽選・手動の変更はせず、値と固定は保つ。押すと理由と設定への導線を出す
+  const prefOff = isPrefOff(field);
+  const excludedNow = active && randomizable && !!opt && isExcluded(field, opt.id);
+  const status = prefOff ? 'OFF（辞書・抽選設定）' : !active ? '出力しない' : accentIdle ? (field === 'hairAccentColor' ? '単色のため未使用' : '未使用') : sel.source === 'manual' ? '手動' : sel.source === 'preset' ? 'おまかせ' : '';
+  const openMain = prefOff
+    ? () => actions.toast({ text: `「${def.ja}」は辞書・抽選設定でOFFにしています。抽選・出力をせず、値と固定はそのまま保っています。`, action: { label: '設定を開く', run: () => actions.openDict(field) } }, 5000)
+    : () => actions.openPicker(field);
   return (
     <li class={`frow${sel.locked ? ' locked' : ''}${!active || accentIdle ? ' inactive' : ''}${changed ? ' changed' : ''}`}>
-      <button type="button" class="fmain" onClick={() => actions.openPicker(field)} aria-label={`${def.ja}：${opt?.ja ?? '未設定'}。候補から選ぶ`}>
+      <button type="button" class="fmain" onClick={openMain} aria-label={`${def.ja}：${opt?.ja ?? '未設定'}。${prefOff ? '辞書・抽選設定でOFF。設定を開く案内を表示' : '候補から選ぶ'}${excludedNow ? '。現在の値は抽選対象外' : ''}`}>
         <span class="flabel">{def.ja}{status && <span class="src">{status}</span>}</span>
         <span class={`fval${opt ? '' : ' empty'}`}>
           {swatches.map((h) => <span key={h} class="swatch" style={{ background: h }} />)}
           {opt?.ja ?? '未設定'}
         </span>
+        {excludedNow && <span class="fnote">{sel.locked ? '抽選対象外の値ですが、固定中のため保持しています' : '現在の値は抽選対象外です。次回の抽選から反映'}</span>}
       </button>
       <button type="button" class={`fbtn${sel.locked ? ' on' : ''}`} aria-pressed={sel.locked} aria-label={`${def.ja}を${sel.locked ? '固定解除' : '固定'}`} onClick={() => actions.toggleLock(field)}>
         <IconLock on={sel.locked} />
       </button>
-      <button type="button" class="fbtn" aria-label={randomizable ? `${def.ja}だけ再抽選` : `${def.ja}は抽選しません`} disabled={!randomizable || !active}
+      <button type="button" class="fbtn" aria-label={prefOff ? `${def.ja}はOFFのため抽選しません` : randomizable ? `${def.ja}だけ再抽選` : `${def.ja}は抽選しません`} disabled={!randomizable || !active}
         onClick={() => actions.reroll(field)} style={!randomizable || !active ? { opacity: 0.3 } : undefined}>
         <IconDice />
       </button>

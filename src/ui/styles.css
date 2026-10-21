@@ -283,3 +283,45 @@ html:has(dialog.sheet[open]), html:has(dialog.sheet[open]) body { overflow: hidd
 .preset-groups::-webkit-scrollbar { display: none; }
 .preset-groups .chip { min-height: 34px; padding: 0 12px; font-size: 12.5px; color: var(--dim); }
 .preset-groups .chip[aria-pressed='true'] { color: var(--gold-hi); }
+
+/* ---------- 辞書・抽選設定 ---------- */
+.prefs-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 8px 10px 8px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-m); background: rgba(205, 178, 126, 0.07); font-size: 13px; }
+.prefs-bar > span { min-width: 0; overflow-wrap: anywhere; }
+.prefs-bar b { color: var(--gold-hi); }
+.prefs-bar.quiet { border-style: dashed; border-color: var(--line); background: transparent; color: var(--dim); }
+.fnote { color: var(--warn); font-size: 12px; line-height: 1.4; }
+.warn-line { display: block; margin-top: 4px; color: var(--warn); }
+.linkish { border: 0; padding: 0; background: none; color: var(--gold-hi); text-decoration: underline; text-underline-offset: 3px; font-size: inherit; }
+.import-confirm { border-top: 1px dashed var(--line); margin-top: 10px; }
+.dict-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.save-state { margin: 0; font-size: 12.5px; color: var(--ok); min-height: 1em; overflow-wrap: anywhere; flex: 1 1 160px; text-align: right; }
+.save-state.failed { color: var(--danger); text-align: left; }
+.dict-sec h3 { margin: 18px 0 4px; font-family: var(--mincho); font-size: 15.5px; color: var(--gold-hi); letter-spacing: 0.04em; }
+.dict-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.dict-list li { border-bottom: 1px solid var(--line); }
+.drow { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'name state' 'count state' 'warn warn'; gap: 0 10px; align-items: center; min-height: 56px; padding: 8px 4px; border: 0; background: transparent; text-align: left; }
+.drow:hover .dname { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
+.drow .dname { grid-area: name; font-family: var(--mincho); font-size: 15.5px; overflow-wrap: anywhere; }
+.drow .dcount { grid-area: count; color: var(--dim); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.drow.narrowed .dcount b { color: var(--gold-hi); }
+.drow .dstate { grid-area: state; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--gold); color: var(--gold-hi); white-space: nowrap; }
+.drow .dstate.off { border-color: var(--line); color: var(--dim); border-style: dashed; }
+.drow.off .dname { color: var(--dim); }
+.drow .dwarn { grid-area: warn; }
+.dwarn { color: var(--danger); font-size: 12.5px; }
+p.dwarn { margin: 6px 0 0; }
+.dict-sum { margin: 6px 0 0; font-size: 14px; }
+.dict-sum b { color: var(--gold-hi); font-size: 16px; }
+.dict-bulk { margin-top: 10px; }
+.dopts { list-style: none; margin: 8px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.dopt { border-bottom: 1px solid var(--line); }
+.dopt label { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; min-height: 52px; padding: 8px 4px; cursor: pointer; }
+.dopt input { width: 22px; height: 22px; accent-color: var(--gold); margin: 0; }
+.dopt .dbody { display: grid; gap: 1px; min-width: 0; }
+.dopt .oname { font-family: var(--mincho); font-size: 15.5px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; overflow-wrap: anywhere; }
+.dopt .odesc { color: var(--dim); font-size: 12px; overflow-wrap: anywhere; }
+.dopt.excluded .oname { color: var(--dim); }
+.dbadge { font-family: var(--sans); font-size: 11px; padding: 0 6px; border-radius: 4px; border: 1px solid var(--gold); color: var(--gold-hi); line-height: 1.6; }
+.dbadge.off { border: 1px dashed var(--line-strong); color: var(--dim); }
+.dbadge.cur { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+.opt .excl { color: var(--dim); font-size: 12px; }

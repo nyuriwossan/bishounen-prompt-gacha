@@ -1,7 +1,7 @@
 import { DATA_VERSION, FIELDS } from '../data/fields';
 import { STYLE_PRESETS } from '../data/presets';
 
-export function HelpView() {
+export function HelpView({ onOpenDict }: { onOpenDict: () => void }) {
   return (
     <section class="screen help" aria-labelledby="help-title">
       <h2 class="screen-title" id="help-title">使い方</h2>
@@ -46,11 +46,16 @@ export function HelpView() {
         <li>PixAI・NovelAI向けの形式は、よく使われるタグの書き方に合わせた整形です。各サービスの公式な最適化ではありません。</li>
       </ul>
 
-      <h3>辞書の件数</h3>
-      <table class="counts"><tbody>
-        {FIELDS.map((f) => <tr key={f.id}><td>{f.ja}</td><td>{f.options.length}</td></tr>)}
-      </tbody></table>
-      <p class="count-note">辞書の版：{DATA_VERSION}。容姿・衣装の配色・ポーズ・背景・獣人・名前の語彙の一部は、作者の既存ツール（キャラクター外見設計工房、衣装プロンプト工房、ポーズ構図工房、背景プロンプト工房、獣人プロンプト工房、創作OCメーカー、LoRA学習プロンプト工房、創作アイデアガチャ）から移植・再構成しています。</p>
+      <h3>辞書・抽選設定</h3>
+      <p>項目ごとの登録件数は「辞書・抽選設定」で見られます（{FIELDS.length}項目、辞書の版：{DATA_VERSION}）。そこで、自動の抽選で選ばれてよい候補（抽選対象）を選んだり、項目をOFFにしたりできます。</p>
+      <ul>
+        <li><b>抽選から除外</b>：その候補は自動の抽選（錬成・部分の引き直し・サイコロ・おまかせスタイル・「この中から引く」）に出なくなります。手で選ぶことはでき、今の結果・固定中の値・保存した美青年は書き換えません。否定指示ではないので、ネガティブにも入りません。</li>
+        <li><b>この項目を使う（OFF）</b>：OFFにすると抽選せず、プロンプトにも出力しません。値と固定は保ち、ONに戻すと元の値で出力します。眼鏡・背景などは、詳細な調合のスイッチと同じものです。年齢層・美形タイプ・構図はOFFにできません。</li>
+        <li>固定（鍵）とは別の設定です。「ロック全解除」や「戻す／進む」では変わりません。共有URLにも含めません。</li>
+        <li>除外のせいで組み合わせが成立しないときは、結果を変えずに理由を表示します（除外した候補を黙って使うことはありません）。</li>
+        <li>同じシードでも、抽選対象の設定が違えば結果は変わります。辞書の版・抽選対象の設定・固定・操作が同じなら、同じ美青年が出ます。</li>
+      </ul>
+      <div class="btns"><button class="btn" type="button" onClick={onOpenDict}>辞書・抽選設定を開く</button></div>
     </section>
   );
 }

@@ -6,6 +6,7 @@
  * - 錬成・固定・戻す・候補選択・コピー（権限なし→手動コピー欄）・保存と再読込・共有URL・reduced motion・容量不足
  * PLAYWRIGHT_CHROMIUM に実行ファイルを指定可能。WebKit（Safari）は環境にあれば BROWSER=webkit で実行。
  */
+import { Buffer } from 'node:buffer';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -329,6 +330,214 @@ try {
     await page.waitForTimeout(100);
     check(`${w}×${h}：シートの外側をタップしても閉じられる`, !(await page.isVisible('dialog.sheet[open]')));
     check(`${w}×${h}：候補選択で実行時エラーなし`, errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+
+  // ---- 2c. 辞書・抽選設定 ----
+  {
+    const { ctx, page, errors } = await newPage({ width: 390, height: 844 });
+    page.on('dialog', (d) => d.accept());
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    check('辞書・抽選設定：未設定では「好み設定あり」を出さず、設定への入口だけを出す', await page.isVisible('.prefs-bar.quiet') && !(await page.isVisible('.prefs-bar:not(.quiet)')));
+    await page.click('.prefs-bar button:has-text("辞書・抽選設定")');
+    await page.waitForSelector('#dict-title');
+    const rows = page.locator('.dict-list .drow');
+    check('辞書・抽選設定：全44項目の一覧を出す（ヘルプとの二重の一覧なし）', (await rows.count()) === 44, String(await rows.count()));
+    const hairRowText = await page.locator('.drow:has(.dname:text-is("髪型"))').textContent();
+    const m = hairRowText.match(/登録 (\d+)件・抽選許可 (\d+)件/);
+    check('辞書・抽選設定：登録数と抽選許可数を表示（未設定では同数）', !!m && m[1] === m[2], hairRowText);
+    const hairTotal = Number(m?.[1] ?? 0);
+    await page.click('.drow:has(.dname:text-is("髪型"))');
+    await page.waitForSelector('.dopts');
+    // 全解除 → 0件の警告、全選択で戻す
+    await page.fill('.dict input[type=search]', 'ウルフ');
+    const searchCount = await page.locator('.dopt').count();
+    await page.click('.dict-bulk button:has-text("全解除")');
+    check('全解除は検索中でも項目全体に作用し、0件の警告を出す', (await page.textContent('.dict-sum')).includes('抽選対象 0') && await page.isVisible('p.dwarn'), `search=${searchCount}`);
+    check('変更は自動保存され「保存済み」と出る', (await page.textContent('.save-state')).includes('保存済み'));
+    await page.click('.dict-bulk button:has-text("全選択")');
+    check('全選択で全件が抽選対象に戻る', (await page.textContent('.dict-sum')).includes(`抽選対象 ${hairTotal} / 登録 ${hairTotal}`));
+    await page.fill('.dict input[type=search]', '');
+    // 現在の値を除外
+    const curRow = page.locator('.dopt:has(.dbadge.cur)');
+    const curName = (await curRow.locator('.oname').evaluate((el) => el.childNodes[el.querySelector('.swatch') ? 1 : 0].textContent)).trim();
+    await curRow.locator('input[type=checkbox]').click();
+    check('現在の値を除外すると「抽選対象外・次回から反映」を示す', (await page.textContent('.dict .panel')).includes(`現在の値「${curName}」は抽選対象外です`));
+    check('チェック状態を色だけでなく文字（除外中）でも示す', (await curRow.locator('.dbadge').first().textContent()) === '除外中');
+    await page.click('.seg button:has-text("除外中")');
+    check('「除外中」の絞り込みで除外した候補だけを出す', (await page.locator('.dopt').count()) === 1);
+    await page.click('.seg button:has-text("すべて")');
+    // キーボードで操作できる（Space で切り替え）
+    const firstBox = page.locator('.dopt input[type=checkbox]').first();
+    const was = await firstBox.isChecked();
+    await firstBox.focus(); await page.keyboard.press('Space');
+    const now = await firstBox.isChecked();
+    await page.keyboard.press('Space');
+    check('候補のチェックはキーボード（Space）で切り替えられる', was !== now && (await firstBox.isChecked()) === was);
+    const label = await firstBox.evaluate((el) => el.closest('label')?.textContent ?? '');
+    check('チェックはラベルと結び付き、読み上げで候補名がわかる', label.length > 0);
+    // 錬成画面：要約と、現在の値の注記
+    await page.click('.dict-top button:has-text("一覧へ")');
+    await page.click('.dict-top button:has-text("戻る")');
+    await page.waitForSelector('.label-title');
+    check('錬成画面に「好み設定あり：髪型1件を除外」を出す', (await page.textContent('.prefs-bar')).includes('髪型1件を除外'));
+    await page.locator('.prefs-bar').scrollIntoViewIfNeeded();
+    await page.screenshot({ path: path.join(SHOTS, 'forge-prefs-390.jpg'), type: 'jpeg', quality: 72 });
+    check('現在の値が除外中なら行に注記を出す', (await page.textContent('.frow:has(.flabel:text-is("髪型")) .fnote').catch(() => '')).includes('抽選対象外'));
+    const headBefore = await page.textContent('.label-head');
+    let hit = 0;
+    for (let i = 0; i < 25; i++) { await page.click('.forge-btn'); if ((await page.textContent('.frow:has(.flabel:text-is("髪型")) .fval')).trim() === curName) hit++; }
+    check('除外した髪型は25回錬成しても出ない', hit === 0 && (await page.textContent('.label-head')) !== headBefore, `hit=${hit}`);
+    // 戻す／進むで除外設定は巻き戻らない
+    await page.click('button[aria-label="元に戻す"]');
+    check('戻すでは除外設定を巻き戻さない', (await page.textContent('.prefs-bar')).includes('髪型1件を除外'));
+    // 手で選ぶことはでき、除外設定は変わらない
+    await page.click('.frow:has(.flabel:text-is("髪型")) .fmain');
+    await page.waitForSelector('dialog.sheet[open]');
+    await page.check('dialog.sheet label.check:has-text("両立しない候補も表示する") input');
+    const exclOpt = page.locator(`dialog.sheet .opt:has(.oname:text-is("${curName}"))`);
+    check('候補選択で除外中の候補に「抽選対象外」と出る', (await exclOpt.textContent()).includes('抽選対象外'));
+    const canPick = await exclOpt.locator('button.pick').isEnabled();
+    if (canPick) await exclOpt.locator('button.pick').click();
+    await page.waitForTimeout(150);
+    check('除外中の候補を手で選べ、除外設定は変わらない', canPick && (await page.textContent('.frow:has(.flabel:text-is("髪型")) .fval')).trim() === curName && (await page.textContent('.prefs-bar')).includes('髪型1件を除外'));
+    if (await page.isVisible('dialog.sheet[open]')) await page.keyboard.press('Escape');
+    // 再読み込み後も設定が残る
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    check('再読み込み後も設定が残る', (await page.textContent('.prefs-bar')).includes('髪型1件を除外'));
+
+    // 項目のOFF（衣装）：出力から消え、値は保持、ONで戻る
+    const outfitVal = (await page.textContent('.frow:has(.flabel:text-is("衣装")) .fval')).trim();
+    await page.click('.prefs-bar button:has-text("設定を開く")');
+    await page.click('.drow:has(.dname:text-is("衣装"))');
+    const offNote = await page.textContent('.dict .panel .toggle');
+    check('OFFの説明に「プロンプトにも出力されません。値と固定状態は保持」を示す', offNote.includes('現在のプロンプトにも出力されません') && offNote.includes('値と固定状態は保持'));
+    await page.click('.dict .panel .toggle input');
+    await page.click('.dict-top button:has-text("一覧へ")');
+    check('一覧で衣装がOFFと表示される', (await page.textContent('.drow:has(.dname:text-is("衣装")) .dstate')) === 'OFF');
+    await page.click('.dict-top button:has-text("戻る")');
+    const outfitRow = page.locator('.frow:has(.flabel:has-text("衣装"))').first();
+    check('OFFの項目は行に「OFF（辞書・抽選設定）」と出て、サイコロを押せない', (await outfitRow.textContent()).includes('OFF（辞書・抽選設定）') && !(await outfitRow.locator('.fbtn').nth(1).isEnabled()));
+    await outfitRow.locator('.fmain').click();
+    check('OFFの項目を押すと、理由と設定への導線を出す（候補選択は開かない）', await page.isVisible('.toast >> text=設定を開く') && !(await page.isVisible('dialog.sheet[open]')));
+    await page.click('.forge-btn');
+    check('OFFの間に錬成しても衣装の値は変わらない', (await outfitRow.locator('.fval').textContent()).trim() === outfitVal);
+    await page.click('.tabbar button >> nth=1');
+    const sectionsOff = await page.$$eval('.panel b', (els) => els.map((e) => e.textContent));
+    check('プロンプト：OFF中は衣装のタグ欄が消え、「個人の抽選・出力設定を適用中」と出る', !sectionsOff.includes('衣装') && (await page.isVisible('text=個人の抽選・出力設定を適用中')));
+    await page.click('.target-row .chip:has-text("日本語設定")');
+    check('日本語設定にも衣装の行を出さない', !(await page.$$eval('dl.kv dt', (els) => els.map((e) => e.textContent))).includes('衣装'));
+    await page.click('.target-row .chip:has-text("PixAI")');
+    await page.click('.tabbar button >> nth=0');
+    await page.click('.prefs-bar button:has-text("設定を開く")');
+    await page.click('.drow:has(.dname:text-is("衣装"))');
+    await page.click('.dict .panel .toggle input');
+    await page.click('.dict-top button:has-text("一覧へ")');
+    await page.click('.dict-top button:has-text("戻る")');
+    await page.click('.tabbar button >> nth=1');
+    const sectionsOn = await page.$$eval('.panel b', (els) => els.map((e) => e.textContent));
+    await page.click('.tabbar button >> nth=0');
+    check('ONに戻すと元の衣装で再び出力される（再抽選しない）', sectionsOn.includes('衣装') && (await page.textContent('.frow:has(.flabel:text-is("衣装")) .fval')).trim() === outfitVal);
+
+    // 既存の任意スイッチと同じ状態を共有（眼鏡）
+    await page.click('.prefs-bar button:has-text("設定を開く")');
+    await page.click('.drow:has(.dname:text-is("眼鏡"))');
+    check('眼鏡は詳細な調合と同じスイッチ（説明つき）で、初期はOFF', (await page.textContent('.dict .panel .toggle')).includes('眼鏡を抽選に含める') && !(await page.isChecked('.dict .panel .toggle input')));
+    await page.click('.dict .panel .toggle input');
+    await page.click('.dict-top button:has-text("一覧へ")');
+    await page.click('.dict-top button:has-text("戻る")');
+    await page.$$eval('details.group', (ds) => ds.forEach((d) => (d.open = true)));
+    check('辞書・抽選設定で眼鏡をONにすると、詳細な調合のスイッチもONになる', await page.isChecked('label.toggle:has-text("眼鏡を抽選に含める") input'));
+    await page.click('label.toggle:has-text("眼鏡を抽選に含める") input');
+
+    // 候補0件 → 錬成しない・理由と設定への導線
+    await page.click('.prefs-bar button:has-text("設定を開く")');
+    await page.click('.drow:has(.dname:text-is("髪型"))');
+    await page.click('.dict-bulk button:has-text("全解除")');
+    check('0件の項目は一覧にも「候補が0件です」と出る', await (async () => { await page.click('.dict-top button:has-text("一覧へ")'); return (await page.textContent('.drow:has(.dname:text-is("髪型"))')).includes('候補が0件です'); })());
+    await page.click('.dict-top button:has-text("戻る")');
+    // 手で選んだ髪型は「採用後に固定する」で固定されている（固定中の項目は抽選しないので0件でも錬成できる）。固定を外してから確かめる
+    if (await page.isEnabled('text=ロック全解除')) await page.click('text=ロック全解除');
+    const head0 = await page.textContent('.label-head');
+    const title0 = await title(page);
+    await page.click('.forge-btn');
+    await page.waitForSelector('#conflict-title', { timeout: 3000 }).catch(() => undefined);
+    check('抽選対象0件では錬成せず、理由と「辞書・抽選設定を開く」を出す', await page.isVisible('#conflict-title:has-text("錬成できませんでした")') && await page.isVisible('dialog.sheet button:has-text("辞書・抽選設定を開く（髪型）")'));
+    check('成立しない抽選では、結果と錬成番号を変えない', (await page.textContent('.label-head')) === head0 && (await title(page)) === title0);
+    await page.click('dialog.sheet button:has-text("辞書・抽選設定を開く")');
+    check('理由のシートから、原因の項目の設定を直接開ける', (await page.textContent('#dict-title')) === '髪型');
+    await page.click('.dict-bulk button:has-text("この項目を初期設定に戻す")');
+    await page.click('.dict-top button:has-text("一覧へ")');
+    // 長い候補名・大きい辞書でもスマートフォン幅で崩れない
+    await page.click('.drow:has(.dname:text-is("呼び名"))');
+    check('390px：大きい辞書（呼び名）の候補一覧で横スクロールなし', (await overflow(page)) <= 0);
+    const boxOk = await page.$$eval('.dopt input[type=checkbox]', (els) => els.slice(0, 40).every((e) => { const r = e.getBoundingClientRect(); const l = e.closest('label').getBoundingClientRect(); return r.width >= 20 && l.height >= 44 && l.right <= window.innerWidth; }));
+    check('390px：チェックは押せる大きさで、行全体がタップ領域', boxOk);
+    await page.click('.dict-top button:has-text("一覧へ")');
+    await page.waitForSelector('.toast', { state: 'detached', timeout: 9000 }).catch(() => undefined);
+    await page.screenshot({ path: path.join(SHOTS, 'dict-390.jpg'), type: 'jpeg', quality: 72 });
+    await page.click('.drow:has(.dname:text-is("衣装"))');
+    await page.click('.dopt input[type=checkbox] >> nth=1');
+    await page.screenshot({ path: path.join(SHOTS, 'dict-outfit-390.jpg'), type: 'jpeg', quality: 72 });
+    await page.click('.dict-top button:has-text("一覧へ")');
+    // すべて初期設定に戻す（確認あり）
+    await page.click('button:has-text("すべて初期設定に戻す")');
+    await page.click('.dict-top button:has-text("戻る")');
+    check('「すべて初期設定に戻す」で好み設定の表示が消える', await page.isVisible('.prefs-bar.quiet'));
+    check('辞書・抽選設定で実行時エラーなし', errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+  // ---- 2d. 辞書・抽選設定：狭い画面・ヘルプからの入口・保存失敗・JSON の選択的な復元 ----
+  {
+    const { ctx, page, errors } = await newPage({ width: 320, height: 640 });
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    await page.click('.tabbar button >> nth=3');
+    check('ヘルプから辞書・抽選設定を開ける（件数表は設定画面へ移動）', !(await page.isVisible('table.counts')) && await page.isVisible('.help button:has-text("辞書・抽選設定を開く")'));
+    await page.click('.help button:has-text("辞書・抽選設定を開く")');
+    check('320px：辞書・抽選設定の一覧で横スクロールなし', (await overflow(page)) <= 0, `overflow=${await overflow(page)}`);
+    await page.click('.drow:has(.dname:text-is("衣装"))');
+    check('320px：候補一覧（長い衣装名）で横スクロールなし', (await overflow(page)) <= 0, `overflow=${await overflow(page)}`);
+    await page.fill('.dict input[type=search]', 'suit');
+    check('英語タグでも検索できる', (await page.locator('.dopt').count()) > 0);
+    await page.click('.dict-top button:has-text("一覧へ")');
+    await page.click('.dict-top button:has-text("戻る")');
+    check('辞書・抽選設定から戻ると、開く前の画面（ヘルプ）に戻る', await page.isVisible('#help-title'));
+    // JSON：設定入りのバックアップ。既定（復元しない）では設定は変わらず、選んだときだけ置き換える
+    const backup = (restoreTag) => JSON.stringify({ app: 'bishounen-prompt-gacha', type: 'bishounen-backup', schemaVersion: 1, dataVersion: 'x', exportedAt: restoreTag, current: null, favorites: [], history: [], drawPrefs: { version: 1, excluded: { hairColor: ['black'] }, disabled: [] } });
+    await page.click('.tabbar button >> nth=2');
+    await page.setInputFiles('input[type=file]', { name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(backup('a')) });
+    await page.waitForSelector('.import-confirm');
+    check('設定入りのJSONを読むと「抽選設定も復元する」を初期OFFで出す', !(await page.isChecked('.import-confirm input[type=checkbox]')));
+    await page.click('.import-confirm button:has-text("読み込む")');
+    await page.click('.tabbar button >> nth=0');
+    check('「抽選設定も復元する」を選ばなければ、今の設定は変わらない', await page.isVisible('.prefs-bar.quiet'));
+    await page.click('.tabbar button >> nth=2');
+    await page.setInputFiles('input[type=file]', { name: 'b.json', mimeType: 'application/json', buffer: Buffer.from(backup('b')) });
+    await page.waitForSelector('.import-confirm');
+    await page.check('.import-confirm input[type=checkbox]');
+    await page.click('.import-confirm button:has-text("読み込む")');
+    await page.click('.tabbar button >> nth=0');
+    check('選んだときだけ、JSONの抽選設定に置き換える', (await page.textContent('.prefs-bar')).includes('髪の色1件を除外'));
+    check('320px：好み設定の表示で横スクロールなし', (await overflow(page)) <= 0);
+    check('320px・JSON読込で実行時エラーなし', errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+  {
+    // 保存に失敗する環境：成功表示を出さず、次回に残らないことを伝える
+    const { ctx, page, errors } = await newPage({ width: 390, height: 844 }, {
+      init: () => { const orig = Storage.prototype.setItem; Storage.prototype.setItem = function (k, v) { if (k === 'bpg:v1:drawPrefs') throw new DOMException('quota', 'QuotaExceededError'); return orig.call(this, k, v); }; }
+    });
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    await page.click('.prefs-bar button:has-text("辞書・抽選設定")');
+    await page.click('.drow:has(.dname:text-is("髪型"))');
+    await page.click('.dopt input[type=checkbox] >> nth=0');
+    const st = await page.textContent('.save-state');
+    check('保存に失敗したら「保存済み」を出さず、次回に残らないことを伝える', !st.includes('保存済み') && st.includes('保存できませんでした'), st);
+    check('保存失敗でも実行時エラーなし', errors.length === 0, errors.join(' / '));
     await ctx.close();
   }
 

@@ -1,9 +1,9 @@
 import type { GROUPS } from '../engine/draw';
 import type { DrawConflict, FieldId, ForgeModules, ForgeState, StylePreset } from '../types';
 
-export type Tab = 'forge' | 'prompt' | 'saved' | 'help';
+export type Tab = 'forge' | 'prompt' | 'saved' | 'help' | 'dict';
 export interface Toast { text: string; action?: { label: string; run: () => void } }
-export interface ConflictView { notices: string[]; conflicts: DrawConflict[]; stuck: FieldId[] }
+export interface ConflictView { notices: string[]; conflicts: DrawConflict[]; stuck: FieldId[]; prefsFields?: FieldId[]; prefsKind?: 'zero' | 'preset' | 'stuck' | 'off' }
 
 export interface AppActions {
   forgeAll: () => void;
@@ -23,5 +23,7 @@ export interface AppActions {
   copy: (text: string, label?: string) => Promise<void>;
   choosePreset: (p: StylePreset | null) => void;
   openPicker: (f: FieldId) => void;
+  /** 辞書・抽選設定を開く（項目を指定すると、その候補一覧から） */
+  openDict: (f?: FieldId) => void;
   toast: (t: Toast | string, ms?: number) => void;
 }

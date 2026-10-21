@@ -5,11 +5,14 @@
  */
 import { DATA_VERSION, optionOf } from '../data/fields';
 import { isCosplay } from '../data/outfits';
+import { emptyPrefs, OFFABLE_FIELDS, PREFS_VERSION, type DrawPrefs } from '../engine/prefs';
 import { cloneState, DEFAULT_MODULES, DEFAULT_SETTINGS, emptyState, SCHEMA_VERSION } from '../engine/state';
 import { FIELD_IDS, type FieldId, type ForgeState } from '../types';
 
 export const APP_ID = 'bishounen-prompt-gacha';
 export const KEYS = { current: 'bpg:v1:current', favorites: 'bpg:v1:favorites', history: 'bpg:v1:history', recent: 'bpg:v1:recent', ui: 'bpg:v1:ui' } as const;
+/** 辞書・抽選設定（個人の好み）。「保存データをすべて削除」の対象外にするため KEYS とは分ける */
+export const PREFS_KEY = 'bpg:v1:drawPrefs';
 export const MAX_FAVORITES = 300;
 export const MAX_HISTORY = 50;
 export const MAX_IMPORT_BYTES = 5 * 1024 * 1024;
@@ -139,6 +142,51 @@ export const saveCurrent = (s: ForgeState) => write(KEYS.current, s);
 export const loadRecent = () => read<Record<string, string[]>>(KEYS.recent, {});
 export const saveRecent = (r: Record<string, string[]>) => write(KEYS.recent, r);
 
+// ---------------- 辞書・抽選設定 ----------------
+/** 1項目あたりの除外IDの上限（壊れたデータで膨らまないように） */
+const MAX_EXCLUDED_PER_FIELD = 2000;
+/**
+ * 設定を検証して正規化する。
+ * - 候補は配列の位置ではなく ID で持つ。改名した ID は新しい ID へ読み替える。
+ * - 辞書から消えた候補の未知IDはそのまま保持するが、数えず・使わない（エラーにしない）。
+ * - 形が壊れていれば、この設定だけを初期化する（ok=false）。お気に入り・履歴には触れない。
+ */
+export function normalizePrefs(raw: unknown): { prefs: DrawPrefs; ok: boolean; notes: string[] } {
+  const notes: string[] = [];
+  if (raw === null || raw === undefined) return { prefs: emptyPrefs(), ok: true, notes };
+  if (!isObj(raw) || typeof raw.version !== 'number' || (raw.excluded !== undefined && !isObj(raw.excluded)) || (raw.disabled !== undefined && !Array.isArray(raw.disabled))) {
+    return { prefs: emptyPrefs(), ok: false, notes: ['辞書・抽選設定の保存データが壊れていたため、この設定だけを初期状態に戻しました。お気に入りと履歴はそのままです。'] };
+  }
+  if (raw.version > PREFS_VERSION) notes.push('新しい版の辞書・抽選設定です。読めた範囲だけ使います。');
+  const prefs = emptyPrefs();
+  const excluded = isObj(raw.excluded) ? raw.excluded : {};
+  for (const f of FIELD_IDS) {
+    const ids = excluded[f];
+    if (!Array.isArray(ids)) continue;
+    const clean = [...new Set(ids.filter((x): x is string => typeof x === 'string' && x.length > 0 && x.length <= 120).map((x) => migrateId(f, x)))].slice(0, MAX_EXCLUDED_PER_FIELD);
+    if (clean.length) prefs.excluded[f] = clean;
+  }
+  const disabled = Array.isArray(raw.disabled) ? raw.disabled : [];
+  prefs.disabled = [...new Set(disabled.filter((x): x is FieldId => typeof x === 'string' && OFFABLE_FIELDS.includes(x as FieldId)))];
+  return { prefs, ok: true, notes };
+}
+export function loadPrefs(): { prefs: DrawPrefs; ok: boolean; notes: string[] } {
+  let raw: unknown = null;
+  try {
+    const text = store()?.getItem(PREFS_KEY);
+    raw = text ? JSON.parse(text) : null;
+  } catch {
+    return { prefs: emptyPrefs(), ok: false, notes: ['辞書・抽選設定の保存データが読めなかったため、この設定だけを初期状態に戻しました。お気に入りと履歴はそのままです。'] };
+  }
+  return normalizePrefs(raw);
+}
+/** 保存。保存できない（容量不足・ブラウザの保存が使えない）ときは false。成功したとは表示しない */
+export function savePrefs(p: DrawPrefs): boolean {
+  const st = store();
+  if (!st) return false;
+  try { st.setItem(PREFS_KEY, JSON.stringify({ version: PREFS_VERSION, excluded: p.excluded, disabled: p.disabled })); return true; } catch { return false; }
+}
+
 // ---------------- お気に入り ----------------
 function normalizeSaved(raw: unknown): SavedForge | null {
   if (!isObj(raw)) return null;
@@ -204,11 +252,11 @@ export function clearAll(): void {
 }
 
 // ---------------- JSON バックアップ ----------------
-export interface Backup { app: string; type: 'bishounen-backup'; schemaVersion: number; dataVersion: string; exportedAt: string; current: ForgeState | null; favorites: SavedForge[]; history: HistoryEntry[]; sources: string }
-export function exportBackup(current: ForgeState | null): string {
+export interface Backup { app: string; type: 'bishounen-backup'; schemaVersion: number; dataVersion: string; exportedAt: string; current: ForgeState | null; favorites: SavedForge[]; history: HistoryEntry[]; sources: string; /** 辞書・抽選設定（2026-10 追加。古いJSONには無い） */ drawPrefs?: DrawPrefs }
+export function exportBackup(current: ForgeState | null, prefs: DrawPrefs = loadPrefs().prefs): string {
   const b: Backup = {
     app: APP_ID, type: 'bishounen-backup', schemaVersion: SCHEMA_VERSION, dataVersion: DATA_VERSION, exportedAt: new Date().toISOString(),
-    current, favorites: listFavorites(), history: listHistory(),
+    current, favorites: listFavorites(), history: listHistory(), drawPrefs: { version: PREFS_VERSION, excluded: prefs.excluded, disabled: prefs.disabled },
     sources: 'Dictionary sources: see docs/SOURCE-AUDIT.md in https://github.com/nyuriwossan/bishounen-prompt-gacha'
   };
   return JSON.stringify(b, null, 2);
@@ -217,7 +265,19 @@ export function exportSingle(state: ForgeState, name: string): string {
   return JSON.stringify({ app: APP_ID, type: 'bishounen-single', schemaVersion: SCHEMA_VERSION, dataVersion: DATA_VERSION, exportedAt: new Date().toISOString(), name, state }, null, 2);
 }
 
-export interface ImportResult { ok: boolean; error?: string; current?: ForgeState; favoritesAdded: number; historyAdded: number; report: MigrationReport }
+export interface ImportResult {
+  ok: boolean; error?: string; current?: ForgeState; favoritesAdded: number; historyAdded: number; report: MigrationReport;
+  /** ファイルに辞書・抽選設定が含まれていたときだけ、その内容（取り込むかは呼び出し側が利用者に確認して決める。ここでは保存しない） */
+  drawPrefs?: DrawPrefs;
+}
+/** 読み込む前の確認：辞書・抽選設定を含むバックアップか（含むときだけ「抽選設定も復元する」を出す） */
+export function backupHasPrefs(text: string): boolean {
+  try {
+    if (typeof text !== 'string' || text.length > MAX_IMPORT_BYTES) return false;
+    const raw = JSON.parse(text);
+    return isObj(raw) && raw.app === APP_ID && raw.type === 'bishounen-backup' && raw.drawPrefs !== undefined && raw.drawPrefs !== null;
+  } catch { return false; }
+}
 /** JSON を検証して取り込む。お気に入りは追加（重複IDはスキップ）。 */
 export function importBackup(text: string, merge = true): ImportResult {
   const report: MigrationReport = { lostFields: [], notes: [] };
@@ -254,8 +314,14 @@ export function importBackup(text: string, merge = true): ImportResult {
     const merged = [...listHistory(), ...hist].sort((a, b) => b.at.localeCompare(a.at)).slice(0, MAX_HISTORY);
     write(KEYS.history, merged); historyAdded = hist.length;
   }
-  if (!okFav) return { ok: false, error: '保存領域が不足しています。', current, favoritesAdded: 0, historyAdded, report };
-  return { ok: true, current, favoritesAdded: Math.min(added.length, Math.max(0, room)), historyAdded, report };
+  let drawPrefs: DrawPrefs | undefined;
+  if (raw.drawPrefs !== undefined && raw.drawPrefs !== null) {
+    const p = normalizePrefs(raw.drawPrefs);
+    if (p.ok) drawPrefs = p.prefs;
+    else report.notes.push('ファイル内の辞書・抽選設定は形式が不正なため、読み込みませんでした。');
+  }
+  if (!okFav) return { ok: false, error: '保存領域が不足しています。', current, favoritesAdded: 0, historyAdded, report, drawPrefs };
+  return { ok: true, current, favoritesAdded: Math.min(added.length, Math.max(0, room)), historyAdded, report, drawPrefs };
 }
 
 // ---------------- 共有URL（短い状態だけ） ----------------

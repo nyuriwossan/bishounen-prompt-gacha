@@ -1,4 +1,4 @@
-# 引き継ぎ資料（2026-10-21 更新）
+# 引き継ぎ資料（2026-10-22 更新）
 
 新しい会話では、このファイルを最初に読んでから作業を始めてください。
 
@@ -11,14 +11,14 @@
 | 公開URL | https://nyuriwossan.github.io/bishounen-prompt-gacha/ |
 | 構成 | Vite 6 + TypeScript 5.8 + Preact 10.29.8／Vitest 3.2／playwright-core 1.56（`/opt/pw-browsers` の Chromium） |
 | 公開方式 | `main` に push すると GitHub Actions が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` へ force-push する。Pages API はこの環境から使えないため、この方式にしている |
-| 最新の変更 | サービスワーカーのキャッシュ削除範囲の修正（§7.5、2026-10-21）。その前にコスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
+| 最新の変更 | 辞書・抽選設定（§7.6、2026-10-22）。その前にサービスワーカーのキャッシュ削除範囲の修正（§7.5、2026-10-21）。その前にコスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
 | git の作者 | `user.name nyuriwossan` / `user.email nyuriwo@gmail.com`（リポジトリのローカル設定） |
 
 コミットメッセージの末尾には、次の2行を付けています。
 
 ```
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Claude-Session: https://claude.ai/code/session_017pfiKzKSjF6r9hSU3RhRok
+Claude-Session: https://claude.ai/code/session_012Yhr42sTTTR7JgwykFvQRm
 ```
 
 新しい会話では、セッションURLをその会話のものに差し替えてください。
@@ -26,9 +26,9 @@ Claude-Session: https://claude.ai/code/session_017pfiKzKSjF6r9hSU3RhRok
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 205件、約135〜160秒
+npm run typecheck && npm run lint && npm test   # 238件、約150〜175秒
 npm run build
-npm run test:browser                            # 105項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 153項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
@@ -83,12 +83,13 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 ### その他
 
 - `src/prompts/build.ts`：5形式の出力（PixAI / NovelAI / 汎用タグ / 英語文 / 日本語）。
-- `src/storage/storage.ts`：localStorage（`bpg:v1:*`）、JSON の書き出し・読み込み、共有URL（`#s=`）。
+- `src/storage/storage.ts`：localStorage（`bpg:v1:*`）、JSON の書き出し・読み込み、共有URL（`#s=`）。辞書・抽選設定は `bpg:v1:drawPrefs`（§7.6）。
+- `src/engine/prefs.ts`：辞書・抽選設定（候補の除外・項目のOFF）。エンジンはモジュール内の現在値を参照する（`setDrawPrefs`）。
 - `src/ui/`：
   - App.tsx：状態、戻す・進む
   - ForgeView.tsx：錬成画面、FieldRow
   - Picker.tsx：候補選択シート
-  - PromptView / SavedView / HelpView
+  - PromptView / SavedView / HelpView / DictView（辞書・抽選設定）
 - 文書（`docs/`）：SOURCE-AUDIT・DATA-CATALOG・TEST-REPORT・EXAMPLES。
 
 ## 4. 解決済み：衣装の行にある色の◯（2026-10-14、案1＋2＋3を実装）
@@ -190,6 +191,20 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - テスト：`tests/sw.test.ts`（10件。sw.js を node:vm で偽の Cache Storage 上に読み込んで install・activate・fetch を発火）と、ブラウザ検証の6項目（実際の Chromium で他アプリのキャッシュを作ってから activate、オフライン再読み込み、未保存URLのフォールバック）。どちらも修正前の sw.js で失敗することを確認済み。
 - 既に修正前の版で消されたキャッシュは戻せない。消された側のアプリは、オンラインで一度開けば元に戻る。
 - 他の自作アプリ（同じオリジン）の sw.js が同じ書き方をしていないかは未確認。同じ書き方なら、こちらの `bpg-v2` が消される側になる。
+
+## 7.6 2026-10-22 の変更：辞書・抽選設定
+
+ユーザーの依頼書（`bishounen-gacha-dictionary-settings-claude-spec.md`、会話に添付）を実装した。ヘルプにあった辞書件数の表を「辞書・抽選設定」画面（`src/ui/DictView.tsx`、App の tab `dict`。下部タブは増やしていない）へ移し、設定できる一覧にした。入口は錬成画面の「辞書・抽選設定」（設定ありなら「好み設定あり：…」の要約と「設定を開く」）、ヘルプのボタン、成立しなかった抽選のシート。
+
+- **データの持ち方**（`src/engine/prefs.ts`）：`DrawPrefs = { version, excluded: {項目: 除外ID[]}, disabled: 項目[] }`。候補は既存の `id` で管理し、除外IDだけを保存（辞書に足した候補は自動で抽選対象）。ForgeState には入れない → 戻す／進む・お気に入り・履歴・共有URLの対象外。保存キーは `bpg:v1:drawPrefs`（`KEYS` とは別。「保存データをすべて削除」では消えない）。改名IDは `ID_RENAMES` で読み替え、未知IDは保持するが数えない。形が壊れていれば設定だけ初期化。
+- **項目のOFF**：モジュールのない項目だけ `disabled` に持つ（`OFFABLE_FIELDS`。17項目）。眼鏡・背景・獣人・禁断などは既存の `optionalModules` のスイッチを共有（画面の説明つき。切り替えの動きも既存のまま＝ONで補充・OFFで依存値の修復）。年齢層・美形タイプ・構図は必須でスイッチなし（`REQUIRED_FIELDS`）。画風は自動抽選しないので除外設定なし。衣装OFFに連動して衣装の色・文化の意匠・着崩し・衣装の状態もOFF（`DISABLED_WITH`。文化の意匠は衣装のタグ欄に出るため、テストで漏れを見つけて追加）。
+- **OFFの仕組み**：`isActive` の先頭で `isPrefOff` を見る。これで抽選対象（`drawableFields`）・判定（`valuesOf` は OFF_AS_NONE の項目なら「なし」、他は欠落）・出力（5形式・日本語・Markdown・タイトル・ラベル）が既存の経路でそろう。`build.ts` は既定の語（short hair・loose hair・a balanced build・表情「—」など）で埋めないよう、OFFのときだけ別の組み立てにした（未設定の出力は不変）。OFFの項目を前提にする候補（髪の色OFFの黒髪クール、衣装OFFのネクタイを緩める）は自動の抽選に出さず、手でも選べない（`requiresOffFields` → `checkAdopt().blockingOff`）。
+- **除外の適用**（`draw.ts`）：`pickFor` の候補集合を `poolFor` に分け、最初に `allowedOf`（除外とOFF前提を外す）。先読み（`leavesRoom`）・`requiresFitPreset`・コスプレ枠（`outfitPool`）も除外後の集合で判断する。手で選ぶ（`adopt`）は除外を無視、「この中から引く」（`drawWithin`）は自動の抽選なので除外を適用。
+- **成立しないとき**：`draw` の先頭で `prefsPrecheck`（対象項目の抽選対象が0件 → `prefsKind: 'zero'`、おまかせスタイルの条件に合う候補をすべて除外 → `'preset'`。画面でも `presetPrefsConflicts` で実行前に説明）。抽選中に候補が尽き、除外がなければ候補があった場合は `'stuck'`（原因の固定項目を挙げる）。どれも `ok:false`・`state` は入力のまま・`recent` も入力のまま → 履歴に積まず、部分的な変更も残らない。除外と無関係に行き詰まった項目は従来どおり（元の値を保って通知）。コスプレONで両立するコスプレ衣装を全部除外しているときは、通常の衣装へ逃がさない。
+- **未設定では従来と同じ**：作業中に 3モード×40ケース（全体・各グループ・手動採用・一覧から引く・ONの補充・5形式・Markdown）の出力を変更前後で比較し、完全一致を確認。EXAMPLES・DATA-CATALOG・VERIFY-SET・VERIFY-COSPLAY の再生成も差分なし。`DATA_VERSION` は据え置き。
+- **JSON**：全データJSONに `drawPrefs` を追加。読み込みは、設定を含むファイルのときだけ「抽選設定も復元する」（初期OFF）を確認し、選んだときだけ置き換える（`importBackup` 自体は保存しない）。古いJSONはそのまま読める。
+- テスト：`tests/prefs.test.ts`（33件。900回の大量抽選で全経路の漏れ0、1件だけ許可した候補集合での確定、直近回避の緩和、コスプレ、固定との関係、0件・固定衝突・スタイル衝突・一覧から引くの取り消し、手動選択、OFFの出力と復帰、衣装OFFの連動、複合タグの漏れ、保存・壊れたデータ・改名・未知ID、JSON・共有URL）。ブラウザ検証に48項目（`2c`・`2d` と保存失敗）。スクリーンショット `dict-390.jpg`・`dict-outfit-390.jpg`・`forge-prefs-390.jpg`。
+- 未対応・残り：除外が原因かどうかを判定しているのは「候補が尽きた項目」まで。修復段階（全体検査）で組めなかった場合は従来のメッセージに「除外が影響している可能性があります」を添えるだけ。Safari 実機での操作確認は未実施。
 
 ## 8. 次にやること（2026-10-15 時点の未着手）
 

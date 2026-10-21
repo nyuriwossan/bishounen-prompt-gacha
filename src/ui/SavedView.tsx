@@ -2,8 +2,9 @@ import { useRef, useState } from 'preact/hooks';
 import { draw, GROUPS } from '../engine/draw';
 import { cloneState } from '../engine/state';
 import { buildPrompt, titleOf, toMarkdown } from '../prompts/build';
+import type { DrawPrefs } from '../engine/prefs';
 import {
-  clearAll, clearHistory, deleteFavorite, duplicateFavorite, encodeShare, exportBackup, exportSingle, importBackup, listFavorites, listHistory,
+  backupHasPrefs, clearAll, clearHistory, deleteFavorite, duplicateFavorite, encodeShare, exportBackup, exportSingle, importBackup, listFavorites, listHistory,
   MAX_FAVORITES, saveFavorite, updateFavorite, type SavedForge
 } from '../storage/storage';
 import type { ForgeState } from '../types';
@@ -12,7 +13,9 @@ import type { AppActions } from './types';
 
 const fmt = (iso: string) => { try { return new Date(iso).toLocaleString('ja-JP', { dateStyle: 'short', timeStyle: 'short' }); } catch { return iso; } };
 
-export function SavedView({ forge, actions }: { forge: ForgeState; actions: AppActions }) {
+export function SavedView({ forge, actions, prefs, onPrefs }: { forge: ForgeState; actions: AppActions; prefs: DrawPrefs; onPrefs: (p: DrawPrefs) => void }) {
+  // 辞書・抽選設定を含むJSONを読み込むときだけ、「抽選設定も復元する」（初期OFF）を確認する
+  const [pendingImport, setPendingImport] = useState<{ text: string; restore: boolean } | null>(null);
   const [, refresh] = useState(0);
   const [name, setName] = useState(titleOf(forge));
   const [memo, setMemo] = useState('');
@@ -48,18 +51,27 @@ export function SavedView({ forge, actions }: { forge: ForgeState; actions: AppA
   const outfitVariant = (f: SavedForge) => {
     const base = cloneState(f.state);
     const r = draw(base, { targets: GROUPS.outfit });
-    if (!r.ok) { actions.toast('別衣装の候補が見つかりませんでした。'); return; }
+    if (!r.ok) { actions.toast(r.prefsFields?.length ? r.notices.join(' ') : '別衣装の候補が見つかりませんでした。', 5000); return; }
     const s = saveFavorite(r.state, `${f.name}（別衣装）`.slice(0, 80), f.memo, f.tags);
     if (s.ok) { actions.toast('別衣装バージョンを保存しました。'); refresh((x) => x + 1); } else actions.toast(s.reason ?? '保存できませんでした。');
+  };
+  const doImport = (text: string, restorePrefs: boolean) => {
+    setPendingImport(null);
+    const r = importBackup(text);
+    if (!r.ok) { actions.toast(r.error ?? '読み込めませんでした。'); return; }
+    const lost = r.report.lostFields.length ? ` 辞書に無い候補 ${r.report.lostFields.length} 件は除外しました。` : '';
+    // 抽選設定は、選んだときだけ置き換える。ファイルに無い（または壊れている）ときは今の設定を保つ
+    let prefsNote = '';
+    if (restorePrefs && r.drawPrefs) { onPrefs(r.drawPrefs); prefsNote = ' 辞書・抽選設定も復元しました。'; }
+    else if (restorePrefs) prefsNote = ' 辞書・抽選設定は復元できなかったため、今の設定のままです。';
+    actions.toast(`お気に入り ${r.favoritesAdded} 件・履歴 ${r.historyAdded} 件を読み込みました。${lost}${r.report.notes.join(' ')}${prefsNote}`, 6000);
+    refresh((x) => x + 1);
   };
   const onImport = async (file: File | undefined) => {
     if (!file) return;
     const text = await file.text();
-    const r = importBackup(text);
-    if (!r.ok) { actions.toast(r.error ?? '読み込めませんでした。'); return; }
-    const lost = r.report.lostFields.length ? ` 辞書に無い候補 ${r.report.lostFields.length} 件は除外しました。` : '';
-    actions.toast(`お気に入り ${r.favoritesAdded} 件・履歴 ${r.historyAdded} 件を読み込みました。${lost}${r.report.notes.join(' ')}`, 6000);
-    refresh((x) => x + 1);
+    if (backupHasPrefs(text)) { setPendingImport({ text, restore: false }); return; }
+    doImport(text, false);
   };
   const share = () => {
     const url = `${location.origin}${location.pathname}#s=${encodeShare(forge)}`;
@@ -137,13 +149,23 @@ export function SavedView({ forge, actions }: { forge: ForgeState; actions: AppA
       <h2 class="section-title">書き出し・読み込み</h2>
       <div class="panel">
         <div class="btns">
-          <button class="btn" type="button" onClick={() => download(exportBackup(forge), `bishounen-backup-${new Date().toISOString().slice(0, 10)}.json`, 'application/json')}>全データをJSONで書き出す</button>
+          <button class="btn" type="button" onClick={() => download(exportBackup(forge, prefs), `bishounen-backup-${new Date().toISOString().slice(0, 10)}.json`, 'application/json')}>全データをJSONで書き出す</button>
           <button class="btn" type="button" onClick={() => fileRef.current?.click()}>JSONを読み込む</button>
           <input ref={fileRef} type="file" accept="application/json,.json" hidden onChange={(e) => { const input = e.target as HTMLInputElement; onImport(input.files?.[0]); input.value = ''; }} />
           <button class="btn" type="button" onClick={() => download(toMarkdown(forge), `${titleOf(forge)}.md`, 'text/markdown')}>今の美青年をMarkdownで保存</button>
           <button class="btn" type="button" onClick={share}>共有URLをコピー</button>
         </div>
-        <p class="count-note">JSONには固定状態・手動選択・設定・辞書の版を含みます。読み込みはお気に入りへ追加され、今あるデータは消えません。</p>
+        <p class="count-note">JSONには固定状態・手動選択・設定・辞書の版と、辞書・抽選設定を含みます。読み込みはお気に入りへ追加され、今あるデータは消えません。共有URLには辞書・抽選設定を含めません。</p>
+        {pendingImport && (
+          <div class="import-confirm" role="group" aria-label="読み込みの確認">
+            <p style={{ margin: '10px 0 0' }}>このファイルには辞書・抽選設定（候補の除外・項目のOFF）が含まれています。お気に入りと履歴はいつもどおり追加します。</p>
+            <label class="check"><input type="checkbox" checked={pendingImport.restore} onChange={(e) => setPendingImport({ ...pendingImport, restore: (e.target as HTMLInputElement).checked })} />抽選設定も復元する（今の設定を置き換えます）</label>
+            <div class="btns">
+              <button class="btn primary" type="button" onClick={() => doImport(pendingImport.text, pendingImport.restore)}>読み込む</button>
+              <button class="btn" type="button" onClick={() => setPendingImport(null)}>やめる</button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div class="panel">

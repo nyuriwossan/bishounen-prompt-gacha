@@ -1,5 +1,7 @@
 import { Fragment } from 'preact';
 import { useMemo } from 'preact/hooks';
+import { fieldDef } from '../data/fields';
+import type { DrawPrefs } from '../engine/prefs';
 import { buildPrompt } from '../prompts/build';
 import type { ForgeState, OutputTarget } from '../types';
 import type { AppActions } from './types';
@@ -12,9 +14,10 @@ const TARGETS: Array<[OutputTarget, string, string]> = [
   ['japanese', '日本語設定', '画像用タグではなく、人物の設定として読める文。']
 ];
 
-export function PromptView({ forge, actions }: { forge: ForgeState; actions: AppActions }) {
+export function PromptView({ forge, actions, prefs }: { forge: ForgeState; actions: AppActions; prefs: DrawPrefs }) {
   const S = forge.settings;
-  const out = useMemo(() => buildPrompt(forge, S.outputTarget), [forge, S.outputTarget]);
+  // 出力は辞書・抽選設定のOFFにも依存する（設定を変えたら作り直す）
+  const out = useMemo(() => buildPrompt(forge, S.outputTarget), [forge, S.outputTarget, prefs]);
   const main = S.compact ? out.compact : out.positive;
   const tagMode = S.outputTarget !== 'naturalEnglish' && S.outputTarget !== 'japanese';
   const count = tagMode ? `${main.split(',').filter((x) => x.trim()).length}タグ・${main.length}文字` : `${main.length}文字`;
@@ -23,6 +26,9 @@ export function PromptView({ forge, actions }: { forge: ForgeState; actions: App
     <section class="screen" aria-labelledby="prompt-title">
       <h2 class="screen-title" id="prompt-title">完成プロンプト</h2>
       <p class="lead">「{out.title}」の処方です。コピーして、使っている画像生成サービスに貼り付けてください。</p>
+      {prefs.disabled.length > 0 && (
+        <p class="count-note">個人の抽選・出力設定を適用中：{prefs.disabled.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}はOFFのため出力しません（<button class="linkish" type="button" onClick={() => actions.openDict()}>辞書・抽選設定</button>）。</p>
+      )}
 
       <div class="target-row" role="group" aria-label="出力先">
         {TARGETS.map(([id, label]) => (
