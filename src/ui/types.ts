@@ -1,4 +1,5 @@
 import type { GROUPS } from '../engine/draw';
+import type { WardrobeSession } from '../storage/storage';
 import type { DrawConflict, FieldId, ForgeModules, ForgeState, StylePreset } from '../types';
 
 export type Tab = 'forge' | 'prompt' | 'saved' | 'help' | 'dict';
@@ -19,7 +20,15 @@ export interface AppActions {
   setModule: (key: keyof ForgeModules, on: boolean) => void;
   redrawRelated: (fields: FieldId[]) => void;
   unlockAndRetry: (fields: FieldId[]) => void;
-  load: (s: ForgeState, message: string) => void;
+  /** 保存した結果を呼び出す（履歴に記録しない）。session は着せ替えの元、wardrobe=true なら衣装3案を開く */
+  load: (s: ForgeState, message: string, opts?: { session?: WardrobeSession | null; wardrobe?: boolean }) => void;
+  /** 人物の項目をまとめて固定する（値は変えない） */
+  lockPerson: () => void;
+  /** 衣装を3案見る */
+  openWardrobe: () => void;
+  /** 着せ替え中の元の人物 */
+  session: WardrobeSession | null;
+  setSession: (s: WardrobeSession | null) => void;
   copy: (text: string, label?: string) => Promise<void>;
   choosePreset: (p: StylePreset | null) => void;
   openPicker: (f: FieldId) => void;

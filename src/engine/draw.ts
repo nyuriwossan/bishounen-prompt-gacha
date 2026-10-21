@@ -31,6 +31,8 @@ export interface DrawOptions {
   hold?: FieldId[];
   /** true ならおまかせ条件に合う候補が無いとき、条件外から選ばない */
   strictFilter?: boolean;
+  /** 今回だけ選ばない候補（衣装3案で、既に出した案・今の結果と同じ衣装を避ける）。辞書・抽選設定の除外とは別扱い */
+  avoid?: Partial<Record<FieldId, string[]>>;
 }
 export interface DrawOutcome extends DrawResult { recent: RecentMap; stuck: FieldId[]; seed: string; /** 辞書・抽選設定の除外・OFFが原因で成立しなかった項目（設定を開く導線） */ prefsFields?: FieldId[];
   /** 原因の種類：zero 抽選対象が0件／preset スタイルの条件に合う候補をすべて除外／stuck 両立する候補をすべて除外／off 項目がOFF */
@@ -173,7 +175,7 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
   const determined: Values = valuesOf(s, (f) => !targetSet.has(f));
   for (const f of targets) {
     const pending = new Set(targets.slice(targets.indexOf(f) + 1));
-    const ctx: PickCtx = { useRecent, recent, preset: opts.preset, notices, strict: opts.strictFilter, pending };
+    const ctx: PickCtx = { useRecent, recent, preset: opts.preset, notices, strict: opts.strictFilter, pending, avoid: opts.avoid };
     const picked = pickFor(f, s, determined, rng, ctx);
     if (!picked) {
       // 除外がなければ候補があった → 除外した候補を復活させず、元の値で黙って済ませず、今回の抽選全体を取り消す
@@ -203,7 +205,7 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
     for (const viol of viols) {
       for (const f of viol.fields.filter((g) => targetSet.has(g))) {
         const others = valuesOf(s, (g) => g !== f);
-        const picked = pickFor(f, s, others, rng, { useRecent: false, recent, preset: undefined, notices: [] });
+        const picked = pickFor(f, s, others, rng, { useRecent: false, recent, preset: undefined, notices: [], avoid: opts.avoid });
         if (picked) { s.fields[f] = { id: picked.id, source: 'random', locked: false }; break; }
       }
     }
@@ -228,7 +230,7 @@ export function draw(input: ForgeState, opts: DrawOptions = {}): DrawOutcome {
   return { ok: true, state: s, notices, conflicts: [], changed, recent, stuck, seed };
 }
 
-interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset; notices: string[]; strict?: boolean; pending?: Set<FieldId> }
+interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset; notices: string[]; strict?: boolean; pending?: Set<FieldId>; avoid?: Partial<Record<FieldId, string[]>> }
 
 /** 1手先読み：この候補を選ぶと、まだ引いていない関連項目に両立する候補が残らない場合は外す。
  * 禁断の調合の連鎖（立場→拘束具→拘束位置→固定先・着崩し・表情→画角→ポーズ）だけに使う（他の項目は従来どおりで十分速い） */
@@ -293,7 +295,9 @@ function outfitPool(s: ForgeState, determined: Values, ctx: PickCtx, usePrefs = 
 function poolFor(f: FieldId, s: ForgeState, determined: Values, ctx: PickCtx, usePrefs = true): Option[] | null {
   const def = fieldDef(f);
   const scope = f === 'outfit' ? outfitPool(s, determined, ctx, usePrefs) : { options: usePrefs ? allowedOf(f, def.options) : def.options, cosplayOnly: false };
-  const compatibleNow = scope.options.filter((o) => candidateViolations(f, o, determined).length === 0);
+  const avoid = ctx.avoid?.[f];
+  const scoped = avoid?.length ? scope.options.filter((o) => !avoid.includes(o.id)) : scope.options;
+  const compatibleNow = scoped.filter((o) => candidateViolations(f, o, determined).length === 0);
   const roomy = compatibleNow.filter((o) => leavesRoom(f, o, determined, ctx.pending, s, ctx.preset, usePrefs));
   const allCompatible = roomy.length ? roomy : compatibleNow;
   const presetFit = allCompatible.filter((o) => requiresFitPreset(o, determined, ctx.preset, usePrefs));

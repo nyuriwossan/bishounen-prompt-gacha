@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { BASIC_FIELDS, fieldDef, FIELDS, optionOf } from '../data/fields';
 import { PRESET_GROUPS } from '../data/presets';
 import { lockCount, presetPrefsConflicts } from '../engine/draw';
+import { PERSON_EXTRA_FIELDS, PERSON_FIELDS, personLockStatus } from '../engine/person';
 import { hasPrefs, isExcluded, isPrefOff, type DrawPrefs } from '../engine/prefs';
 import { isActive, isEffective } from '../engine/state';
 import { outfitColorUse, shotLevelOf, titleParts } from '../prompts/build';
@@ -78,6 +79,8 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
           {o('eyeColor') && <li><span class="swatch" style={{ background: o('eyeColor')!.hex }} />{o('eyeColor')!.ja}</li>}
         </ul>
       </article>
+
+      <PersonBar forge={forge} actions={actions} />
 
       <div class="controls">
         <div>
@@ -282,5 +285,43 @@ function FieldRow({ field, forge, actions, changed }: { field: FieldId; forge: F
         </div>
       )}
     </li>
+  );
+}
+
+/** 人物の一括固定と衣装3案の入口。固定範囲の調整は、各項目の既存の鍵をそのまま切り替える（別の固定情報は持たない） */
+function PersonBar({ forge, actions }: { forge: ForgeState; actions: AppActions }) {
+  const st = personLockStatus(forge);
+  const all = st.targets.length > 0 && st.locked.length === st.targets.length;
+  const extras = PERSON_EXTRA_FIELDS.filter((f) => isActive(forge, f) && !!forge.fields[f].id);
+  const rows = [...PERSON_FIELDS.filter((f) => st.targets.includes(f)), ...extras];
+  const outfitOff = isPrefOff('outfit');
+  return (
+    <>
+      <div class="person-bar" role="group" aria-label="この人物で">
+        <button class="chip" type="button" onClick={actions.lockPerson} disabled={all} aria-describedby="person-lock-note">
+          {all ? '人物を固定中' : 'この人物を固定'}
+        </button>
+        <button class="chip" type="button" onClick={actions.openWardrobe} title={outfitOff ? '衣装は辞書・抽選設定でOFFです' : '顔・髪などはそのまま、衣装だけ3案を比べます'}>衣装を3案見る</button>
+      </div>
+      {st.locked.length > 0 && (
+        <details class="person-status">
+          <summary>
+            <span id="person-lock-note">人物の固定：<b>{st.locked.length}</b> / {st.targets.length}項目（値は変えていません）</span>
+            <span class="adj">固定する項目を調整</span>
+          </summary>
+          <p class="count-note">チェックは各項目の鍵と同じです。外した項目は次の錬成で変わります。世界観・職業・呼び名も必要なら固定できます（衣装3案では、固定しなくても変えません）。</p>
+          <ul class="plocks">
+            {rows.map((f) => (
+              <li key={f}>
+                <label>
+                  <input type="checkbox" checked={forge.fields[f].locked} onChange={() => actions.toggleLock(f)} />
+                  <span>{fieldDef(f).short ?? fieldDef(f).ja}<br /><span class="val">{optionOf(f, forge.fields[f].id)?.ja ?? '—'}</span></span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+    </>
   );
 }

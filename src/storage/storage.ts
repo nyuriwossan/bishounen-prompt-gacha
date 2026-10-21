@@ -10,11 +10,20 @@ import { cloneState, DEFAULT_MODULES, DEFAULT_SETTINGS, emptyState, SCHEMA_VERSI
 import { FIELD_IDS, type FieldId, type ForgeState } from '../types';
 
 export const APP_ID = 'bishounen-prompt-gacha';
-export const KEYS = { current: 'bpg:v1:current', favorites: 'bpg:v1:favorites', history: 'bpg:v1:history', recent: 'bpg:v1:recent', ui: 'bpg:v1:ui' } as const;
+export const KEYS = {
+  current: 'bpg:v1:current', favorites: 'bpg:v1:favorites', history: 'bpg:v1:history', recent: 'bpg:v1:recent', ui: 'bpg:v1:ui',
+  /** 履歴を10件にしたとき（2026-10-22）、それより前に保存されていた11件目以降を保護する場所 */
+  historyLegacy: 'bpg:v1:historyLegacy',
+  /** 着せ替え中の元の人物（派生として保存するときの元） */
+  wardrobe: 'bpg:v1:wardrobe'
+} as const;
 /** 辞書・抽選設定（個人の好み）。「保存データをすべて削除」の対象外にするため KEYS とは分ける */
 export const PREFS_KEY = 'bpg:v1:drawPrefs';
 export const MAX_FAVORITES = 300;
-export const MAX_HISTORY = 50;
+/** 通常の履歴は直近10件（2026-10-22 から。以前は50件） */
+export const MAX_HISTORY = 10;
+/** 「以前の履歴」の上限（旧仕様の50件＋JSON読込のはみ出し分） */
+export const MAX_LEGACY_HISTORY = 100;
 export const MAX_IMPORT_BYTES = 5 * 1024 * 1024;
 
 export interface SavedForge {
@@ -25,8 +34,15 @@ export interface SavedForge {
   createdAt: string;
   updatedAt: string;
   state: ForgeState;
+  /** 派生の場合、元キャラ（ルート）のお気に入りID。元キャラ・独立した保存では無し。
+   * 派生は参照だけでなく state に単独で復元できる全設定を持つ。元を編集しても派生は変わらない */
+  rootId?: string;
 }
-export interface HistoryEntry { id: string; at: string; title: string; state: ForgeState }
+export interface HistoryEntry {
+  id: string; at: string; title: string; state: ForgeState;
+  /** 着せ替え中だった場合の元キャラのお気に入りID（登録済みのときだけ） */
+  baseId?: string;
+}
 
 export interface MigrationReport { lostFields: Array<{ field: string; id: string }>; notes: string[] }
 
@@ -198,22 +214,58 @@ function normalizeSaved(raw: unknown): SavedForge | null {
     tags: Array.isArray(raw.tags) ? raw.tags.filter((t) => typeof t === 'string').map((t) => t.slice(0, 30)).slice(0, 10) : [],
     createdAt: str(raw.createdAt, 40) || now,
     updatedAt: str(raw.updatedAt, 40) || now,
-    state: normalizeState(raw.state)
+    state: normalizeState(raw.state),
+    ...(str(raw.rootId, 80) ? { rootId: str(raw.rootId, 80) } : {})
   };
 }
 export function listFavorites(): SavedForge[] {
   const raw = read<unknown[]>(KEYS.favorites, []);
-  return (Array.isArray(raw) ? raw : []).map(normalizeSaved).filter((x): x is SavedForge => !!x)
+  const items = (Array.isArray(raw) ? raw : []).map(normalizeSaved).filter((x): x is SavedForge => !!x)
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  // 元キャラが見つからない派生（削除済み・未知のID）は、独立した保存結果として扱う
+  const ids = new Set(items.map((x) => x.id));
+  return items.map((x) => (x.rootId && (!ids.has(x.rootId) || x.rootId === x.id) ? withoutRoot(x) : x));
 }
+function withoutRoot(x: SavedForge): SavedForge { const { rootId: _r, ...rest } = x; void _r; return rest; }
+/** 元キャラの派生（新しい順） */
+export function derivativesOf(rootId: string, items: SavedForge[] = listFavorites()): SavedForge[] {
+  return items.filter((x) => x.rootId === rootId);
+}
+/** 派生の元キャラのID。派生から派生を作っても、ルートの元キャラに紐づける（入れ子にしない） */
+export function rootIdOf(item: SavedForge): string { return item.rootId ?? item.id; }
 function putFavorites(items: SavedForge[]): boolean { return write(KEYS.favorites, items.slice(0, MAX_FAVORITES)); }
 
-export function saveFavorite(state: ForgeState, name: string, memo = '', tags: string[] = []): { ok: boolean; item?: SavedForge; reason?: string } {
-  const items = listFavorites();
-  if (items.length >= MAX_FAVORITES) return { ok: false, reason: `お気に入りは${MAX_FAVORITES}件までです。不要なものを削除してください。` };
+const FULL_REASON = `お気に入りは${MAX_FAVORITES}件までです。不要なものを削除してください。`;
+const SPACE_REASON = '保存領域が不足しています。履歴やお気に入りを整理するか、全データをJSONで書き出してください。今の結果は画面に残っています。';
+function makeFavorite(state: ForgeState, name: string, memo = '', tags: string[] = [], rootId?: string): SavedForge {
   const now = new Date().toISOString();
-  const item: SavedForge = { id: uid(), name: name.trim().slice(0, 80) || '名もなき美青年', memo: memo.slice(0, 2000), tags: tags.slice(0, 10), createdAt: now, updatedAt: now, state: cloneState(state) };
-  return putFavorites([item, ...items]) ? { ok: true, item } : { ok: false, reason: '保存領域が不足しています。履歴やお気に入りを整理してください。' };
+  return { id: uid(), name: name.trim().slice(0, 80) || '名もなき美青年', memo: memo.slice(0, 2000), tags: tags.slice(0, 10), createdAt: now, updatedAt: now, state: cloneState(state), ...(rootId ? { rootId } : {}) };
+}
+export function saveFavorite(state: ForgeState, name: string, memo = '', tags: string[] = [], opts: { rootId?: string } = {}): { ok: boolean; item?: SavedForge; reason?: string } {
+  const items = listFavorites();
+  if (items.length >= MAX_FAVORITES) return { ok: false, reason: FULL_REASON };
+  // 派生の元は、ルートの元キャラにそろえる（元が見つからなければ独立した保存にする）
+  const parent = opts.rootId ? items.find((x) => x.id === opts.rootId) : undefined;
+  const item = makeFavorite(state, name, memo, tags, parent ? rootIdOf(parent) : undefined);
+  return putFavorites([item, ...items]) ? { ok: true, item } : { ok: false, reason: SPACE_REASON };
+}
+/** 元の人物と派生を、まとめて保存する（片方だけ保存される状態にしない）。空きが2件ないときは何も保存しない */
+export function saveFavoritePair(base: { state: ForgeState; name: string }, derived: { state: ForgeState; name: string; memo?: string; tags?: string[] }): { ok: boolean; base?: SavedForge; derived?: SavedForge; reason?: string } {
+  const items = listFavorites();
+  if (items.length + 2 > MAX_FAVORITES) return { ok: false, reason: `元の人物と派生の2件を保存する空きがありません（お気に入りは${MAX_FAVORITES}件まで、現在${items.length}件）。` };
+  const b = makeFavorite(base.state, base.name);
+  const d = makeFavorite(derived.state, derived.name, derived.memo, derived.tags, b.id);
+  // 派生を先頭に、その次に元（どちらも新しいので一覧の上に並ぶ）
+  d.updatedAt = new Date(Date.parse(b.updatedAt) + 1).toISOString();
+  return putFavorites([d, b, ...items]) ? { ok: true, base: b, derived: d } : { ok: false, reason: SPACE_REASON };
+}
+/** 派生の紐づけを外し、別キャラ（独立した保存）にする */
+export function unlinkFavorite(id: string): boolean {
+  const items = listFavorites();
+  const i = items.findIndex((x) => x.id === id);
+  if (i < 0 || !items[i].rootId) return false;
+  items[i] = withoutRoot(items[i]);
+  return putFavorites(items);
 }
 export function updateFavorite(id: string, patch: Partial<Pick<SavedForge, 'name' | 'memo' | 'tags' | 'state'>>): boolean {
   const items = listFavorites();
@@ -225,24 +277,103 @@ export function updateFavorite(id: string, patch: Partial<Pick<SavedForge, 'name
 export function duplicateFavorite(id: string): SavedForge | null {
   const src = listFavorites().find((x) => x.id === id);
   if (!src) return null;
-  const r = saveFavorite(src.state, `${src.name}（複製）`.slice(0, 80), src.memo, src.tags);
+  // 派生の複製は同じ元キャラの派生に、元キャラの複製は独立した保存にする
+  const r = saveFavorite(src.state, `${src.name}（複製）`.slice(0, 80), src.memo, src.tags, { rootId: src.rootId });
   return r.item ?? null;
 }
-export function deleteFavorite(id: string): boolean { return putFavorites(listFavorites().filter((x) => x.id !== id)); }
+/** 削除。元キャラを消しても派生は消さず、独立した保存結果として残す */
+export function deleteFavorite(id: string): boolean {
+  return putFavorites(listFavorites().filter((x) => x.id !== id).map((x) => (x.rootId === id ? withoutRoot(x) : x)));
+}
 
 // ---------------- 履歴 ----------------
-export function listHistory(): HistoryEntry[] {
-  const raw = read<unknown[]>(KEYS.history, []);
-  return (Array.isArray(raw) ? raw : []).filter(isObj).map((h) => ({ id: str(h.id, 80) || uid(), at: str(h.at, 40), title: str(h.title, 120), state: normalizeState(h.state) }));
+function normalizeHistory(h: Record<string, unknown>, report?: MigrationReport): HistoryEntry {
+  return { id: str(h.id, 80) || uid(), at: str(h.at, 40), title: str(h.title, 120), state: normalizeState(h.state, report), ...(str(h.baseId, 80) ? { baseId: str(h.baseId, 80) } : {}) };
 }
-export function pushHistory(state: ForgeState, title: string): void {
+function readHistory(key: string): HistoryEntry[] {
+  const raw = read<unknown[]>(key, []);
+  return (Array.isArray(raw) ? raw : []).filter(isObj).map((h) => normalizeHistory(h));
+}
+/** 通常の履歴（新しい順・最大10件）。表示用。10件を超えて残っている旧データは migrateHistory で「以前の履歴」へ移す */
+export function listHistory(): HistoryEntry[] { return readHistory(KEYS.history).slice(0, MAX_HISTORY); }
+/** 以前の履歴（履歴を10件にする前の11件目以降・JSON読込のはみ出し分）。書き出し・お気に入り保存・削除ができる */
+export function listLegacyHistory(): HistoryEntry[] { return readHistory(KEYS.historyLegacy); }
+
+/**
+ * 履歴を10件にしたときの移行。10件を超えて保存されていれば、超過分を黙って捨てず「以前の履歴」へ移す。
+ * 何度呼んでも同じ結果になる（移した分は通常の履歴から外す）。戻り値は移した件数。
+ */
+export function migrateHistory(): number {
+  const all = readHistory(KEYS.history);
+  if (all.length <= MAX_HISTORY) return 0;
+  const overflow = all.slice(MAX_HISTORY);
+  const legacy = listLegacyHistory();
+  const ids = new Set(legacy.map((h) => h.id));
+  const merged = [...legacy, ...overflow.filter((h) => !ids.has(h.id))].sort((a, b) => b.at.localeCompare(a.at)).slice(0, MAX_LEGACY_HISTORY);
+  // 以前の履歴を先に書き、成功したときだけ通常の履歴を縮める（途中で失敗しても消えない）
+  if (!write(KEYS.historyLegacy, merged)) return 0;
+  if (!write(KEYS.history, all.slice(0, MAX_HISTORY))) return 0;
+  return overflow.length;
+}
+export function deleteLegacyHistory(id: string): boolean { return write(KEYS.historyLegacy, listLegacyHistory().filter((h) => h.id !== id)); }
+export function clearLegacyHistory(): boolean { return write(KEYS.historyLegacy, []); }
+
+/** 結果として同じか（項目の値と任意モードの状態。固定・出所・シード・錬成番号は比べない） */
+export function sameResult(a: ForgeState, b: ForgeState): boolean {
+  return FIELD_IDS.every((f) => (a.fields[f].id ?? null) === (b.fields[f].id ?? null))
+    && (Object.keys(DEFAULT_MODULES) as Array<keyof typeof DEFAULT_MODULES>).every((k) => a.optionalModules[k] === b.optionalModules[k]);
+}
+
+function historyEntry(state: ForgeState, title: string, at: Date, baseId?: string): HistoryEntry {
+  return { id: uid(), at: at.toISOString(), title, state: cloneState(state), ...(baseId ? { baseId } : {}) };
+}
+function putHistory(next: HistoryEntry[]): boolean {
+  let list = next.slice(0, MAX_HISTORY);
+  // 容量不足なら古いものから削って再試行（最後の1件まで）
+  while (!write(KEYS.history, list)) {
+    if (list.length <= 1) return false;
+    list = list.slice(0, Math.ceil(list.length / 2));
+  }
+  return true;
+}
+/**
+ * 確定した結果を履歴へ記録する（成功した抽選・衣装の採用のときだけ呼ぶ）。
+ * - 置き換える前の結果（prev）が最新の履歴と違えば、先に退避する（初期結果・手で編集した結果を失わない）
+ * - 最新の履歴と同じ結果は追加しない（直前と異なれば、過去と同じ結果でも記録する）
+ * - 最終的に最新10件に収める
+ * 戻り値：保存に成功したか（記録が不要だった場合も true）
+ */
+export function recordHistory(prev: ForgeState | null, next: ForgeState, titleOf: (s: ForgeState) => string, opts: { prevBaseId?: string; nextBaseId?: string } = {}): boolean {
   const items = listHistory();
-  const entry: HistoryEntry = { id: uid(), at: new Date().toISOString(), title, state: cloneState(state) };
-  let next = [entry, ...items].slice(0, MAX_HISTORY);
-  // 容量不足なら古いものから削って再試行
-  while (!write(KEYS.history, next) && next.length > 5) next = next.slice(0, Math.floor(next.length / 2));
+  const now = Date.now();
+  const add: HistoryEntry[] = [];
+  let latest = items[0]?.state ?? null;
+  if (prev && !sameResult(prev, next) && (!latest || !sameResult(latest, prev))) {
+    add.push(historyEntry(prev, titleOf(prev), new Date(now - 1), opts.prevBaseId));
+    latest = prev;
+  }
+  if (!latest || !sameResult(latest, next)) add.unshift(historyEntry(next, titleOf(next), new Date(now), opts.nextBaseId));
+  if (!add.length) return true;
+  return putHistory([...add, ...items]);
+}
+/** 互換用：結果を1件そのまま記録する（退避・重複判定なし） */
+export function pushHistory(state: ForgeState, title: string): boolean {
+  return putHistory([historyEntry(state, title, new Date()), ...listHistory()]);
 }
 export function clearHistory(): void { write(KEYS.history, []); }
+
+// ---------------- 着せ替えの元 ----------------
+/** 着せ替え中の元の人物。baseId は登録済みの元キャラ（お気に入り）のID。base は着せ替えを始めた時点の結果（衣装を変える前） */
+export interface WardrobeSession { baseId?: string; baseName?: string; base: ForgeState }
+export function loadWardrobeSession(): WardrobeSession | null {
+  const raw = read<unknown>(KEYS.wardrobe, null);
+  if (!isObj(raw) || !isObj(raw.base)) return null;
+  return { base: normalizeState(raw.base), ...(str(raw.baseId, 80) ? { baseId: str(raw.baseId, 80) } : {}), ...(str(raw.baseName, 80) ? { baseName: str(raw.baseName, 80) } : {}) };
+}
+export function saveWardrobeSession(s: WardrobeSession | null): boolean {
+  if (!s) { try { store()?.removeItem(KEYS.wardrobe); return true; } catch { return false; } }
+  return write(KEYS.wardrobe, s);
+}
 
 // ---------------- 全削除 ----------------
 export function clearAll(): void {
@@ -252,12 +383,24 @@ export function clearAll(): void {
 }
 
 // ---------------- JSON バックアップ ----------------
-export interface Backup { app: string; type: 'bishounen-backup'; schemaVersion: number; dataVersion: string; exportedAt: string; current: ForgeState | null; favorites: SavedForge[]; history: HistoryEntry[]; sources: string; /** 辞書・抽選設定（2026-10 追加。古いJSONには無い） */ drawPrefs?: DrawPrefs }
+export interface Backup {
+  app: string; type: 'bishounen-backup'; schemaVersion: number; dataVersion: string; exportedAt: string; current: ForgeState | null; favorites: SavedForge[]; history: HistoryEntry[]; sources: string;
+  /** 辞書・抽選設定（2026-10 追加。古いJSONには無い） */ drawPrefs?: DrawPrefs;
+  /** 以前の履歴（2026-10-22 追加） */ historyLegacy?: HistoryEntry[];
+}
 export function exportBackup(current: ForgeState | null, prefs: DrawPrefs = loadPrefs().prefs): string {
   const b: Backup = {
     app: APP_ID, type: 'bishounen-backup', schemaVersion: SCHEMA_VERSION, dataVersion: DATA_VERSION, exportedAt: new Date().toISOString(),
-    current, favorites: listFavorites(), history: listHistory(), drawPrefs: { version: PREFS_VERSION, excluded: prefs.excluded, disabled: prefs.disabled },
+    current, favorites: listFavorites(), history: listHistory(), historyLegacy: listLegacyHistory(), drawPrefs: { version: PREFS_VERSION, excluded: prefs.excluded, disabled: prefs.disabled },
     sources: 'Dictionary sources: see docs/SOURCE-AUDIT.md in https://github.com/nyuriwossan/bishounen-prompt-gacha'
+  };
+  return JSON.stringify(b, null, 2);
+}
+/** 以前の履歴だけを書き出す（全データJSONと同じ形式。読み込むときは「履歴も復元する」で戻せる） */
+export function exportLegacyHistory(): string {
+  const b: Backup = {
+    app: APP_ID, type: 'bishounen-backup', schemaVersion: SCHEMA_VERSION, dataVersion: DATA_VERSION, exportedAt: new Date().toISOString(),
+    current: null, favorites: [], history: listLegacyHistory(), sources: 'Dictionary sources: see docs/SOURCE-AUDIT.md in https://github.com/nyuriwossan/bishounen-prompt-gacha'
   };
   return JSON.stringify(b, null, 2);
 }
@@ -267,19 +410,28 @@ export function exportSingle(state: ForgeState, name: string): string {
 
 export interface ImportResult {
   ok: boolean; error?: string; current?: ForgeState; favoritesAdded: number; historyAdded: number; report: MigrationReport;
+  /** 履歴の読み込みで、通常の10件からはみ出して「以前の履歴」へ入れた件数 */
+  historyToLegacy?: number;
   /** ファイルに辞書・抽選設定が含まれていたときだけ、その内容（取り込むかは呼び出し側が利用者に確認して決める。ここでは保存しない） */
   drawPrefs?: DrawPrefs;
 }
-/** 読み込む前の確認：辞書・抽選設定を含むバックアップか（含むときだけ「抽選設定も復元する」を出す） */
-export function backupHasPrefs(text: string): boolean {
+/** 読み込む前の確認：辞書・抽選設定・履歴を含むバックアップか（含むときだけ「〜も復元する」を出す） */
+export function backupContents(text: string): { prefs: boolean; history: number } {
   try {
-    if (typeof text !== 'string' || text.length > MAX_IMPORT_BYTES) return false;
+    if (typeof text !== 'string' || text.length > MAX_IMPORT_BYTES) return { prefs: false, history: 0 };
     const raw = JSON.parse(text);
-    return isObj(raw) && raw.app === APP_ID && raw.type === 'bishounen-backup' && raw.drawPrefs !== undefined && raw.drawPrefs !== null;
-  } catch { return false; }
+    if (!isObj(raw) || raw.app !== APP_ID || raw.type !== 'bishounen-backup') return { prefs: false, history: 0 };
+    const n = (Array.isArray(raw.history) ? raw.history.length : 0) + (Array.isArray(raw.historyLegacy) ? raw.historyLegacy.length : 0);
+    return { prefs: raw.drawPrefs !== undefined && raw.drawPrefs !== null, history: n };
+  } catch { return { prefs: false, history: 0 } }
 }
-/** JSON を検証して取り込む。お気に入りは追加（重複IDはスキップ）。 */
-export function importBackup(text: string, merge = true): ImportResult {
+export const backupHasPrefs = (text: string) => backupContents(text).prefs;
+/** JSON を検証して取り込む。
+ * - お気に入りは追加。同じIDで同じ内容ならスキップし、内容が違えば新しいIDを振る。同じファイル内の元キャラ／派生の参照も付け替える
+ * - 元キャラが見つからない派生（親のないファイル・未知のID）は、独立した保存結果として扱う
+ * - 履歴は restoreHistory のときだけ取り込む（日時順に統合・同じIDは1件・通常は最新10件、はみ出しは「以前の履歴」へ）
+ */
+export function importBackup(text: string, opts: { restoreHistory?: boolean } = {}): ImportResult {
   const report: MigrationReport = { lostFields: [], notes: [] };
   const fail = (error: string): ImportResult => ({ ok: false, error, favoritesAdded: 0, historyAdded: 0, report });
   if (typeof text !== 'string' || !text.trim()) return fail('ファイルが空です。');
@@ -296,23 +448,50 @@ export function importBackup(text: string, merge = true): ImportResult {
   if (raw.type !== 'bishounen-backup') return fail('対応していないデータの種類です。');
   const current = raw.current ? normalizeState(raw.current, report) : undefined;
   const favIn = Array.isArray(raw.favorites) ? raw.favorites.slice(0, MAX_FAVORITES * 2) : [];
-  const existing = merge ? listFavorites() : [];
-  const ids = new Set(existing.map((x) => x.id));
+  const existing = listFavorites();
+  const byId = new Map(existing.map((x) => [x.id, x]));
+  const used = new Set(existing.map((x) => x.id));
   const added: SavedForge[] = [];
+  /** ファイル内の旧ID → 取り込み後のID（同じ内容でスキップしたものは既存のID） */
+  const idMap = new Map<string, string>();
   for (const f of favIn) {
     const n = normalizeSaved(f);
-    if (!n || ids.has(n.id)) continue;
+    if (!n) continue;
     n.state = normalizeState((f as Record<string, unknown>).state, report);
-    ids.add(n.id); added.push(n);
+    const same = byId.get(n.id);
+    if (same && same.name === n.name && sameResult(same.state, n.state)) { idMap.set(n.id, n.id); continue; }
+    const fileId = n.id;
+    if (used.has(n.id)) n.id = uid();
+    idMap.set(fileId, n.id);
+    used.add(n.id); added.push(n);
+  }
+  // 元キャラの参照を付け替える：同じファイル内 → 取り込み後のID、既存のお気に入り → そのまま、どちらにも無い → 独立した保存
+  for (let i = 0; i < added.length; i++) {
+    const r = added[i].rootId;
+    if (!r) continue;
+    const mapped = idMap.get(r) ?? (byId.has(r) ? r : undefined);
+    added[i] = mapped && mapped !== added[i].id ? { ...added[i], rootId: mapped } : withoutRoot(added[i]);
   }
   const room = MAX_FAVORITES - existing.length;
   if (added.length > room) report.notes.push(`お気に入りの上限（${MAX_FAVORITES}件）を超えた${added.length - Math.max(0, room)}件は取り込みませんでした。`);
   const okFav = putFavorites([...added.slice(0, Math.max(0, room)), ...existing]);
-  let historyAdded = 0;
-  if (Array.isArray(raw.history)) {
-    const hist = raw.history.filter(isObj).slice(0, MAX_HISTORY).map((h) => ({ id: str(h.id, 80) || uid(), at: str(h.at, 40), title: str(h.title, 120), state: normalizeState(h.state, report) }));
-    const merged = [...listHistory(), ...hist].sort((a, b) => b.at.localeCompare(a.at)).slice(0, MAX_HISTORY);
-    write(KEYS.history, merged); historyAdded = hist.length;
+  let historyAdded = 0, historyToLegacy = 0;
+  if (opts.restoreHistory && (Array.isArray(raw.history) || Array.isArray(raw.historyLegacy))) {
+    const take = (xs: unknown) => (Array.isArray(xs) ? xs : []).filter(isObj).slice(0, MAX_LEGACY_HISTORY).map((h) => normalizeHistory(h, report));
+    const incoming = take(raw.history);
+    const known = new Set([...readHistory(KEYS.history), ...listLegacyHistory()].map((h) => h.id));
+    const fresh = incoming.filter((h) => !known.has(h.id));
+    const merged = [...readHistory(KEYS.history), ...fresh].sort((a, b) => b.at.localeCompare(a.at));
+    const legacyIn = [...merged.slice(MAX_HISTORY), ...take(raw.historyLegacy).filter((h) => !known.has(h.id))];
+    const legacy = listLegacyHistory();
+    const legacyIds = new Set(legacy.map((h) => h.id));
+    const legacyAdd: HistoryEntry[] = [];
+    for (const h of legacyIn) if (!legacyIds.has(h.id)) { legacyIds.add(h.id); legacyAdd.push(h); }
+    // 読み込みは新しい抽選として記録しない（記録日時はファイルのまま）
+    const okL = !legacyAdd.length || write(KEYS.historyLegacy, [...legacy, ...legacyAdd].sort((a, b) => b.at.localeCompare(a.at)).slice(0, MAX_LEGACY_HISTORY));
+    const okH = okL && write(KEYS.history, merged.slice(0, MAX_HISTORY));
+    if (okH) { historyAdded = fresh.length; historyToLegacy = legacyAdd.length; }
+    else report.notes.push('履歴は保存領域が不足したため読み込めませんでした。');
   }
   let drawPrefs: DrawPrefs | undefined;
   if (raw.drawPrefs !== undefined && raw.drawPrefs !== null) {
@@ -320,8 +499,8 @@ export function importBackup(text: string, merge = true): ImportResult {
     if (p.ok) drawPrefs = p.prefs;
     else report.notes.push('ファイル内の辞書・抽選設定は形式が不正なため、読み込みませんでした。');
   }
-  if (!okFav) return { ok: false, error: '保存領域が不足しています。', current, favoritesAdded: 0, historyAdded, report, drawPrefs };
-  return { ok: true, current, favoritesAdded: Math.min(added.length, Math.max(0, room)), historyAdded, report, drawPrefs };
+  if (!okFav) return { ok: false, error: '保存領域が不足しています。', current, favoritesAdded: 0, historyAdded, historyToLegacy, report, drawPrefs };
+  return { ok: true, current, favoritesAdded: Math.min(added.length, Math.max(0, room)), historyAdded, historyToLegacy, report, drawPrefs };
 }
 
 // ---------------- 共有URL（短い状態だけ） ----------------

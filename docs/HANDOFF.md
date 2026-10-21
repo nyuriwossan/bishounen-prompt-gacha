@@ -11,7 +11,7 @@
 | 公開URL | https://nyuriwossan.github.io/bishounen-prompt-gacha/ |
 | 構成 | Vite 6 + TypeScript 5.8 + Preact 10.29.8／Vitest 3.2／playwright-core 1.56（`/opt/pw-browsers` の Chromium） |
 | 公開方式 | `main` に push すると GitHub Actions が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` へ force-push する。Pages API はこの環境から使えないため、この方式にしている |
-| 最新の変更 | 辞書・抽選設定（§7.6、2026-10-22）。その前にサービスワーカーのキャッシュ削除範囲の修正（§7.5、2026-10-21）。その前にコスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
+| 最新の変更 | 人物の一括固定・衣装3案・元キャラ／派生の保存・直近10件の履歴（§7.7、2026-10-22）。その前に辞書・抽選設定（§7.6、2026-10-22）。その前にサービスワーカーのキャッシュ削除範囲の修正（§7.5、2026-10-21）。その前にコスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
 | git の作者 | `user.name nyuriwossan` / `user.email nyuriwo@gmail.com`（リポジトリのローカル設定） |
 
 コミットメッセージの末尾には、次の2行を付けています。
@@ -26,9 +26,9 @@ Claude-Session: https://claude.ai/code/session_012Yhr42sTTTR7JgwykFvQRm
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 238件、約150〜175秒
+npm run typecheck && npm run lint && npm test   # 264件、約150〜180秒
 npm run build
-npm run test:browser                            # 153項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 201項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
@@ -84,12 +84,13 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 
 - `src/prompts/build.ts`：5形式の出力（PixAI / NovelAI / 汎用タグ / 英語文 / 日本語）。
 - `src/storage/storage.ts`：localStorage（`bpg:v1:*`）、JSON の書き出し・読み込み、共有URL（`#s=`）。辞書・抽選設定は `bpg:v1:drawPrefs`（§7.6）。
+- `src/engine/person.ts`：人物の一括固定（§7.7）。`src/engine/wardrobe.ts`：衣装3案（§7.7）。
 - `src/engine/prefs.ts`：辞書・抽選設定（候補の除外・項目のOFF）。エンジンはモジュール内の現在値を参照する（`setDrawPrefs`）。
 - `src/ui/`：
   - App.tsx：状態、戻す・進む
   - ForgeView.tsx：錬成画面、FieldRow
   - Picker.tsx：候補選択シート
-  - PromptView / SavedView / HelpView / DictView（辞書・抽選設定）
+  - PromptView / SavedView / HelpView / DictView（辞書・抽選設定）/ WardrobeSheet（衣装3案）
 - 文書（`docs/`）：SOURCE-AUDIT・DATA-CATALOG・TEST-REPORT・EXAMPLES。
 
 ## 4. 解決済み：衣装の行にある色の◯（2026-10-14、案1＋2＋3を実装）
@@ -205,6 +206,23 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
 - **JSON**：全データJSONに `drawPrefs` を追加。読み込みは、設定を含むファイルのときだけ「抽選設定も復元する」（初期OFF）を確認し、選んだときだけ置き換える（`importBackup` 自体は保存しない）。古いJSONはそのまま読める。
 - テスト：`tests/prefs.test.ts`（33件。900回の大量抽選で全経路の漏れ0、1件だけ許可した候補集合での確定、直近回避の緩和、コスプレ、固定との関係、0件・固定衝突・スタイル衝突・一覧から引くの取り消し、手動選択、OFFの出力と復帰、衣装OFFの連動、複合タグの漏れ、保存・壊れたデータ・改名・未知ID、JSON・共有URL）。ブラウザ検証に48項目（`2c`・`2d` と保存失敗）。スクリーンショット `dict-390.jpg`・`dict-outfit-390.jpg`・`forge-prefs-390.jpg`。
 - 未対応・残り：除外が原因かどうかを判定しているのは「候補が尽きた項目」まで。修復段階（全体検査）で組めなかった場合は従来のメッセージに「除外が影響している可能性があります」を添えるだけ。Safari 実機での操作確認は未実施。
+
+## 7.7 2026-10-22 の変更：人物の一括固定・衣装3案・元キャラ／派生・直近10件の履歴
+
+ユーザーの依頼書（`bishounen-gacha-character-wardrobe-history-claude-spec.md`、会話に添付）を実装した。下部タブは増やさず、錬成画面と保存画面を拡張した。
+
+- **履歴（`storage.ts`）**：`MAX_HISTORY` を 50 → 10。記録は `recordHistory(prev, next, titleOf)` だけが行う。置き換える前の結果が最新の履歴と違えば先に退避し（最初の結果・手で選んだ結果を失わない）、最新と同じ結果は追加しない。同じ結果の判定 `sameResult` は項目の値と任意モードだけ（鍵・出所・シードは比べない）。
+  - 記録する：`App.tsx` の `handleOutcome(r, { kind: 'draw' })`（全体・方向性・部分・サイコロ・スタイル・この中から引く・関連の引き直し・固定を外して錬成）と、衣装3案の採用。
+  - 記録しない：手で選ぶ（`kind: 'manual'`）、任意スイッチの切り替え、呼び出し、戻す／進む、失敗。
+  - 旧データ（10件超）は起動時の `migrateHistory()` で11件目以降を `bpg:v1:historyLegacy`（以前の履歴、上限100）へ移す。以前の履歴を先に書き、成功したときだけ通常の履歴を縮める。保存画面の「以前の履歴」から、書き出し・お気に入り保存・削除ができる。
+- **人物の一括固定（`engine/person.ts`）**：`PERSON_FIELDS`（18項目）のうち、`isActive` で値のある項目に既存の鍵を掛けるだけ。別の固定情報は持たないので食い違わない。OFFの項目には掛けない（ONにしたとき補充されなくなるのを防ぐ）。「固定する項目を調整」は各項目の鍵を直接切り替える。世界観・職業・呼び名（`PERSON_EXTRA_FIELDS`）はここで足せる。専用の一括解除は作らず、戻す／進むと個別の鍵で調整する（依頼書が許容した形）。「ロック全解除」の意味は変えていない。
+- **衣装3案（`engine/wardrobe.ts`・`ui/WardrobeSheet.tsx`）**：`draw` を `targets: outfit＋未固定の色` に絞って使う（抽選モード・除外・OFF・hard・コスプレ／禁断の状態がそのまま効き、他の項目は変えない）。`DrawOptions.avoid` で今の衣装と出した衣装を避け、衣装違いを優先する。足りなければ、出力される色だけの色違いで補う（`colorOnly`。カードに「色違い」）。重複は見た目のキー（衣装＋その画角で出る色）で判定。試行は最大8回。プレビュー専用のシード（`wardrobe|lastSeed|drawCount|回数`）を使い、状態・直近履歴・保存には触れない。採用時は `canAdoptCard` で作成時の版（値・鍵・任意モード・抽選モード・辞書・抽選設定）と比べ、違えば古い案として拒否する。`applyCard` は衣装と色だけを反映し、錬成番号を1つ進め、履歴に1件記録する。
+- **元キャラ／派生（`storage.ts`・`SavedView.tsx`）**：`SavedForge.rootId`（ルートの元キャラID）を追加。派生から派生を作ってもルートへ紐づく。派生は state に全設定を持つ。元を削除すると、派生の rootId を外して独立した保存にする。元が見つからない rootId は読み込み時に外す。`saveFavoritePair` は空き2件を確認してから1回で書く（片方だけにならない）。
+  - 着せ替えの元は `WardrobeSession`（`bpg:v1:wardrobe`）に保存する。お気に入りの「呼び出す」と「この人物で着せ替え」で、その保存が元になる。未登録なら「衣装を3案見る」を開いた時点の結果が元になる。人物の項目が変わる抽選をすると外れる。手で選んだだけでは外れない。
+  - 既存の「別衣装版」は派生として保存するようにした（二重実装を避けた）。
+- **JSON**：全データに `rootId`・`historyLegacy` が入る。お気に入りは、同じIDで同じ内容ならスキップし、内容が違えば新しいIDを振って同じファイル内の参照を付け替える。履歴は「履歴も復元する」（初期OFF）のときだけ取り込む。ID重複を除いて日時順に統合し、直近10件より前は以前の履歴へ入れる。**以前は読み込みのたびに履歴を無条件で統合していたが、選んだときだけに変えた。**
+- テスト：`tests/wardrobe.test.ts`（26件）。ブラウザ検証に48項目（2e と、失敗した抽選で履歴が増えない確認）。スクリーンショット `wardrobe-390.jpg`・`wardrobe-320.jpg`。
+- 未確認：iPhone/Safari 実機。開いた案が古くなる状況は、シートが開いている間は画面操作できないため、ブラウザではなく単体テスト（`canAdoptCard`）で確かめた。
 
 ## 8. 次にやること（2026-10-15 時点の未着手）
 

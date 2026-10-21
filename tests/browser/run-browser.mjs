@@ -462,10 +462,12 @@ try {
     if (await page.isEnabled('text=ロック全解除')) await page.click('text=ロック全解除');
     const head0 = await page.textContent('.label-head');
     const title0 = await title(page);
+    const hist0 = await page.evaluate(() => window.localStorage.getItem('bpg:v1:history'));
     await page.click('.forge-btn');
     await page.waitForSelector('#conflict-title', { timeout: 3000 }).catch(() => undefined);
     check('抽選対象0件では錬成せず、理由と「辞書・抽選設定を開く」を出す', await page.isVisible('#conflict-title:has-text("錬成できませんでした")') && await page.isVisible('dialog.sheet button:has-text("辞書・抽選設定を開く（髪型）")'));
     check('成立しない抽選では、結果と錬成番号を変えない', (await page.textContent('.label-head')) === head0 && (await title(page)) === title0);
+    check('成立しない抽選では、履歴に何も記録しない（元の結果の退避もしない）', (await page.evaluate(() => window.localStorage.getItem('bpg:v1:history'))) === hist0);
     await page.click('dialog.sheet button:has-text("辞書・抽選設定を開く")');
     check('理由のシートから、原因の項目の設定を直接開ける', (await page.textContent('#dict-title')) === '髪型');
     await page.click('.dict-bulk button:has-text("この項目を初期設定に戻す")');
@@ -538,6 +540,178 @@ try {
     const st = await page.textContent('.save-state');
     check('保存に失敗したら「保存済み」を出さず、次回に残らないことを伝える', !st.includes('保存済み') && st.includes('保存できませんでした'), st);
     check('保存失敗でも実行時エラーなし', errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+
+  // ---- 2e. 履歴（直近10件）・人物の固定・衣装3案・元キャラと派生 ----
+  {
+    const { ctx, page, errors } = await newPage({ width: 390, height: 844 });
+    page.on('dialog', (d) => d.accept());
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    const histCount = () => page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:history') || '[]').length);
+    const head = () => page.textContent('.label-head');
+    const val = (label) => page.textContent(`.frow:has(.flabel:text-is("${label}")) .fval`).then((x) => x.trim());
+    check('履歴：最初の結果だけでは履歴に記録しない', (await histCount()) === 0);
+    await page.click('.forge-btn');
+    check('履歴：最初の錬成で、元の結果を退避してから新しい結果を記録する（2件）', (await histCount()) === 2);
+    await page.click('.forge-btn'); await page.click('.forge-btn');
+    check('履歴：錬成ごとに1件増える', (await histCount()) === 4);
+    await page.click('button[aria-label="元に戻す"]');
+    await page.click('button[aria-label="やり直す"]');
+    await page.click('.tabbar button >> nth=1'); await page.click('text=プロンプトをコピー').catch(() => undefined); await page.click('.tabbar button >> nth=0');
+    check('履歴：戻す／進む・コピーでは増えない', (await histCount()) === 4);
+    await page.click('.row-actions .chip:has-text("服だけ着せ替え")');
+    check('履歴：部分の引き直しでも記録する', (await histCount()) === 5);
+    await page.click('button[aria-label="瞳の色だけ再抽選"]');
+    check('履歴：1項目の再抽選でも記録する', (await histCount()) === 6);
+    // 手で選ぶ → 記録しない。次の錬成の前に退避する
+    await page.click('.frow:has(.flabel:text-is("髪の色")) .fmain');
+    await page.waitForSelector('dialog.sheet[open]');
+    const cur = await page.textContent('dialog.sheet .opt.current .oname').catch(() => '');
+    await page.click(`dialog.sheet .opt:not(.current):not(.blocked) button.pick >> nth=3`);
+    await page.waitForTimeout(100);
+    check('履歴：手で選んだだけでは記録しない', (await histCount()) === 6, cur);
+    const edited = await val('髪の色');
+    await page.click('button[aria-label="髪の色を固定解除"]').catch(() => undefined);
+    await page.click('.forge-btn');
+    const stash = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:history'))[1].state.fields.hairColor.id);
+    check('履歴：手で編集した結果は、次の錬成の直前に退避する（1操作で2件）', (await histCount()) === 8 && !!stash, `${edited}/${stash}`);
+    for (let i = 0; i < 4; i++) await page.click('.forge-btn');
+    check('履歴：通常の履歴は最新10件まで', (await histCount()) === 10);
+    // 履歴画面
+    await page.click('.tabbar button >> nth=2');
+    await page.click('.seg button:has-text("履歴")');
+    check('履歴画面：10件・概要・ローカル時刻・2つのボタン', (await page.locator('.list .item').count()) === 10 && await page.isVisible('.item .hsum') && await page.isVisible('.item time') && await page.isVisible('.item button:has-text("この結果に戻す")') && await page.isVisible('.item button:has-text("お気に入りに保存")'));
+    check('履歴画面：「直近10件をこのブラウザに自動保存」の説明', await page.isVisible('text=直近10件をこのブラウザに自動保存します'));
+    const thirdTitle = (await page.textContent('.list .item >> nth=2 >> h3')).trim();
+    const orderBefore = await page.$$eval('.list .item time', (els) => els.map((e) => e.getAttribute('datetime')));
+    await page.click('.list .item >> nth=2 >> button:has-text("お気に入りに保存")');
+    await page.click('.seg button:has-text("お気に入り")');
+    check('履歴から保存すると、今の結果ではなくその履歴の結果を保存する', (await page.textContent('.list .item >> nth=0 >> h3')).trim() === thirdTitle);
+    await page.click('.seg button:has-text("履歴")');
+    await page.click('.list .item >> nth=2 >> button:has-text("この結果に戻す")');
+    await page.waitForSelector('.label-title');
+    check('「この結果に戻す」で保存した値に戻り、履歴は増えない', (await title(page)) === thirdTitle && (await histCount()) === 10);
+    await page.click('.tabbar button >> nth=2'); await page.click('.seg button:has-text("履歴")');
+    check('戻しても履歴の並び順・記録日時は変わらない', JSON.stringify(await page.$$eval('.list .item time', (els) => els.map((e) => e.getAttribute('datetime')))) === JSON.stringify(orderBefore));
+    await page.click('.tabbar button >> nth=0');
+    await page.click('button[aria-label="元に戻す"]');
+    check('履歴の呼び出しは戻すで取り消せる', (await title(page)) !== thirdTitle);
+    await page.click('button[aria-label="やり直す"]');
+
+    // 人物の一括固定
+    if (await page.isEnabled('text=ロック全解除')) await page.click('text=ロック全解除');
+    const valsBefore = await page.$$eval('.frow .fval', (els) => els.map((e) => e.textContent));
+    await page.click('.person-bar button:has-text("この人物を固定")');
+    const valsAfter = await page.$$eval('.frow .fval', (els) => els.map((e) => e.textContent));
+    const lockCount = await page.textContent('.lockbar .count');
+    check('この人物を固定：値は変えずに、人物の項目へまとめて鍵を掛ける', JSON.stringify(valsBefore) === JSON.stringify(valsAfter) && /固定中/.test(lockCount), lockCount);
+    check('この人物を固定：表情・衣装には掛けない', (await page.getAttribute('button[aria-label^="衣装を"]', 'aria-pressed')) === 'false' && (await page.getAttribute('button[aria-label^="表情を"]', 'aria-pressed')) === 'false');
+    check('この人物を固定：OFFの眼鏡には掛けず、スイッチもONにしない', (await page.getAttribute('button[aria-label^="眼鏡を"]', 'aria-pressed')) === 'false' && (await page.textContent('.frow:has(.flabel:has-text("眼鏡"))')).includes('出力しない'));
+    check('この人物を固定：固定の要約と「固定する項目を調整」を出す', await page.isVisible('.person-status summary:has-text("固定する項目を調整")'));
+    await page.click('.person-status summary');
+    await page.uncheck('.plocks label:has-text("髪型") input');
+    check('固定する項目の調整は、その項目の鍵と同じ', (await page.getAttribute('button[aria-label^="髪型を"]', 'aria-pressed')) === 'false');
+    await page.click('button[aria-label="元に戻す"]');
+    await page.click('button[aria-label="元に戻す"]');
+    check('一括固定は戻す1回分でまとめて取り消せる', (await page.textContent('.lockbar .count')).includes('固定はありません'));
+    await page.click('button[aria-label="やり直す"]');
+    const histBeforeWd = await histCount();
+    const headBeforeWd = await head();
+    const outfitBefore = await val('衣装');
+
+    // 衣装3案
+    await page.click('.person-bar button:has-text("衣装を3案見る")');
+    await page.waitForSelector('dialog.wardrobe[open]');
+    const cards = page.locator('dialog.wardrobe .wcard');
+    const n = await cards.count();
+    const names = await cards.locator('h3').allTextContents();
+    check('衣装3案：最大3案を、重複なく、今の衣装と違う案で出す', n >= 1 && n <= 3 && new Set(names).size === n && names.every((x) => !x.includes(outfitBefore) || x.includes('色違い')), names.join(' / '));
+    check('衣装3案：各案に色（文字と色見本）・変わる項目・採用ボタン', await cards.first().locator('.wcolor .ckey').count() > 0 ? (await cards.first().locator('.wchanges li').count()) > 0 : true);
+    check('衣装3案：390px で横スクロールなし', (await overflow(page)) <= 0);
+    await page.screenshot({ path: path.join(SHOTS, 'wardrobe-390.jpg'), type: 'jpeg', quality: 72 });
+    await page.click('dialog.wardrobe button:has-text("別の3案を見る")');
+    await page.click('dialog.wardrobe .sheet-foot button:has-text("閉じる")');
+    check('衣装3案：開く・作り直す・閉じるでは結果・錬成番号・履歴を変えない', (await val('衣装')) === outfitBefore && (await head()) === headBeforeWd && (await histCount()) === histBeforeWd);
+    await page.click('.person-bar button:has-text("衣装を3案見る")');
+    await page.waitForSelector('dialog.wardrobe[open]');
+    const pick = (await page.locator('dialog.wardrobe .wcard >> nth=0 >> h3').textContent()).replace(/^案\d/, '').replace('色違い', '').trim();
+    const hairBefore = await val('髪の色');
+    await page.click('dialog.wardrobe .wcard >> nth=0 >> button:has-text("この案を採用")');
+    await page.waitForTimeout(150);
+    check('採用すると衣装が変わり、髪などは変わらない', (await val('衣装')) === pick && (await val('髪の色')) === hairBefore, `${pick} / ${await val('衣装')}`);
+    check('採用は履歴に1件だけ記録し、錬成番号を進める', (await histCount()) === Math.min(10, histBeforeWd + 1) && (await head()) !== headBeforeWd);
+    check('採用後は完了を短く知らせる', await page.isVisible('.toast:has-text("衣装を「")'));
+    await page.click('button[aria-label="元に戻す"]');
+    check('採用は戻す1回で元の衣装に戻せる', (await val('衣装')) === outfitBefore);
+    await page.click('button[aria-label="やり直す"]');
+
+    // 元の人物も登録して派生を保存
+    await page.click('.tabbar button >> nth=2');
+    check('着せ替え中は「元の人物も登録して派生を保存」を出す', await page.isVisible('.derive-panel button:has-text("元の人物も登録して派生を保存")'));
+    const favBefore = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:favorites') || '[]').length);
+    await page.fill('.derive-panel input', 'カジミール');
+    await page.click('.derive-panel button:has-text("元の人物も登録して派生を保存")');
+    const favs = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:favorites')));
+    const base = favs.find((f) => f.name === 'カジミール');
+    const deriv = favs.find((f) => f.rootId === base?.id);
+    check('元の人物と派生を、まとめて2件保存する', favs.length === favBefore + 2 && !!base && !!deriv);
+    check('元の人物は着せ替え前の衣装で保存する（衣装を変えた結果を元として保存しない）', !!base && !!deriv && base.state.fields.outfit.id !== deriv.state.fields.outfit.id);
+    await page.click('.seg button:has-text("お気に入り")');
+    check('お気に入りに「派生」「元キャラ」の表示と、元キャラの詳細に派生一覧', await page.isVisible('.item:has(h3:has-text("カジミール／")) .lineage:text-is("派生")') && await page.isVisible('.item[data-fav-id] .derivs summary:has-text("派生（1件）")'));
+    await page.fill('input[type=search]', 'カジミール');
+    check('元キャラの名前で検索すると派生も見つかる', (await page.locator('.list .item').count()) === 2);
+    await page.fill('input[type=search]', '');
+    // この人物で着せ替え
+    await page.click(`.item[data-fav-id="${base.id}"] button:has-text("この人物で着せ替え")`);
+    await page.waitForSelector('dialog.wardrobe[open]');
+    check('「この人物で着せ替え」で錬成画面に戻り、衣装3案を開く', await page.isVisible('dialog.wardrobe[open]') && (await title(page)).length > 0);
+    await page.click('dialog.wardrobe .wcard >> nth=0 >> button:has-text("この案を採用")');
+    await page.click('.tabbar button >> nth=2');
+    check('登録済みの元キャラなら「派生として保存」を出す', await page.isVisible('.derive-panel button:has-text("派生として保存")'));
+    await page.click('.derive-panel button:has-text("派生として保存")');
+    const favs2 = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:favorites')));
+    const baseAfter = favs2.find((f) => f.id === base.id);
+    check('派生として保存しても、元キャラの保存内容は変わらない', favs2.filter((f) => f.rootId === base.id).length === 2 && JSON.stringify(baseAfter.state.fields) === JSON.stringify(base.state.fields));
+    // 元キャラを削除しても派生は残る
+    await page.click('.seg button:has-text("お気に入り")');
+    await page.click(`.item[data-fav-id="${base.id}"] button:has-text("削除")`);
+    const favs3 = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:favorites')));
+    check('元キャラを削除しても派生は消えず、独立した保存として残る', favs3.length === favs2.length - 1 && favs3.every((f) => f.rootId !== base.id));
+    // 再読み込み後も残る
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    check('再読み込み後も履歴10件と固定状態が残る', (await histCount()) === 10 && (await page.textContent('.lockbar .count')).includes('固定中'));
+    check('履歴・人物・衣装3案・派生で実行時エラーなし', errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+  {
+    // 旧仕様の履歴（50件まで）を持つ利用者：11件目以降を黙って捨てず「以前の履歴」へ
+    const { ctx, page, errors } = await newPage({ width: 320, height: 640 });
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    await page.evaluate(() => {
+      const st = JSON.parse(window.localStorage.getItem('bpg:v1:current'));
+      const h = Array.from({ length: 23 }, (_, i) => ({ id: `old-${i}`, at: new Date(Date.UTC(2026, 9, 1, 0, 30 - i)).toISOString(), title: `旧履歴${i}`, state: st }));
+      window.localStorage.setItem('bpg:v1:history', JSON.stringify(h));
+    });
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    check('旧データ：起動時に「以前の履歴に残してあります」と知らせる', await page.isVisible('.toast:has-text("以前の履歴")'));
+    await page.click('.tabbar button >> nth=2');
+    await page.click('.seg button:has-text("履歴")');
+    check('旧データ：通常の履歴は10件、残り13件は「以前の履歴」に表示', (await page.locator('.list').first().locator('.item').count()) === 10 && await page.isVisible('#legacy-title:has-text("以前の履歴（13件）")'));
+    check('以前の履歴：書き出し・お気に入り保存・削除ができる', await page.isVisible('button:has-text("以前の履歴をJSONで書き出す")') && await page.isVisible('.legacy .item button:has-text("お気に入りに保存")') && await page.isVisible('.legacy .item button:has-text("削除")'));
+    check('320px：履歴画面で横スクロールなし', (await overflow(page)) <= 0);
+    await page.click('.tabbar button >> nth=0');
+    await page.click('.person-bar button:has-text("衣装を3案見る")');
+    await page.waitForSelector('dialog.wardrobe[open]');
+    check('320px：衣装3案のシートで横スクロールなし', (await overflow(page)) <= 0);
+    const btnOk = await page.$$eval('dialog.wardrobe .wcard button', (els) => els.every((e) => e.getBoundingClientRect().height >= 40 && e.getBoundingClientRect().right <= window.innerWidth));
+    check('320px：採用ボタンは押せる大きさで画面内', btnOk);
+    await page.screenshot({ path: path.join(SHOTS, 'wardrobe-320.jpg'), type: 'jpeg', quality: 72 });
+    check('旧データの移行・320px で実行時エラーなし', errors.length === 0, errors.join(' / '));
     await ctx.close();
   }
 

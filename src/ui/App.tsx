@@ -6,7 +6,12 @@ import { adopt, draw, drawWithin, fillModule, GROUPS, relatedTargets, repairAfte
 import { getDrawPrefs, setDrawPrefs, type DrawPrefs } from '../engine/prefs';
 import { cloneState, emptyState } from '../engine/state';
 import { titleOf } from '../prompts/build';
-import { decodeShare, loadCurrent, loadPrefs, loadRecent, missingFields, pushHistory, savePrefs, saveCurrent, saveRecent } from '../storage/storage';
+import { lockPerson, PERSON_FIELDS } from '../engine/person';
+import { applyCard, canAdoptCard, wardrobePreview, type WardrobePreview } from '../engine/wardrobe';
+import {
+  decodeShare, loadCurrent, loadPrefs, loadRecent, loadWardrobeSession, migrateHistory, missingFields, recordHistory, savePrefs, saveCurrent, saveRecent,
+  saveWardrobeSession, type WardrobeSession
+} from '../storage/storage';
 import type { FieldId, ForgeModules, ForgeState, StylePreset } from '../types';
 import type { AppActions, ConflictView, Tab, Toast } from './types';
 import { copyText } from './clipboard';
@@ -18,6 +23,7 @@ import { ManualCopy } from './ManualCopy';
 import { Picker } from './Picker';
 import { PromptView } from './PromptView';
 import { SavedView } from './SavedView';
+import { WardrobeSheet } from './WardrobeSheet';
 
 
 const MODULE_OF: Record<keyof ForgeModules, Parameters<typeof fillModule>[1]> = {
@@ -28,7 +34,7 @@ const MODULE_OF: Record<keyof ForgeModules, Parameters<typeof fillModule>[1]> = 
 /** 共有URL・お気に入り・履歴の結果に、個人のOFF設定が掛かっているときの一言 */
 export function prefsAppliedNote(): string {
   const off = getDrawPrefs().disabled;
-  return off.length ? `個人の抽選・出力設定を適用中（${off.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}はOFFのため出力しません。保存元の内容は変えていません）。` : '';
+  return off.length ? `現在の好み設定を適用しています（個人の抽選・出力設定：${off.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}はOFFのため出力しません。値と保存元の内容は変えていません）。` : '';
 }
 
 function initialState(): { state: ForgeState; notes: string[] } {
@@ -36,6 +42,9 @@ function initialState(): { state: ForgeState; notes: string[] } {
   const prefs = loadPrefs();
   setDrawPrefs(prefs.prefs);
   const notes: string[] = [...prefs.notes];
+  // 履歴を10件にしたときの移行：11件目以降は捨てずに「以前の履歴」へ
+  const moved = migrateHistory();
+  if (moved) notes.push(`履歴は直近10件になりました。それより前の${moved}件は「保存 → 履歴」の「以前の履歴」に残してあります。`);
   let state: ForgeState | null = null;
   const hash = typeof location !== 'undefined' ? location.hash : '';
   if (hash.startsWith('#s=')) {
@@ -79,6 +88,12 @@ export function App() {
   const [prefsSave, setPrefsSave] = useState<'idle' | 'saved' | 'failed'>('idle');
   const [dictField, setDictField] = useState<FieldId | null>(null);
   const [dictBack, setDictBack] = useState<Tab>('forge');
+  // 着せ替え中の元の人物（派生として保存するときの元）。結果とは別に保存する
+  const [session, setSessionState] = useState<WardrobeSession | null>(() => loadWardrobeSession());
+  const setSession = useCallback((x: WardrobeSession | null) => { setSessionState(x); saveWardrobeSession(x); }, []);
+  // 衣装3案のプレビュー（作るだけでは結果・履歴・錬成番号を変えない）
+  const [wardrobe, setWardrobe] = useState<WardrobePreview | null>(null);
+  const wardrobeTurn = useRef(0);
   // 禁断の調合をOFFにしたら、禁断のスタイルの選択も外す（OFFのまま禁断の条件で引かない）
   const unlimitedOn = forge.optionalModules.unlimitedEnabled;
   useEffect(() => { if (!unlimitedOn && pendingPreset?.group === 'forbidden') setPendingPreset(null); }, [unlimitedOn, pendingPreset]);
@@ -102,32 +117,47 @@ export function App() {
     toastTimer.current = window.setTimeout(() => setToast(null), v.action ? ms + 3000 : ms);
   }, []);
 
-  /** 状態の確定（Undo 対象） */
-  const commit = useCallback((next: ForgeState, opts: { changed?: FieldId[]; history?: boolean } = {}) => {
+  /** 状態の確定（Undo 対象）。history は成功した抽選・衣装の採用のときだけ（置き換える前の結果も、必要なら退避する） */
+  const commit = useCallback((next: ForgeState, opts: { changed?: FieldId[]; history?: boolean; nextSession?: WardrobeSession | null } = {}) => {
     undo.current = [...undo.current, forge].slice(-60);
     redo.current = [];
     setForge(next);
     if (opts.changed) { setChanged(opts.changed); }
-    if (opts.history) { pushHistory(next, titleOf(next)); setSweep((x) => x + 1); }
+    const after = opts.nextSession === undefined ? session : opts.nextSession;
+    if (opts.nextSession !== undefined) setSession(opts.nextSession);
+    if (opts.history) {
+      const ok = recordHistory(forge, next, titleOf, { prevBaseId: session?.baseId, nextBaseId: after?.baseId });
+      if (!ok) window.setTimeout(() => showToast('履歴を保存できませんでした（保存領域が不足しています）。結果は画面に残っています。残したい結果はお気に入りかJSONへ。', 5200), 0);
+      setSweep((x) => x + 1);
+    }
     force((x) => x + 1);
-  }, [forge]);
+  }, [forge, session, setSession, showToast]);
 
-  const handleOutcome = useCallback((r: DrawOutcome, success?: string) => {
+  /** 抽選結果の確定。kind='draw' は履歴に記録し、人物の項目が変わったら着せ替えの元を外す。'manual'（手で選ぶ）は記録しない（次の抽選の前に退避する） */
+  const handleOutcome = useCallback((r: DrawOutcome, opts: { success?: string; kind?: 'draw' | 'manual' } = {}) => {
     if (!r.ok) {
       setConflict({ notices: r.notices, conflicts: r.conflicts, stuck: r.stuck, prefsFields: r.prefsFields, prefsKind: r.prefsKind });
       return false;
     }
     recent.current = r.recent;
     saveRecent(r.recent as Record<string, string[]>);
-    commit(r.state, { changed: r.changed, history: r.changed.length > 0 });
+    const kind = opts.kind ?? 'draw';
+    const personChanged = kind === 'draw' && r.changed.some((f) => PERSON_FIELDS.includes(f));
+    commit(r.state, { changed: r.changed, history: kind === 'draw' && r.changed.length > 0, nextSession: personChanged && session ? null : undefined });
     if (r.stuck.length) setConflict({ notices: r.notices, conflicts: [], stuck: r.stuck });
     else if (r.notices.length) showToast(r.notices.join(' '));
-    else if (success) showToast(success, 2200);
+    else if (opts.success) showToast(opts.success, 2200);
     return true;
-  }, [commit, showToast]);
+  }, [commit, showToast, session]);
+
+  /** 衣装3案を作る（現在の状態は変えない。プレビュー専用のシードで、通常の抽選の乱数・直近履歴を進めない） */
+  const makeWardrobe = (base: ForgeState) => {
+    wardrobeTurn.current += 1;
+    return wardrobePreview(base, { seed: `wardrobe|${base.lastSeed}|${base.drawCount}|${wardrobeTurn.current}`, recent: recent.current });
+  };
 
   const actions: AppActions = {
-    forgeAll: () => handleOutcome(draw(forge, { recent: recent.current, preset: pendingPreset ?? undefined }), pendingPreset ? `「${pendingPreset.ja}」の方向で錬成しました。` : undefined),
+    forgeAll: () => handleOutcome(draw(forge, { recent: recent.current, preset: pendingPreset ?? undefined }), { success: pendingPreset ? `「${pendingPreset.ja}」の方向で錬成しました。` : undefined }),
     drawGroup: (g: keyof typeof GROUPS) => handleOutcome(draw(forge, { targets: GROUPS[g], recent: recent.current })),
     reroll: (f: FieldId) => {
       if (forge.fields[f].locked) {
@@ -154,7 +184,7 @@ export function App() {
     },
     adopt: (f: FieldId, id: string, lock: boolean) => {
       const r = adopt(forge, f, id, lock, { recent: recent.current });
-      if (handleOutcome(r)) { setPicker(null); if (!r.notices.length) showToast(`「${fieldDef(f).ja}」を採用しました${lock ? '（固定）' : ''}。`, 2000); }
+      if (handleOutcome(r, { kind: 'manual' })) { setPicker(null); if (!r.notices.length) showToast(`「${fieldDef(f).ja}」を採用しました${lock ? '（固定）' : ''}。`, 2000); }
     },
     drawWithin: (f: FieldId, ids: string[], lock: boolean) => {
       const r = drawWithin(forge, f, ids, lock, recent.current);
@@ -191,8 +221,11 @@ export function App() {
       setConflict(null);
       handleOutcome(draw(s, { recent: recent.current }));
     },
-    load: (s: ForgeState, message: string) => {
-      commit(cloneState(s), { changed: DRAW_ORDER }); setTab('forge');
+    load: (s: ForgeState, message: string, opts: { session?: WardrobeSession | null; wardrobe?: boolean } = {}) => {
+      // 呼び出しは履歴に記録しない。戻す／進むで取り消せる1操作
+      const next = cloneState(s);
+      commit(next, { changed: DRAW_ORDER, nextSession: opts.session ?? null }); setTab('forge'); window.scrollTo({ top: 0 });
+      if (opts.wardrobe) setWardrobe(makeWardrobe(next));
       // 呼び出した結果は除外を理由に書き換えない。OFFの項目は出力されないことだけ伝える
       const note = prefsAppliedNote();
       showToast(note ? `${message} ${note}` : message, note ? 5200 : 2400);
@@ -202,6 +235,19 @@ export function App() {
       if (how === 'manual') setManualCopy(text); else showToast(label, 1800);
     },
     choosePreset: (p: StylePreset | null) => setPendingPreset(p),
+    lockPerson: () => {
+      const r = lockPerson(forge);
+      if (!r.added.length) { showToast('人物の項目はすでに固定しています。'); return; }
+      commit(r.state);
+      showToast(`人物の${r.added.length}項目を固定しました（値は変えていません）。「固定する項目を調整」で外せます。`, 3200);
+    },
+    openWardrobe: () => {
+      // 着せ替えの元を記録（まだ無ければ、今の結果を元にする。衣装を変えた後の結果を元として保存しないため）
+      if (!session) setSession({ base: cloneState(forge) });
+      setWardrobe(makeWardrobe(forge));
+    },
+    session,
+    setSession,
     openPicker: (f: FieldId) => setPicker(f),
     toast: showToast
   };
@@ -276,6 +322,21 @@ export function App() {
         </ul>
       </nav>
 
+      {wardrobe && (
+        <WardrobeSheet preview={wardrobe} forge={forge}
+          onClose={() => setWardrobe(null)}
+          onRegenerate={() => setWardrobe(makeWardrobe(forge))}
+          onOpenDict={(f) => { setWardrobe(null); actions.openDict(f); }}
+          onAdopt={(card) => {
+            const chk = canAdoptCard(forge, wardrobe, card);
+            if (!chk.ok) return chk.reason!;
+            const r = applyCard(forge, card);
+            commit(r.state, { changed: r.changed, history: true });
+            setWardrobe(null); setTab('forge'); window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast(`衣装を「${fieldDef('outfit').options.find((o) => o.id === r.state.fields.outfit.id)?.ja ?? ''}」にしました。戻すで元の衣装に戻せます。`, 2600);
+            return null;
+          }} />
+      )}
       {picker && <Picker field={picker} forge={forge} onClose={() => setPicker(null)} onAdopt={actions.adopt} onDrawWithin={actions.drawWithin} />}
       {conflict && <ConflictSheet view={conflict} forge={forge} onClose={() => setConflict(null)} actions={actions} />}
       {manualCopy !== null && <ManualCopy text={manualCopy} onClose={() => setManualCopy(null)} />}
