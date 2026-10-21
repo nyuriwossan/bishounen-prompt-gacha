@@ -1,4 +1,4 @@
-/* 人物の一括固定・衣装3案・元キャラ／派生の保存・直近10件の履歴 の回帰テスト（2026-10-22） */
+/* 人物の一括固定・衣装3案・元キャラ／派生の保存・直近50件の履歴 の回帰テスト（2026-10-22） */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { allViolations } from '../src/advisor/hard';
 import { fieldDef, optionOf } from '../src/data/fields';
@@ -190,17 +190,19 @@ describe('衣装3案', () => {
   });
 });
 
-describe('直近10件の履歴', () => {
+describe('直近50件の履歴', () => {
   const t = (s: ForgeState) => titleOf(s);
-  it('11件以上の異なる結果で最新10件が残り、お気に入りは減らない', () => {
+  it('上限は50件（10件版から戻した）。51件以上の異なる結果で最新50件が残り、お気に入りは減らない', () => {
+    expect(MAX_HISTORY).toBe(50);
     saveFavorite(fresh('fav'), 'お気に入り');
     let prev: ForgeState | null = null;
     const results: ForgeState[] = [];
-    for (let i = 0; i < 14; i++) { const s = fresh(`h-${i}`); recordHistory(prev, s, t); results.push(s); prev = s; }
+    const n = MAX_HISTORY + 4;
+    for (let i = 0; i < n; i++) { const s = fresh(`h-${i}`); recordHistory(prev, s, t); results.push(s); prev = s; }
     const h = listHistory();
     expect(h).toHaveLength(MAX_HISTORY);
-    expect(sameResult(h[0].state, results[13])).toBe(true);
-    expect(sameResult(h[9].state, results[4])).toBe(true);
+    expect(sameResult(h[0].state, results[n - 1])).toBe(true);
+    expect(sameResult(h[MAX_HISTORY - 1].state, results[n - MAX_HISTORY])).toBe(true);
     expect(listFavorites()).toHaveLength(1);
   });
   it('置き換える前の結果が最新の履歴と違えば退避してから記録する（1操作で最大2件）。同じ結果は増やさない', () => {
@@ -234,26 +236,54 @@ describe('直近10件の履歴', () => {
     kv.fail = true;
     expect(recordHistory(null, fresh('x'), t)).toBe(false);
   });
-  it('10件を超える旧データは黙って捨てず「以前の履歴」へ移す（何度実行しても同じ）。10件以下なら何もしない', () => {
-    const old = Array.from({ length: 25 }, (_, i) => ({ id: `h${i}`, at: new Date(Date.UTC(2026, 9, 1, 0, 25 - i)).toISOString(), title: `t${i}`, state: fresh(`old-${i % 3}`) }));
-    kv.setItem(KEYS.history, JSON.stringify(old));
-    expect(migrateHistory()).toBe(15);
-    expect(listHistory().map((h) => h.id)).toEqual(old.slice(0, 10).map((h) => h.id));
-    expect(listLegacyHistory().map((h) => h.id)).toEqual(old.slice(10).map((h) => h.id));
-    expect(migrateHistory()).toBe(0);
-    expect(listLegacyHistory()).toHaveLength(15);
-    kv.data.clear();
-    kv.setItem(KEYS.history, JSON.stringify(old.slice(0, 7)));
-    expect(migrateHistory()).toBe(0);
-    expect(kv.getItem(KEYS.historyLegacy)).toBeNull();
+  const entries = (n: number, prefix = 'h') => {
+    const st = fresh('old');
+    return Array.from({ length: n }, (_, i) => ({ id: `${prefix}${i}`, at: new Date(Date.UTC(2026, 9, 1, 0, 0, 200 - i)).toISOString(), title: `${prefix}${i}`, state: st }));
+  };
+  it('10件版で「以前の履歴」へ移った11〜50件目を、起動時に通常の履歴へ戻す（何度実行しても同じ）', () => {
+    const all = entries(40);
+    kv.setItem(KEYS.history, JSON.stringify(all.slice(0, 10)));
+    kv.setItem(KEYS.historyLegacy, JSON.stringify(all.slice(10)));
+    expect(migrateHistory()).toEqual({ restored: 30, moved: 0 });
+    expect(listHistory().map((h) => h.id)).toEqual(all.map((h) => h.id));
+    expect(listLegacyHistory()).toEqual([]);
+    expect(migrateHistory()).toEqual({ restored: 0, moved: 0 });
   });
-  it('以前の履歴への書き込みに失敗したら、通常の履歴を縮めない（どちらも失わない）', () => {
-    const old = Array.from({ length: 12 }, (_, i) => ({ id: `h${i}`, at: new Date(Date.UTC(2026, 9, 1, 0, 20 - i)).toISOString(), title: `t${i}`, state: fresh('o') }));
-    kv.setItem(KEYS.history, JSON.stringify(old));
+  it('通常と以前の履歴を合わせて50件を超えるなら、新しい50件を通常に、残りを以前の履歴に', () => {
+    const all = entries(65);
+    kv.setItem(KEYS.history, JSON.stringify(all.slice(0, 10)));
+    kv.setItem(KEYS.historyLegacy, JSON.stringify(all.slice(10)));
+    expect(migrateHistory()).toEqual({ restored: 40, moved: 0 });
+    expect(listHistory().map((h) => h.id)).toEqual(all.slice(0, 50).map((h) => h.id));
+    expect(listLegacyHistory().map((h) => h.id)).toEqual(all.slice(50).map((h) => h.id));
+  });
+  it('50件を超えて保存されている通常の履歴は、超過分を黙って捨てず以前の履歴へ移す。50件以下・以前の履歴なしなら何もしない', () => {
+    const all = entries(60);
+    kv.setItem(KEYS.history, JSON.stringify(all));
+    expect(migrateHistory()).toEqual({ restored: 0, moved: 10 });
+    expect(listLegacyHistory().map((h) => h.id)).toEqual(all.slice(50).map((h) => h.id));
+    kv.data.clear();
+    kv.setItem(KEYS.history, JSON.stringify(all.slice(0, 30)));
+    kv.writes = 0;
+    expect(migrateHistory()).toEqual({ restored: 0, moved: 0 });
+    expect(kv.writes).toBe(0);
+  });
+  it('書き込みに失敗しても、履歴は消えない（通常・以前の履歴とも元のまま）', () => {
+    const all = entries(30);
+    kv.setItem(KEYS.history, JSON.stringify(all.slice(0, 10)));
+    kv.setItem(KEYS.historyLegacy, JSON.stringify(all.slice(10)));
     kv.fail = true;
-    expect(migrateHistory()).toBe(0);
+    expect(migrateHistory()).toEqual({ restored: 0, moved: 0 });
     kv.fail = false;
-    expect(JSON.parse(kv.getItem(KEYS.history)!)).toHaveLength(12);
+    expect(JSON.parse(kv.getItem(KEYS.history)!)).toHaveLength(10);
+    expect(JSON.parse(kv.getItem(KEYS.historyLegacy)!)).toHaveLength(20);
+    const over = entries(55);
+    kv.setItem(KEYS.history, JSON.stringify(over));
+    kv.data.delete(KEYS.historyLegacy);
+    kv.fail = true;
+    migrateHistory();
+    kv.fail = false;
+    expect(JSON.parse(kv.getItem(KEYS.history)!)).toHaveLength(55);
   });
 });
 
@@ -354,7 +384,7 @@ describe('JSON', () => {
     delete old.historyLegacy; delete old.drawPrefs;
     expect(importBackup(JSON.stringify(old)).ok).toBe(true);
   });
-  it('「履歴も復元する」：日時順に統合し、同じIDは1件、通常は最新10件、はみ出しは以前の履歴へ。読込で新しい記録を作らない', () => {
+  it('「履歴も復元する」：日時順に統合し、同じIDは1件、通常は最新50件、はみ出しは以前の履歴へ。読込で新しい記録を作らない', () => {
     const mk = (i: number) => ({ id: `in${i}`, at: new Date(Date.UTC(2026, 9, 2, 0, i)).toISOString(), title: `in${i}`, state: fresh(`in${i % 4}`) });
     const incoming = Array.from({ length: 8 }, (_, i) => mk(i));
     recordHistory(null, fresh('mine-1'), titleOf); recordHistory(fresh('mine-1'), fresh('mine-2'), titleOf);
@@ -364,7 +394,7 @@ describe('JSON', () => {
     const r = importBackup(file, { restoreHistory: true });
     expect(r.historyAdded).toBe(8);
     const h = listHistory();
-    expect(h).toHaveLength(MAX_HISTORY);
+    expect(h).toHaveLength(10);
     expect(new Set(h.map((x) => x.id)).size).toBe(h.length);
     // 新しい順（自分の2件は今日の日時なので先頭）
     expect(h.slice(0, 2).map((x) => x.id)).toEqual(mine.map((x) => x.id));
@@ -375,7 +405,7 @@ describe('JSON', () => {
     expect(listHistory().map((x) => x.id)).toEqual(h.map((x) => x.id));
     // はみ出しは以前の履歴へ
     const more = JSON.stringify({ app: 'bishounen-prompt-gacha', type: 'bishounen-backup', schemaVersion: 1, dataVersion: 'x', exportedAt: '', current: null, favorites: [],
-      history: Array.from({ length: 5 }, (_, i) => ({ ...mk(100 + i), at: new Date(Date.UTC(2026, 8, 1, 0, i)).toISOString() })) });
+      history: Array.from({ length: 45 }, (_, i) => ({ ...mk(100 + i), at: new Date(Date.UTC(2026, 8, 1, 0, i)).toISOString() })) });
     const r2 = importBackup(more, { restoreHistory: true });
     expect(r2.historyToLegacy).toBe(5);
     expect(listLegacyHistory()).toHaveLength(5);

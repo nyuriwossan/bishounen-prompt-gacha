@@ -255,7 +255,7 @@ export function SavedView({ forge, actions, prefs, onPrefs }: { forge: ForgeStat
           {legacy.length > 0 && (
             <section class="legacy" aria-labelledby="legacy-title">
               <h3 class="section-title" id="legacy-title">以前の履歴（{legacy.length}件）</h3>
-              <p class="count-note">履歴を直近{MAX_HISTORY}件にする前に保存されていた結果です。自動では消しません。必要なものはお気に入りへ保存するか、JSONで書き出してください。</p>
+              <p class="count-note">通常の履歴（直近{MAX_HISTORY}件）に入りきらなかった結果です。自動では消しません。必要なものはお気に入りへ保存するか、JSONで書き出してください。</p>
               <div class="btns" style={{ margin: '6px 0 10px' }}>
                 <button class="btn small" type="button" onClick={() => download(exportLegacyHistory(), `bishounen-history-old-${new Date().toISOString().slice(0, 10)}.json`, 'application/json')}>以前の履歴をJSONで書き出す</button>
                 <button class="btn small danger" type="button" onClick={() => { if (confirm(`以前の履歴${legacy.length}件をすべて削除しますか？（お気に入りは残ります）`)) { clearLegacyHistory(); refresh((x) => x + 1); } }}>以前の履歴をすべて削除…</button>

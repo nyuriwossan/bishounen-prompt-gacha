@@ -12,7 +12,7 @@ import { FIELD_IDS, type FieldId, type ForgeState } from '../types';
 export const APP_ID = 'bishounen-prompt-gacha';
 export const KEYS = {
   current: 'bpg:v1:current', favorites: 'bpg:v1:favorites', history: 'bpg:v1:history', recent: 'bpg:v1:recent', ui: 'bpg:v1:ui',
-  /** 履歴を10件にしたとき（2026-10-22）、それより前に保存されていた11件目以降を保護する場所 */
+  /** 以前の履歴：通常の履歴（50件）に入りきらない分（JSON読込のはみ出しなど）を保護する場所 */
   historyLegacy: 'bpg:v1:historyLegacy',
   /** 着せ替え中の元の人物（派生として保存するときの元） */
   wardrobe: 'bpg:v1:wardrobe'
@@ -20,9 +20,9 @@ export const KEYS = {
 /** 辞書・抽選設定（個人の好み）。「保存データをすべて削除」の対象外にするため KEYS とは分ける */
 export const PREFS_KEY = 'bpg:v1:drawPrefs';
 export const MAX_FAVORITES = 300;
-/** 通常の履歴は直近10件（2026-10-22 から。以前は50件） */
-export const MAX_HISTORY = 10;
-/** 「以前の履歴」の上限（旧仕様の50件＋JSON読込のはみ出し分） */
+/** 通常の履歴は直近50件（2026-10-22 に一度10件にしたが、ユーザーの判断で50件に戻した） */
+export const MAX_HISTORY = 50;
+/** 「以前の履歴」の上限 */
 export const MAX_LEGACY_HISTORY = 100;
 export const MAX_IMPORT_BYTES = 5 * 1024 * 1024;
 
@@ -294,26 +294,39 @@ function readHistory(key: string): HistoryEntry[] {
   const raw = read<unknown[]>(key, []);
   return (Array.isArray(raw) ? raw : []).filter(isObj).map((h) => normalizeHistory(h));
 }
-/** 通常の履歴（新しい順・最大10件）。表示用。10件を超えて残っている旧データは migrateHistory で「以前の履歴」へ移す */
+/** 通常の履歴（新しい順・最大50件）。表示用 */
 export function listHistory(): HistoryEntry[] { return readHistory(KEYS.history).slice(0, MAX_HISTORY); }
-/** 以前の履歴（履歴を10件にする前の11件目以降・JSON読込のはみ出し分）。書き出し・お気に入り保存・削除ができる */
+/** 以前の履歴（通常の50件に入りきらない分）。書き出し・お気に入り保存・削除ができる */
 export function listLegacyHistory(): HistoryEntry[] { return readHistory(KEYS.historyLegacy); }
 
 /**
- * 履歴を10件にしたときの移行。10件を超えて保存されていれば、超過分を黙って捨てず「以前の履歴」へ移す。
- * 何度呼んでも同じ結果になる（移した分は通常の履歴から外す）。戻り値は移した件数。
+ * 起動時の履歴の整理。通常の履歴（50件）と以前の履歴を、新しい順に並べ直して振り分ける。
+ * - 通常の履歴に空きがあれば、以前の履歴の新しいものから戻す（10件版を開いたとき「以前の履歴」へ移った11〜50件目を、通常の履歴へ戻す）
+ * - 通常の履歴が50件を超えていれば、超過分を黙って捨てず「以前の履歴」へ移す
+ * 何度呼んでも同じ結果になる。restored は通常の履歴へ戻した件数、moved は以前の履歴へ移した件数。
+ * 書き込みは「増える側」を先に行い、途中で失敗しても履歴が消えないようにする。
  */
-export function migrateHistory(): number {
-  const all = readHistory(KEYS.history);
-  if (all.length <= MAX_HISTORY) return 0;
-  const overflow = all.slice(MAX_HISTORY);
+export function migrateHistory(): { restored: number; moved: number } {
+  const normal = readHistory(KEYS.history);
   const legacy = listLegacyHistory();
-  const ids = new Set(legacy.map((h) => h.id));
-  const merged = [...legacy, ...overflow.filter((h) => !ids.has(h.id))].sort((a, b) => b.at.localeCompare(a.at)).slice(0, MAX_LEGACY_HISTORY);
-  // 以前の履歴を先に書き、成功したときだけ通常の履歴を縮める（途中で失敗しても消えない）
-  if (!write(KEYS.historyLegacy, merged)) return 0;
-  if (!write(KEYS.history, all.slice(0, MAX_HISTORY))) return 0;
-  return overflow.length;
+  const none = { restored: 0, moved: 0 };
+  if (normal.length <= MAX_HISTORY && (!legacy.length || normal.length >= MAX_HISTORY)) return none;
+  const seen = new Set<string>();
+  const all = [...normal, ...legacy].filter((h) => (seen.has(h.id) ? false : (seen.add(h.id), true))).sort((a, b) => b.at.localeCompare(a.at));
+  const nextNormal = all.slice(0, MAX_HISTORY);
+  const nextLegacy = all.slice(MAX_HISTORY, MAX_HISTORY + MAX_LEGACY_HISTORY);
+  const normalIds = new Set(normal.map((h) => h.id));
+  const restored = nextNormal.filter((h) => !normalIds.has(h.id)).length;
+  const moved = normal.filter((h) => !nextNormal.some((x) => x.id === h.id)).length;
+  if (restored) {
+    // 通常の履歴を先に増やし、成功したら以前の履歴から外す（失敗しても両方に残るだけで消えない）
+    if (!write(KEYS.history, nextNormal)) return none;
+    if (!write(KEYS.historyLegacy, nextLegacy)) return { restored, moved: 0 };
+  } else {
+    if (!write(KEYS.historyLegacy, nextLegacy)) return none;
+    if (!write(KEYS.history, nextNormal)) return none;
+  }
+  return { restored, moved };
 }
 export function deleteLegacyHistory(id: string): boolean { return write(KEYS.historyLegacy, listLegacyHistory().filter((h) => h.id !== id)); }
 export function clearLegacyHistory(): boolean { return write(KEYS.historyLegacy, []); }
@@ -340,7 +353,7 @@ function putHistory(next: HistoryEntry[]): boolean {
  * 確定した結果を履歴へ記録する（成功した抽選・衣装の採用のときだけ呼ぶ）。
  * - 置き換える前の結果（prev）が最新の履歴と違えば、先に退避する（初期結果・手で編集した結果を失わない）
  * - 最新の履歴と同じ結果は追加しない（直前と異なれば、過去と同じ結果でも記録する）
- * - 最終的に最新10件に収める
+ * - 最終的に最新50件に収める
  * 戻り値：保存に成功したか（記録が不要だった場合も true）
  */
 export function recordHistory(prev: ForgeState | null, next: ForgeState, titleOf: (s: ForgeState) => string, opts: { prevBaseId?: string; nextBaseId?: string } = {}): boolean {
@@ -410,7 +423,7 @@ export function exportSingle(state: ForgeState, name: string): string {
 
 export interface ImportResult {
   ok: boolean; error?: string; current?: ForgeState; favoritesAdded: number; historyAdded: number; report: MigrationReport;
-  /** 履歴の読み込みで、通常の10件からはみ出して「以前の履歴」へ入れた件数 */
+  /** 履歴の読み込みで、通常の50件からはみ出して「以前の履歴」へ入れた件数 */
   historyToLegacy?: number;
   /** ファイルに辞書・抽選設定が含まれていたときだけ、その内容（取り込むかは呼び出し側が利用者に確認して決める。ここでは保存しない） */
   drawPrefs?: DrawPrefs;
@@ -429,7 +442,7 @@ export const backupHasPrefs = (text: string) => backupContents(text).prefs;
 /** JSON を検証して取り込む。
  * - お気に入りは追加。同じIDで同じ内容ならスキップし、内容が違えば新しいIDを振る。同じファイル内の元キャラ／派生の参照も付け替える
  * - 元キャラが見つからない派生（親のないファイル・未知のID）は、独立した保存結果として扱う
- * - 履歴は restoreHistory のときだけ取り込む（日時順に統合・同じIDは1件・通常は最新10件、はみ出しは「以前の履歴」へ）
+ * - 履歴は restoreHistory のときだけ取り込む（日時順に統合・同じIDは1件・通常は最新50件、はみ出しは「以前の履歴」へ）
  */
 export function importBackup(text: string, opts: { restoreHistory?: boolean } = {}): ImportResult {
   const report: MigrationReport = { lostFields: [], notes: [] };

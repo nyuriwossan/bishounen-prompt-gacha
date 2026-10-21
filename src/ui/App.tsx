@@ -42,9 +42,10 @@ function initialState(): { state: ForgeState; notes: string[] } {
   const prefs = loadPrefs();
   setDrawPrefs(prefs.prefs);
   const notes: string[] = [...prefs.notes];
-  // 履歴を10件にしたときの移行：11件目以降は捨てずに「以前の履歴」へ
-  const moved = migrateHistory();
-  if (moved) notes.push(`履歴は直近10件になりました。それより前の${moved}件は「保存 → 履歴」の「以前の履歴」に残してあります。`);
+  // 履歴の整理：一時的に「以前の履歴」へ移っていた分を通常の履歴（50件）へ戻す。50件を超える分は「以前の履歴」へ
+  const hist = migrateHistory();
+  if (hist.restored) notes.push(`履歴の表示を50件に戻しました。一時的に「以前の履歴」へ移っていた${hist.restored}件も、通常の履歴に戻してあります。`);
+  if (hist.moved) notes.push(`50件を超えていた履歴${hist.moved}件は、「保存 → 履歴」の「以前の履歴」に残してあります。`);
   let state: ForgeState | null = null;
   const hash = typeof location !== 'undefined' ? location.hash : '';
   if (hash.startsWith('#s=')) {

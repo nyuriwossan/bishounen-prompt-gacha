@@ -543,7 +543,7 @@ try {
     await ctx.close();
   }
 
-  // ---- 2e. 履歴（直近10件）・人物の固定・衣装3案・元キャラと派生 ----
+  // ---- 2e. 履歴（直近50件）・人物の固定・衣装3案・元キャラと派生 ----
   {
     const { ctx, page, errors } = await newPage({ width: 390, height: 844 });
     page.on('dialog', (d) => d.accept());
@@ -578,12 +578,12 @@ try {
     const stash = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:history'))[1].state.fields.hairColor.id);
     check('履歴：手で編集した結果は、次の錬成の直前に退避する（1操作で2件）', (await histCount()) === 8 && !!stash, `${edited}/${stash}`);
     for (let i = 0; i < 4; i++) await page.click('.forge-btn');
-    check('履歴：通常の履歴は最新10件まで', (await histCount()) === 10);
+    check('履歴：上限（50件）までは錬成ごとに増え、10件で止まらない', (await histCount()) === 12);
     // 履歴画面
     await page.click('.tabbar button >> nth=2');
     await page.click('.seg button:has-text("履歴")');
-    check('履歴画面：10件・概要・ローカル時刻・2つのボタン', (await page.locator('.list .item').count()) === 10 && await page.isVisible('.item .hsum') && await page.isVisible('.item time') && await page.isVisible('.item button:has-text("この結果に戻す")') && await page.isVisible('.item button:has-text("お気に入りに保存")'));
-    check('履歴画面：「直近10件をこのブラウザに自動保存」の説明', await page.isVisible('text=直近10件をこのブラウザに自動保存します'));
+    check('履歴画面：12件・概要・ローカル時刻・2つのボタン', (await page.locator('.list .item').count()) === 12 && await page.isVisible('.item .hsum') && await page.isVisible('.item time') && await page.isVisible('.item button:has-text("この結果に戻す")') && await page.isVisible('.item button:has-text("お気に入りに保存")'));
+    check('履歴画面：「直近50件をこのブラウザに自動保存」の説明', await page.isVisible('text=直近50件をこのブラウザに自動保存します'));
     const thirdTitle = (await page.textContent('.list .item >> nth=2 >> h3')).trim();
     const orderBefore = await page.$$eval('.list .item time', (els) => els.map((e) => e.getAttribute('datetime')));
     await page.click('.list .item >> nth=2 >> button:has-text("お気に入りに保存")');
@@ -592,7 +592,7 @@ try {
     await page.click('.seg button:has-text("履歴")');
     await page.click('.list .item >> nth=2 >> button:has-text("この結果に戻す")');
     await page.waitForSelector('.label-title');
-    check('「この結果に戻す」で保存した値に戻り、履歴は増えない', (await title(page)) === thirdTitle && (await histCount()) === 10);
+    check('「この結果に戻す」で保存した値に戻り、履歴は増えない', (await title(page)) === thirdTitle && (await histCount()) === 12);
     await page.click('.tabbar button >> nth=2'); await page.click('.seg button:has-text("履歴")');
     check('戻しても履歴の並び順・記録日時は変わらない', JSON.stringify(await page.$$eval('.list .item time', (els) => els.map((e) => e.getAttribute('datetime')))) === JSON.stringify(orderBefore));
     await page.click('.tabbar button >> nth=0');
@@ -638,10 +638,16 @@ try {
     await page.waitForSelector('dialog.wardrobe[open]');
     const pick = (await page.locator('dialog.wardrobe .wcard >> nth=0 >> h3').textContent()).replace(/^案\d/, '').replace('色違い', '').trim();
     const hairBefore = await val('髪の色');
+    const histIdsBefore = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:history')).map((h) => h.id));
+    const outfitIdBefore = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:current')).fields.outfit.id);
     await page.click('dialog.wardrobe .wcard >> nth=0 >> button:has-text("この案を採用")');
     await page.waitForTimeout(150);
     check('採用すると衣装が変わり、髪などは変わらない', (await val('衣装')) === pick && (await val('髪の色')) === hairBefore, `${pick} / ${await val('衣装')}`);
-    check('採用は履歴に1件だけ記録し、錬成番号を進める', (await histCount()) === Math.min(10, histBeforeWd + 1) && (await head()) !== headBeforeWd);
+    // 直前に履歴から戻した結果（最新の履歴とは違う）を表示していたので、採用の前にその結果を1件退避し、採用した結果を1件記録する
+    const added = await page.evaluate((before) => JSON.parse(window.localStorage.getItem('bpg:v1:history')).filter((h) => !before.includes(h.id)).map((h) => h.state.fields.outfit.id), histIdsBefore);
+    const outfitIdAfter = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:current')).fields.outfit.id);
+    check('採用は採用した結果を1件だけ記録し（未記録の元の結果は1件退避）、錬成番号を進める',
+      added.length === 2 && added[0] === outfitIdAfter && added[1] === outfitIdBefore && (await histCount()) === histBeforeWd + 2 && (await head()) !== headBeforeWd, JSON.stringify(added));
     check('採用後は完了を短く知らせる', await page.isVisible('.toast:has-text("衣装を「")'));
     await page.click('button[aria-label="元に戻す"]');
     check('採用は戻す1回で元の衣装に戻せる', (await val('衣装')) === outfitBefore);
@@ -680,28 +686,42 @@ try {
     const favs3 = await page.evaluate(() => JSON.parse(window.localStorage.getItem('bpg:v1:favorites')));
     check('元キャラを削除しても派生は消えず、独立した保存として残る', favs3.length === favs2.length - 1 && favs3.every((f) => f.rootId !== base.id));
     // 再読み込み後も残る
+    const histBeforeReload = await histCount();
     await page.reload({ waitUntil: 'load' });
     await page.waitForSelector('.label-title');
-    check('再読み込み後も履歴10件と固定状態が残る', (await histCount()) === 10 && (await page.textContent('.lockbar .count')).includes('固定中'));
+    check('再読み込み後も履歴と固定状態が残る', (await histCount()) === histBeforeReload && histBeforeReload > 12 && (await page.textContent('.lockbar .count')).includes('固定中'));
     check('履歴・人物・衣装3案・派生で実行時エラーなし', errors.length === 0, errors.join(' / '));
     await ctx.close();
   }
   {
-    // 旧仕様の履歴（50件まで）を持つ利用者：11件目以降を黙って捨てず「以前の履歴」へ
+    // 10件版を開いた利用者：「以前の履歴」へ移った11件目以降を、起動時に通常の履歴（50件）へ戻す
     const { ctx, page, errors } = await newPage({ width: 320, height: 640 });
     await page.goto(URL_, { waitUntil: 'load' });
     await page.waitForSelector('.label-title');
     await page.evaluate(() => {
       const st = JSON.parse(window.localStorage.getItem('bpg:v1:current'));
       const h = Array.from({ length: 23 }, (_, i) => ({ id: `old-${i}`, at: new Date(Date.UTC(2026, 9, 1, 0, 30 - i)).toISOString(), title: `旧履歴${i}`, state: st }));
-      window.localStorage.setItem('bpg:v1:history', JSON.stringify(h));
+      window.localStorage.setItem('bpg:v1:history', JSON.stringify(h.slice(0, 10)));
+      window.localStorage.setItem('bpg:v1:historyLegacy', JSON.stringify(h.slice(10)));
     });
     await page.reload({ waitUntil: 'load' });
     await page.waitForSelector('.label-title');
-    check('旧データ：起動時に「以前の履歴に残してあります」と知らせる', await page.isVisible('.toast:has-text("以前の履歴")'));
+    check('10件版の利用者：起動時に「50件に戻しました」と知らせる', await page.isVisible('.toast:has-text("50件に戻しました")'));
     await page.click('.tabbar button >> nth=2');
     await page.click('.seg button:has-text("履歴")');
-    check('旧データ：通常の履歴は10件、残り13件は「以前の履歴」に表示', (await page.locator('.list').first().locator('.item').count()) === 10 && await page.isVisible('#legacy-title:has-text("以前の履歴（13件）")'));
+    check('10件版の利用者：以前の履歴へ移っていた13件が通常の履歴に戻り、23件すべて見られる', (await page.locator('.list').first().locator('.item').count()) === 23 && !(await page.isVisible('#legacy-title')));
+    // 50件を超える分だけが「以前の履歴」に入る
+    await page.evaluate(() => {
+      const st = JSON.parse(window.localStorage.getItem('bpg:v1:current'));
+      const h = Array.from({ length: 63 }, (_, i) => ({ id: `big-${i}`, at: new Date(Date.UTC(2026, 9, 1, 2, 0, 100 - i)).toISOString(), title: `多い履歴${i}`, state: st }));
+      window.localStorage.setItem('bpg:v1:history', JSON.stringify(h));
+      window.localStorage.removeItem('bpg:v1:historyLegacy');
+    });
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    await page.click('.tabbar button >> nth=2');
+    await page.click('.seg button:has-text("履歴")');
+    check('50件を超える履歴：通常は50件、残り13件は「以前の履歴」に表示', (await page.locator('.list').first().locator('.item').count()) === 50 && await page.isVisible('#legacy-title:has-text("以前の履歴（13件）")'));
     check('以前の履歴：書き出し・お気に入り保存・削除ができる', await page.isVisible('button:has-text("以前の履歴をJSONで書き出す")') && await page.isVisible('.legacy .item button:has-text("お気に入りに保存")') && await page.isVisible('.legacy .item button:has-text("削除")'));
     check('320px：履歴画面で横スクロールなし', (await overflow(page)) <= 0);
     await page.click('.tabbar button >> nth=0');
