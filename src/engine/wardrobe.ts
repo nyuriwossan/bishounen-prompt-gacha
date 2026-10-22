@@ -13,7 +13,9 @@ import { allViolations } from '../advisor/hard';
 import { excludedCount, getDrawPrefs, isPrefOff } from './prefs';
 import { cloneState, isActive } from './state';
 
-export const WARDROBE_FIELDS: FieldId[] = ['outfit', 'mainColor', 'accentColor'];
+export const WARDROBE_FIELDS: FieldId[] = ['outfit', 'mainColor', 'accentColor', 'outfitDetail', 'fabric'];
+/** 衣装に従う細部・素材（2026-10 増築。ONで固定していなければ、衣装違いの案で衣装に合わせて引き直す） */
+const DETAIL_FIELDS: FieldId[] = ['outfitDetail', 'fabric'];
 const MAX_CARDS = 3;
 /** 衣装違い・色違いを合わせた抽選の上限（無限に試さない） */
 const MAX_TRIES = 8;
@@ -51,7 +53,8 @@ export function wardrobeSig(state: ForgeState): string {
 function visibleKey(state: ForgeState): string {
   const o = optionOf('outfit', state.fields.outfit.id);
   const use = outfitColorUse(o, shotLevelOf(state));
-  return [state.fields.outfit.id, use.main ? state.fields.mainColor.id : '-', use.accent ? state.fields.accentColor.id : '-'].join('|');
+  const details = DETAIL_FIELDS.map((f) => (isActive(state, f) ? state.fields[f].id : '-'));
+  return [state.fields.outfit.id, use.main ? state.fields.mainColor.id : '-', use.accent ? state.fields.accentColor.id : '-', ...details].join('|');
 }
 
 const label = (f: FieldId) => fieldDef(f).short ?? fieldDef(f).ja;
@@ -61,8 +64,9 @@ function describeChanges(from: ForgeState, to: ForgeState): string[] {
   for (const f of WARDROBE_FIELDS) {
     const a = from.fields[f].id, b = to.fields[f].id;
     if (a === b) continue;
-    // 出力されない色の変化は書かない（見た目は変わらない）
+    // 出力されない色の変化は書かない（見た目は変わらない）。OFFの細部・素材も書かない
     if ((f === 'mainColor' && !use.main) || (f === 'accentColor' && !use.accent)) continue;
+    if (DETAIL_FIELDS.includes(f) && !isActive(to, f)) continue;
     out.push(`${label(f)}：${optionOf(f, a)?.ja ?? '—'} → ${optionOf(f, b)?.ja ?? '—'}`);
   }
   return out;
@@ -82,6 +86,7 @@ export function wardrobePreview(state: ForgeState, opts: { seed: string; recent?
   let tries = 0;
   const outfitFree = isActive(work, 'outfit') && !work.fields.outfit.locked;
   const colorFree = (['mainColor', 'accentColor'] as FieldId[]).filter((f) => isActive(work, f) && !work.fields[f].locked);
+  const detailFree = DETAIL_FIELDS.filter((f) => isActive(work, f) && !work.fields[f].locked);
 
   const attempt = (targets: FieldId[], avoid: Partial<Record<FieldId, string[]>>, colorOnly: boolean): boolean => {
     if (tries >= MAX_TRIES || !targets.length) return false;
@@ -106,7 +111,7 @@ export function wardrobePreview(state: ForgeState, opts: { seed: string; recent?
   if (outfitFree) {
     while (cards.length < MAX_CARDS && tries < MAX_TRIES) {
       const avoid = { outfit: [work.fields.outfit.id ?? '', ...cards.map((c) => c.state.fields.outfit.id ?? '')] };
-      if (!attempt(['outfit', ...colorFree], avoid, false)) break;
+      if (!attempt(['outfit', ...colorFree, ...detailFree], avoid, false)) break;
     }
   }
   // 2. 足りなければ色違い（衣装はそのまま、出力される色だけ）

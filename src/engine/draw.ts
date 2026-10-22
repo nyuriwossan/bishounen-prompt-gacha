@@ -9,11 +9,11 @@
 import { allViolations, candidateViolations, type Values, type Violation } from '../advisor/hard';
 import { DATA_VERSION, DRAW_ORDER, fieldDef, optionOf, RELATED } from '../data/fields';
 import { isCosplay } from '../data/outfits';
-import type { DrawConflict, DrawResult, FieldId, ForgeState, Option, StylePreset } from '../types';
+import { FIELD_IDS, type DrawConflict, type DrawResult, type FieldId, type ForgeState, type Option, type StylePreset } from '../types';
 import { matchAny } from './match';
 import { newSeed, seededRandom, weightedPick, type Rng } from './rng';
 import { allowedOf, hasPrefs, isPrefOff, REQUIRED_FIELDS, requiresOffFields } from './prefs';
-import { cloneState, isActive, moduleKey, OFF_AS_NONE } from './state';
+import { cloneState, EXPANSION_FIELDS, isActive, moduleKey, OFF_AS_NONE } from './state';
 import { applyShares, shareBoosts, softWeight } from './weights';
 
 export type RecentMap = Partial<Record<FieldId, string[]>>;
@@ -237,9 +237,17 @@ interface PickCtx { useRecent: boolean; recent: RecentMap; preset?: StylePreset;
 const LOOKAHEAD: Partial<Record<FieldId, FieldId[]>> = {
   outfit: ['restraint'], role: ['bindPos'], restraint: ['bindPos'], bindPos: ['anchor', 'shot', 'pose', 'prop'], anchor: ['shot', 'pose'], disarray: ['pose'], expression: ['pose'], shot: ['pose']
 };
+/** 禁断の調合に関係なく先読みする組。
+ * 特徴→獣人の種族（2026-10-22）：特徴「尖った耳」は獣人の耳と両立しないので、獣人の種族をまだ引いていないときに選ぶと種族が行き詰まる。
+ * 髪の長さ→髪型、ポーズ→持ち物（2026-10 増築）：固定した髪質・前髪や、本を見る視線（持ち物の本が必要）と食い違う長さ・ポーズを先に選ばない */
+const ALWAYS_LOOKAHEAD: Partial<Record<FieldId, FieldId[]>> = { marks: ['kemonoSpecies'], hairLength: ['hairStyle'], pose: ['prop'] };
+/** 候補が条件（requires）で名指しする項目。まだ引いていなければ、その項目に両立する候補が残るかを先読みする
+ * （例：美形タイプ「ウルフヘアの気だるさ」→ 髪型・髪の長さ、「若き〜」→ 年齢層。固定した前髪やごま塩のひげと食い違うまま選ばない） */
+const FIELD_SET = new Set<string>(FIELD_IDS);
+const requiredFields = (o: Option): FieldId[] => (o.requires ?? []).map((r) => r.slice(0, r.indexOf(':')) as FieldId);
 function leavesRoom(f: FieldId, o: Option, determined: Values, pending: Set<FieldId> | undefined, s: ForgeState, preset?: StylePreset, usePrefs = true): boolean {
-  const next = LOOKAHEAD[f];
-  if (!next || !pending || !s.optionalModules.unlimitedEnabled) return true;
+  const next = [...new Set([...(s.optionalModules.unlimitedEnabled ? LOOKAHEAD[f] ?? [] : []), ...(ALWAYS_LOOKAHEAD[f] ?? []), ...requiredFields(o)])].filter((g) => g !== f && FIELD_SET.has(g));
+  if (!next.length || !pending) return true;
   const v = { ...determined, [f]: o };
   return next.every((g) => {
     if (!pending.has(g) || !isActive(s, g)) return true;
@@ -310,6 +318,8 @@ function poolFor(f: FieldId, s: ForgeState, determined: Values, ctx: PickCtx, us
     if (narrowed.length) pool = narrowed;
     else if (ctx.strict) return null;
     // ONにした直後の「なし以外」（module-on）で、なし以外をすべて除外しているときは、黙って「なし」から選ぶ（条件ではなく手応えのための絞り込み）
+    // 増築の任意項目をONにした直後に「なし」以外が両立しない（18〜24歳の年齢の表れ、前髪まで決まった髪型の前髪など）ときは、その旨だけ伝える
+    else if (compatible.length && ctx.preset?.id === 'module-on' && EXPANSION_FIELDS.includes(f)) ctx.notices.push(`「${label(f)}」は今の組み合わせと両立する候補がないため、「指定しない」のままにしました。`);
     else if (compatible.length && !(ctx.preset?.id === 'module-on' && usePrefs && !allowedOf(f, def.options).some((o) => matchAny(o, filter)))) ctx.notices.push(`おまかせスタイルの条件に合う「${label(f)}」が他の項目と両立しないため、条件外から選びました。`);
   }
   return pool;
@@ -492,8 +502,8 @@ export function fillModule(state: ForgeState, module: Parameters<typeof moduleKe
   const fields = DRAW_ORDER.filter((f) => fieldDef(f).module === module && isActive(state, f)
     && (!optionOf(f, state.fields[f].id) || (OFF_AS_NONE.includes(f) && state.fields[f].id === 'none' && !state.fields[f].locked)));
   if (!fields.length) return null;
-  // ONにした直後は「なし」以外から引く（以降の錬成では「なし」も出る）
-  const items = fields.filter((f) => ['glasses', 'marks', 'prop'].includes(f));
+  // ONにした直後は「なし」以外から引く（以降の錬成では「なし」も出る）。2026-10 増築の任意項目も同じ
+  const items = fields.filter((f) => ['glasses', 'marks', 'prop', ...EXPANSION_FIELDS].includes(f));
   const preset: StylePreset | undefined = items.length ? { id: 'module-on', ja: '', desc: '', icon: '', filters: Object.fromEntries(items.map((f) => [f, ['!none']])) } : undefined;
   const res = draw(state, { targets: fields, recent, preset });
   if (res.ok) for (const f of items) if (res.state.fields[f].source === 'preset') res.state.fields[f].source = 'random';
@@ -504,9 +514,9 @@ export function fillModule(state: ForgeState, module: Parameters<typeof moduleKe
 export const GROUPS: Record<'direction' | 'outfit' | 'hair' | 'expression' | 'forbidden', FieldId[]> = {
   /** 同じ方向性で引く：主要軸を保持して、それ以外 */
   direction: DRAW_ORDER.filter((f) => !['age', 'presentation', 'archetype', 'world', 'culture'].includes(f)),
-  outfit: ['outfit', 'mainColor', 'accentColor'],
-  hair: ['hairLength', 'hairStyle', 'hairColor', 'hairAccent', 'hairAccentColor'],
-  expression: ['expression', 'pose', 'shot', 'angle', 'prop'],
+  outfit: ['outfit', 'mainColor', 'accentColor', 'outfitDetail', 'fabric'],
+  hair: ['hairLength', 'hairStyle', 'hairTexture', 'fringe', 'hairColor', 'hairAccent', 'hairAccentColor'],
+  expression: ['expression', 'pose', 'shot', 'angle', 'prop', 'gaze', 'headPose'],
   /** 禁断演出だけ引き直す：立場・拘束・目隠し・着崩し・衣装の状態と、それに合わせる表情・ポーズ・画角 */
   forbidden: ['role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2', 'expression', 'pose', 'shot']
 };

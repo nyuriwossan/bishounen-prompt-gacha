@@ -5,11 +5,14 @@
  * 好みの書式：'ex:a,b|ou:#tag' — id か #タグ（候補の tags / 大分類に一致）。
  */
 import type { Category, FieldId, Option } from '../types';
+import { EXPANSION_VERSION } from './helpers';
 
 const KEY: Record<string, FieldId> = {
   ex: 'expression', ey: 'eyeShape', ec: 'eyeColor', fa: 'face', bu: 'build', pr: 'presentation', ou: 'outfit', po: 'pose',
   au: 'aura', wo: 'world', ag: 'age', co: 'mainColor', hs: 'hairStyle', hc: 'hairColor', hl: 'hairLength', oc: 'occupation',
-  gl: 'glasses', mk: 'marks', li: 'light', sc: 'scene', pp: 'prop', cu: 'culture', sk: 'skin', tm: 'time', fh: 'facialHair'
+  gl: 'glasses', mk: 'marks', li: 'light', sc: 'scene', pp: 'prop', cu: 'culture', sk: 'skin', tm: 'time', fh: 'facialHair',
+  // 2026-10 増築の任意項目（その項目がONのときだけ効く）
+  ac: 'ageCue', ht: 'hairTexture', fr: 'fringe', gz: 'gaze', hp: 'headPose', od: 'outfitDetail', fb: 'fabric'
 };
 function parsePrefs(spec: string): Partial<Record<FieldId, string[]>> {
   const out: Partial<Record<FieldId, string[]>> = {};
@@ -32,7 +35,9 @@ const AGE_REQUIRES: Record<string, string> = {
   old_family_heir: 'age:a18_24|a25_34', jaded_heir: 'age:a18_24|a25_34|a35_44', window_patient: 'age:a18_24|a25_34|a35_44',
   pure_acolyte: 'age:a18_24|a25_34', gentleman: 'age:a18_24|a25_34|a35_44', ill_fated: 'age:a18_24|a25_34|a35_44', snow_prince: 'age:a18_24|a25_34|a35_44',
   rain_soaked: 'age:a18_24|a25_34|a35_44', bewitching: 'age:a18_24|a25_34|a35_44', immortal_sage: 'age:a18_24|a25_34|a35_44',
-  relaxed_adult: 'age:a25_34|a35_44|a45_59|a60p'
+  relaxed_adult: 'age:a25_34|a35_44|a45_59|a60p',
+  // 2026-10 増築：名前が成熟・壮年・銀髪を含むタイプ
+  weathered_craftsman: 'age:a35_44|a45_59|a60p', silver_diplomat: 'age:a45_59|a60p', sartorial_dandy: 'age:a35_44|a45_59|a60p', gentle_physician: 'age:a35_44|a45_59'
 };
 /** 名前が装身具を前提にするタイプ。眼鏡がOFFなら自動の抽選に出ず、手で選ぶときは「ONにすると選べます」と案内する */
 const ITEM_REQUIRES: Record<string, string> = { glasses_intellectual: 'glasses:!none' };
@@ -40,12 +45,16 @@ const ITEM_REQUIRES: Record<string, string> = { glasses_intellectual: 'glasses:!
 const HAIR_REQUIRES: Record<string, string[]> = {
   black_hair_cool: ['hairColor:#black'],
   // 髪の長さは髪型より先に引くので、長さも条件に含めて行き詰まりを防ぐ
-  wolf_languid: ['hairStyle:wolf_cut', 'hairLength:medium'], soft_mash: ['hairStyle:mash', 'hairLength:short']
+  wolf_languid: ['hairStyle:wolf_cut', 'hairLength:medium'], soft_mash: ['hairStyle:mash', 'hairLength:short'],
+  silver_diplomat: ['hairColor:#silver']
 };
-const A = (id: string, ja: string, desc: string, cat: string, en: string, nat: string, prefs: string, w = 1): Option => {
+const A = (id: string, ja: string, desc: string, cat: string, en: string, nat: string, prefs: string, w = 1, since?: string): Option => {
   const requires = [AGE_REQUIRES[id], ITEM_REQUIRES[id], ...(HAIR_REQUIRES[id] ?? [])].filter(Boolean);
-  return { id, ja, desc, cat, en: en.split(/\s*,\s*/), nat, prefs: parsePrefs(prefs), w, ...(requires.length ? { requires } : {}) };
+  return { id, ja, desc, cat, en: en.split(/\s*,\s*/), nat, prefs: parsePrefs(prefs), w, ...(requires.length ? { requires } : {}), ...(since ? { since } : {}) };
 };
+
+/** 2026-10 増築で足したタイプ（since 付き） */
+const N = (id: string, ja: string, desc: string, cat: string, en: string, nat: string, prefs: string, w = 1): Option => A(id, ja, desc, cat, en, nat, prefs, w, EXPANSION_VERSION);
 
 export const ARCHETYPE: Option[] = [
   // ===== 王道端正・爽やか・好青年 =====
@@ -70,11 +79,11 @@ export const ARCHETYPE: Option[] = [
   A('summer_youth', '夏空の青年', '真夏の光と潮風の似合う。', 'classic', 'sunlit handsome, summer breeze', 'with sunlit good looks fit for a summer sky',
     'sk:tan,light_beige|wo:modern|ou:#light|li:sunbeams,soft_natural|tm:day|sc:seaside,sandy_beach|ex:bright_smile', 0.8),
   A('first_love', '初恋の人', '穏やかな声が似合う、忘れられない人。', 'classic', 'soft-spoken handsome, gentle eyes', 'with the soft, gentle looks of a first love',
-    'ex:shy,gentle_smile,closed_smile|au:pure,gentle|ey:tareme,calm|li:golden_backlight,window_light'),
+    'ex:shy,gentle_smile,closed_smile|au:pure,gentle|ey:tareme,calm|li:golden_backlight,window_light|gz:downward,side'),
 
   // ===== 儚げ・薄幸・透明感・清廉 =====
   A('glass_fragile', '硝子細工の儚さ', '触れたら壊れてしまいそうな繊細さ。', 'fragile', 'fragile beauty, translucent pale skin', 'with a fragile, glass-like beauty',
-    'bu:delicate,slim|pr:andro,slight_fem|ex:sad_smile,pensive|au:melancholy,ethereal|fa:#delicate,#soft|co:#pale,#white'),
+    'bu:delicate,slim|pr:andro,slight_fem|ex:sad_smile,pensive|au:melancholy,ethereal|fa:#delicate,#soft|co:#pale,#white|gz:downward,unfocused|hp:head_bowed'),
   A('ill_fated', '薄幸の美青年', '不運を背負い、それでも美しい。', 'fragile', 'ill-fated beauty, sorrowful eyes', 'with an ill-fated, sorrowful beauty',
     'ex:sad_smile,wistful,quiet_tears|ey:melancholic|au:melancholy|tm:rainy_day,rainy_night,dusk'),
   A('snow_prince', '雪の精のような青年', '白い息まで美しい、冬の化身。', 'fragile', 'snow-white complexion, ethereal fragility', 'with snow-pale skin and an ethereal fragility',
@@ -100,15 +109,15 @@ export const ARCHETYPE: Option[] = [
   A('bewitching', '傾国の美青年', '一目で国を傾ける妖しい美貌。', 'alluring', 'bewitching beauty, alluring gaze', 'with a bewitching beauty and alluring gaze',
     'pr:andro,slight_fem,fem|ex:provocative,knowing_smile|mk:mole_under_eye|au:alluring|ey:long_lashes,half_lidded', 1.2),
   A('angelic', '天使のような中性美', '性別を超えた清らかな美しさ。', 'alluring', 'angelic androgynous beauty', 'with an angelic, androgynous beauty',
-    'pr:andro,slight_fem|au:ethereal,pure|hl:long,very_long|li:soft_natural,stained_glass|ex:serene,gentle_smile'),
+    'pr:andro,slight_fem|au:ethereal,pure|hl:long,very_long|li:soft_natural,stained_glass|ex:serene,gentle_smile|ht:silky_straight'),
   A('decadent_aesthete', '退廃の耽美主義者', '美しいものにしか興味がない。', 'alluring', 'decadent aesthete, languid beauty', 'with a languid, decadent beauty',
-    'ex:languid,knowing_smile|au:decadent|ey:half_lidded|li:candlelight|pp:wine_glass,rose|ou:#elegant,#gothic'),
+    'ex:languid,knowing_smile|au:decadent|ey:half_lidded|li:candlelight|pp:wine_glass,rose|ou:#elegant,#gothic|fb:velvet,raw_silk|gz:unfocused'),
   A('vampire_count', '吸血鬼の伯爵', '月光の下でだけ笑う夜の貴族。', 'alluring', 'pale vampire beauty, crimson-tinged lips', 'with a pale vampiric beauty',
-    'wo:gothic,dark_fantasy|ec:red,crimson,burgundy|ou:vampire_noble,#gothic|li:moonlight,candlelight|oc:vampire_lord|ex:cold_smile,knowing_smile|sc:gothic_castle,graveyard'),
+    'wo:gothic,dark_fantasy|ec:red,crimson,burgundy|ou:vampire_noble,#gothic|li:moonlight,candlelight|oc:vampire_lord|ex:cold_smile,knowing_smile|sc:gothic_castle,graveyard|fb:velvet'),
   A('fox_spirit', '妖狐めいた美形', '笑うたびに化かされている気がする。', 'alluring', 'fox-like enchanting beauty', 'with a fox-like, enchanting beauty',
     'ey:narrow_long,tsurime|ex:knowing_smile,mischievous|wo:wafu_fantasy|ou:loose_kimono,kimono_haori|pp:folding_fan|sc:shrine,red_light_lanterns'),
   A('sea_siren', '海の魔性', '波音に紛れて呼ぶ声。', 'alluring', 'siren-like beauty, sea-glass eyes', 'with a siren-like beauty and sea-glass eyes',
-    'ec:teal,turquoise,seafoam,ice_blue|wo:high_fantasy,mythic|sc:rocky_coast,seaside|hs:long_wavy,flowing|ex:knowing_smile', 0.7),
+    'ec:teal,turquoise,seafoam,ice_blue|wo:high_fantasy,mythic|sc:rocky_coast,seaside|hs:long_wavy,flowing|ex:knowing_smile|ht:loose_wave,deep_wave', 0.7),
   A('veil_dancer', '薄絹の舞い手', '指先まで計算された優雅さ。', 'alluring', 'graceful dancer beauty, flowing silhouette', 'with a graceful dancer’s beauty',
     'oc:dancer|ou:dancer|po:#elegant|bu:slim,toned|pr:andro,slight_fem'),
   A('elf_prince', 'エルフの王子', '千年を生きる、時の止まった美貌。', 'alluring', 'elven beauty, timeless features', 'with a timeless elven beauty',
@@ -134,7 +143,7 @@ export const ARCHETYPE: Option[] = [
   A('cool_strategist', '涼やかな軍師', '扇の陰で盤面を読む。', 'intellect', 'cool-headed strategist, refined calm', 'with a cool-headed strategist’s refined calm',
     'oc:strategist|pp:folding_fan,chess_piece|wo:chinese_court,wuxia|ou:hanfu_scholar,hanfu_noble|ex:knowing_smile,closed_smile'),
   A('charming_professor', '色気ある教授', '講義より声が記憶に残る。', 'intellect', 'distinguished professor, mature charm', 'with a distinguished professor’s mature charm',
-    'ag:a35_44,a45_59|oc:professor|gl:browline,round,half_rim|ou:turtleneck_jacket,three_piece|ex:knowing_smile,gentle_smile|fh:short_beard,stubble'),
+    'ag:a35_44,a45_59|oc:professor|gl:browline,round,half_rim|ou:turtleneck_jacket,three_piece|ex:knowing_smile,gentle_smile|fh:short_beard,stubble|fb:tweed|od:elbow_patches|ac:subtle_eye_lines,smile_lines'),
   A('silent_craftsman', '寡黙な職人', '言葉の代わりに手で語る。', 'intellect', 'stoic quiet handsome, focused gaze', 'with stoic, quiet good looks and a focused gaze',
     'ex:expressionless,serious|au:stoic|oc:clockmaker,tailor,calligrapher|ou:tailor_vest,steampunk_engineer'),
   A('composed_doctor', '白衣の医師', '冷静さと優しさが同居する。', 'intellect', 'composed doctor, gentle intelligence', 'with a composed doctor’s gentle intelligence',
@@ -156,7 +165,7 @@ export const ARCHETYPE: Option[] = [
   A('young_general', '若き将軍', '一軍を率いる鋭い眼光。', 'warrior', 'commanding general, fierce eyes', 'with a commanding general’s fierce eyes',
     'oc:commander|ou:#officer,#armor|ex:stern,intense_stare|au:regal|po:arms_crossed,cape_sweep'),
   A('wolfish_warrior', '狼のような戦士', '牙を隠さない野性。', 'warrior', 'wolfish feral handsome', 'with wolfish, feral good looks',
-    'ey:fierce,sanpaku|ex:feral_grin,smirk|bu:muscular,toned|au:wild|hs:messy_long,wolf_cut,spiky_wild'),
+    'ey:fierce,sanpaku|ex:feral_grin,smirk|bu:muscular,toned|au:wild|hs:messy_long,wolf_cut,spiky_wild|ht:windswept,coarse_straight'),
   A('martial_master', '拳法の達人', '静と動を自在に操る。', 'warrior', 'disciplined martial artist physique', 'with a disciplined martial artist’s physique',
     'wo:wuxia|ou:wuxia_swordsman|po:fighting_stance|bu:toned,athletic|ex:serious,serene'),
   A('strict_officer', '軍服の将校', '規律そのものが服を着ている。', 'warrior', 'strict officer, crisp discipline', 'with an officer’s crisp discipline',
@@ -166,17 +175,17 @@ export const ARCHETYPE: Option[] = [
   A('arena_hero', '闘技場の英雄', '歓声を浴びる鍛え抜かれた肉体。', 'warrior', 'sculpted gladiator physique, heroic', 'with a sculpted, heroic gladiator physique',
     'bu:huge,muscular|ou:gladiator|oc:gladiator|ex:confident_smile,feral_grin|wo:mythic', 0.7),
   A('northern_warrior', '北方の戦士', '雪原を駆ける誇り高き戦士。', 'warrior', 'wild northern warrior beauty', 'with a wild northern warrior’s beauty',
-    'wo:northern|ou:viking,norse_tunic|hs:braided_side,messy_long,single_braid|bu:muscular,burly|cu:nordic'),
+    'wo:northern|ou:viking,norse_tunic|hs:braided_side,messy_long,single_braid|bu:muscular,burly|cu:nordic|ht:windswept,coarse_straight'),
   A('silver_paladin', '白銀の聖騎士', '光を背負って立つ者。', 'warrior', 'radiant paladin, valiant beauty', 'with a radiant, valiant beauty',
     'ou:holy_knight|oc:paladin|au:sacred,noble|li:stained_glass,rim_light|ex:determined,gentle_smile'),
 
   // ===== 気高い・王族・貴族・神官 =====
   A('cold_monarch', '冷徹な若き君主', '玉座が似合いすぎる冷たい美貌。', 'noble', 'cold imperious beauty, regal bearing', 'with a cold, imperious beauty and regal bearing',
-    'oc:king,emperor|ex:aloof,cold_smile|ou:#royal|au:regal|po:throne_lounge,crossed_legs,looking_down|sc:throne_room', 1.3),
+    'oc:king,emperor|ex:aloof,cold_smile|ou:#royal|au:regal|po:throne_lounge,crossed_legs,looking_down|sc:throne_room|hp:chin_up|gz:at_viewer', 1.3),
   A('gentle_prince', '優しい王子様', '絵本から抜け出した理想の王子。', 'noble', 'princely gentle grace', 'with a princely, gentle grace',
     'oc:crown_prince|ou:prince_cape,royal_uniform|ex:gentle_smile,closed_smile|po:offer_hand,kneel_offer|hc:blonde,gold,platinum', 1.2),
   A('haughty_aristocrat', '高慢な貴公子', '見下す視線さえ優雅。', 'noble', 'haughty aristocrat, refined arrogance', 'with a haughty aristocrat’s refined arrogance',
-    'ex:smirk,aloof,contempt|ou:aristocrat_coat,rococo,regency|gl:monocle|po:looking_down|wo:european_court,victorian'),
+    'ex:smirk,aloof,contempt|ou:aristocrat_coat,rococo,regency|gl:monocle|po:looking_down|wo:european_court,victorian|hp:chin_up|fb:velvet,brocade'),
   A('majestic_emperor', '皇帝の威厳', '存在そのものが勅命。', 'noble', 'majestic emperor, overwhelming presence', 'with a majestic, overwhelming presence',
     'oc:emperor|ou:dragon_robe,emperor_robe|au:regal|ex:aloof,stern|ag:a25_34,a35_44,a45_59'),
   A('high_priest', '白き大神官', '祈りの言葉が光になる。', 'noble', 'serene high priest, sacred beauty', 'with a serene, sacred beauty',
@@ -186,7 +195,7 @@ export const ARCHETYPE: Option[] = [
   A('desert_prince', '砂漠の王子', '陽光を纏う黄金の皇子。', 'noble', 'sun-gilded desert prince', 'with a sun-gilded princely beauty',
     'wo:desert_fantasy|ou:desert_prince,bisht,persian_prince|sc:oasis,arabesque_palace|oc:sultan,crown_prince|co:#metal,#gem'),
   A('perfect_butler', '完璧な執事', 'お嬢様にもご主人様にも一礼を。', 'noble', 'impeccable butler, polished grace', 'with an impeccable butler’s polished grace',
-    'oc:butler|ou:butler|po:bow,hands_behind_back,hand_on_chest|ex:closed_smile,gentle_smile|gl:monocle,none', 1.1),
+    'oc:butler|ou:butler|po:bow,hands_behind_back,hand_on_chest|ex:closed_smile,gentle_smile|gl:monocle,none|od:cufflinks,pocket_square', 1.1),
   A('young_duke', '若き公爵', '若くして家を背負う誇り。', 'noble', 'young duke, aristocratic poise', 'with a young duke’s aristocratic poise',
     'oc:duke|wo:victorian,european_court|ou:aristocrat_coat,victorian_frock,riding_habit|ex:aloof,closed_smile'),
   A('imperial_prince', '中華宮廷の皇子', '翡翠のように冷たく美しい。', 'noble', 'imperial prince, jade-like elegance', 'with a jade-like imperial elegance',
@@ -224,7 +233,7 @@ export const ARCHETYPE: Option[] = [
   A('quiet_bartender', '静かなバーテンダー', '話を聞くのが上手い大人。', 'urban', 'smooth bartender, low-key charm', 'with a smooth, low-key charm',
     'oc:bartender|ou:bartender,waistcoat_shirt|sc:bar_counter|ex:closed_smile,gentle_smile|pp:wine_glass'),
   A('mode_model', 'モード系モデル', 'ランウェイの冷たい美。', 'urban', 'high-fashion model, striking features', 'with a high-fashion model’s striking features',
-    'oc:model|ou:mode_black,chester_coat|fa:high_cheek,sharp_jaw|bu:tall_slim|ex:expressionless,aloof|sc:studio,simple_white'),
+    'oc:model|ou:mode_black,chester_coat|fa:high_cheek,sharp_jaw|bu:tall_slim|ex:expressionless,aloof|sc:studio,simple_white|od:asymmetric_closure'),
   A('band_vocalist', 'バンドマン', '掠れた声と危うい色気。', 'urban', 'rock-star allure, wild hair', 'with a rock star’s dangerous allure',
     'oc:rock_singer|ou:rock_star,leather_jacket,punk|hs:wolf_cut,shaggy,messy_long|mk:ear_piercings,single_earring|pp:microphone'),
   A('street_king', 'ストリートの帝王', '街が彼のランウェイ。', 'urban', 'street-smart cool handsome', 'with street-smart, cool good looks',
@@ -234,7 +243,7 @@ export const ARCHETYPE: Option[] = [
   A('cyber_runner', 'サイバーパンクの運び屋', 'ネオンを切り裂いて走る。', 'urban', 'neon-lit cyberpunk cool', 'with neon-lit cyberpunk cool',
     'wo:cyberpunk|ou:cyber_jacket,techwear|li:neon,holographic|sc:neon_alley_cyber|hc:#blue,#purple,#silver'),
   A('noir_detective', 'ハードボイルドな男', '紫煙の向こうの影。', 'urban', 'hard-boiled noir, shadowed eyes', 'with hard-boiled noir looks and shadowed eyes',
-    'wo:noir|ou:trench_suit,police_detective|tm:rainy_night|li:streetlight,chiaroscuro|ex:serious,smirk|ag:a25_34,a35_44'),
+    'wo:noir|ou:trench_suit,police_detective|tm:rainy_night|li:streetlight,chiaroscuro|ex:serious,smirk|ag:a25_34,a35_44|gz:down_side|fb:fine_wool'),
   A('jazz_pianist', 'ジャズピアニスト', '鍵盤の上の長い指。', 'urban', 'smoky jazz-bar elegance', 'with a smoky jazz-bar elegance',
     'oc:pianist|sc:bar_counter|ou:waistcoat_shirt,tuxedo,open_collar_suit|ex:closed_smile,languid'),
   A('free_photographer', '気まぐれな写真家', 'ファインダー越しに笑う。', 'urban', 'free-spirited, effortlessly cool', 'with free-spirited, effortless cool',
@@ -246,11 +255,11 @@ export const ARCHETYPE: Option[] = [
   A('gentle_giant', '心優しき大男', '大きな手で小鳥を守る。', 'warm', 'gentle giant, soft eyes', 'a gentle giant with soft eyes',
     'bu:burly,huge,muscular|ex:gentle_smile,shy|pp:bird_shoulder,bouquet|au:gentle,warm_mature', 0.9),
   A('cafe_master', '喫茶店のマスター', 'いつもの一杯と静かな微笑み。', 'warm', 'calm cafe owner, warm smile', 'with a calm cafe owner’s warm smile',
-    'oc:barista|sc:cafe|ag:a35_44,a45_59|ou:barista,waistcoat_shirt|pp:coffee|ex:gentle_smile'),
+    'oc:barista|sc:cafe|ag:a35_44,a45_59|ou:barista,waistcoat_shirt|pp:coffee|ex:gentle_smile|ac:smile_lines|fb:brushed_cotton'),
   A('silver_gentleman', '銀髪の老紳士', '歳月が磨き上げた気品。', 'warm', 'distinguished silver-haired gentleman', 'a distinguished silver-haired gentleman',
-    'ag:a60p,a45_59|hc:silver,white,gray,smoky_gray|ou:three_piece,victorian_frock,butler|pp:cane,pocket_watch|ex:gentle_smile,knowing_smile|fh:mustache,short_beard', 1.1),
+    'ag:a60p,a45_59|hc:silver,white,gray,smoky_gray|ou:three_piece,victorian_frock,butler|pp:cane,pocket_watch|ex:gentle_smile,knowing_smile|fh:mustache,short_beard|ac:gray_temples,crows_feet,smile_lines|od:pocket_square,watch_chain|fb:fine_wool,tweed', 1.1),
   A('lonely_adult', '寂しげな大人の男', '過去を語らない背中。', 'warm', 'mature melancholy charm', 'with a mature, melancholy charm',
-    'ag:a35_44,a45_59|ex:sad_smile,pensive|au:melancholy|tm:rainy_night,dusk|fh:stubble'),
+    'ag:a35_44,a45_59|ex:sad_smile,pensive|au:melancholy|tm:rainy_night,dusk|fh:stubble|ac:forehead_lines,experienced_eyes|gz:afar,down_side'),
   A('pastoral_youth', '牧歌的な青年', '麦畑の風の匂い。', 'warm', 'sunny rustic handsome', 'with sunny, rustic good looks',
     'ou:linen_shirt,white_shirt|sc:flower_field|au:sunny,gentle|li:sunbeams|ex:bright_smile', 0.7),
   A('florist_youth', '花屋の青年', '花に話しかける柔らかな人。', 'warm', 'soft-spoken florist charm', 'with a soft-spoken florist’s charm',
@@ -264,7 +273,7 @@ export const ARCHETYPE: Option[] = [
   A('passionate_chef', '情熱の料理人', '一皿に全てを懸ける。', 'warm', 'passionate chef, confident hands', 'with a passionate chef’s confidence',
     'oc:chef|ou:chef|ex:confident_smile,determined', 0.6),
   A('mature_seducer', '大人の色気ある紳士', '余裕の笑みと低い声。', 'warm', 'mature charm, smoldering eyes', 'with mature charm and smoldering eyes',
-    'ag:a35_44,a45_59|ex:knowing_smile,confident_smile|au:alluring,warm_mature|ou:#suit|fh:stubble,short_beard', 1.1),
+    'ag:a35_44,a45_59|ex:knowing_smile,confident_smile|au:alluring,warm_mature|ou:#suit|fh:stubble,short_beard|ac:crows_feet,heavy_eyelids|gz:at_viewer', 1.1),
 
   // ===== 神秘・異国情緒・幻想的 =====
   A('young_onmyoji', '若き陰陽師', '式神を従える涼やかな術者。', 'mystic', 'mysterious onmyoji, cool composure', 'with a mysterious onmyoji’s cool composure',
@@ -274,13 +283,13 @@ export const ARCHETYPE: Option[] = [
   A('wandering_mage', '放浪の魔術師', '旅の行き先は星に聞く。', 'mystic', 'enigmatic wandering mage', 'with an enigmatic wandering mage’s air',
     'oc:mage,traveler|ou:cloak_mystery,mage_robe|pp:staff,lantern,grimoire|ex:knowing_smile'),
   A('star_reader', '星読み', '遠い光を映す瞳。', 'mystic', 'stargazer, distant luminous eyes', 'with a stargazer’s distant, luminous eyes',
-    'tm:starry_night|oc:fortune_teller,sage|ey:sparkling,glowing|pp:crystal_orb|ex:serene,wistful'),
+    'tm:starry_night|oc:fortune_teller,sage|ey:sparkling,glowing|pp:crystal_orb|ex:serene,wistful|gz:upward'),
   A('dragon_blood', '竜の血を引く者', '瞳孔に竜が宿る。', 'mystic', 'draconic beauty, fierce elegance', 'with a draconic, fierce elegance',
     'ey:slit_pupils,glowing|wo:high_fantasy,wafu_fantasy|ec:gold,amber,crimson|oc:dragon_knight|ex:intense_stare,smirk'),
   A('silk_road_merchant', 'シルクロードの商人', '笑顔で値切る異国の美男。', 'mystic', 'charming silk road merchant', 'with a charming Silk Road merchant’s smile',
     'ou:silk_road,persian_prince|oc:merchant,caravan_leader|cu:central_asia,persia|sc:bazaar|ex:teasing,mischievous'),
   A('immortal_sage', '仙人めいた青年', '霞を食べて生きていそう。', 'mystic', 'immortal-like serenity, flowing grace', 'with an immortal-like serenity',
-    'ou:taoist|wo:wuxia|sc:misty_mountains,lotus_pond|ex:serene,eyes_closed_serene|hl:very_long,long|po:floating,meditating'),
+    'ou:taoist|wo:wuxia|sc:misty_mountains,lotus_pond|ex:serene,eyes_closed_serene|hl:very_long,long|po:floating,meditating|ht:silky_straight'),
   A('oracle_vessel', '神託の器', '神の声を宿す空っぽの器。', 'mystic', 'otherworldly oracle, hollow serenity', 'with an otherworldly oracle’s serenity',
     'oc:oracle|ex:eyes_closed_serene,serene,expressionless|ou:oracle|mk:forehead_mark'),
   A('fallen_angel', '堕天使', '翼を失っても美しい。', 'mystic', 'fallen angel beauty, sorrowful grace', 'with a fallen angel’s sorrowful grace',
@@ -295,10 +304,10 @@ export const ARCHETYPE: Option[] = [
   // ===== 現代・日常・ファッション（職業や物語設定に頼らず、顔・目元・髪・服・佇まいで描き分ける）=====
   A('downer', 'ダウナー系', '眠たげな目と脱力した佇まい。アンニュイな色男より無気力寄りで、色気より温度の低さが核。', 'contemporary',
     'low-energy look, listless air', 'with a relaxed, low-energy, listless air',
-    'ey:sleepy,half_lidded,jitome|ex:sleepy,expressionless,languid,annoyed|hs:messy_short,shaggy,bangs_eyes,curtain_bangs,tousled_medium|ou:oversized_tee_wide,zip_hoodie_tee,sweat_easy,short_blouson|po:leaning_wall,hands_in_pockets,sitting_floor,sitting_stairs,lying_down|au:aloof,cool|wo:modern,urban_night|co:#muted,#black|oc:none|hl:short,medium|bu:slim,tall_slim,average|ag:a18_24,a25_34'),
+    'ey:sleepy,half_lidded,jitome|ex:sleepy,expressionless,languid,annoyed|hs:messy_short,shaggy,bangs_eyes,curtain_bangs,tousled_medium|ou:oversized_tee_wide,zip_hoodie_tee,sweat_easy,short_blouson|po:leaning_wall,hands_in_pockets,sitting_floor,sitting_stairs,lying_down|au:aloof,cool|wo:modern,urban_night|co:#muted,#black|oc:none|hl:short,medium|bu:slim,tall_slim,average|ag:a18_24,a25_34|gz:unfocused,downward|ht:matte_texture,fine_soft'),
   A('ennui_charmer', 'アンニュイな色男', '伏し目と物憂げな表情に色気が漂う。ダウナー系より情緒的で、光と仕草で魅せる。', 'contemporary',
     'languid allure, melancholic charm', 'with a languid, melancholic allure',
-    'ey:half_lidded,melancholic,long_lashes|ex:languid,wistful,pensive,knowing_smile|hs:wavy_medium,tousled_medium,curtain_bangs,slicked_back_loose,long_layered|ou:camp_collar_shirt,drape_shirt_wide,sheer_shirt,linen_shirt,white_shirt|po:leaning_railing,sitting_window,looking_back,hair_brush,chin_on_hand_table|li:window_light,golden_backlight,soft_natural|au:melancholy,alluring|wo:modern,urban_night|oc:none|hl:medium,short,long|ag:a25_34,a35_44'),
+    'ey:half_lidded,melancholic,long_lashes|ex:languid,wistful,pensive,knowing_smile|hs:wavy_medium,tousled_medium,curtain_bangs,slicked_back_loose,long_layered|ou:camp_collar_shirt,drape_shirt_wide,sheer_shirt,linen_shirt,white_shirt|po:leaning_railing,sitting_window,looking_back,hair_brush,chin_on_hand_table|li:window_light,golden_backlight,soft_natural|au:melancholy,alluring|wo:modern,urban_night|oc:none|hl:medium,short,long|ag:a25_34,a35_44|gz:down_side,afar|hp:head_tilt|ht:loose_wave'),
   A('shiogao', '塩顔ミニマル', 'あっさりした端正な顔立ちと無地の服。足さない美しさ。', 'contemporary',
     'understated refined features, clean minimal look', 'with understated, refined features and a clean, minimal look',
     'fa:straight_nose,oval_refined,thin_lips,soft_contour|ey:narrow_long,calm,almond,hooded|ex:closed_smile,expressionless,serene,gentle_smile|hs:center_part_short,two_block,textured_crop,side_part|ou:crewneck_knit,jacket_tee,half_zip_knit,white_shirt,oversized_tee_wide|co:#white,#black,#muted,#daily|au:cool,sophisticated|wo:modern|oc:none|hl:very_short,short|bu:slim,average,tall_slim|ag:a18_24,a25_34,a35_44'),
@@ -319,21 +328,68 @@ export const ARCHETYPE: Option[] = [
     'pr:andro,slight_fem,slight_masc|fa:oval_refined,pointed_chin,soft_contour,high_cheek|ey:long_lashes,almond,half_lidded|ex:aloof,serene,knowing_smile,expressionless|ou:sheer_shirt,drape_shirt_wide,mode_black,turtleneck_jacket,oversized_tee_wide|mk:earrings,ear_cuff|co:#pale,#muted,#elegant,#black|au:sophisticated,ethereal,cool|bu:slim,tall_slim,delicate|wo:modern,urban_night,entertainment|oc:none|hl:short,medium,long|ag:a18_24,a25_34'),
   A('puppy_friendly', '人懐っこい犬系', '明るい目と自然な笑顔で、すぐ懐に入ってくる。耳や尾のない、人間としての雰囲気。', 'contemporary',
     'friendly open warmth, approachable charm', 'with an eager, friendly, open warmth',
-    'ey:sparkling,large_clear,smiling_eyes,tareme|ex:bright_smile,laughing,gentle_smile,smile_eyes_closed|po:waving,leaning_forward,crouching,standing_relaxed,walking|ou:zip_hoodie_tee,oversized_tee_wide,denim_jacket,sweat_easy,half_zip_knit|hs:messy_short,comma_bangs,mash,curly_short|au:sunny,playful,gentle|wo:modern|oc:none|hl:short,medium|bu:average,toned,athletic|ag:a18_24,a25_34'),
+    'ey:sparkling,large_clear,smiling_eyes,tareme|ex:bright_smile,laughing,gentle_smile,smile_eyes_closed|po:waving,leaning_forward,crouching,standing_relaxed,walking|ou:zip_hoodie_tee,oversized_tee_wide,denim_jacket,sweat_easy,half_zip_knit|hs:messy_short,comma_bangs,mash,curly_short|au:sunny,playful,gentle|wo:modern|oc:none|hl:short,medium|bu:average,toned,athletic|ag:a18_24,a25_34|gz:at_viewer|hp:head_tilt'),
   A('capricious_cat', '気まぐれな猫系', '横目と小さな笑み、余裕のある構え。近づくと離れていく、人間としての雰囲気。', 'contemporary',
     'aloof playful look, capricious air', 'with an aloof, playful and capricious air',
-    'ey:tsurime,almond,half_lidded|ex:teasing,knowing_smile,mischievous,aloof,smirk|po:looking_back,chin_on_hand_table,sitting_window,leaning_wall,lying_down|ou:drape_shirt_wide,crewneck_knit,camp_collar_shirt,short_blouson,sheer_shirt|au:playful,aloof,mysterious|wo:modern,urban_night|oc:none|hl:short,medium|bu:slim,tall_slim,average|ag:a18_24,a25_34'),
+    'ey:tsurime,almond,half_lidded|ex:teasing,knowing_smile,mischievous,aloof,smirk|po:looking_back,chin_on_hand_table,sitting_window,leaning_wall,lying_down|ou:drape_shirt_wide,crewneck_knit,camp_collar_shirt,short_blouson,sheer_shirt|au:playful,aloof,mysterious|wo:modern,urban_night|oc:none|hl:short,medium|bu:slim,tall_slim,average|ag:a18_24,a25_34|gz:side|hp:head_tilt'),
   A('off_day', '無造作な休日イケメン', '乱れた髪とゆるいニットやTシャツ。くつろいだ素の姿。', 'contemporary',
     'effortless relaxed off-duty look', 'with an effortless, relaxed off-duty look',
     'hs:messy_short,tousled_medium,shaggy,wavy_short,curly_short|ex:sleepy,gentle_smile,relieved,laughing|ou:sweat_easy,crewneck_knit,oversized_tee_wide,zip_hoodie_tee,sweater_scarf,pajamas|po:sitting_floor,lying_down,stretching,sitting_chair|sc:quiet_room,cafe,balcony|li:window_light,soft_natural|tm:morning,day|au:gentle,playful|wo:modern|oc:none|hl:short,medium|bu:average,slim,toned|ag:a18_24,a25_34,a35_44'),
   A('relaxed_adult', '大人の余裕カジュアル', '落ち着いた視線と自然な微笑み、上質で簡素な服。紳士より日常寄りの余裕。', 'contemporary',
     'composed grown-up ease', 'with a composed, unhurried, grown-up ease',
-    'ag:a25_34,a35_44,a45_59|ey:calm,deep_set_eyes,hooded|ex:gentle_smile,closed_smile,knowing_smile,confident_smile|ou:jacket_tee,crewneck_knit,turtleneck_jacket,camp_collar_shirt,knit_coat|co:#calm,#neutral,#mature,#daily|au:warm_mature,sophisticated|po:standing_relaxed,hand_in_pocket,sitting_chair,leaning_railing|sc:cafe,city_street,balcony|wo:modern,business|oc:none|hl:short,medium|bu:average,toned,athletic')
+    'ag:a25_34,a35_44,a45_59|ey:calm,deep_set_eyes,hooded|ex:gentle_smile,closed_smile,knowing_smile,confident_smile|ou:jacket_tee,crewneck_knit,turtleneck_jacket,camp_collar_shirt,knit_coat,knit_polo,minimal_blazer|co:#calm,#neutral,#mature,#daily|au:warm_mature,sophisticated|po:standing_relaxed,hand_in_pocket,sitting_chair,leaning_railing|sc:cafe,city_street,balcony|wo:modern,business|oc:none|hl:short,medium|bu:average,toned,athletic'),
+
+  // ===== 2026-10 増築：働く大人・職人（性格名ではなく、職業・所作・仕事場・年齢の表れで描き分ける）=====
+  N('weathered_craftsman', '年輪を刻んだ職人美', '張った頬骨と笑い皺。手仕事の似合う成熟した職人。', 'working', 'rugged handsome craftsman, weathered elegance', 'with a rugged craftsman’s weathered elegance',
+    'oc:carpenter,potter,jeweler,mechanic,clockmaker|ou:chore_workwear,canvas_apron,tailor_vest|sc:woodworking_shop,study|ex:focused_squint,serious,gentle_smile|po:rolling_sleeves,kneeling_work,leaning_over_table|pp:folding_ruler,tool_roll|fa:prominent_cheekbones,weathered,rugged|au:artisan_pride,stoic|ac:smile_lines,crows_feet,weathered_features|fb:heavy_canvas,supple_leather|ag:a35_44,a45_59|wo:modern,medieval_city,renaissance_court,japanese_historical,victorian'),
+  N('weary_detective', '疲れた名探偵', '重いまぶたと伏し目。雨の事務所が似合う、くたびれた切れ者。', 'working', 'world-weary handsome detective, tired sharp eyes', 'a world-weary handsome detective with tired, sharp eyes',
+    'oc:detective|ou:wool_overcoat_scarf,trench_suit,detective_inverness|sc:detective_office_rain,back_alley|tm:blue_hour_after_rain,rainy_night|ex:weary_tender,pensive,skeptical|au:world_weary|gz:downward,down_side,afar|ac:heavy_eyelids,forehead_lines|fh:stubble,salt_pepper_stubble|ag:a35_44,a45_59|wo:noir,modern,urban_night,victorian,taisho,dieselpunk'),
+  N('gentle_physician', '穏やかな壮年医師', '気遣う表情と笑い皺。落ち着いた知性の医師。', 'working', 'mature handsome physician, gentle confidence', 'a mature, handsome physician with gentle confidence',
+    'oc:doctor|ou:lab_coat,knit_polo,doctor_scrubs|ex:soft_concern,attentive,gentle_smile|gl:thin_metal,half_rim,none|au:warm_mature,gentle|gz:at_viewer|ac:smile_lines,heavy_eyelids,crows_feet|ag:a45_59|wo:modern,business,victorian,belle_epoque'),
+  N('reserved_editor', '物静かな編集者', '原稿に向かう伏し目と柔らかな服。雨の日の机が似合う。', 'working', 'reserved intellectual handsome, understated elegance', 'with a reserved, intellectual handsomeness',
+    'oc:editor,translator|ou:cardigan,knit_polo,turtleneck_jacket|sc:editorial_office,library,study|po:reading_seated,leaning_over_table,chin_on_hand_table|pp:fountain_pen,book|ex:attentive,closed_smile,pensive|li:desk_lamp,window_light|tm:blue_hour_after_rain,rainy_night|gz:downward,at_book|au:stoic|wo:modern,business,taisho,belle_epoque'),
+  N('urbane_barber', 'クラシックな理髪師', '整えた髪とベスト姿。古い理髪店の粋な主人。', 'working', 'well-groomed handsome barber, old-fashioned charm', 'a well-groomed, handsome barber with old-fashioned charm',
+    'oc:barber|ou:waistcoat_shirt,tailor_vest|sc:barbershop|od:sleeve_garters,rolled_cuffs|hs:slicked_back,side_part,pompadour,ivy_league|fh:pencil_mustache,short_beard,none|ex:confident_smile,closed_smile|hp:head_tilt|wo:modern,noir,victorian,belle_epoque,urban_night'),
+  N('stoic_firefighter', '寡黙な消防士', '鍛えた体と真剣な目。言葉少なに人を守る。', 'working', 'stoic heroic handsome, practical ruggedness', 'with stoic, heroic good looks',
+    'oc:firefighter|ou:firefighter|bu:athletic,v_taper,muscular,stocky|ex:serious,quiet_pride,soft_concern|au:stoic|po:jacket_over_shoulder,rolling_sleeves|li:firelight|wo:modern,urban_night'),
+  N('coastal_fisherman', '海辺の漁師', '潮風に晒された顔と風になびく髪。', 'working', 'weather-beaten handsome fisherman, sea-worn features', 'a weather-beaten, handsome fisherman',
+    'oc:fisherman|ou:chore_workwear,utility_vest,knit_coat|sc:harbor,rocky_coast,tropical_wharf,seaside|tm:dawn,foggy,storm|ex:serious,bright_smile|ht:windswept,coarse_straight|ac:weathered_features,smile_lines|sk:tan|au:rugged|wo:modern,southeast_asian_port,east_african_coast,northern', 0.8),
+  N('thoughtful_architect', '思索する建築家', '図面を覗き込む静かな横顔。ミニマルな装い。', 'working', 'thoughtful modern architect, refined handsome features', 'a thoughtful modern architect with refined, handsome features',
+    'oc:architect|ou:minimal_blazer,turtleneck_jacket|pp:blueprints|sc:architecture_studio|po:leaning_over_table,chin_rest|li:skylight,window_light|ex:attentive,serious|gl:thin_metal,round,none|gz:downward,at_hands|wo:modern,business,korean_city,near_future'),
+  N('plant_hunter', '植物採集家', '標本と温室の光。穏やかな好奇心の人。', 'working', 'gentle botanical researcher, quiet curiosity', 'a gentle botanical researcher with quiet curiosity',
+    'oc:botanist|pp:plant_specimen,sketchbook|sc:greenhouse,solarpunk_greenhouse,deep_forest|ou:utility_vest,linen_shirt|ex:gentle_smile,attentive|li:sunbeams,soft_natural|au:gentle|wo:modern,southeast_asian_port,andean_highland,solarpunk,victorian', 0.8),
+  N('rugged_guide', '山岳案内人', '高地の風と澄んだ朝。静かな強さの案内人。', 'working', 'rugged mountain guide, calm resilience', 'a rugged mountain guide with calm resilience',
+    'oc:mountain_guide|ou:andean_poncho,utility_vest,mods_coat|sc:andean_path,snowy_peak,mountain_rescue_hut|tm:dawn,clear_winter_day|pp:binoculars,old_map|ex:serious,gentle_smile|ht:windswept|au:stoic,rugged|bu:wiry,athletic|wo:andean_highland,northern,modern,central_asian_steppe', 0.8),
+  N('enigmatic_curator', '謎めいた学芸員', '展示室の光の中、値踏みするような微笑み。', 'working', 'enigmatic museum curator, composed elegance', 'an enigmatic museum curator with composed elegance',
+    'oc:curator|sc:museum_gallery|li:track_lighting|ou:minimal_blazer,turtleneck_jacket,tweed_sports_coat|ex:knowing_smile,appraising|gl:thin_metal,rimless,none|au:mysterious,sophisticated|hp:head_tilt|wo:modern,belle_epoque,art_nouveau,korean_city'),
+  N('weathered_captain', '潮風を受けた船長', '風雪を経た気品と横顔。海でも空でも船を率いる。', 'working', 'seasoned handsome sea captain, weathered dignity', 'a seasoned, handsome sea captain with weathered dignity',
+    'oc:sea_captain|ou:naval_uniform,wool_overcoat_scarf,dieselpunk_flight|sc:ship_deck,harbor,airship_hangar|ex:serious,quiet_pride|au:weathered_dignity|ac:weathered_features,deep_smile_lines|fh:salt_pepper_beard,short_beard|hp:profile|ag:a35_44,a45_59|wo:dieselpunk,victorian,steampunk,modern,deep_sea_future'),
+  N('jazz_saxophonist', '内省的なジャズ奏者', 'ほろ苦い微笑みとサックス。夜更けの小さなステージ。', 'working', 'melancholic jazz musician, effortless charm', 'a melancholic jazz musician with effortless charm',
+    'pp:saxophone|sc:jazz_club,bar_counter|ou:open_three_piece,waistcoat_shirt|ex:sad_smile,weary_tender,closed_smile|po:sideways_on_chair,playing_music,leaning_wall|li:desk_lamp,spotlight,neon|tm:night,rainy_night|au:melancholy,world_weary|gz:downward,unfocused|wo:noir,urban_night'),
+
+  // ===== 2026-10 増築：成熟の色気と時代・異国・未来の生活者 =====
+  N('silver_diplomat', '銀髪の外交官', '銀髪と端正な仕立て。柔らかな権威をまとう。', 'noble', 'silver-haired statesman, diplomatic poise', 'a silver-haired statesman with diplomatic poise',
+    'oc:diplomat|ou:double_breasted,three_piece,orbital_diplomat,bandhgala|po:hands_behind_back,adjust_cuffs|ex:closed_smile,quiet_pride,attentive|au:understated_luxury,regal,weathered_dignity|ac:gray_temples,experienced_eyes|hp:head_turned,chin_up|od:lapel_pin,pocket_square|ag:a45_59,a60p|wo:modern,business,european_court,south_asian_metropolis,space_opera', 0.9),
+  N('sartorial_dandy', '洒脱なダンディ', '仕立ての良さと余裕の所作。老いを皺だけでなく装いで描く。', 'warm', 'dashing mature gentleman, sartorial elegance', 'a dashing mature gentleman of sartorial elegance',
+    'ou:open_three_piece,double_breasted,knit_polo,three_piece,tweed_sports_coat|od:pocket_square,silk_neck_scarf,lapel_pin,cufflinks|fb:fine_wool,tweed,velvet|fh:pencil_mustache,mustache,salt_pepper_beard|ex:knowing_smile,confident_smile|po:sideways_on_chair,crossed_legs,hand_in_pocket|li:desk_lamp,candlelight|au:understated_luxury,sophisticated|ac:crows_feet,gray_temples|ag:a45_59,a60p|wo:modern,noir,belle_epoque,victorian,urban_night'),
+  N('steppe_falconer', '草原の鷹匠', '風になびく髪と長い乗馬服。鷹を腕に乗せる。', 'era', 'windswept rugged handsome, steppe elegance', 'with windswept, rugged good looks and steppe elegance',
+    'wo:central_asian_steppe|oc:falconer|ou:mongol_deel,silk_road|pp:falcon_glove|sc:steppe_camp|cu:mongolia,central_asia|tm:dawn,clear_winter_day|ht:windswept|ex:serious,quiet_pride|gz:afar|au:wild,stoic', 0.8),
+  N('scholarly_astronomer', '学究肌の天文学者', '交易都市の灯りの下、地図と星図を読む。', 'era', 'scholarly handsome astronomer, thoughtful eyes', 'a scholarly, handsome astronomer with thoughtful eyes',
+    'wo:silk_road_city,desert_fantasy|ou:silk_road,persian_prince|pp:old_map,book|sc:caravanserai,library|tm:starry_night,night|li:lantern_glow,desk_lamp|ex:attentive,pensive,serene|gz:upward,afar|cu:central_asia,persia', 0.8),
+  N('renaissance_inventor', 'ルネサンス工房の発明家', '図面と歯車に囲まれた好奇心。', 'era', 'inquisitive handsome inventor, renaissance elegance', 'an inquisitive, handsome inventor with Renaissance elegance',
+    'wo:renaissance_court|ou:renaissance_doublet|sc:renaissance_workshop|pp:folding_ruler,quill,sketchbook|po:leaning_over_table,chin_rest|ex:focused_squint,knowing_smile|gz:at_hands,downward', 0.8),
+  N('art_nouveau_mystic', 'アール・ヌーヴォーの神秘家', '曲線の装飾とステンドグラスの光。耽美な神秘家。', 'era', 'ornate ethereal handsome, art nouveau elegance', 'with an ornate, ethereal handsomeness and Art Nouveau elegance',
+    'wo:art_nouveau,belle_epoque|ou:art_nouveau_formal|sc:art_nouveau_atrium|li:window_light,rim_light|ex:serene,knowing_smile|au:ethereal,mysterious|gz:afar,unfocused|ht:loose_wave,soft_ringlets|hl:medium,long', 0.8),
+  N('solarpunk_engineer', 'ソーラーパンク技師', '明るい未来の作業着と植物。楽天的な技術者。', 'era', 'optimistic tech handsome, natural warmth', 'with optimistic, tech-savvy good looks and natural warmth',
+    'wo:solarpunk|ou:solarpunk_utility|sc:solarpunk_greenhouse|oc:engineer,botanist|ex:bright_smile,gentle_smile|li:soft_natural,skylight|au:sunny,refreshing|pp:plant_specimen,sketchbook', 0.8),
+  N('orbital_diplomat', '軌道都市の外交官', '成熟した威厳と未来の礼装。', 'era', 'futuristic distinguished handsome, composed authority', 'with futuristic, distinguished looks and composed authority',
+    'wo:space_opera,near_future|ou:orbital_diplomat|sc:orbital_hall,space_station|oc:diplomat|ex:closed_smile,aloof,quiet_pride|au:regal,understated_luxury|hp:head_turned,facing_front|ag:a35_44,a45_59', 0.8)
 ];
 
 export const ARCHETYPE_CATS: Category[] = [
   { id: 'classic', ja: '王道・爽やか・好青年' }, { id: 'fragile', ja: '儚げ・薄幸・透明感' }, { id: 'alluring', ja: '中性・耽美・妖艶・人外' },
   { id: 'intellect', ja: '知的・寡黙・眼鏡' }, { id: 'warrior', ja: '精悍・武人・屈強' }, { id: 'noble', ja: '気高い・王族・神官' },
   { id: 'danger', ja: '危険・冷酷・悪役' }, { id: 'urban', ja: '都会・モード・夜' }, { id: 'warm', ja: '温厚・包容力・成熟' },
-  { id: 'mystic', ja: '神秘・異国・幻想' }, { id: 'contemporary', ja: '現代・日常・ファッション' }
+  { id: 'mystic', ja: '神秘・異国・幻想' }, { id: 'contemporary', ja: '現代・日常・ファッション' },
+  { id: 'working', ja: '働く大人・職人' }, { id: 'era', ja: '時代・異国・未来の生活者' }
 ];

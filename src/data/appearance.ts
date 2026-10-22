@@ -5,7 +5,7 @@
  * 年齢表現は同工房の方針に合わせ、単独の "adult" を使わない。
  */
 import type { Category, Option } from '../types';
-import { o } from './helpers';
+import { added, o } from './helpers';
 import caw from './imported/caw.json';
 
 type CawOpt = { id: string; ja: string; en: string; hex?: string };
@@ -39,7 +39,17 @@ export const BUILD: Option[] = [
   o('athletic', '均整のとれた筋肉', 'athletic build, broad shoulders', { nat: 'an athletic build with broad shoulders', tags: ['fit', 'broad'], cat: 'fit', w: 1.1 }),
   o('muscular', '筋肉質', 'muscular male, broad shoulders, thick arms', { nat: 'a muscular build with broad shoulders and strong arms', tags: ['muscle', 'broad'], cat: 'muscle' }),
   o('burly', '大柄・重厚', 'large burly build, tall, broad chest', { nat: 'a tall, burly frame with a broad chest', tags: ['muscle', 'broad', 'tall'], cat: 'muscle', w: 0.7 }),
-  o('huge', '筋骨隆々', 'extremely muscular build, massive shoulders', { nat: 'an extremely muscular, imposing physique', tags: ['muscle', 'broad'], cat: 'muscle', w: 0.5 })
+  o('huge', '筋骨隆々', 'extremely muscular build, massive shoulders', { nat: 'an extremely muscular, imposing physique', tags: ['muscle', 'broad'], cat: 'muscle', w: 0.5 }),
+  // ---- 2026-10 増築：筋肉量だけでなく骨格・重心・シルエットの違い（docs/EXPANSION-AUDIT.md）----
+  ...[
+    o('stocky', 'がっしりした中背', 'stocky build, broad torso', { nat: 'a stocky, solid build with a broad torso', tags: ['broad', 'sturdy'], cat: 'average', w: 0.8 }),
+    o('wiry', '細く硬い筋肉', 'wiry build, lean muscle', { nat: 'a wiry build of lean, hard muscle', tags: ['fit', 'slim'], cat: 'fit' }),
+    o('v_taper', '肩幅の広い逆三角体型', 'broad shoulders, narrow waist', { nat: 'broad shoulders tapering to a narrow waist', tags: ['fit', 'broad'], cat: 'fit' }),
+    o('compact_athletic', '小柄で引き締まった体', 'compact athletic build', { nat: 'a compact, athletic build', tags: ['fit'], cat: 'fit', w: 0.8 }),
+    o('barrel_chest', '厚い胸板', 'barrel chest, broad chest', { nat: 'a powerful barrel-chested frame', tags: ['muscle', 'broad'], cat: 'muscle', w: 0.6 }),
+    o('sloped_shoulders', 'なで肩の細身', 'narrow sloping shoulders, slender build', { nat: 'a slender build with gently sloping shoulders', tags: ['slim', 'delicate'], cat: 'slim', w: 0.7 }),
+    o('soft_heavyset', 'ふくよかで柔らかな体格', 'soft heavyset build', { nat: 'a soft, heavyset build with a gentle silhouette', tags: ['big', 'soft'], cat: 'average', w: 0.4 })
+  ].map(added)
 ];
 export const BUILD_CATS: Category[] = [
   { id: 'slim', ja: '細身系' }, { id: 'average', ja: '標準' }, { id: 'fit', ja: '引き締まった系' }, { id: 'muscle', ja: '筋肉・大柄' }
@@ -74,11 +84,31 @@ export const FACE: Option[] = [
   o('thin_lips', '薄く冷ややかな唇', 'thin lips, refined mouth', { cat: 'mouth', tags: ['cold'] }),
   o('upturned_mouth', '口角の上がった口元', 'slightly upturned mouth corners', { cat: 'mouth', tags: ['warm'] }),
   o('dimples', 'えくぼ', 'dimples, gentle smile lines', { cat: 'mouth', tags: ['warm'], w: 0.7 }),
-  o('gaunt', '痩せた頬の退廃美', 'gaunt cheeks, sharp cheekbones, pale face', { cat: 'sharp', tags: ['decadent', 'sharp'], w: 0.6 })
+  o('gaunt', '痩せた頬の退廃美', 'gaunt cheeks, sharp cheekbones, pale face', { cat: 'sharp', tags: ['decadent', 'sharp'], w: 0.6 }),
+  // ---- 2026-10 増築：輪郭・頬・鼻・眉・口・顎の差（1項目の中で選ぶ暫定策。部位別の分割は後続の課題）----
+  ...[
+    o('diamond_face', 'ダイヤ型の輪郭', 'diamond-shaped face', { cat: 'contour', tags: ['sharp', 'refined'] }),
+    o('rectangular_face', '長方形の輪郭', 'rectangular face', { cat: 'contour', tags: ['masc', 'strong'] }),
+    o('broad_oval_face', '幅のある卵型の輪郭', 'broad oval face, soft jawline', { cat: 'contour', tags: ['soft', 'warm'] }),
+    o('soft_square_face', '角の柔らかな四角顔', 'soft square face, rounded jaw', { cat: 'contour', tags: ['masc', 'soft'] }),
+    o('rounded_chin', '丸みのある顎先', 'rounded chin', { cat: 'contour', tags: ['soft'] }),
+    o('prominent_chin', '前に出た顎先', 'prominent chin', { cat: 'contour', tags: ['masc', 'strong'] }),
+    o('prominent_cheekbones', '際立った頬骨', 'prominent cheekbones', { cat: 'sharp', tags: ['sharp', 'noble'] }),
+    o('full_cheeks', 'ふっくらした頬', 'full cheeks, soft round face', { cat: 'soft', tags: ['soft', 'warm'] }),
+    o('roman_nose', 'ローマ鼻', 'roman nose', { cat: 'nose', tags: ['masc', 'noble'] }),
+    o('broad_nose', '幅広の鼻', 'broad nose', { cat: 'nose', tags: ['masc', 'strong'] }),
+    o('rounded_nose_tip', '丸みのある鼻先', 'rounded nose tip', { cat: 'nose', tags: ['soft'] }),
+    o('crooked_nose', 'わずかに曲がった鼻筋', 'slightly crooked nose', { cat: 'nose', tags: ['wild'], w: 0.5 }),
+    o('smooth_brow', 'なだらかな眉骨', 'smooth brow, soft forehead', { cat: 'brow', tags: ['soft', 'andro'] }),
+    o('angled_brows', '太く角度のある眉', 'thick angled eyebrows', { cat: 'brow', tags: ['masc', 'sharp'] }),
+    o('soft_straight_brows', '柔らかい直線眉', 'soft straight eyebrows', { cat: 'brow', tags: ['soft', 'refined'] }),
+    o('wide_mouth', '横幅のある口', 'wide mouth', { cat: 'mouth', tags: ['warm'] }),
+    o('cupid_bow_lips', '弓形の唇', "cupid's bow lips", { cat: 'mouth', tags: ['refined', 'alluring'] })
+  ].map(added)
 ];
 export const FACE_CATS: Category[] = [
   { id: 'sharp', ja: 'シャープ' }, { id: 'refined', ja: '端正・上品' }, { id: 'strong', ja: '精悍・力強い' },
-  { id: 'soft', ja: '柔らか・繊細' }, { id: 'brow', ja: '眉の印象' }, { id: 'mouth', ja: '口元の印象' }
+  { id: 'soft', ja: '柔らか・繊細' }, { id: 'contour', ja: '輪郭・顎' }, { id: 'nose', ja: '鼻' }, { id: 'brow', ja: '眉の印象' }, { id: 'mouth', ja: '口元の印象' }
 ];
 
 // ---------------- 目元・目つき ----------------
@@ -108,7 +138,14 @@ export const EYE_SHAPE: Option[] = [
   o('fierce', '獰猛な目つき', 'fierce eyes', { cat: 'mood', tags: ['wild', 'danger'] }),
   o('glowing', '光を帯びた瞳', 'glowing eyes', { cat: 'inhuman', tags: ['inhuman'], w: 0.6 }),
   o('slit_pupils', '縦長の瞳孔', 'slit pupils', { cat: 'inhuman', tags: ['inhuman'], w: 0.6 }),
-  o('ringed', '輪を宿す神秘の瞳', 'ringed eyes', { cat: 'inhuman', tags: ['inhuman'], w: 0.4 })
+  o('ringed', '輪を宿す神秘の瞳', 'ringed eyes', { cat: 'inhuman', tags: ['inhuman'], w: 0.4 }),
+  // ---- 2026-10 増築：目の配置・下まぶた ----
+  ...[
+    o('wide_set_eyes', '離れ気味の目', 'wide-set eyes', { cat: 'shape', tags: ['soft'] }),
+    o('close_set_eyes', '寄り気味の目', 'close-set eyes', { cat: 'shape', tags: ['sharp'], w: 0.6 }),
+    o('aegyo_sal', '涙袋', 'aegyo sal', { cat: 'shape', tags: ['soft', 'warm'], w: 0.7, desc: '目の下のふくらみ。疲れた印象の「目の下の陰」とは別です。' }),
+    o('lower_lashes', '下まつ毛', 'lower eyelashes', { cat: 'shape', tags: ['alluring'] })
+  ].map(added)
 ];
 export const EYE_SHAPE_CATS: Category[] = [
   { id: 'cool', ja: 'クール・鋭い' }, { id: 'soft', ja: '優しい・澄んだ' }, { id: 'shape', ja: '形・まぶた' },
@@ -151,7 +188,7 @@ export const HAIR_LENGTH: Option[] = [
 // ---------------- 髪型（長さ別の制約つき） ----------------
 const VS = 'very_short', S = 'short', M = 'medium', L = 'long', VL = 'very_long';
 const hs = (id: string, ja: string, en: string, lengths: string[], extra: Partial<Option> = {}) => o(id, ja, en, { lengths, ...extra });
-export const HAIR_STYLE: Option[] = [
+const HAIR_STYLE_BASE: Option[] = [
   // 短い
   hs('buzz_cut', '坊主風の刈り込み', 'buzz cut', [VS], { cat: 'short', tags: ['wild', 'military'], w: 0.6 }),
   hs('crew_cut', 'クルーカット', 'crew cut', [VS], { cat: 'short', tags: ['military', 'masc'] }),
@@ -210,8 +247,32 @@ export const HAIR_STYLE: Option[] = [
   hs('floor_length', '床まで届く長髪', 'absurdly long hair', [VL], { cat: 'very_long', tags: ['ethereal', 'inhuman'], w: 0.6 }),
   hs('flowing', '風になびく長髪', 'flowing hair, floating hair', [L, VL], { cat: 'very_long', tags: ['ethereal', 'dynamic'] }),
   hs('very_long_low_tail', '長い一つ結び', 'very long ponytail, low ponytail', [VL], { cat: 'very_long', tags: ['refined', 'warrior'] }),
-  hs('twin_braids_long', '二本の長い三つ編み', 'twin braids', [L, VL], { cat: 'very_long', tags: ['fantasy'], w: 0.5 })
+  hs('twin_braids_long', '二本の長い三つ編み', 'twin braids', [L, VL], { cat: 'very_long', tags: ['fantasy'], w: 0.5 }),
+  // ---- 2026-10 増築：分け目・結髪・刈り上げ・毛質の型 ----
+  ...[
+    hs('ivy_league', 'アイビーリーグカット', 'ivy league haircut', [VS, S], { cat: 'short', tags: ['formal', 'modern'], fringeFixed: true }),
+    hs('french_crop', 'フレンチクロップ', 'french crop, short fringe', [VS, S], { cat: 'short', tags: ['modern', 'street'], fringeFixed: true }),
+    hs('caesar_cut', 'シーザーカット', 'caesar cut, short blunt bangs', [VS, S], { cat: 'short', tags: ['modern', 'retro'], fringeFixed: true }),
+    hs('short_coils', '短いコイルヘア', 'short coily hair', [VS, S], { cat: 'short', tags: ['street', 'modern'], curl: 'coily', fringeFixed: true }),
+    hs('tapered_afro', 'テーパードアフロ', 'short afro, tapered sides', [S], { cat: 'short', tags: ['street', 'retro'], curl: 'coily', fringeFixed: true }),
+    hs('swept_back_waves', '流し上げたウェーブ', 'swept-back wavy hair', [M, L], { cat: 'swept', tags: ['alluring', 'noble'], curl: 'wavy', fringeFixed: true }),
+    hs('undercut_ponytail', 'アンダーカットの一つ結び', 'undercut, ponytail', [M, L], { cat: 'medium', tags: ['street', 'modern'] }),
+    hs('locs_tied_back', '後ろでまとめたロックス', 'dreadlocks, tied back', [M, L, VL], { cat: 'medium', tags: ['street', 'warrior'], curl: 'coily', w: 0.6 }),
+    hs('collar_curls', '襟足までの巻き髪', 'collar-length curly hair', [M], { cat: 'medium', tags: ['soft', 'warm'], curl: 'curly' }),
+    hs('half_up_bun', 'ハーフアップのお団子', 'half updo, hair bun', [M, L, VL], { cat: 'long', tags: ['modern', 'casual'] }),
+    hs('low_messy_bun', '低い位置の無造作お団子', 'low bun, messy hair, loose strands', [M, L, VL], { cat: 'long', tags: ['casual', 'alluring'] })
+  ].map(added)
 ];
+/** 既存の髪型の毛質の系統（髪質の項目と矛盾させない）と、前髪・分け目まで決まっている髪型（前髪の項目と重ねない） */
+const STYLE_CURL: Record<string, Option['curl']> = {
+  wavy_short: 'wavy', curly_short: 'curly', afro: 'coily', cornrows: 'coily', wavy_medium: 'wavy', long_wavy: 'wavy', dreadlocks: 'coily',
+  long_straight: 'straight', very_long_straight: 'straight'
+};
+const STYLE_FRINGE_FIXED = new Set(['buzz_cut', 'crew_cut', 'side_part', 'comma_bangs', 'mash', 'center_part_short', 'quiff', 'pompadour', 'cornrows', 'afro',
+  'slicked_back', 'slicked_back_loose', 'bangs_eyes', 'side_swept', 'one_eye_covered', 'parted_bangs', 'curtain_bangs']);
+export const HAIR_STYLE: Option[] = HAIR_STYLE_BASE.map((x) => ({
+  ...x, ...(STYLE_CURL[x.id] ? { curl: STYLE_CURL[x.id] } : {}), ...(STYLE_FRINGE_FIXED.has(x.id) ? { fringeFixed: true } : {})
+}));
 export const HAIR_STYLE_CATS: Category[] = [
   { id: 'short', ja: '短髪スタイル' }, { id: 'swept', ja: '前髪・流れ' }, { id: 'medium', ja: 'ミディアム' },
   { id: 'long', ja: 'ロング・結び' }, { id: 'very_long', ja: '超ロング' }
@@ -309,5 +370,79 @@ export const FACIAL_HAIR: Option[] = [
   o('goatee', '顎先のひげ', 'goatee', { tags: ['danger'] }),
   o('mustache', '口ひげ', 'mustache', { tags: ['mature', 'noble'] }),
   o('full_beard', '豊かなひげ', 'full beard', { tags: ['mature', 'wild'], w: 0.7 }),
-  o('sideburns', 'もみあげ', 'sideburns', { tags: ['retro'] })
+  o('sideburns', 'もみあげ', 'sideburns', { tags: ['retro'] }),
+  // ---- 2026-10 増築：成熟した男性の差。白髪まじりは35歳以上だけ ----
+  ...[
+    o('salt_pepper_stubble', '白黒まじりの無精ひげ', 'salt-and-pepper stubble', { tags: ['wild', 'mature'], requires: ['age:a35_44|a45_59|a60p'] }),
+    o('salt_pepper_beard', '整えた白黒まじりのひげ', 'trimmed salt-and-pepper beard', { tags: ['mature', 'noble'], requires: ['age:a35_44|a45_59|a60p'] }),
+    o('pencil_mustache', 'ペンシル型の口ひげ', 'pencil mustache', { tags: ['retro', 'noble'], w: 0.7 }),
+    o('graying_sideburns', '白髪まじりのもみあげ', 'graying sideburns', { tags: ['mature', 'retro'], requires: ['age:a35_44|a45_59|a60p'], w: 0.7 })
+  ].map(added)
+];
+
+// ---------------- 2026-10 増築：年齢の表れ（任意・既定OFF）----------------
+/* 年齢層だけで皺や白髪を強制しない。1回に1つまで。年齢の下限は hard（requires）、出やすさは年齢と ageMin（目安の年齢）で soft に決める。
+ * 18〜24歳は「なし」だけ。白髪・薄毛は髪の色と独立（60歳以上でも黒髪のまま出せる）。 */
+const A25 = 'age:a25_34|a35_44|a45_59|a60p', A35 = 'age:a35_44|a45_59|a60p', A45 = 'age:a45_59|a60p';
+const cue = (id: string, ja: string, en: string, req: string, ageMin: number, nat: string, extra: Partial<Option> = {}) => added(o(id, ja, en, { requires: [req], ageMin, nat, cat: ageMin >= 60 ? 'deep' : ageMin >= 45 ? 'clear' : 'subtle', ...extra }));
+export const AGE_CUE: Option[] = [
+  added(o('none', '指定しない', [], { w: 2, desc: '年齢層の語だけに任せます。若い年齢層ではほぼこれになります。' })),
+  cue('subtle_eye_lines', 'ごく薄い目元の線', 'faint lines around the eyes', A25, 35, 'faint expression lines around his eyes', { w: 0.8 }),
+  cue('mature_jaw', '成熟した輪郭', 'mature defined jawline', A25, 35, 'a mature, defined jawline'),
+  cue('crows_feet', '浅い目尻の皺', "subtle crow's feet", A35, 35, "subtle crow's feet at the corners of his eyes"),
+  cue('smile_lines', '薄い笑い皺', 'fine smile lines', A35, 35, 'fine smile lines'),
+  cue('experienced_eyes', '年輪を感じるまなざし', 'calm experienced eyes', A35, 35, 'calm, experienced eyes'),
+  cue('gray_temples', 'こめかみの白髪', 'graying hair at the temples', A35, 45, 'graying hair at the temples'),
+  cue('mature_skin', '成熟した肌の質感', 'mature skin texture', A35, 45, 'naturally mature skin texture'),
+  cue('heavy_eyelids', '少し重いまぶた', 'slightly heavy eyelids', A35, 45, 'slightly heavy eyelids'),
+  cue('forehead_lines', '額の細い皺', 'fine forehead lines', A35, 45, 'fine lines across his forehead'),
+  cue('nasolabial', '控えめなほうれい線', 'subtle nasolabial folds', A35, 45, 'subtle nasolabial folds'),
+  cue('soft_eye_bags', '目の下の柔らかな膨らみ', 'soft under-eye bags', A35, 45, 'soft bags under his eyes', { w: 0.7 }),
+  cue('deep_smile_lines', '深く刻まれた笑い皺', 'deep smile lines', A45, 60, 'deeply etched smile lines'),
+  cue('weathered_features', '風雪を経た品格', 'weathered dignified features', A45, 60, 'weathered yet dignified features'),
+  cue('gray_eyebrows', '白髪の混じる眉', 'graying eyebrows', A45, 60, 'graying eyebrows', { w: 0.8 }),
+  cue('neck_lines', '首元の浅い皺', 'fine neck lines', A45, 60, 'fine lines on his neck', { w: 0.5 }),
+  cue('thinning_hair', '薄くなり始めた頭髪', 'slightly thinning hair, receding hairline', A45, 60, 'slightly thinning hair with a receding hairline', { w: 0.35 })
+];
+export const AGE_CUE_CATS: Category[] = [{ id: 'subtle', ja: 'ほのか（25歳〜）' }, { id: 'clear', ja: 'はっきり（35歳〜）' }, { id: 'deep', ja: '深い（45歳〜）' }];
+
+// ---------------- 2026-10 増築：髪質（任意・既定OFF）----------------
+/* 髪型・髪の長さと独立に質感を変える。系統（直毛・波・巻き・コイル）が髪型と違うときは使わない（hard）。文化・肌の色とは結び付けない。 */
+const ALL_LEN = [VS, S, M, L, VL], NOT_VS = [S, M, L, VL];
+const tx = (id: string, ja: string, en: string, lengths: string[], nat: string, extra: Partial<Option> = {}) => added(o(id, ja, en, { lengths, nat, ...extra }));
+export const HAIR_TEXTURE: Option[] = [
+  added(o('none', '指定しない', [], { w: 2.5, desc: '髪型の語だけに任せます。' })),
+  tx('silky_straight', '絹のような直毛', 'silky straight hair', NOT_VS, 'silky, straight', { curl: 'straight', cat: 'straight', tags: ['refined', 'noble'] }),
+  tx('coarse_straight', '硬めの直毛', 'coarse straight hair', ALL_LEN, 'coarse, straight', { curl: 'straight', cat: 'straight', tags: ['wild'] }),
+  tx('loose_wave', 'ゆるいうねり', 'loose wavy hair', NOT_VS, 'loosely wavy', { curl: 'wavy', cat: 'wave', tags: ['soft', 'alluring'] }),
+  tx('deep_wave', '深いウェーブ', 'deep wavy hair', [M, L, VL], 'deeply waved', { curl: 'wavy', cat: 'wave', tags: ['alluring', 'noble'] }),
+  tx('soft_ringlets', '柔らかな巻き毛', 'soft ringlet curls', NOT_VS, 'softly ringleted', { curl: 'curly', cat: 'curl', tags: ['soft', 'noble'] }),
+  tx('tight_curls', '細かい巻き毛', 'tight curly hair', ALL_LEN, 'tightly curled', { curl: 'curly', cat: 'curl', tags: ['wild', 'warm'] }),
+  tx('springy_coils', '弾むコイル状の髪', 'springy coily hair', [VS, S, M, L], 'springy, coily', { curl: 'coily', cat: 'coil', tags: ['street', 'warm'] }),
+  tx('loose_coils', 'ゆるいコイル状の髪', 'loose coily hair', NOT_VS, 'loosely coiled', { curl: 'coily', cat: 'coil', tags: ['soft'] }),
+  tx('fine_soft', '細く柔らかな髪', 'fine soft hair', ALL_LEN, 'fine and soft', { cat: 'feel', tags: ['soft', 'delicate'] }),
+  tx('thick_voluminous', '毛量の多い太い髪', 'thick voluminous hair', NOT_VS, 'thick and voluminous', { cat: 'feel', tags: ['wild'] }),
+  tx('slightly_frizzy', 'やや広がる髪', 'slightly frizzy hair', NOT_VS, 'slightly frizzy', { cat: 'feel', tags: ['casual'], w: 0.5 }),
+  tx('matte_texture', '艶を抑えた髪', 'matte hair', ALL_LEN, 'matte-textured', { cat: 'finish', tags: ['casual', 'modern'], w: 0.6 }),
+  tx('wet_look', '濡れ感のあるセット', 'wet-look hair, glossy hair', ALL_LEN, 'styled with a glossy wet look', { cat: 'finish', tags: ['alluring', 'modern'], w: 0.6 }),
+  tx('windswept', '風になびいた毛束', 'windswept hair', NOT_VS, 'windswept', { cat: 'finish', tags: ['dynamic', 'wild'] })
+];
+export const HAIR_TEXTURE_CATS: Category[] = [
+  { id: 'straight', ja: '直毛' }, { id: 'wave', ja: 'ウェーブ' }, { id: 'curl', ja: '巻き毛' }, { id: 'coil', ja: 'コイル' }, { id: 'feel', ja: '毛の太さ・量' }, { id: 'finish', ja: '仕上げ・動き' }
+];
+
+// ---------------- 2026-10 増築：前髪・分け目（任意・既定OFF）----------------
+/* 髪型を変えずに額・分け目・前髪を決める。前髪まで決まっている髪型（七三・センターパート・オールバック・目にかかる前髪など）とは重ねない（hard）。
+ * 左右の分け目は画像生成で確実に描き分けられないため、1つにまとめた。 */
+const fr = (id: string, ja: string, en: string, lengths: string[], nat: string, extra: Partial<Option> = {}) => added(o(id, ja, en, { lengths, nat, ...extra }));
+export const FRINGE: Option[] = [
+  added(o('none', '指定しない', [], { w: 2.5, desc: '髪型の語だけに任せます。' })),
+  fr('center_part', '中央分け', 'center part', NOT_VS, 'parted in the center', { tags: ['refined', 'modern'] }),
+  fr('side_part', '横分け', 'side part', NOT_VS, 'parted to one side', { tags: ['formal', 'refined'] }),
+  fr('curtain_fringe', '柔らかなカーテン前髪', 'curtain bangs', NOT_VS, 'with soft curtain bangs', { tags: ['soft', 'modern'] }),
+  fr('long_side_swept', '長い斜め前髪', 'long side-swept bangs', [M, L, VL], 'with long side-swept bangs', { tags: ['alluring', 'refined'] }),
+  fr('short_textured', '短い質感前髪', 'short bangs, textured bangs', [S, M], 'with short textured bangs', { tags: ['modern', 'casual'] }),
+  fr('blunt', '切り揃えた前髪', 'blunt bangs', NOT_VS, 'with blunt-cut bangs', { tags: ['refined', 'eastern'], w: 0.7 }),
+  fr('wispy', '額に落ちる細い毛束', 'wispy bangs', NOT_VS, 'with wispy strands falling over his forehead', { tags: ['soft', 'fragile'] }),
+  fr('forehead', '前髪を上げて額を出す', 'swept back bangs, forehead', NOT_VS, 'swept back to show his forehead', { tags: ['formal', 'confident'] })
 ];

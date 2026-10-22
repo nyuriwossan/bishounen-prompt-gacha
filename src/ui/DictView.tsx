@@ -3,18 +3,20 @@
  */
 import { useMemo, useState } from 'preact/hooks';
 import { DATA_VERSION, fieldDef, FIELDS, optionOf } from '../data/fields';
-import { DISABLED_WITH, excludedCount, isRandomField, OFFABLE_FIELDS, REQUIRED_FIELDS, type DrawPrefs } from '../engine/prefs';
+import { addedFields, addedOptionIds, DISABLED_WITH, excludeAdded, excludedCount, includeAdded, isRandomField, OFFABLE_FIELDS, REQUIRED_FIELDS, type DrawPrefs } from '../engine/prefs';
 import { isActive, moduleKey } from '../engine/state';
 import type { FieldGroup, FieldId, ForgeModules, ForgeState, ModuleId, Option } from '../types';
 
 const SECTIONS: Array<{ id: FieldGroup; ja: string }> = [
-  { id: 'basic', ja: '基本の処方' }, { id: 'face', ja: '顔・肌・装身具' }, { id: 'role', ja: '職業・雰囲気・色彩' }, { id: 'pose', ja: 'ポーズ・構図' },
+  { id: 'basic', ja: '基本の処方' }, { id: 'face', ja: '顔・肌・装身具' }, { id: 'hair', ja: '髪の細部（任意）' }, { id: 'role', ja: '職業・雰囲気・色彩' }, { id: 'wear', ja: '衣装の細部・素材（任意）' }, { id: 'pose', ja: 'ポーズ・構図' },
   { id: 'scene', ja: '背景・光' }, { id: 'kemono', ja: '獣人モード（任意）' }, { id: 'forbidden', ja: '禁断の調合（アンリミテッド）' }, { id: 'style', ja: '画風・呼び名' }
 ];
 /** 既存の任意スイッチ（詳細な調合）の名前。同じスイッチを共有する */
 const MODULE_LABEL: Record<ModuleId, string> = {
   pose: 'ポーズ・アングルを出力する', background: '背景と光を出力する', kemono: '獣人モードを使う', facialHair: 'ひげを抽選に含める', hairAccent: '髪の配色拡張',
-  name: '呼び名を付ける', glasses: '眼鏡を抽選に含める', marks: '特徴を抽選に含める', prop: '持ち物を抽選に含める', unlimited: 'アンリミテッドモードを使う', cosplay: 'コスプレ衣装から引く'
+  name: '呼び名を付ける', glasses: '眼鏡を抽選に含める', marks: '特徴を抽選に含める', prop: '持ち物を抽選に含める', unlimited: 'アンリミテッドモードを使う', cosplay: 'コスプレ衣装から引く',
+  ageCue: '年齢の表れを抽選に含める', hairTexture: '髪質を抽選に含める', fringe: '前髪・分け目を抽選に含める', gaze: '視線を個別に引く', headPose: '頭の向きを個別に引く',
+  outfitDetail: '衣装の細部を抽選に含める', fabric: '素材を抽選に含める'
 };
 const PAGE = 120;
 const norm = (s: string) => s.toLowerCase().normalize('NFKC');
@@ -59,6 +61,10 @@ function FieldList({ forge, prefs, onField, onChange }: Props) {
     onChange({ version: prefs.version, excluded: {}, disabled: [] });
   };
   const changed = prefs.disabled.length > 0 || FIELDS.some((d) => excludedCount(d.id, prefs) > 0);
+  const added = addedFields();
+  const addedTotal = added.reduce((n, x) => n + x.count, 0);
+  const addedOff = added.reduce((n, x) => n + addedOptionIds(x.field).filter((id) => prefs.excluded[x.field]?.includes(id)).length, 0);
+  const addedNew = new Map(added.map((x) => [x.field, x.count]));
   return (
     <>
       <h2 class="screen-title" id="dict-title">辞書・抽選設定</h2>
@@ -67,6 +73,16 @@ function FieldList({ forge, prefs, onField, onChange }: Props) {
         固定（鍵）とは別の設定で、「ロック全解除」では戻りません。変更はすぐ自動保存され、次の抽選から反映します。
       </p>
       <p class="count-note">「抽選許可」は好み設定で許可した候補の数です。今の世界観や組み合わせの条件まで含めた、実際に出られる数ではありません。辞書の版：{DATA_VERSION}</p>
+      {addedTotal > 0 && (
+        <div class="panel dict-new">
+          <p class="dict-sum"><b>この版で追加した候補</b>：既存の{added.length}項目に計{addedTotal}件（うち除外中 {addedOff}件）</p>
+          <p class="count-note" style={{ marginTop: 0 }}>新しい候補は最初から抽選対象です。以前の版で除外の設定をしていた項目でも、除外の設定は変えていません。今までどおりの顔ぶれで引きたいときは、まとめて除外できます（あとから項目ごとに戻せます）。新しく増えた任意の項目（年齢の表れ・髪質・前髪・視線・頭の向き・衣装の細部・素材）は、詳細な調合でONにするまで使いません。</p>
+          <div class="btns">
+            <button class="btn small" type="button" onClick={() => onChange(excludeAdded(prefs))} disabled={addedOff === addedTotal}>今回の追加分をすべて除外</button>
+            <button class="btn small" type="button" onClick={() => onChange(includeAdded(prefs))} disabled={addedOff === 0}>すべて抽選対象に戻す</button>
+          </div>
+        </div>
+      )}
       {SECTIONS.map((sec) => {
         const fields = FIELDS.filter((d) => d.group === sec.id);
         if (!fields.length) return null;
@@ -83,7 +99,7 @@ function FieldList({ forge, prefs, onField, onChange }: Props) {
                   <li key={d.id}>
                     <button type="button" class={`drow${st.on ? '' : ' off'}${allowed < total ? ' narrowed' : ''}`} onClick={() => onField(d.id)}
                       aria-label={`${d.ja}。登録${total}件${random ? `、抽選許可${allowed}件` : ''}、${st.text}。候補の設定を開く`}>
-                      <span class="dname">{d.ja}</span>
+                      <span class="dname">{d.ja}{addedNew.get(d.id) ? <span class="dbadge new" aria-label={`新しい候補${addedNew.get(d.id)}件`}>新 {addedNew.get(d.id)}</span> : null}</span>
                       <span class="dcount">登録 {total}件{random && <>・抽選許可 <b>{allowed}</b>件</>}</span>
                       <span class={`dstate${st.on ? '' : ' off'}`}>{st.text}</span>
                       {random && allowed === 0 && <span class="dwarn">候補が0件です</span>}
@@ -109,7 +125,8 @@ function FieldDetail({ forge, prefs, field, onChange, onModule }: Props & { fiel
   const random = isRandomField(field);
   const excluded = useMemo(() => new Set(prefs.excluded[field] ?? []), [prefs, field]);
   const [query, setQuery] = useState('');
-  const [view, setView] = useState<'all' | 'on' | 'off'>('all');
+  const [view, setView] = useState<'all' | 'on' | 'off' | 'new'>('all');
+  const added = useMemo(() => new Set(addedOptionIds(field)), [field]);
   const [limit, setLimit] = useState(PAGE);
   const catLabel = useMemo(() => new Map((def.categories || []).map((c) => [c.id, c.ja])), [def]);
   const total = def.options.length;
@@ -120,10 +137,11 @@ function FieldDetail({ forge, prefs, field, onChange, onModule }: Props & { fiel
     return def.options.filter((o) => {
       if (view === 'on' && excluded.has(o.id)) return false;
       if (view === 'off' && !excluded.has(o.id)) return false;
+      if (view === 'new' && !added.has(o.id)) return false;
       if (!q) return true;
       return [o.ja, o.desc ?? '', o.en.join(' '), o.upper ?? '', o.lower ?? '', catLabel.get(o.cat ?? '') ?? '', o.nat ?? ''].some((t) => norm(t).includes(q));
     });
-  }, [def, query, view, excluded, catLabel]);
+  }, [def, query, view, excluded, catLabel, added]);
 
   const setIds = (ids: string[]) => {
     const next = { ...prefs.excluded };
@@ -175,7 +193,7 @@ function FieldDetail({ forge, prefs, field, onChange, onModule }: Props & { fiel
             <input class="input" type="search" placeholder="名前・説明・英語タグで検索" value={query} onInput={(e) => { setQuery((e.target as HTMLInputElement).value); setLimit(PAGE); }} />
           </label>
           <div class="seg" role="group" aria-label="表示する候補">
-            {([['all', 'すべて'], ['on', '抽選対象'], ['off', '除外中']] as const).map(([id, ja]) => (
+            {([['all', 'すべて'], ['on', '抽選対象'], ['off', '除外中'], ...(added.size ? [['new', `新規 ${added.size}`] as const] : [])] as const).map(([id, ja]) => (
               <button key={id} type="button" aria-pressed={view === id} onClick={() => { setView(id); setLimit(PAGE); }}>{ja}</button>
             ))}
           </div>
@@ -184,11 +202,17 @@ function FieldDetail({ forge, prefs, field, onChange, onModule }: Props & { fiel
             <button class="btn small" type="button" onClick={() => setIds(def.options.map((o) => o.id))} disabled={allowedCount === 0}>全解除</button>
             <button class="btn small" type="button" onClick={resetField} disabled={!changedHere}>この項目を初期設定に戻す</button>
           </div>
+          {added.size > 0 && (
+            <div class="btns dict-bulk">
+              <button class="btn small" type="button" onClick={() => onChange(excludeAdded(prefs, [field]))} disabled={[...added].every((id) => excluded.has(id))}>この版の追加分（{added.size}件）を除外</button>
+              <button class="btn small" type="button" onClick={() => onChange(includeAdded(prefs, [field]))} disabled={![...added].some((id) => excluded.has(id))}>追加分を抽選対象に戻す</button>
+            </div>
+          )}
           <p class="count-note">全選択・全解除は、検索や表示の絞り込みに関係なく、この項目の全{total}件に作用します。</p>
           <p class="count-note" aria-live="polite">{filtered.length}件を表示</p>
           {filtered.length === 0 ? <p class="empty">条件に合う候補がありません。</p> : (
             <ul class="dopts">
-              {filtered.slice(0, limit).map((o) => <CandRow key={o.id} o={o} on={!excluded.has(o.id)} current={o.id === sel.id} cat={catLabel.get(o.cat ?? '')} onToggle={() => toggle(o.id)} />)}
+              {filtered.slice(0, limit).map((o) => <CandRow key={o.id} o={o} on={!excluded.has(o.id)} current={o.id === sel.id} isNew={added.has(o.id)} cat={catLabel.get(o.cat ?? '')} onToggle={() => toggle(o.id)} />)}
             </ul>
           )}
           {filtered.length > limit && <div class="btns" style={{ marginTop: '10px' }}><button class="btn" type="button" onClick={() => setLimit(limit + PAGE)}>さらに表示（残り{filtered.length - limit}件）</button></div>}
@@ -213,7 +237,7 @@ function ModuleToggle({ forge, module, onModule }: { forge: ForgeState; module: 
   );
 }
 
-function CandRow({ o, on, current, cat, onToggle }: { o: Option; on: boolean; current: boolean; cat?: string; onToggle: () => void }) {
+function CandRow({ o, on, current, isNew, cat, onToggle }: { o: Option; on: boolean; current: boolean; isNew?: boolean; cat?: string; onToggle: () => void }) {
   const en = o.en.length ? o.en.slice(0, 3).join(', ') : o.upper ? o.upper.replace(/\{c1\}/g, '◆').replace(/\{c2\}/g, '◇') : '';
   const desc = [cat, o.desc, en].filter(Boolean).join('｜');
   return (
@@ -224,6 +248,7 @@ function CandRow({ o, on, current, cat, onToggle }: { o: Option; on: boolean; cu
           <span class="oname">{o.hex && <span class="swatch" style={{ background: o.hex }} />}{o.ja}
             <span class={`dbadge${on ? '' : ' off'}`}>{on ? '抽選対象' : '除外中'}</span>
             {current && <span class="dbadge cur">現在</span>}
+            {isNew && <span class="dbadge new">新</span>}
           </span>
           {desc && <span class="odesc">{desc}</span>}
         </span>

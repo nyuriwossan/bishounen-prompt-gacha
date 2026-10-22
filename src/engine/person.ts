@@ -11,7 +11,9 @@ export const PERSON_FIELDS: FieldId[] = [
   'hairLength', 'hairStyle', 'hairColor', 'hairAccent', 'hairAccentColor',
   'eyeShape', 'eyeColor', 'face', 'skin',
   'marks', 'glasses', 'facialHair',
-  'kemonoSpecies', 'kemonoLevel'
+  'kemonoSpecies', 'kemonoLevel',
+  // 2026-10 増築：年齢の表れ・髪質・前髪は人物の外見を決める（視線・頭の向きは表情やポーズと同じく、衣装の細部・素材は衣装と同じく含めない）
+  'ageCue', 'hairTexture', 'fringe'
 ];
 /** 必要に応じて固定範囲に足せる項目（一括固定では掛けない。衣装3案ではもともと変えない） */
 export const PERSON_EXTRA_FIELDS: FieldId[] = ['world', 'occupation', 'name'];

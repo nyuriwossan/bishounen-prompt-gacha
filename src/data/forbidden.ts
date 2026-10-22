@@ -191,7 +191,9 @@ export const FORBIDDEN_EXPRESSIONS: Array<{ id: string; ja: string; en: string; 
   { id: 'delighted_captor', ja: '嬉しそうに見下ろす笑み', en: 'happy, smile, looking down at viewer', side: 'captor' }
 ];
 /** 拘束される側には出さない、喜んでいる・楽しそうな表情（2026-10-15 ユーザーの希望） */
-export const JOYFUL_EXPRESSIONS = new Set(['gentle_smile', 'closed_smile', 'tender', 'relieved', 'bright_smile', 'laughing', 'smile_eyes_closed', 'confident_smile', 'mischievous', 'teasing', 'smug', 'relish', 'delighted_captor']);
+export const JOYFUL_EXPRESSIONS = new Set(['gentle_smile', 'closed_smile', 'tender', 'relieved', 'bright_smile', 'laughing', 'smile_eyes_closed', 'confident_smile', 'mischievous', 'teasing', 'smug', 'relish', 'delighted_captor',
+  // 2026-10 増築の表情
+  'quiet_pride', 'fond_side_glance', 'suppressed_laugh']);
 /** 拘束する側（する側だけの立場）の表情：嬉しそう・愉悦を感じている笑みに限る（2026-10-15 ユーザーの希望） */
 export const PLEASURE_EXPRESSIONS = new Set(['smug', 'relish', 'delighted_captor', 'knowing_smile', 'provocative', 'smirk', 'confident_smile', 'teasing', 'mischievous', 'cold_smile', 'unhinged']);
 /** 立場ごとに出やすくする既存の表情 */

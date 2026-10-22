@@ -6,7 +6,7 @@
  *   ここで持つOFFは、モジュールを持たない項目（髪型・衣装など）だけ。
  * - 未設定（除外なし・OFFなし）なら、抽選・出力は従来と完全に同じ。
  */
-import { fieldDef, FIELDS } from '../data/fields';
+import { DATA_VERSION, fieldDef, FIELDS } from '../data/fields';
 import type { FieldId, Option } from '../types';
 
 export const PREFS_VERSION = 1;
@@ -90,4 +90,48 @@ export function hasPrefs(p: DrawPrefs = current): boolean {
 export function excludedCount(field: FieldId, p: DrawPrefs = current): number {
   const ids = new Set(p.excluded[field] ?? []);
   return fieldDef(field).options.filter((o) => ids.has(o.id)).length;
+}
+
+// ---------------- 辞書の更新（2026-10-22 の増築から）----------------
+/* 除外は「除外したIDだけ」を保存するので、辞書に足した候補は自動で抽選対象になる。
+ * 既存の除外は勝手に変えず、更新を知らせて、利用者が「今回追加した候補だけ除外／戻す」を選べるようにする。
+ * 新しい任意項目（年齢の表れ・視線など）は既定OFFのスイッチで管理するので、ここでは扱わない。 */
+
+/** 増築前からある項目（この版で項目ごと新しく足したものを除く） */
+const isOldField = (f: FieldId) => fieldDef(f).options.some((o) => !o.since);
+/** その版で足した候補のID（「なし」を除く。項目ごと新しい項目は対象外） */
+export function addedOptionIds(field: FieldId, version = DATA_VERSION): string[] {
+  if (!isOldField(field)) return [];
+  return fieldDef(field).options.filter((o) => o.since === version && o.id !== 'none').map((o) => o.id);
+}
+/** その版で候補を足した項目と件数 */
+export function addedFields(version = DATA_VERSION): Array<{ field: FieldId; count: number }> {
+  return FIELDS.map((d) => ({ field: d.id, count: addedOptionIds(d.id, version).length })).filter((x) => x.count > 0 && isRandomField(x.field));
+}
+/** 除外設定のある項目のうち、その版で候補が足された項目（新しい候補が、除外の設定に関係なく抽選対象になっている項目） */
+export function addedIntoExcluded(p: DrawPrefs, version = DATA_VERSION): Array<{ field: FieldId; count: number; allowed: number }> {
+  return addedFields(version).filter((x) => (p.excluded[x.field]?.length ?? 0) > 0).map((x) => {
+    const ex = new Set(p.excluded[x.field] ?? []);
+    return { ...x, allowed: addedOptionIds(x.field, version).filter((id) => !ex.has(id)).length };
+  }).filter((x) => x.allowed > 0);
+}
+/** その版で足した候補を、まとめて抽選から除外する（fields を省くと候補を足したすべての項目） */
+export function excludeAdded(p: DrawPrefs, fields?: FieldId[], version = DATA_VERSION): DrawPrefs {
+  const next = clonePrefs(p);
+  for (const { field } of addedFields(version)) {
+    if (fields && !fields.includes(field)) continue;
+    next.excluded[field] = [...new Set([...(next.excluded[field] ?? []), ...addedOptionIds(field, version)])];
+  }
+  return next;
+}
+/** その版で足した候補を、まとめて抽選対象に戻す */
+export function includeAdded(p: DrawPrefs, fields?: FieldId[], version = DATA_VERSION): DrawPrefs {
+  const next = clonePrefs(p);
+  for (const { field } of addedFields(version)) {
+    if (fields && !fields.includes(field)) continue;
+    const added = new Set(addedOptionIds(field, version));
+    const rest = (next.excluded[field] ?? []).filter((id) => !added.has(id));
+    if (rest.length) next.excluded[field] = rest; else delete next.excluded[field];
+  }
+  return next;
 }

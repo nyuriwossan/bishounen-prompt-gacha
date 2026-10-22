@@ -34,6 +34,12 @@ const QUALITY: Partial<Record<OutputTarget, string[]>> = {
   pixai: ['masterpiece', 'best quality'],
   novelai: ['best quality', 'very aesthetic', 'absurdres']
 };
+/** NovelAI V4.5 Full・V5 の標準の品質タグ（NovelAI 公式ドキュメント「Quality Tags」。NovelAI 側は末尾に付ける） */
+export const NOVELAI_V5_QUALITY = ['very aesthetic', 'masterpiece', 'no text'];
+/** 視線を指定したとき、視線を決めないポーズから外す視線の語（ポーズの所作は残す） */
+const POSE_GAZE_WORDS = /^(looking at viewer|looking away|looking afar|looking outside|eye contact)$/i;
+/** 表情に含まれる視線の語。視線を指定したときだけ外す（増築前の出力は変えない） */
+const EXPR_GAZE_WORDS = /^(looking (at viewer|away|down|up|afar|to the side)|eye contact)$/i;
 
 const LEN_WORD: Record<string, string> = { very_short: 'very short', short: 'short', medium: 'medium-length', long: 'long', very_long: 'very long' };
 const SHOT_NAT: Record<string, string> = {
@@ -46,7 +52,9 @@ const EYE_NAT: Record<string, string> = {
   sanpaku: 'sanpaku {c} eyes', jitome: 'half-lidded, unimpressed {c} eyes', tareme: 'gentle, downturned {c} eyes', calm: 'calm {c} eyes with a soft gaze', large_clear: 'large, clear {c} eyes',
   smiling_eyes: 'smiling {c} eyes', sparkling: 'sparkling {c} eyes', almond: 'almond-shaped {c} eyes', double: 'defined {c} eyes with double eyelids', monolid: 'cool {c} monolid eyes',
   hooded: 'hooded {c} eyes', deep_set_eyes: 'deep-set {c} eyes', long_lashes: '{c} eyes framed by long lashes', half_lidded: 'heavy-lidded {c} eyes', sleepy: 'sleepy {c} eyes',
-  melancholic: 'melancholic {c} eyes', tired: 'tired {c} eyes with faint dark circles', fierce: 'fierce {c} eyes', glowing: 'glowing {c} eyes', slit_pupils: '{c} eyes with slit pupils', ringed: 'mysterious ringed {c} eyes'
+  melancholic: 'melancholic {c} eyes', tired: 'tired {c} eyes with faint dark circles', fierce: 'fierce {c} eyes', glowing: 'glowing {c} eyes', slit_pupils: '{c} eyes with slit pupils', ringed: 'mysterious ringed {c} eyes',
+  // 2026-10 増築
+  wide_set_eyes: 'wide-set {c} eyes', close_set_eyes: 'close-set {c} eyes', aegyo_sal: '{c} eyes with soft fullness beneath them', lower_lashes: '{c} eyes with defined lower lashes'
 };
 const EXPR_NAT: Record<string, string> = {
   gentle_smile: 'a gentle smile', closed_smile: 'a closed-mouth smile', tender: 'a tender, loving gaze', relieved: 'a relieved smile', bright_smile: 'a bright, carefree grin',
@@ -55,11 +63,17 @@ const EXPR_NAT: Record<string, string> = {
   mischievous: 'a mischievous grin', cold_smile: 'a cold smile', contempt: 'a contemptuous smile as he looks down', expressionless: 'an expressionless face', aloof: 'an aloof expression',
   serious: 'a serious expression', stern: 'a stern, furrowed brow', intense_stare: 'an intense stare', determined: 'a determined expression', pensive: 'a pensive, brooding look',
   wistful: 'a wistful gaze into the distance', sad_smile: 'a sad smile', quiet_tears: 'quiet tears', languid: 'a languid, half-lidded expression', sleepy: 'a sleepy, tired look',
-  serene: 'a serene expression', eyes_closed_serene: 'closed eyes and a serene expression', surprised: 'a surprised look', annoyed: 'an annoyed frown', feral_grin: 'a feral grin', unhinged: 'an unhinged smile'
+  serene: 'a serene expression', eyes_closed_serene: 'closed eyes and a serene expression', surprised: 'a surprised look', annoyed: 'an annoyed frown', feral_grin: 'a feral grin', unhinged: 'an unhinged smile',
+  // 2026-10 増築
+  quiet_pride: 'a quietly proud smile', restrained_grief: 'restrained sorrow with pressed lips', appraising: 'an appraising look with slightly narrowed eyes', soft_concern: 'a gentle, concerned expression',
+  attentive: 'an attentive, listening expression', shy_downcast: 'a shy downward glance and a light blush', skeptical: 'a skeptical raised eyebrow', focused_squint: 'a focused expression with a slight squint',
+  fond_side_glance: 'a fond smile and a sideways glance', weary_tender: 'a tired but tender smile', suppressed_laugh: 'a restrained grin as he holds back a laugh'
 };
 const ACCENT_NOUN: Record<string, string> = { gradient: 'gradient toward the tips', tips: 'tips', streaks: 'streaks', inner: 'inner layer', two_tone: 'second tone', split: 'other half' };
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+/** 「なし」以外の値か（2026-10 増築の任意項目は、OFFのとき「なし」になる） */
+const isSetOpt = (o: Option | undefined) => !!o && o.id !== 'none';
 const colorWord = (opt: Option | undefined, suffix: RegExp) => (opt ? opt.en[0].replace(suffix, '') : '');
 const joinNat = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 function dedupe(tags: string[]): string[] {
@@ -220,13 +234,21 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   const subject = S.boyTag === '1boy' ? ['1boy', 'solo', 'male focus'] : ['solo', 'male focus'];
   const anchor = ['handsome', ...(young && !muscled && !mascPres ? ['bishounen'] : [])];
   const keep = eyeSafe(fb);
-  const face = dedupe([...en('age'), ...anchor, ...en('archetype'), ...en('presentation'), ...en('face'), ...eyeTags('eyeShape'), ...eyeTags('eyeColor'), ...en('skin'), ...en('marks'), ...en('glasses'), ...(M.facialHairEnabled ? en('facialHair') : []), ...en('expression')]).filter(keep);
-  const hair = dedupe([...en('hairLength'), ...en('hairStyle'), ...en('hairColor'), ...(accentOn ? [...en('hairAccentColor'), ...en('hairAccent')] : []), ...en('build'), ...kemonoTags]);
-  const outfitTags = dedupe([...outfit.tags, ...(v.culture && v.culture.id !== 'none' ? v.culture.en : []), ...fb.outfitTags]);
+  // 2026-10 増築の任意項目（OFF・「なし」のときは空。旧データの出力は変わらない）
+  const ageCueTags = en('ageCue');
+  // 視線を指定したら、表情に含まれる視線の語（looking away など）も外し、視線の指定だけを出す
+  const gazeOn = !!v.gaze && v.gaze.id !== 'none';
+  const exprTags = en('expression').filter((t) => !(gazeOn && EXPR_GAZE_WORDS.test(t)));
+  const face = dedupe([...en('age'), ...anchor, ...en('archetype'), ...en('presentation'), ...en('face'), ...ageCueTags, ...eyeTags('eyeShape'), ...eyeTags('eyeColor'), ...en('skin'), ...en('marks'), ...en('glasses'), ...(M.facialHairEnabled ? en('facialHair') : []), ...exprTags]).filter(keep);
+  const hair = dedupe([...en('hairLength'), ...en('hairStyle'), ...en('hairTexture'), ...en('fringe'), ...en('hairColor'), ...(accentOn ? [...en('hairAccentColor'), ...en('hairAccent')] : []), ...en('build'), ...kemonoTags]);
+  const outfitTags = dedupe([...outfit.tags, ...en('fabric'), ...en('outfitDetail'), ...(v.culture && v.culture.id !== 'none' ? v.culture.en : []), ...fb.outfitTags]);
   const forbidden = fb.tags;
   // 寝室でうつ伏せ・寝転ぶなら「ベッドの上」にする（床の語と混ざって上半身だけ床になるのを防ぐ）
   const onBed = v.pose?.posture === 'lying' && v.scene?.id === 'canopy_bedroom' && bgOn;
-  const pose = dedupe(M.poseEnabled ? [...en('pose').filter((t) => !(onBed && /floor/.test(t))), ...(onBed ? ['on bed'] : []), ...en('prop'), ...en('shot'), ...en('angle')] : [...en('shot')]).filter(keep);
+  // 視線を指定したら、視線を決めないポーズの looking at viewer などを外して、視線の指定だけを出す（視線のタグを2つ出さない）
+  const gazeSet = gazeOn;
+  const poseTags = en('pose').filter((t) => !(onBed && /floor/.test(t)) && !(gazeSet && !v.pose?.gazeFit && POSE_GAZE_WORDS.test(t)));
+  const pose = dedupe(M.poseEnabled ? [...poseTags, ...(onBed ? ['on bed'] : []), ...en('gaze'), ...en('headPose'), ...en('prop'), ...en('shot'), ...en('angle')] : [...en('shot')]).filter(keep);
   const scene = dedupe(bgOn ? [...en('scene'), ...(simpleBg ? [] : en('time')), ...en('light')] : []);
   const meta = dedupe([...(v.aura?.en.slice(0, 1) ?? []), ...(v.world?.en ?? []), ...(v.artStyle?.en ?? [])]);
   const sections: PromptSection[] = [
@@ -243,6 +265,10 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   const warnings = checkFreeTags(free, state, [...subject, ...face, ...hair, ...outfitTags, ...forbidden, ...pose, ...scene, ...meta]);
   const lora = S.loraText.trim() ? [S.loraText.trim()] : [];
   const quality = S.quality ? QUALITY[target] ?? [] : [];
+  // NovelAI V4.5・V5：品質タグは公式と同じく末尾に付ける（既定の V4 は従来どおり先頭）
+  const naiV5 = target === 'novelai' && S.novelaiProfile === 'v5';
+  // PixAI の Tsubaki などの DiT 系：自然な英文で書く（タグ形式の強調・品質タグは使わない）
+  const pixaiDit = target === 'pixai' && S.pixaiProfile === 'dit';
   const emph = (t: string) => {
     if (!S.emphasis) return t;
     if (target === 'pixai') return `(${t}:1.15)`;
@@ -251,8 +277,9 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
   };
 
   let positive = '', compact = '';
-  if (target === 'pixai' || target === 'novelai' || target === 'genericTags') {
-    const q = target === 'genericTags' ? [] : quality;
+  if ((target === 'pixai' && !pixaiDit) || target === 'novelai' || target === 'genericTags') {
+    const q = target === 'genericTags' || naiV5 ? [] : quality;
+    const qEnd = naiV5 && S.quality ? NOVELAI_V5_QUALITY : [];
     // 禁断演出のタグは人物の直後（先頭寄り）に置く。後ろにあると、長いプロンプトで拘束具や触手が描かれにくい（4回目の実機確認）
     // 禁断の調合がONのときは、ポーズ・構図 → 禁断演出 → 人物 の順にする（先頭寄りのタグほど効きやすい。4〜5回目の実機確認）
     // 触手で縛るときだけは禁断演出を衣装の後ろに置き、妖艶さを強める語を外す（先頭に置くとアプリで弾かれた）
@@ -260,7 +287,7 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
     const core = fb.on
       ? [...q, ...lora, ...subject, ...pose, ...(fb.front ? forbidden : []), ...face, ...hair, ...outfitTags, ...(fb.front ? [] : forbidden), ...scene, ...meta]
       : [...q, ...lora, ...subject, ...face, ...hair, ...outfitTags, ...forbidden, ...pose, ...scene, ...meta];
-    const all = dedupe([...core.filter(calm), ...free]);
+    const all = dedupe([...core.filter(calm), ...free, ...qEnd]);
     const emphSet = new Set(['handsome', v.archetype?.en[0], forbidden.find((t) => t !== 'restrained')].filter(Boolean) as string[]);
     // 拘束具の要のタグは、強調の設定にかかわらず重みを付ける（PixAI は (tag:1.2)、NovelAI は {tag}）
     const keySet = new Set(fb.key);
@@ -269,9 +296,9 @@ export function buildPrompt(state: ForgeState, target: OutputTarget = state.sett
     const short = dedupe([...q, ...lora, ...subject, ...forbidden.slice(0, 3), ...en('age').slice(0, 1), 'handsome', ...(v.archetype?.en.slice(0, 1) ?? []),
       ...(mascPres ? [] : en('presentation').slice(0, 1)), ...en('hairLength'), ...en('hairStyle').slice(0, 1), ...en('hairColor'), ...en('eyeColor'),
       ...kemonoTags.slice(0, 2), ...outfit.tags.slice(0, 2), ...en('expression').slice(0, 1), ...en('shot').slice(0, 1),
-      ...(bgOn ? en('scene').slice(0, 1) : []), ...(v.artStyle?.en ?? []), ...free]);
+      ...en('gaze').slice(0, 1), ...(bgOn ? en('scene').slice(0, 1) : []), ...(v.artStyle?.en ?? []), ...free, ...qEnd]);
     compact = short.filter((t) => !(fb.calm && SUGGESTIVE.test(t))).map(weigh).join(', ');
-  } else if (target === 'naturalEnglish') {
+  } else if (target === 'naturalEnglish' || pixaiDit) {
     const sentences = naturalSentences(state, v, outfit.nat, kemonoTags, shotLevel);
     positive = [lora.join(' '), sentences.join(' '), free.length ? `Additional details: ${free.join(', ')}.` : ''].filter(Boolean).join(' ');
     compact = [lora.join(' '), sentences.slice(0, 3).join(' ')].filter(Boolean).join(' ');
@@ -305,7 +332,9 @@ function naturalSentences(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   const archNat = eyeSafeNat(fbEye, v.archetype?.nat ?? '') || (v.archetype ? `with ${v.archetype.en.filter(eyeSafe(fbEye)).join(', ') || 'refined features'}` : 'with refined features');
   out.push(`${cap(age)}, strikingly handsome, ${archNat}.`);
   const pres = v.presentation?.nat?.replace(/^with\s+/, '') ?? '';
-  const faceBits = [pres, ...(v.face?.en ?? []).filter(eyeSafe(fbEye))].filter(Boolean);
+  // 年齢の表れ（2026-10 増築。OFF・「なし」なら空）。目元の表れは目隠し中は外す
+  const ageCueNat = isSetOpt(v.ageCue) ? [eyeSafeNat(fbEye, v.ageCue!.nat ?? v.ageCue!.en.join(', '))].filter(Boolean) : [];
+  const faceBits = [pres, ...(v.face?.en ?? []).filter(eyeSafe(fbEye)), ...ageCueNat].filter(Boolean);
   if (faceBits.length) out.push(`He has ${joinNat(faceBits)}.`);
   const eyeC = colorWord(v.eyeColor, / eyes$/);
   const eyeTpl = v.eyeShape ? EYE_NAT[v.eyeShape.id] ?? `{c} ${v.eyeShape.en.join(', ')}` : '{c} eyes';
@@ -332,8 +361,16 @@ function naturalSentences(state: ForgeState, v: ReturnType<typeof valuesOf>, out
     const sentence = hairBit && buildBit ? `${hairBit}, and he has ${buildBit}.` : hairBit ? `${hairBit}.` : buildBit ? `He has ${buildBit}.` : '';
     if (sentence) out.push(sentence.replace(/\s+/g, ' '));
   }
+  // 髪質・前髪（2026-10 増築）
+  const tex = isSetOpt(v.hairTexture) ? v.hairTexture!.nat ?? v.hairTexture!.en.join(', ') : '';
+  const fringe = isSetOpt(v.fringe) ? v.fringe!.nat ?? v.fringe!.en.join(', ') : '';
+  if (tex) out.push(`His hair is ${tex}${fringe ? `, ${fringe}` : ''}.`);
+  else if (fringe) out.push(fringe.startsWith('with ') ? `His hair has ${fringe.slice(5)}.` : `His hair is ${fringe}.`);
   if (M.kemonoEnabled && kemonoTags.length) out.push(`He is a kemonomimi man with ${joinNat(kemonoTags)}, while keeping a handsome human face.`);
-  if (outfitNat) out.push(`He wears ${outfitNat}${v.culture && v.culture.id !== 'none' ? `, adorned with ${v.culture.nat}` : ''}.`);
+  // 素材・衣装の細部（2026-10 増築）
+  const fabricNat = isSetOpt(v.fabric) ? `, made of ${v.fabric!.nat ?? v.fabric!.en.join(', ')}` : '';
+  const detailNat = isSetOpt(v.outfitDetail) ? `, with ${v.outfitDetail!.nat ?? v.outfitDetail!.en.join(', ')}` : '';
+  if (outfitNat) out.push(`He wears ${outfitNat}${fabricNat}${detailNat}${v.culture && v.culture.id !== 'none' ? `, adorned with ${v.culture.nat}` : ''}.`);
   if (fb.clothesNat) out.push(fb.clothesNat);
   if (fb.restraintNat) out.push(fb.restraintNat);
   if (fb.blindNat) out.push(fb.blindNat);
@@ -341,9 +378,14 @@ function naturalSentences(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   const expr = eyeSafeNat(fb, exprRaw) || (v.expression ? v.expression.en.filter(eyeSafe(fb)).join(', ') : '');
   if (M.poseEnabled && v.pose) {
     const prop = v.prop && v.prop.id !== 'none' ? `, ${v.prop.en.join(', ')}` : '';
-    const poseEn = v.pose.en.filter(eyeSafe(fb));
+    // 視線を指定したら、視線を決めないポーズの looking at viewer などを外す（視線は次の文で1回だけ）
+    const gazeSet = isSetOpt(v.gaze);
+    const poseEn = v.pose.en.filter(eyeSafe(fb)).filter((t) => !(gazeSet && !v.pose!.gazeFit && POSE_GAZE_WORDS.test(t)));
     if (isPrefOff('expression')) out.push(`Pose: ${poseEn.join(', ')}${prop}.`);
     else out.push(`He wears ${expr || 'a calm expression'}; pose: ${poseEn.join(', ')}${prop}.`);
+    // 視線・頭の向き（2026-10 増築）
+    const look = [gazeSet ? v.gaze!.nat ?? v.gaze!.en.join(', ') : '', isSetOpt(v.headPose) ? v.headPose!.nat ?? v.headPose!.en.join(', ') : ''].filter(Boolean);
+    if (look.length) out.push(`He is ${look.join(', ')}.`);
   } else if (expr) out.push(`He has ${expr}.`);
   const shotNat = SHOT_NAT[v.shot?.id ?? 'upper_body'] ?? 'A portrait';
   const angle = M.poseEnabled && v.angle && ANGLE_NAT[v.angle.id] ? `, ${ANGLE_NAT[v.angle.id]}` : '';
@@ -374,8 +416,11 @@ function japaneseSettings(state: ForgeState, v: ReturnType<typeof valuesOf>, out
   if (M.marksEnabled) rows.push(['特徴', j('marks')]);
   if (M.glassesEnabled) rows.push(['眼鏡', j('glasses')]);
   if (M.facialHairEnabled) rows.push(['ひげ', j('facialHair')]);
-  rows.push(['衣装', outfitJa || '—'], ['表情', j('expression')]);
-  if (M.poseEnabled) rows.push(['ポーズ', j('pose')], ...(isActive(state, 'prop') ? [['持ち物', j('prop')] as [string, string]] : []), ['構図', `${j('shot')}・${j('angle')}`]);
+  // 2026-10 増築の任意項目は、ONのときだけ行を出す（旧データの日本語設定は変わらない）
+  const extra = (f: FieldId, label: string): Array<[string, string]> => (isActive(state, f) ? [[label, j(f)]] : []);
+  rows.push(...extra('ageCue', '年齢の表れ'), ...extra('hairTexture', '髪質'), ...extra('fringe', '前髪・分け目'));
+  rows.push(['衣装', outfitJa || '—'], ...extra('outfitDetail', '衣装の細部'), ...extra('fabric', '素材'), ['表情', j('expression')]);
+  if (M.poseEnabled) rows.push(['ポーズ', j('pose')], ...extra('gaze', '視線'), ...extra('headPose', '頭の向き'), ...(isActive(state, 'prop') ? [['持ち物', j('prop')] as [string, string]] : []), ['構図', `${j('shot')}・${j('angle')}`]);
   else rows.push(['構図', j('shot')]);
   if (M.backgroundEnabled) rows.push(['背景', j('scene')], ['時間・天候', v.scene?.place === 'simple' ? `${j('time')}（シンプル背景のため出力なし）` : j('time')], ['光', j('light')]);
   if (M.kemonoEnabled) rows.push(['獣人', `${j('kemonoSpecies')}・${j('kemonoLevel')}`]);
@@ -390,6 +435,13 @@ function japaneseSettings(state: ForgeState, v: ReturnType<typeof valuesOf>, out
 }
 
 function japaneseProse(state: ForgeState, v: ReturnType<typeof valuesOf>, outfitJa: string): string {
+  // 2026-10 増築の任意項目は、値があるときだけ一文を足す（旧データの文は変わらない）
+  const bits = ([['ageCue', '年齢の表れ'], ['hairTexture', '髪質'], ['fringe', '前髪'], ['gaze', '視線'], ['headPose', '頭の向き'], ['outfitDetail', '衣装の細部'], ['fabric', '素材']] as Array<[FieldId, string]>)
+    .filter(([f]) => isSetOpt(v[f])).map(([f, k]) => `${k}は「${v[f]!.ja}」`);
+  const base = japaneseProseBase(state, v, outfitJa);
+  return bits.length ? `${base}細部：${bits.join('、')}。` : base;
+}
+function japaneseProseBase(state: ForgeState, v: ReturnType<typeof valuesOf>, outfitJa: string): string {
   const M = state.optionalModules;
   const age = v.age?.ja.split('｜')[1] ?? '青年';
   const pres = v.presentation ? `${v.presentation.ja.replace('な美形', '')}な` : '';
@@ -445,7 +497,20 @@ export function checkFreeTags(free: string[], state: ForgeState, existing: strin
   const lenRe = len ? LENGTH_WORDS[len] : undefined;
   const lenClash = lenRe ? free.filter((t) => lenRe.test(t)) : [];
   if (lenClash.length) out.push(`髪の長さ（${optionOf('hairLength', len)?.ja}）と相反するタグ：${lenClash.join(', ')}`);
-  if (free.some((t) => /\b(closed eyes|eyes closed)\b/i.test(t)) && optionOf('pose', state.fields.pose.id)?.gazeViewer) out.push('閉じた目のタグが、こちらを見るポーズと相反します');
+  // ---- 意味の矛盾の確認（2026-10 増築。自由タグは消さず、警告だけ出す）----
+  const v = valuesOf(state);
+  const gazeSet = isSetOpt(v.gaze);
+  const viewerGaze = gazeSet ? !!v.gaze!.gazeViewer || (!!v.pose?.gazeFit && !!v.pose?.gazeViewer) : !!optionOf('pose', state.fields.pose.id)?.gazeViewer;
+  if (free.some((t) => /\b(closed eyes|eyes closed)\b/i.test(t)) && (viewerGaze || (gazeSet && !v.gaze!.eyesClosed))) out.push(gazeSet ? `閉じた目のタグが、視線「${v.gaze!.ja}」と相反します` : '閉じた目のタグが、こちらを見るポーズと相反します');
+  const gazeFree = free.filter((t) => /\b(looking (at viewer|away|to the side|up|down|afar|back)|looking at (the )?viewer|eye contact|downcast eyes)\b/i.test(t));
+  if (gazeSet && gazeFree.some((t) => !v.gaze!.en.some((x) => x.toLowerCase() === t.toLowerCase()))) out.push(`視線のタグ（${gazeFree.join(', ')}）が、視線の項目「${v.gaze!.ja}」と別に入ります。視線が2つになるので、どちらかにまとめてください`);
+  if (free.some((t) => /\bclean[- ]shaven\b/i.test(t)) && state.optionalModules.facialHairEnabled && isSetOpt(v.facialHair)) out.push(`ひげのないタグ（clean-shaven）が、ひげ「${v.facialHair!.ja}」と相反します`);
+  if (free.some((t) => /\b(bald|shaved head)\b/i.test(t)) && state.fields.hairLength.id && state.fields.hairLength.id !== 'very_short') out.push(`坊主・はげのタグが、髪の長さ（${optionOf('hairLength', state.fields.hairLength.id)?.ja}）と相反します`);
+  const skinText = (v.skin?.en ?? []).join(' ').toLowerCase();
+  const LIGHT_SKIN = /\b(pale|fair|white|porcelain|light) skin\b/i, DARK_SKIN = /\b(dark|brown|deep|tan|tanned) skin\b|\bdark-skinned\b/i;
+  if ((free.some((t) => LIGHT_SKIN.test(t)) && DARK_SKIN.test(skinText)) || (free.some((t) => DARK_SKIN.test(t)) && LIGHT_SKIN.test(skinText))) out.push(`肌の色のタグが、肌「${v.skin!.ja}」と相反します`);
+  if (free.some((t) => /\bbarefoot\b/i.test(t)) && (v.shot?.level ?? 2) >= 4 && /\b(shoes|boots|sandals|loafers|sneakers|heels|geta|zori|slippers)\b/i.test(v.outfit?.lower ?? '')) out.push(`裸足のタグが、衣装「${v.outfit!.ja}」の履物と相反します`);
+  if (free.some((t) => /\b(old man|elderly|wrinkled)\b/i.test(t)) && ['a18_24', 'a25_34'].includes(state.fields.age.id ?? '')) out.push(`年配を示すタグが、年齢層（${optionOf('age', state.fields.age.id)?.ja.split('｜')[0]}）と相反します`);
   return out;
 }
 

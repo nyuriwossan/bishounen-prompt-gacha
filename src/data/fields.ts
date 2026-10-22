@@ -1,20 +1,21 @@
 /* 項目レジストリ：UIのカード・抽選順・出力の起点 */
 import type { FieldDef, FieldId, Option } from '../types';
-import { AGE, BUILD, BUILD_CATS, EYE_COLOR, EYE_COLOR_CATS, EYE_SHAPE, EYE_SHAPE_CATS, FACE, FACE_CATS, FACIAL_HAIR, GLASSES, HAIR_ACCENT, HAIR_COLOR, HAIR_COLOR_CATS, HAIR_LENGTH, HAIR_STYLE, HAIR_STYLE_CATS, MARKS, PRESENTATION, SKIN } from './appearance';
+import { AGE, AGE_CUE, AGE_CUE_CATS, BUILD, BUILD_CATS, EYE_COLOR, EYE_COLOR_CATS, EYE_SHAPE, EYE_SHAPE_CATS, FACE, FACE_CATS, FACIAL_HAIR, FRINGE, GLASSES, HAIR_ACCENT, HAIR_COLOR, HAIR_COLOR_CATS, HAIR_LENGTH, HAIR_STYLE, HAIR_STYLE_CATS, HAIR_TEXTURE, HAIR_TEXTURE_CATS, MARKS, PRESENTATION, SKIN } from './appearance';
 import { ARCHETYPE, ARCHETYPE_CATS } from './archetypes';
 import { COLOR, COLOR_CATS } from './colors';
 import { KEMONO_CATS, KEMONO_LEVEL, KEMONO_SPECIES } from './kemono';
 import { NAME, NAME_CATS } from './names';
-import { OUTFIT, OUTFIT_CATS } from './outfits';
-import { ANGLE, POSE, POSE_CATS, PROP, SHOT } from './pose';
+import { FABRIC, OUTFIT, OUTFIT_CATS, OUTFIT_DETAIL, OUTFIT_DETAIL_CATS } from './outfits';
+import { ANGLE, GAZE, GAZE_CATS, HEAD_POSE, POSE, POSE_CATS, PROP, SHOT } from './pose';
 import { AURA, EXPRESSION, EXPRESSION_CATS, OCCUPATION, OCCUPATION_CATS } from './roles';
 import { LIGHT, SCENE, SCENE_CATS, TIME } from './scene';
 import { ART_STYLE } from './style';
 import { CULTURE, CULTURE_CATS, WORLD, WORLD_CATS } from './worlds';
 import { ANCHOR, BIND_POS, BLINDFOLD, DISARRAY, RESTRAINT, ROLE, TIGHTNESS, WEAR, WEAR_CATS } from './forbidden';
 
-/** 辞書のバージョン。候補IDを削除・改名したら上げ、storage の migration に対応を書く。 */
-export const DATA_VERSION = '2026.10.12';
+/** 辞書のバージョン。候補IDを削除・改名したら上げ、storage の migration に対応を書く。
+ * 候補を足しただけでも同じシードの結果が変わるので上げる（2026.10.13：大規模増築。既存IDの削除・改名はなし） */
+export const DATA_VERSION = '2026.10.13';
 
 export const FIELDS: FieldDef[] = [
   // ---- 基本パネル ----
@@ -39,16 +40,25 @@ export const FIELDS: FieldDef[] = [
   { id: 'facialHair', ja: 'ひげ', icon: '﹌', group: 'face', module: 'facialHair', options: FACIAL_HAIR },
   { id: 'hairAccent', ja: '髪の配色', icon: '◑', group: 'face', module: 'hairAccent', options: HAIR_ACCENT },
   { id: 'hairAccentColor', ja: '髪の差し色', icon: '◒', group: 'face', module: 'hairAccent', options: HAIR_COLOR, categories: HAIR_COLOR_CATS },
+  { id: 'ageCue', ja: '年齢の表れ', icon: '⌇', group: 'face', module: 'ageCue', options: AGE_CUE, categories: AGE_CUE_CATS, hint: '目尻の皺・こめかみの白髪など、年齢を感じさせる細部を1つだけ。年齢層だけで皺や白髪を強制しません。18〜24歳では付けません。' },
+  // ---- 任意：髪の細部（2026-10 増築）----
+  { id: 'hairTexture', ja: '髪質', icon: '≈', group: 'hair', module: 'hairTexture', options: HAIR_TEXTURE, categories: HAIR_TEXTURE_CATS, hint: '髪型・長さはそのまま、直毛・ウェーブ・巻き毛・コイルなどの質感を足します。髪型と系統が違う髪質は出ません。' },
+  { id: 'fringe', ja: '前髪・分け目', short: '前髪', icon: '⌒', group: 'hair', module: 'fringe', options: FRINGE, hint: '前髪まで決まっている髪型（七三・センターパート・オールバックなど）のときは「指定しない」になります。' },
   // ---- 詳細：役割・雰囲気・色 ----
   { id: 'occupation', ja: '職業・立場', short: '職業', icon: '♔', group: 'role', options: OCCUPATION, categories: OCCUPATION_CATS, hint: '画像には直接描きにくいため、衣装と持ち物の傾向に使います。' },
   { id: 'aura', ja: '雰囲気', icon: '✧', group: 'role', options: AURA },
   { id: 'mainColor', ja: '衣装メインカラー', short: 'メイン色', icon: '■', group: 'role', options: COLOR, categories: COLOR_CATS },
   { id: 'accentColor', ja: '差し色', icon: '▪', group: 'role', options: COLOR, categories: COLOR_CATS },
+  // ---- 任意：衣装の細部・素材（2026-10 増築）----
+  { id: 'outfitDetail', ja: '衣装の細部', short: '細部', icon: '✣', group: 'wear', module: 'outfitDetail', options: OUTFIT_DETAIL, categories: OUTFIT_DETAIL_CATS, hint: 'ポケットチーフ・袖口・装身具など。衣装にその部位がないとき・画角で見えないときは出ません。' },
+  { id: 'fabric', ja: '素材', icon: '▦', group: 'wear', module: 'fabric', options: FABRIC, hint: '同じ衣装を質感で見分けます。レザージャケットなど素材が決まっている服は、その素材だけ。鎧・コスプレ衣装には付けません。' },
   // ---- 詳細：ポーズ・構図 ----
   { id: 'shot', ja: '構図（画角）', short: '構図', icon: '▣', group: 'pose', options: SHOT },
   { id: 'angle', ja: 'アングル', icon: '⟋', group: 'pose', module: 'pose', options: ANGLE },
   { id: 'pose', ja: 'ポーズ', icon: '☍', group: 'pose', module: 'pose', options: POSE, categories: POSE_CATS },
   { id: 'prop', ja: '持ち物', icon: '⚚', group: 'pose', module: 'prop', options: PROP },
+  { id: 'gaze', ja: '視線', icon: '◔', group: 'pose', module: 'gaze', options: GAZE, categories: GAZE_CATS, hint: 'ポーズと別に視線を決めます。選ぶとポーズの「こちらを見る」などを置き換え、視線のタグを2つ出しません。目を閉じた表情・目隠しとは組みません。' },
+  { id: 'headPose', ja: '頭の向き', short: '頭', icon: '◑', group: 'pose', module: 'headPose', options: HEAD_POSE, hint: '人物の頭・首の向き。カメラの「アングル」とは別です。横顔や見上げるポーズでは、合う向きだけが出ます。' },
   // ---- 詳細：背景・光 ----
   { id: 'scene', ja: '背景', icon: '⛰', group: 'scene', module: 'background', options: SCENE, categories: SCENE_CATS },
   { id: 'time', ja: '時間帯・天候', short: '時間', icon: '☾', group: 'scene', module: 'background', options: TIME },
@@ -75,13 +85,19 @@ export const FIELDS: FieldDef[] = [
 export const DRAW_ORDER: FieldId[] = [
   'world', 'culture', 'archetype', 'age', 'presentation', 'build', 'occupation', 'aura',
   'face', 'eyeShape', 'eyeColor', 'skin', 'marks', 'glasses', 'facialHair',
-  'hairLength', 'hairStyle', 'hairColor', 'hairAccent', 'hairAccentColor',
+  'hairLength', 'hairStyle', 'hairTexture', 'fringe', 'hairColor', 'hairAccent', 'hairAccentColor',
+  // 年齢の表れは髪色（白髪）を見てから引く
+  'ageCue',
   'outfit', 'mainColor', 'accentColor',
   'role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray',
   'expression', 'shot', 'angle', 'pose', 'prop',
+  // 視線・頭の向きはポーズ・目隠しを見てから引く
+  'gaze', 'headPose',
   'scene', 'time', 'light',
   // 衣装の状態は天候（雨・雪）を見てから引く
   'wear1', 'wear2',
+  // 衣装の細部・素材は、衣装・画角・禁断演出（着崩し・衣装の状態）が決まってから引く
+  'outfitDetail', 'fabric',
   'kemonoSpecies', 'kemonoLevel', 'artStyle', 'name'
 ];
 
@@ -103,14 +119,19 @@ export function optionOf(field: FieldId, id: string | null | undefined): Option 
 /** 既定値（初回の抽選前の仮値。必ずすぐ抽選で上書きされる） */
 export const DEFAULT_IDS: Partial<Record<FieldId, string>> = {
   role: 'none', restraint: 'none', bindPos: 'none', anchor: 'none', tightness: 'loose', blindfold: 'none', disarray: 'none', wear1: 'none', wear2: 'none',
-  artStyle: 'none', hairAccent: 'none', facialHair: 'none', glasses: 'none', marks: 'none', prop: 'none', culture: 'none', occupation: 'none', skin: 'unspecified', angle: 'eye_level'
+  artStyle: 'none', hairAccent: 'none', facialHair: 'none', glasses: 'none', marks: 'none', prop: 'none', culture: 'none', occupation: 'none', skin: 'unspecified', angle: 'eye_level',
+  // 2026-10 増築の任意項目。旧データでは「なし」（開いても見た目が変わらない）
+  ageCue: 'none', hairTexture: 'none', fringe: 'none', gaze: 'none', headPose: 'none', outfitDetail: 'none', fabric: 'none'
 };
 
 /** 関連項目（競合の解消で「まとめて引き直す」候補） */
 export const RELATED: Partial<Record<FieldId, FieldId[]>> = {
-  hairLength: ['hairStyle'], hairStyle: ['hairLength'],
-  pose: ['shot', 'prop', 'expression', 'glasses', 'outfit'], shot: ['pose', 'bindPos', 'anchor'], prop: ['pose', 'bindPos'],
-  expression: ['pose'], glasses: ['pose', 'blindfold'], outfit: ['culture', 'pose'], culture: ['outfit'],
+  hairLength: ['hairStyle', 'hairTexture', 'fringe'], hairStyle: ['hairLength', 'hairTexture', 'fringe'],
+  pose: ['shot', 'prop', 'expression', 'glasses', 'outfit', 'gaze', 'headPose'], shot: ['pose', 'bindPos', 'anchor', 'outfitDetail'], prop: ['pose', 'bindPos', 'gaze'],
+  expression: ['pose', 'gaze'], glasses: ['pose', 'blindfold'], outfit: ['culture', 'pose', 'outfitDetail', 'fabric'], culture: ['outfit'],
+  // 2026-10 増築の任意項目
+  ageCue: ['age', 'hairColor'], hairTexture: ['hairStyle', 'hairLength'], fringe: ['hairStyle', 'hairLength'],
+  gaze: ['pose', 'expression', 'headPose'], headPose: ['pose', 'gaze'], outfitDetail: ['outfit', 'shot'], fabric: ['outfit'],
   time: ['scene', 'light'], scene: ['time'], light: ['time'],
   mainColor: ['accentColor'], accentColor: ['mainColor'],
   hairColor: ['hairAccentColor'], hairAccentColor: ['hairColor'],

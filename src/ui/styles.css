@@ -288,6 +288,8 @@ html:has(dialog.sheet[open]), html:has(dialog.sheet[open]) body { overflow: hidd
 .prefs-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 8px 10px 8px 14px; border: 1px solid var(--line-strong); border-radius: var(--radius-m); background: rgba(205, 178, 126, 0.07); font-size: 13px; }
 .prefs-bar > span { min-width: 0; overflow-wrap: anywhere; }
 .prefs-bar b { color: var(--gold-hi); }
+.prefs-bar.dict-update { margin-bottom: 8px; border-color: var(--gold); }
+.prefs-bar.dict-update .btns { display: flex; gap: 6px; flex-wrap: wrap; }
 .prefs-bar.quiet { border-style: dashed; border-color: var(--line); background: transparent; color: var(--dim); }
 .fnote { color: var(--warn); font-size: 12px; line-height: 1.4; }
 .warn-line { display: block; margin-top: 4px; color: var(--warn); }
@@ -324,6 +326,9 @@ p.dwarn { margin: 6px 0 0; }
 .dbadge { font-family: var(--sans); font-size: 11px; padding: 0 6px; border-radius: 4px; border: 1px solid var(--gold); color: var(--gold-hi); line-height: 1.6; }
 .dbadge.off { border: 1px dashed var(--line-strong); color: var(--dim); }
 .dbadge.cur { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+.dbadge.new { margin-left: 6px; border-color: var(--ok); color: var(--ok); }
+.dname .dbadge.new { font-weight: 400; vertical-align: 1px; }
+.dict-new .btns { margin-top: 8px; }
 .opt .excl { color: var(--dim); font-size: 12px; }
 
 /* ---------- 人物の固定・衣装3案 ---------- */
@@ -359,3 +364,7 @@ p.dwarn { margin: 6px 0 0; }
 .hsum { color: var(--dim); font-size: 12.5px; margin: 0 0 8px; overflow-wrap: anywhere; }
 .legacy { margin-top: 16px; }
 .wardrobe .sheet-foot .btn { flex: 1 1 130px; }
+
+/* プロンプト画面：モデルの系統・版の切り替え（iPhone の幅でも1行に収まる2択） */
+.seg.profile-seg { margin-top: 6px; }
+.seg.profile-seg button { min-height: 40px; font-size: 13px; }

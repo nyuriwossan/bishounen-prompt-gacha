@@ -5,7 +5,7 @@
  */
 import type { Category, Option } from '../types';
 import { FORBIDDEN_EXPRESSIONS } from './forbidden';
-import { o } from './helpers';
+import { added, o } from './helpers';
 
 const job = (id: string, ja: string, en: string, cat: string, worlds: string[], outfitPrefs: string[], extra: Partial<Option> = {}) =>
   o(id, ja, en, { cat, worlds, outfitPrefs, ...extra });
@@ -116,12 +116,33 @@ export const OCCUPATION: Option[] = [
   job('pilot', 'パイロット', 'pilot', 'travel', ['military', 'sf', 'steampunk', 'modern'], ['pilot_jacket', 'pilot_suit'], { tags: ['travel'] }),
   job('starship_captain', '宇宙艦長', 'starship captain', 'travel', ['space', 'sf'], ['space_captain'], { ageMin: 25, tags: ['noble'] }),
   job('wanderer', '終末の放浪者', 'wanderer', 'travel', ['wasteland'], ['scavenger'], { tags: ['wild'], w: 0.6 }),
-  job('android', '人型アンドロイド', 'android', 'travel', ['sf'], ['android_bodysuit'], { tags: ['inhuman'], w: 0.5 })
+  job('android', '人型アンドロイド', 'android', 'travel', ['sf'], ['android_bodysuit'], { tags: ['inhuman'], w: 0.5 }),
+  // ---- 2026-10 増築：働く成人男性（職人・生活職・公共職）。画像に職業名は出さず、衣装・持ち物の傾向に使う ----
+  ...[
+    job('architect', '建築家', 'architect', 'intellect', ['modern', 'business', 'urban', 'renaissance_court'], ['minimal_blazer', 'turtleneck_jacket', 'jacket_tee', '#smart'], { ageMin: 25, tags: ['intellect', 'architect', 'work'] }),
+    job('curator', '学芸員', 'museum curator', 'intellect', ['modern', 'belle_epoque', 'art_nouveau', 'southeast_asian_port'], ['minimal_blazer', 'turtleneck_jacket', 'tweed_sports_coat', 'cardigan'], { tags: ['intellect', 'artist'] }),
+    job('editor', '編集者', 'book editor', 'intellect', ['modern', 'business', 'taisho'], ['cardigan', 'knit_polo', 'turtleneck_jacket', 'crewneck_knit'], { tags: ['intellect'] }),
+    job('translator', '翻訳家', 'literary translator', 'intellect', ['modern', 'retro'], ['cardigan', 'tweed_sports_coat', 'crewneck_knit'], { tags: ['intellect', 'soft'], w: 0.7 }),
+    job('journalist', '記者', 'journalist', 'modern', ['modern', 'noir', 'urban', 'belle_epoque', 'dieselpunk'], ['utility_vest', 'wool_overcoat_scarf', 'trench_suit', 'jacket_tee'], { tags: ['intellect', 'travel'] }),
+    job('diplomat', '外交官', 'diplomat', 'intellect', ['business', 'modern', 'south_asian_metropolis', 'space_opera', 'renaissance_court', 'european_court'], ['bandhgala', 'orbital_diplomat', 'double_breasted', 'three_piece', '#formal'], { ageMin: 25, tags: ['noble', 'intellect'] }),
+    job('botanist', '植物学者', 'botanist', 'intellect', ['modern', 'solarpunk', 'victorian', 'fantasy'], ['solarpunk_utility', 'utility_vest', 'linen_shirt', 'lab_coat'], { tags: ['intellect', 'nature'] }),
+    job('carpenter', '木工職人', 'carpenter', 'craft', ['modern', 'fantasy', 'japan', 'western'], ['chore_workwear', 'canvas_apron', '#work'], { tags: ['craft', 'work'] }),
+    job('baker', 'パン職人', 'artisan baker', 'craft', ['modern', 'western', 'fantasy'], ['canvas_apron', 'chef', 'barista'], { tags: ['craft', 'service', 'warm'] }),
+    job('barber', '理髪師', 'barber', 'craft', ['modern', 'retro', 'victorian', 'belle_epoque'], ['waistcoat_shirt', 'white_shirt', 'tailor_vest'], { tags: ['craft', 'service'] }),
+    job('jeweler', '宝飾職人', 'jeweler', 'craft', ['modern', 'victorian', 'fantasy', 'desert', 'art_nouveau'], ['canvas_apron', 'waistcoat_shirt', 'tailor_vest'], { tags: ['craft', 'artist', 'elegant'], w: 0.7 }),
+    job('potter', '陶芸家', 'potter', 'craft', ['modern', 'japan', 'fantasy'], ['canvas_apron', 'chore_workwear', 'kimono_haori', 'linen_shirt'], { tags: ['craft', 'artist'], w: 0.7 }),
+    job('mechanic', '整備士', 'mechanic', 'craft', ['modern', 'sf', 'dieselpunk', 'steampunk', 'military'], ['chore_workwear', 'utility_vest', 'steampunk_engineer', '#work'], { tags: ['craft', 'tech', 'work'] }),
+    job('fisherman', '漁師', 'fisherman', 'field', ['modern', 'fantasy', 'western', 'southeast_asian_port', 'east_african_coast'], ['chore_workwear', 'linen_shirt', 'knit_coat', 'utility_vest'], { tags: ['travel', 'wild'], w: 0.7 }),
+    job('vineyard_keeper', '葡萄農園主', 'vineyard owner', 'field', ['modern', 'western', 'renaissance_court'], ['linen_shirt', 'knit_polo', 'chore_workwear', 'utility_vest'], { ageMin: 25, tags: ['warm', 'nature'], w: 0.7 }),
+    job('mountain_guide', '山岳ガイド', 'mountain guide', 'field', ['modern', 'north', 'andean_highland', 'fantasy'], ['andean_poncho', 'utility_vest', 'mods_coat', 'ranger'], { tags: ['travel', 'wild'] }),
+    job('falconer', '鷹匠', 'falconer', 'field', ['central_asian_steppe', 'desert', 'japan', 'fantasy', 'north'], ['mongol_deel', 'silk_road', 'ranger', 'riding_habit'], { tags: ['travel', 'wild'], w: 0.7 })
+  ].map(added)
 ];
 export const OCCUPATION_CATS: Category[] = [
   { id: 'none', ja: '指定なし' }, { id: 'royal', ja: '王侯・貴族' }, { id: 'warrior', ja: '武人・軍人' }, { id: 'shadow', ja: '裏社会・危険' },
   { id: 'mystic', ja: '魔術・神秘' }, { id: 'sacred', ja: '聖職・神' }, { id: 'intellect', ja: '知・技' }, { id: 'art', ja: '芸術・芸能' },
-  { id: 'service', ja: '仕える・もてなす' }, { id: 'modern', ja: '現代の仕事' }, { id: 'travel', ja: '旅・辺境' }
+  { id: 'service', ja: '仕える・もてなす' }, { id: 'modern', ja: '現代の仕事' }, { id: 'travel', ja: '旅・辺境' },
+  { id: 'craft', ja: '職人・手仕事' }, { id: 'field', ja: '海・山・畑の仕事' }
 ];
 
 // ---------------- 雰囲気 ----------------
@@ -147,7 +168,14 @@ export const AURA: Option[] = [
   o('playful', '飄々', 'playful, carefree', { tags: ['bright'] }),
   o('rugged', '無骨', 'rugged, battle-hardened', { tags: ['wild'] }),
   o('wild', '野性', 'wild, untamed', { tags: ['wild'] }),
-  o('warm_mature', '包容力', 'warm, reassuring presence', { tags: ['warm'] })
+  o('warm_mature', '包容力', 'warm, reassuring presence', { tags: ['warm'] }),
+  // ---- 2026-10 増築：成熟・仕事人の空気（抽象語なので、出力は先頭の語だけ。人物像は美形タイプの好みで描く）----
+  ...[
+    o('artisan_pride', '職人の誇り', 'grounded composure, artisan pride', { tags: ['warm', 'cool'] }),
+    o('world_weary', '世慣れた哀愁', 'world-weary air', { tags: ['dark', 'soft'] }),
+    o('understated_luxury', '控えめな上質さ', 'understated elegance, quiet luxury', { tags: ['noble', 'urban'] }),
+    o('weathered_dignity', '風雪を経た気品', 'weathered dignity, mature poise', { tags: ['noble', 'warm'] })
+  ].map(added)
 ];
 
 // ---------------- 表情 ----------------
@@ -187,6 +215,20 @@ export const EXPRESSION: Option[] = [
   o('annoyed', '不機嫌', 'annoyed, frown', { cat: 'mood', tags: ['cool', 'playful'], w: 0.7 }),
   o('feral_grin', '獰猛な笑み', 'feral grin', { cat: 'mood', tags: ['wild', 'danger'], w: 0.6 }),
   o('unhinged', '狂気の笑み', 'unhinged smile, wide eyes', { cat: 'mood', tags: ['danger'], w: 0.4 }),
+  // ---- 2026-10 増築：笑顔／無表情の内側の微差 ----
+  ...[
+    o('quiet_pride', '控えめな誇り', 'subtle proud smile', { cat: 'confident', tags: ['noble', 'refined'] }),
+    o('restrained_grief', 'こらえた悲しみ', 'restrained sorrow, pressed lips', { cat: 'sad', tags: ['fragile', 'melancholy'], w: 0.7 }),
+    o('appraising', '値踏みする目つき', 'appraising look, slightly narrowed eyes', { cat: 'cold', tags: ['cool', 'danger'] }),
+    o('soft_concern', '柔らかな気遣い', 'gentle concerned expression, soft eyes', { cat: 'soft', tags: ['warm', 'gentle'] }),
+    o('attentive', '真摯に聞き入る顔', 'attentive expression, listening', { cat: 'soft', tags: ['gentle', 'refined'] }),
+    o('shy_downcast', '照れ隠しの伏し目', 'shy downward glance, light blush', { cat: 'shy', tags: ['soft', 'gaze_away'] }),
+    o('skeptical', '疑わしげな片眉', 'skeptical expression, raised eyebrow', { cat: 'mood', tags: ['cool', 'playful'] }),
+    o('focused_squint', '作業に集中した目', 'focused expression, slight squint', { cat: 'cold', tags: ['warrior', 'cool'] }),
+    o('fond_side_glance', '親しげな横目', 'fond smile, sideways glance', { cat: 'soft', tags: ['warm', 'playful', 'gaze_away'] }),
+    o('weary_tender', '疲れと優しさの混じる顔', 'tired but tender smile', { cat: 'sad', tags: ['warm', 'melancholy'] }),
+    o('suppressed_laugh', '笑いをこらえる顔', 'suppressing a laugh, restrained grin', { cat: 'bright', tags: ['playful', 'sunny'] })
+  ].map(added),
   // 禁断の調合：立場に合わせた表情（立場がOFF＝なしでは出ない）
   ...FORBIDDEN_EXPRESSIONS.map((x) => o(x.id, x.ja, x.en, { cat: 'forbidden', tags: [x.side], requires: [`role:#${x.side}`] })),
 ];

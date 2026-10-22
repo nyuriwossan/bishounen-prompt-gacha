@@ -94,7 +94,8 @@ describe('辞書の整合性', () => {
     expect(new Set(a.map((x) => x.ja)).size).toBe(a.length);
     expect(new Set(a.map((x) => x.en.join('|'))).size).toBe(a.length);
     for (const x of a) { expect(x.en.length).toBeGreaterThanOrEqual(1); expect(Object.keys(x.prefs || {}).length, x.id).toBeGreaterThanOrEqual(3); expect(x.desc).toBeTruthy(); }
-    expect(new Set(a.map((x) => x.cat)).size).toBe(11);
+    // 11分類＋2026-10 増築の2分類（働く大人・職人／時代・異国・未来の生活者）
+    expect(new Set(a.map((x) => x.cat)).size).toBe(13);
   });
   it('現代・日常の美形タイプ12種：日常着を参照し、動物の部位や職業名を出力に混ぜない', () => {
     const a = opts('archetype').filter((x) => x.cat === 'contemporary');

@@ -9,12 +9,20 @@
  */
 import type { Category, Option, ShotLevel } from '../types';
 import { BOUND_POSES } from './forbidden';
-import { o } from './helpers';
+import { added, o } from './helpers';
 
 const p = (id: string, ja: string, en: string, posture: string, hands: number, minShot: ShotLevel, gazeViewer: boolean, tags: string[], extra: Partial<Option> = {}) =>
   o(id, ja, en, { cat: posture, posture, hands, minShot, gazeViewer, tags, ...extra });
+/** こちらを見ない視線（視線を外すポーズと組み合わせてよい「視線」） */
+const AWAY = ['side', 'downward', 'down_side', 'up_side', 'afar', 'unfocused', 'closed'];
+/** 本を読む視線 */
+const READ = ['downward', 'at_book', 'down_side', 'closed'];
+/** 横顔・横を向くポーズの頭の向き */
+const SIDE_HEAD = ['profile', 'head_turned', 'head_tilt', 'chin_up', 'chin_down', 'head_bowed'];
+/** 手元・机を見るポーズの頭の向き */
+const DOWN_HEAD = ['head_bowed', 'chin_down', 'head_tilt'];
 
-export const POSE: Option[] = [
+const POSE_BASE: Option[] = [
   // 立ち
   p('standing_relaxed', '自然な立ち姿', 'standing, looking at viewer', 'standing', 2, 0, true, ['casual', 'gentle'], { w: 1.4, src: 'pcw:basic_front' }),
   p('three_quarter', '斜めに構えた立ち姿', 'standing, looking at viewer, slight turn', 'standing', 2, 1, true, ['cool', 'elegant'], { src: 'pcw:model_three_quarter' }),
@@ -86,7 +94,39 @@ export const POSE: Option[] = [
   p('aiming', '銃を構える', 'aiming at viewer', 'standing', 2, 2, true, ['danger', 'dynamic'], { requires: ['prop:#gun'] }),
   // 禁断の調合：拘束の構図（拘束位置を hard 条件にするので、アンリミテッドモードOFFでは出ない）。手は塞がっているので持ち物なし
   ...BOUND_POSES.map((b) => p(b.id, b.ja, b.en, b.posture, 0, b.minShot as ShotLevel, b.gaze, ['bound', ...(b.armsUp ? ['arms_up'] : []), ...(b.headDown ? ['head_down'] : [])], { cat: 'bound', requires: [`bindPos:${b.bind.join('|')}`] })),
+  // ---- 2026-10 増築：こちらを見ない所作・座り方・仕事の動き（視線は「視線」の項目と組み合わせる）----
+  ...[
+    p('seated_elbows_on_knees', '前傾して肘を膝に', 'sitting, leaning forward, elbows on knees', 'sitting', 0, 4, false, ['casual', 'cool', 'melancholy']),
+    p('arms_crossed_look_away', '腕組みで視線を外す', 'crossed arms, looking away', 'standing', 0, 2, false, ['cool', 'aloof'], { gazeFit: AWAY }),
+    p('wall_lean_profile', '壁にもたれる横顔', 'leaning against wall, profile', 'leaning', 2, 2, false, ['cool', 'melancholy'], { gazeFit: AWAY, headFit: SIDE_HEAD }),
+    p('pocket_look_back', '片手をポケットに振り向く', 'hand in pocket, looking over shoulder', 'standing', 1, 3, false, ['cool', 'elegant'], { gazeFit: ['at_viewer', 'side', 'down_side'], headFit: ['over_shoulder', 'head_turned', 'head_tilt'] }),
+    p('reading_seated', '座って読書に没頭', 'sitting, reading', 'sitting', 2, 2, false, ['intellect', 'soft'], { requires: ['prop:#book'], gazeFit: READ, headFit: DOWN_HEAD }),
+    p('gazing_out_window', '窓の外を眺める', 'standing by window, looking outside', 'standing', 2, 1, false, ['melancholy', 'soft'], { gazeFit: AWAY, headFit: SIDE_HEAD }),
+    p('sideways_on_chair', '椅子に横向きに座る', 'sitting sideways on chair', 'sitting', 2, 3, false, ['casual', 'elegant']),
+    p('checking_watch', '腕時計を確かめる', 'checking wristwatch, wristwatch', 'standing', 0, 2, false, ['formal', 'casual'], { gazeFit: ['downward', 'at_hands', 'down_side'], headFit: DOWN_HEAD }),
+    p('jacket_over_shoulder', '上着を肩に掛ける', 'jacket over shoulder, holding jacket', 'standing', 1, 2, false, ['casual', 'cool', 'confident']),
+    p('kneeling_work', '片膝をついて作業する', 'kneeling on one knee, working with hands', 'kneeling', 0, 4, false, ['craft', 'work'], { gazeFit: ['downward', 'at_hands', 'down_side', 'at_viewer'] }),
+    p('rolling_sleeves', '袖をまくる', 'rolling up sleeves', 'standing', 0, 2, false, ['craft', 'work', 'confident', 'needs_sleeves']),
+    p('leaning_over_table', '机上を覗き込む', 'leaning over table, looking down', 'standing', 1, 2, false, ['intellect', 'work'], { gazeFit: ['downward', 'at_hands', 'down_side', 'at_book'], headFit: DOWN_HEAD })
+  ].map(added)
 ];
+/* 視線・頭の向きを決めるポーズ（既存）。ここに無いポーズの looking at viewer などは、「視線」を指定するとその指定で置き換わる。 */
+const POSE_FIT: Record<string, Pick<Option, 'gazeFit' | 'headFit'>> = {
+  looking_down: { gazeFit: ['at_viewer'], headFit: ['chin_down', 'facing_front', 'head_tilt'] },
+  over_glasses: { gazeFit: ['at_viewer'] },
+  looking_back: { gazeFit: ['at_viewer'], headFit: ['over_shoulder', 'head_turned'] },
+  walking_away: { headFit: ['over_shoulder', 'head_turned'] },
+  back_turned: { gazeFit: [], headFit: ['over_shoulder', 'head_bowed'] },
+  side_profile: { gazeFit: [...AWAY, 'upward', 'up_side', 'closed'], headFit: SIDE_HEAD },
+  looking_up_sky: { gazeFit: ['upward', 'up_side', 'afar', 'closed'], headFit: ['chin_up', 'head_tilt', 'profile', 'head_turned'] },
+  sitting_window: { gazeFit: AWAY, headFit: SIDE_HEAD },
+  hand_on_neck: { gazeFit: AWAY, headFit: ['head_turned', 'head_tilt', 'chin_down', 'head_bowed', 'turned_away', 'profile'] },
+  meditating: { gazeFit: ['closed'], headFit: ['facing_front', 'head_bowed', 'chin_down', 'head_tilt'] },
+  reading: { gazeFit: READ, headFit: DOWN_HEAD },
+  bow: { headFit: ['head_bowed', 'chin_down'] },
+  lying_down: { headFit: ['head_tilt', 'head_turned', 'facing_front'] }
+};
+export const POSE: Option[] = POSE_BASE.map((x) => (POSE_FIT[x.id] ? { ...x, ...POSE_FIT[x.id] } : x));
 export const POSE_CATS: Category[] = [
   { id: 'standing', ja: '立ち' }, { id: 'leaning', ja: 'もたれる' }, { id: 'sitting', ja: '座る' }, { id: 'crouching', ja: 'しゃがむ' },
   { id: 'lying', ja: '寝転ぶ' }, { id: 'walking', ja: '歩く' }, { id: 'running', ja: '走る' }, { id: 'jumping', ja: '跳ぶ' },
@@ -135,7 +175,21 @@ export const PROP: Option[] = [
   prop('violin', 'ヴァイオリン', 'violin, bow (music)', 2, ['instrument', 'elegant'], ['court', 'victorian', 'modern', 'gothic', 'stage']),
   prop('flute', '横笛', 'transverse flute', 2, ['instrument', 'eastern'], ['japan', 'china', 'fantasy']),
   prop('bird_shoulder', '肩にとまる小鳥', 'bird on shoulder', 0, ['soft', 'nature'], ['fantasy', 'modern', 'myth']),
-  prop('black_cat', '黒猫を抱く', 'holding cat, black cat', 2, ['soft', 'mystic'], [])
+  prop('black_cat', '黒猫を抱く', 'holding cat, black cat', 2, ['soft', 'mystic'], []),
+  // ---- 2026-10 増築：職業と行動を画面で見分ける携行品 ----
+  ...[
+    prop('blueprints', '建築図面', 'holding blueprints, architectural drawings', 1, ['intellect', 'work', 'architect'], ['modern', 'business', 'urban', 'renaissance_court']),
+    prop('folding_ruler', '折尺', 'holding folding ruler', 1, ['craft', 'work'], ['modern', 'retro', 'renaissance_court']),
+    prop('vintage_camera', 'クラシックカメラ', 'holding vintage camera', 1, ['artist', 'retro'], ['modern', 'urban', 'retro', 'belle_epoque', 'taisho']),
+    prop('sketchbook', 'スケッチブック', 'holding sketchbook', 1, ['artist', 'intellect'], []),
+    prop('plant_specimen', '植物標本', 'holding plant specimen, pressed leaves', 1, ['intellect', 'nature'], ['modern', 'victorian', 'solarpunk', 'fantasy']),
+    prop('tool_roll', '革の工具巻き', 'holding leather tool roll', 1, ['craft', 'work'], ['modern', 'retro', 'steampunk', 'dieselpunk']),
+    prop('saxophone', 'サックス', 'saxophone', 2, ['instrument', 'stage'], ['modern', 'urban', 'noir', 'stage', 'retro']),
+    prop('falcon_glove', '鷹を乗せた革手袋', 'falcon perched on gloved hand, falconry glove', 1, ['nature', 'wild'], ['central_asian_steppe', 'fantasy', 'north', 'desert', 'historical']),
+    prop('binoculars', '双眼鏡', 'holding binoculars', 2, ['travel', 'nature'], ['modern', 'military', 'wasteland', 'andean_highland']),
+    prop('old_map', '古い地図', 'holding old map', 1, ['travel', 'intellect'], ['fantasy', 'western', 'historical', 'desert', 'silk_road_city']),
+    prop('fountain_pen', '万年筆', 'holding fountain pen', 1, ['intellect', 'retro'], ['modern', 'business', 'retro', 'taisho', 'belle_epoque'])
+  ].map(added)
 ];
 
 // ---------------- 構図（画角） ----------------
@@ -158,4 +212,40 @@ export const ANGLE: Option[] = [
   o('dutch', '傾けた画面', 'dutch angle', { src: 'pcw:dutch', tags: ['dynamic', 'danger'], w: 0.7 }),
   o('three_quarter_view', '斜め45度', 'three-quarter view', { w: 1.5 }),
   o('from_side', '真横から', 'from side', { w: 0.6 })
+];
+
+// ---------------- 2026-10 増築：視線（任意・既定OFF。ポーズを出力するときだけ）----------------
+/* 身体のポーズと独立に視線を決める。「ポーズに任せる」以外を選ぶと、ポーズの looking at viewer などをこの指定で置き換える（同時に2つの視線を出さない）。
+ * 視線そのものを決めるポーズ（横顔・見下ろす・空を見上げる・読書など）は、合う視線だけを選ぶ（gazeFit）。目を閉じた表情・目隠しとは組まない。 */
+const g = (id: string, ja: string, en: string, nat: string, extra: Partial<Option> = {}) => added(o(id, ja, en, { nat, ...extra }));
+export const GAZE: Option[] = [
+  added(o('none', 'ポーズに任せる', [], { w: 2, desc: 'ポーズに含まれる視線（こちらを見る など）をそのまま使います。' })),
+  g('at_viewer', 'こちらを見る', 'looking at viewer', 'looking straight at the viewer', { gazeViewer: true, cat: 'viewer', w: 1.2 }),
+  g('side', '横へ視線を流す', 'looking to the side', 'glancing off to the side', { cat: 'away' }),
+  g('downward', '伏し目', 'looking down, downcast eyes', 'looking down with downcast eyes', { cat: 'down' }),
+  g('down_side', '斜め下を見る', 'looking down, looking to the side', 'looking down and to the side', { cat: 'down' }),
+  g('upward', '上を見る', 'looking up', 'looking upward', { cat: 'up' }),
+  g('up_side', '斜め上を見る', 'looking up, looking to the side', 'looking up and off to the side', { cat: 'up', w: 0.8 }),
+  g('afar', '遠くを見る', 'looking afar', 'gazing into the distance', { cat: 'away' }),
+  g('unfocused', '焦点の合わない視線', 'unfocused gaze, distant look', 'gazing softly into nothing', { cat: 'away', w: 0.7 }),
+  g('at_hands', '手元を見る', 'looking at hands', 'looking down at his hands', { cat: 'down', w: 0.7 }),
+  g('at_book', '本に目を落とす', 'looking at book', 'reading with his eyes on the page', { cat: 'down', requires: ['prop:#book'] }),
+  g('closed', '目を閉じる', 'closed eyes', 'keeping his eyes closed', { eyesClosed: true, cat: 'closed', w: 0.6 })
+];
+export const GAZE_CATS: Category[] = [{ id: 'viewer', ja: 'こちら' }, { id: 'away', ja: '外す・遠く' }, { id: 'down', ja: '下' }, { id: 'up', ja: '上' }, { id: 'closed', ja: '閉じる' }];
+
+// ---------------- 2026-10 増築：頭の向き（任意・既定OFF。ポーズを出力するときだけ）----------------
+/* 人物の頭・首の向き。カメラの「アングル」とは別物。左右は画像生成で確実に描き分けられないため、まとめた。 */
+const h = (id: string, ja: string, en: string, nat: string, extra: Partial<Option> = {}) => added(o(id, ja, en, { nat, ...extra }));
+export const HEAD_POSE: Option[] = [
+  added(o('none', 'ポーズに任せる', [], { w: 2, desc: 'ポーズの頭の向きをそのまま使います。' })),
+  h('facing_front', '正面を向く', 'facing viewer', 'facing forward'),
+  h('head_turned', '顔を少し横へ向ける', 'head turned to the side', 'turning his head slightly to the side'),
+  h('profile', '横顔', 'profile', 'shown in profile', { w: 0.8 }),
+  h('head_tilt', '首を傾ける', 'head tilt', 'tilting his head'),
+  h('chin_up', '顎を上げる', 'raised chin, head tilted up', 'raising his chin'),
+  h('chin_down', '顎を引く', 'lowered chin', 'lowering his chin slightly'),
+  h('over_shoulder', '肩越しに振り返る', 'looking over shoulder', 'looking back over his shoulder', { w: 0.8 }),
+  h('head_bowed', '軽くうつむく', 'head down, bowed head', 'bowing his head gently', { w: 0.8 }),
+  h('turned_away', '顔を背ける', 'head turned away', 'turning his face away', { w: 0.6 })
 ];

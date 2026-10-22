@@ -18,9 +18,11 @@ const MODE_NOTE: Record<Mode, string> = {
 };
 
 const GROUPS: Array<{ id: FieldGroup; ja: string; hint: string; module?: keyof ForgeModules; moduleLabel?: string; moduleHint?: string }> = [
-  { id: 'face', ja: '顔・肌・装身具', hint: '顔立ち・肌・特徴・眼鏡・ひげ' },
+  { id: 'face', ja: '顔・肌・装身具', hint: '顔立ち・肌・特徴・眼鏡・ひげ・年齢の表れ' },
+  { id: 'hair', ja: '髪の細部（任意）', hint: '髪質・前髪と分け目' },
   { id: 'role', ja: '職業・雰囲気・色彩', hint: '立場・空気感・衣装の色' },
-  { id: 'pose', ja: 'ポーズ・構図', hint: '画角・アングル・ポーズ・持ち物', module: 'poseEnabled', moduleLabel: 'ポーズ・アングルを出力する', moduleHint: 'OFFでも構図（画角）は出力します。' },
+  { id: 'wear', ja: '衣装の細部・素材（任意）', hint: 'ポケットチーフ・袖口・ツイード・ベルベットなど' },
+  { id: 'pose', ja: 'ポーズ・構図', hint: '画角・アングル・ポーズ・視線・頭の向き・持ち物', module: 'poseEnabled', moduleLabel: 'ポーズ・アングルを出力する', moduleHint: 'OFFでも構図（画角）は出力します。視線・頭の向き・持ち物も出力しません。' },
   { id: 'scene', ja: '背景・光', hint: '場所・時間帯・光', module: 'backgroundEnabled', moduleLabel: '背景と光を出力する', moduleHint: 'OFFにすると人物だけのプロンプトになります。' },
   { id: 'kemono', ja: '獣人モード（任意）', hint: '耳・尾・角などを加える', module: 'kemonoEnabled', moduleLabel: '獣人モードを使う', moduleHint: '顔は人のまま。獣化はケモミミ〜標準獣人まで。' },
   { id: 'cosplay', ja: 'コスプレ衣装（任意）', hint: 'メイド服・ビキニ・ミニスカ・バニーなど', module: 'cosplayEnabled', moduleLabel: 'コスプレ衣装から引く', moduleHint: '初期はOFF。ONの間、衣装は必ずコスプレ枠（15種）から引きます。おまかせスタイルの衣装の条件より優先します。通常の衣装も手で選べます。獣人ONでは耳付きの衣装を、禁断ONではセーラー服を自動では引きません。' },
@@ -32,6 +34,13 @@ const EXTRA_MODULES: Array<{ key: keyof ForgeModules; ja: string; hint: string; 
   { key: 'marksEnabled', ja: '特徴を抽選に含める', hint: '泣きぼくろ・傷・耳飾りなど。既定はOFF。', group: 'face' },
   { key: 'facialHairEnabled', ja: 'ひげを抽選に含める', hint: '既定はOFF。年齢が高いほど出やすくなります。', group: 'face' },
   { key: 'hairAccentEnabled', ja: '髪の配色拡張（グラデ・メッシュ）', hint: '差し色の髪色を加えます。', group: 'face' },
+  { key: 'ageCueEnabled', ja: '年齢の表れを抽選に含める', hint: '目尻の皺・こめかみの白髪など1つ。既定はOFF。年齢層が高いほど付きやすく、18〜24歳では付けません。白髪や皺を毎回強制はしません。', group: 'face' },
+  { key: 'hairTextureEnabled', ja: '髪質を抽選に含める', hint: '直毛・ウェーブ・巻き毛・コイル・濡れ感など。既定はOFF。髪型と系統が違う髪質は出ません。', group: 'hair' },
+  { key: 'fringeEnabled', ja: '前髪・分け目を抽選に含める', hint: '中央分け・カーテン前髪・額を出すなど。既定はOFF。前髪まで決まった髪型では「指定しない」になります。', group: 'hair' },
+  { key: 'outfitDetailEnabled', ja: '衣装の細部を抽選に含める', hint: 'ポケットチーフ・ネクタイピン・袖口・指輪など。既定はOFF。服にその部位があり、画角に入るときだけ出ます。', group: 'wear' },
+  { key: 'fabricEnabled', ja: '素材を抽選に含める', hint: 'ウール・ツイード・ベルベット・リネン・革など。既定はOFF。素材が決まった服（レザージャケットなど）には合う素材だけ。', group: 'wear' },
+  { key: 'gazeEnabled', ja: '視線を個別に引く', hint: '既定はOFF。ONにすると、ポーズの「こちらを見る」を、横・伏し目・遠く・上目などの視線で置き換えます（視線のタグは1つだけ）。目を閉じた表情・目隠しとは組みません。', group: 'pose' },
+  { key: 'headPoseEnabled', ja: '頭の向きを個別に引く', hint: '既定はOFF。首を傾ける・顎を上げる・横顔など。カメラのアングルとは別です。', group: 'pose' },
   { key: 'propEnabled', ja: '持ち物を抽選に含める', hint: '剣・本・グラスなど。既定はOFF。ポーズを出力するときだけ使います。', group: 'pose' },
   { key: 'nameEnabled', ja: '呼び名を付ける', hint: '画像プロンプトには含めません。', group: 'style' }
 ];
@@ -39,9 +48,11 @@ const EXTRA_MODULES: Array<{ key: keyof ForgeModules; ja: string; hint: string; 
 interface Props {
   forge: ForgeState; title: string; issues: Issue[]; changed: FieldId[]; sweep: number; actions: AppActions;
   canUndo: boolean; canRedo: boolean; presets: StylePreset[]; pendingPreset: StylePreset | null; prefs: DrawPrefs;
+  /** 辞書の更新で、除外の設定がある項目に新しい候補が加わったときのお知らせ（確認すると消える） */
+  dictUpdate?: Array<{ field: FieldId; count: number; allowed: number }> | null; onDictSeen?: () => void;
 }
 
-export function ForgeView({ forge, title, issues, changed, sweep, actions, canUndo, canRedo, presets, pendingPreset, prefs }: Props) {
+export function ForgeView({ forge, title, issues, changed, sweep, actions, canUndo, canRedo, presets, pendingPreset, prefs, dictUpdate, onDictSeen }: Props) {
   const labelRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = labelRef.current;
@@ -130,6 +141,15 @@ export function ForgeView({ forge, title, issues, changed, sweep, actions, canUn
           </span>
         </div>
 
+        {dictUpdate && dictUpdate.length > 0 && (
+          <div class="prefs-bar dict-update" role="status">
+            <span><b>辞書を更新しました</b>：除外の設定をしている{dictUpdate.map((x) => `「${fieldDef(x.field).short ?? fieldDef(x.field).ja}」`).join('')}に新しい候補が計{dictUpdate.reduce((n, x) => n + x.allowed, 0)}件加わり、抽選対象になっています。除外の設定はそのままです。</span>
+            <span class="btns">
+              <button class="btn small" type="button" onClick={() => actions.openDict()}>確認する</button>
+              <button class="chip quiet" type="button" onClick={onDictSeen}>このままでよい</button>
+            </span>
+          </div>
+        )}
         {hasPrefs(prefs) || summary ? (
           <div class="prefs-bar">
             <span><b>好み設定あり</b>：{summary || '設定あり'}</span>
