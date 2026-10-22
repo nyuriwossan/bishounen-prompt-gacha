@@ -1,0 +1,3108 @@
+{
+ "generatedAt": "2026-10-22T07:54:38.227Z",
+ "dataVersion": "2026.10.13",
+ "perCell": 250,
+ "newModules": [
+  "ageCueEnabled",
+  "hairTextureEnabled",
+  "fringeEnabled",
+  "gazeEnabled",
+  "headPoseEnabled",
+  "outfitDetailEnabled",
+  "fabricEnabled"
+ ],
+ "conditions": {
+  "default": {
+   "coherent": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 569,
+      "meanDiff": 11.47,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 569,
+      "meanDiff": 11.47,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.484,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.526,
+      "eff": 34,
+      "reached": 38,
+      "options": 42
+     },
+     "culture": {
+      "H": 0.92,
+      "eff": 2.5,
+      "reached": 15,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.003,
+      "eff": 54.8,
+      "reached": 71,
+      "options": 145
+     },
+     "age": {
+      "H": 1.578,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.564,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.639,
+      "eff": 14,
+      "reached": 15,
+      "options": 16
+     },
+     "occupation": {
+      "H": 3.017,
+      "eff": 20.4,
+      "reached": 54,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.165,
+      "eff": 23.7,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.643,
+      "eff": 38.2,
+      "reached": 43,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.254,
+      "eff": 25.9,
+      "reached": 29,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.53,
+      "eff": 34.1,
+      "reached": 38,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.3,
+      "eff": 10,
+      "reached": 13,
+      "options": 13
+     },
+     "hairLength": {
+      "H": 1.555,
+      "eff": 4.7,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.849,
+      "eff": 47,
+      "reached": 56,
+      "options": 65
+     },
+     "hairColor": {
+      "H": 3.596,
+      "eff": 36.5,
+      "reached": 46,
+      "options": 48
+     },
+     "outfit": {
+      "H": 4.319,
+      "eff": 75.1,
+      "reached": 99,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.388,
+      "eff": 80.5,
+      "reached": 94,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.431,
+      "eff": 84,
+      "reached": 101,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.065,
+      "eff": 21.4,
+      "reached": 35,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.867,
+      "eff": 6.5,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.792,
+      "eff": 6,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.648,
+      "eff": 38.4,
+      "reached": 55,
+      "options": 92
+     },
+     "scene": {
+      "H": 4.159,
+      "eff": 64,
+      "reached": 77,
+      "options": 116
+     },
+     "time": {
+      "H": 2.706,
+      "eff": 15,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.012,
+      "eff": 20.3,
+      "reached": 24,
+      "options": 25
+     },
+     "name": {
+      "H": 4.806,
+      "eff": 122.3,
+      "reached": 143,
+      "options": 224
+     }
+    }
+   },
+   "balanced": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 423,
+      "meanDiff": 12.48,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 423,
+      "meanDiff": 12.48,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.464,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.537,
+      "eff": 34.4,
+      "reached": 41,
+      "options": 42
+     },
+     "culture": {
+      "H": 0.842,
+      "eff": 2.3,
+      "reached": 18,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.275,
+      "eff": 71.9,
+      "reached": 94,
+      "options": 145
+     },
+     "age": {
+      "H": 1.575,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.587,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.687,
+      "eff": 14.7,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 3.318,
+      "eff": 27.6,
+      "reached": 75,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.206,
+      "eff": 24.7,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.685,
+      "eff": 39.8,
+      "reached": 45,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.292,
+      "eff": 26.9,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.62,
+      "eff": 37.3,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.387,
+      "eff": 10.9,
+      "reached": 13,
+      "options": 13
+     },
+     "hairLength": {
+      "H": 1.541,
+      "eff": 4.7,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.943,
+      "eff": 51.6,
+      "reached": 61,
+      "options": 65
+     },
+     "hairColor": {
+      "H": 3.7,
+      "eff": 40.5,
+      "reached": 48,
+      "options": 48
+     },
+     "outfit": {
+      "H": 4.419,
+      "eff": 83,
+      "reached": 101,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.556,
+      "eff": 95.2,
+      "reached": 108,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.495,
+      "eff": 89.6,
+      "reached": 104,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.602,
+      "eff": 36.7,
+      "reached": 43,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.839,
+      "eff": 6.3,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.784,
+      "eff": 6,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.695,
+      "eff": 40.3,
+      "reached": 54,
+      "options": 92
+     },
+     "scene": {
+      "H": 4.322,
+      "eff": 75.3,
+      "reached": 94,
+      "options": 116
+     },
+     "time": {
+      "H": 2.776,
+      "eff": 16.1,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.066,
+      "eff": 21.5,
+      "reached": 25,
+      "options": 25
+     },
+     "name": {
+      "H": 4.809,
+      "eff": 122.6,
+      "reached": 143,
+      "options": 224
+     }
+    }
+   },
+   "wild": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 245,
+      "meanDiff": 12.84,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 245,
+      "meanDiff": 12.84,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.396,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.621,
+      "eff": 37.4,
+      "reached": 42,
+      "options": 42
+     },
+     "culture": {
+      "H": 3.011,
+      "eff": 20.3,
+      "reached": 22,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.569,
+      "eff": 96.5,
+      "reached": 113,
+      "options": 145
+     },
+     "age": {
+      "H": 1.563,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.593,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.726,
+      "eff": 15.3,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 4.431,
+      "eff": 84,
+      "reached": 97,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.203,
+      "eff": 24.6,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.669,
+      "eff": 39.2,
+      "reached": 45,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.342,
+      "eff": 28.3,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.62,
+      "eff": 37.3,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.498,
+      "eff": 12.2,
+      "reached": 13,
+      "options": 13
+     },
+     "hairLength": {
+      "H": 1.59,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.963,
+      "eff": 52.6,
+      "reached": 59,
+      "options": 65
+     },
+     "hairColor": {
+      "H": 3.733,
+      "eff": 41.8,
+      "reached": 48,
+      "options": 48
+     },
+     "outfit": {
+      "H": 4.605,
+      "eff": 100,
+      "reached": 115,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.585,
+      "eff": 98,
+      "reached": 115,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.551,
+      "eff": 94.7,
+      "reached": 109,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.736,
+      "eff": 41.9,
+      "reached": 46,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.921,
+      "eff": 6.8,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.886,
+      "eff": 6.6,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.773,
+      "eff": 43.5,
+      "reached": 58,
+      "options": 92
+     },
+     "scene": {
+      "H": 4.441,
+      "eff": 84.9,
+      "reached": 97,
+      "options": 116
+     },
+     "time": {
+      "H": 2.784,
+      "eff": 16.2,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.07,
+      "eff": 21.6,
+      "reached": 25,
+      "options": 25
+     },
+     "name": {
+      "H": 4.884,
+      "eff": 132.2,
+      "reached": 150,
+      "options": 224
+     }
+    }
+   }
+  },
+  "detailOn": {
+   "coherent": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 582,
+      "meanDiff": 11.66,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 582,
+      "meanDiff": 11.66,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.5,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.51,
+      "eff": 33.5,
+      "reached": 39,
+      "options": 42
+     },
+     "culture": {
+      "H": 0.98,
+      "eff": 2.7,
+      "reached": 14,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.026,
+      "eff": 56,
+      "reached": 75,
+      "options": 145
+     },
+     "age": {
+      "H": 1.586,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.552,
+      "eff": 4.7,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.626,
+      "eff": 13.8,
+      "reached": 15,
+      "options": 16
+     },
+     "occupation": {
+      "H": 3.28,
+      "eff": 26.6,
+      "reached": 58,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.2,
+      "eff": 24.5,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.629,
+      "eff": 37.7,
+      "reached": 42,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.301,
+      "eff": 27.1,
+      "reached": 29,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.55,
+      "eff": 34.8,
+      "reached": 38,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.394,
+      "eff": 11,
+      "reached": 13,
+      "options": 13
+     },
+     "marks": {
+      "H": 1.691,
+      "eff": 5.4,
+      "reached": 11,
+      "options": 18
+     },
+     "glasses": {
+      "H": 1.58,
+      "eff": 4.9,
+      "reached": 9,
+      "options": 11
+     },
+     "facialHair": {
+      "H": 2.215,
+      "eff": 9.2,
+      "reached": 11,
+      "options": 11
+     },
+     "hairLength": {
+      "H": 1.554,
+      "eff": 4.7,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.867,
+      "eff": 47.8,
+      "reached": 59,
+      "options": 65
+     },
+     "hairColor": {
+      "H": 3.555,
+      "eff": 35,
+      "reached": 43,
+      "options": 48
+     },
+     "outfit": {
+      "H": 4.316,
+      "eff": 74.9,
+      "reached": 98,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.413,
+      "eff": 82.5,
+      "reached": 98,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.5,
+      "eff": 90.1,
+      "reached": 102,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.061,
+      "eff": 21.4,
+      "reached": 35,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.825,
+      "eff": 6.2,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.783,
+      "eff": 5.9,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.897,
+      "eff": 49.2,
+      "reached": 64,
+      "options": 92
+     },
+     "prop": {
+      "H": 3.155,
+      "eff": 23.4,
+      "reached": 43,
+      "options": 50
+     },
+     "scene": {
+      "H": 4.111,
+      "eff": 61,
+      "reached": 75,
+      "options": 116
+     },
+     "time": {
+      "H": 2.737,
+      "eff": 15.4,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 2.968,
+      "eff": 19.5,
+      "reached": 24,
+      "options": 25
+     },
+     "name": {
+      "H": 4.691,
+      "eff": 108.9,
+      "reached": 128,
+      "options": 224
+     }
+    }
+   },
+   "balanced": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 383,
+      "meanDiff": 12.37,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 383,
+      "meanDiff": 12.37,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.472,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.568,
+      "eff": 35.5,
+      "reached": 42,
+      "options": 42
+     },
+     "culture": {
+      "H": 0.668,
+      "eff": 2,
+      "reached": 11,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.382,
+      "eff": 80,
+      "reached": 104,
+      "options": 145
+     },
+     "age": {
+      "H": 1.586,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.597,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.682,
+      "eff": 14.6,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 3.269,
+      "eff": 26.3,
+      "reached": 73,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.174,
+      "eff": 23.9,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.728,
+      "eff": 41.6,
+      "reached": 45,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.288,
+      "eff": 26.8,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.59,
+      "eff": 36.2,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.366,
+      "eff": 10.7,
+      "reached": 13,
+      "options": 13
+     },
+     "marks": {
+      "H": 2.262,
+      "eff": 9.6,
+      "reached": 18,
+      "options": 18
+     },
+     "glasses": {
+      "H": 1.828,
+      "eff": 6.2,
+      "reached": 11,
+      "options": 11
+     },
+     "facialHair": {
+      "H": 2.312,
+      "eff": 10.1,
+      "reached": 11,
+      "options": 11
+     },
+     "hairLength": {
+      "H": 1.576,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.869,
+      "eff": 47.9,
+      "reached": 59,
+      "options": 65
+     },
+     "hairColor": {
+      "H": 3.706,
+      "eff": 40.7,
+      "reached": 47,
+      "options": 48
+     },
+     "outfit": {
+      "H": 4.43,
+      "eff": 84,
+      "reached": 105,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.523,
+      "eff": 92.1,
+      "reached": 108,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.514,
+      "eff": 91.3,
+      "reached": 106,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.578,
+      "eff": 35.8,
+      "reached": 43,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.879,
+      "eff": 6.5,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.765,
+      "eff": 5.8,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.858,
+      "eff": 47.4,
+      "reached": 61,
+      "options": 92
+     },
+     "prop": {
+      "H": 3.341,
+      "eff": 28.2,
+      "reached": 50,
+      "options": 50
+     },
+     "scene": {
+      "H": 4.256,
+      "eff": 70.5,
+      "reached": 88,
+      "options": 116
+     },
+     "time": {
+      "H": 2.79,
+      "eff": 16.3,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.105,
+      "eff": 22.3,
+      "reached": 25,
+      "options": 25
+     },
+     "name": {
+      "H": 4.655,
+      "eff": 105.1,
+      "reached": 125,
+      "options": 224
+     }
+    }
+   },
+   "wild": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 212,
+      "meanDiff": 12.67,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 212,
+      "meanDiff": 12.67,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.448,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.642,
+      "eff": 38.2,
+      "reached": 42,
+      "options": 42
+     },
+     "culture": {
+      "H": 2.967,
+      "eff": 19.4,
+      "reached": 22,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.661,
+      "eff": 105.7,
+      "reached": 122,
+      "options": 145
+     },
+     "age": {
+      "H": 1.567,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.606,
+      "eff": 5,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.732,
+      "eff": 15.4,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 4.462,
+      "eff": 86.7,
+      "reached": 100,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.203,
+      "eff": 24.6,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.729,
+      "eff": 41.7,
+      "reached": 45,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.299,
+      "eff": 27.1,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.575,
+      "eff": 35.7,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.492,
+      "eff": 12.1,
+      "reached": 13,
+      "options": 13
+     },
+     "marks": {
+      "H": 2.766,
+      "eff": 15.9,
+      "reached": 18,
+      "options": 18
+     },
+     "glasses": {
+      "H": 2.338,
+      "eff": 10.4,
+      "reached": 11,
+      "options": 11
+     },
+     "facialHair": {
+      "H": 2.321,
+      "eff": 10.2,
+      "reached": 11,
+      "options": 11
+     },
+     "hairLength": {
+      "H": 1.578,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 4.016,
+      "eff": 55.5,
+      "reached": 63,
+      "options": 65
+     },
+     "hairColor": {
+      "H": 3.783,
+      "eff": 43.9,
+      "reached": 48,
+      "options": 48
+     },
+     "outfit": {
+      "H": 4.609,
+      "eff": 100.4,
+      "reached": 116,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.58,
+      "eff": 97.5,
+      "reached": 110,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.607,
+      "eff": 100.2,
+      "reached": 115,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.722,
+      "eff": 41.3,
+      "reached": 46,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.918,
+      "eff": 6.8,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.937,
+      "eff": 6.9,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.835,
+      "eff": 46.3,
+      "reached": 64,
+      "options": 92
+     },
+     "prop": {
+      "H": 3.662,
+      "eff": 38.9,
+      "reached": 49,
+      "options": 50
+     },
+     "scene": {
+      "H": 4.41,
+      "eff": 82.2,
+      "reached": 95,
+      "options": 116
+     },
+     "time": {
+      "H": 2.824,
+      "eff": 16.8,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.1,
+      "eff": 22.2,
+      "reached": 25,
+      "options": 25
+     },
+     "name": {
+      "H": 4.897,
+      "eff": 133.9,
+      "reached": 148,
+      "options": 224
+     }
+    }
+   }
+  },
+  "expansionOn": {
+   "coherent": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 565,
+      "meanDiff": 11.52,
+      "closeRate": 0,
+      "nearRate": 0.0018
+     },
+     "withNew": {
+      "pairs": 565,
+      "meanDiff": 16.49,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.224,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.525,
+      "eff": 33.9,
+      "reached": 39,
+      "options": 42
+     },
+     "culture": {
+      "H": 0.91,
+      "eff": 2.5,
+      "reached": 16,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.068,
+      "eff": 58.4,
+      "reached": 78,
+      "options": 145
+     },
+     "age": {
+      "H": 1.567,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.599,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.598,
+      "eff": 13.4,
+      "reached": 15,
+      "options": 16
+     },
+     "occupation": {
+      "H": 3.105,
+      "eff": 22.3,
+      "reached": 50,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.163,
+      "eff": 23.6,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.627,
+      "eff": 37.6,
+      "reached": 43,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.299,
+      "eff": 27.1,
+      "reached": 29,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.486,
+      "eff": 32.7,
+      "reached": 37,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.403,
+      "eff": 11.1,
+      "reached": 13,
+      "options": 13
+     },
+     "hairLength": {
+      "H": 1.54,
+      "eff": 4.7,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.866,
+      "eff": 47.8,
+      "reached": 59,
+      "options": 65
+     },
+     "hairTexture": {
+      "H": 2.579,
+      "eff": 13.2,
+      "reached": 15,
+      "options": 15
+     },
+     "fringe": {
+      "H": 1.489,
+      "eff": 4.4,
+      "reached": 9,
+      "options": 9
+     },
+     "hairColor": {
+      "H": 3.587,
+      "eff": 36.1,
+      "reached": 46,
+      "options": 48
+     },
+     "ageCue": {
+      "H": 1.569,
+      "eff": 4.8,
+      "reached": 13,
+      "options": 17
+     },
+     "outfit": {
+      "H": 4.242,
+      "eff": 69.6,
+      "reached": 90,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.483,
+      "eff": 88.5,
+      "reached": 102,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.426,
+      "eff": 83.6,
+      "reached": 96,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.05,
+      "eff": 21.1,
+      "reached": 35,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.853,
+      "eff": 6.4,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.825,
+      "eff": 6.2,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.706,
+      "eff": 40.7,
+      "reached": 56,
+      "options": 92
+     },
+     "gaze": {
+      "H": 2.245,
+      "eff": 9.4,
+      "reached": 11,
+      "options": 12
+     },
+     "headPose": {
+      "H": 2.19,
+      "eff": 8.9,
+      "reached": 10,
+      "options": 10
+     },
+     "scene": {
+      "H": 4.144,
+      "eff": 63,
+      "reached": 77,
+      "options": 116
+     },
+     "time": {
+      "H": 2.695,
+      "eff": 14.8,
+      "reached": 18,
+      "options": 19
+     },
+     "light": {
+      "H": 2.944,
+      "eff": 19,
+      "reached": 24,
+      "options": 25
+     },
+     "outfitDetail": {
+      "H": 2.381,
+      "eff": 10.8,
+      "reached": 18,
+      "options": 20
+     },
+     "fabric": {
+      "H": 1.433,
+      "eff": 4.2,
+      "reached": 11,
+      "options": 11
+     },
+     "name": {
+      "H": 4.74,
+      "eff": 114.4,
+      "reached": 136,
+      "options": 224
+     }
+    }
+   },
+   "balanced": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 387,
+      "meanDiff": 12.27,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 387,
+      "meanDiff": 17.7,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.212,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.557,
+      "eff": 35,
+      "reached": 42,
+      "options": 42
+     },
+     "culture": {
+      "H": 0.827,
+      "eff": 2.3,
+      "reached": 16,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.352,
+      "eff": 77.6,
+      "reached": 101,
+      "options": 145
+     },
+     "age": {
+      "H": 1.593,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.588,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.668,
+      "eff": 14.4,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 3.258,
+      "eff": 26,
+      "reached": 75,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.198,
+      "eff": 24.5,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.714,
+      "eff": 41,
+      "reached": 45,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.308,
+      "eff": 27.3,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.63,
+      "eff": 37.7,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.333,
+      "eff": 10.3,
+      "reached": 13,
+      "options": 13
+     },
+     "hairLength": {
+      "H": 1.522,
+      "eff": 4.6,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.942,
+      "eff": 51.5,
+      "reached": 62,
+      "options": 65
+     },
+     "hairTexture": {
+      "H": 2.625,
+      "eff": 13.8,
+      "reached": 15,
+      "options": 15
+     },
+     "fringe": {
+      "H": 1.528,
+      "eff": 4.6,
+      "reached": 9,
+      "options": 9
+     },
+     "hairColor": {
+      "H": 3.766,
+      "eff": 43.2,
+      "reached": 48,
+      "options": 48
+     },
+     "ageCue": {
+      "H": 1.498,
+      "eff": 4.5,
+      "reached": 15,
+      "options": 17
+     },
+     "outfit": {
+      "H": 4.455,
+      "eff": 86.1,
+      "reached": 106,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.563,
+      "eff": 95.9,
+      "reached": 108,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.514,
+      "eff": 91.3,
+      "reached": 108,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.525,
+      "eff": 33.9,
+      "reached": 44,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.855,
+      "eff": 6.4,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.715,
+      "eff": 5.6,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.687,
+      "eff": 39.9,
+      "reached": 55,
+      "options": 92
+     },
+     "gaze": {
+      "H": 2.123,
+      "eff": 8.4,
+      "reached": 11,
+      "options": 12
+     },
+     "headPose": {
+      "H": 2.181,
+      "eff": 8.9,
+      "reached": 10,
+      "options": 10
+     },
+     "scene": {
+      "H": 4.341,
+      "eff": 76.8,
+      "reached": 94,
+      "options": 116
+     },
+     "time": {
+      "H": 2.829,
+      "eff": 16.9,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.077,
+      "eff": 21.7,
+      "reached": 25,
+      "options": 25
+     },
+     "outfitDetail": {
+      "H": 2.226,
+      "eff": 9.3,
+      "reached": 18,
+      "options": 20
+     },
+     "fabric": {
+      "H": 1.991,
+      "eff": 7.3,
+      "reached": 11,
+      "options": 11
+     },
+     "name": {
+      "H": 4.731,
+      "eff": 113.5,
+      "reached": 134,
+      "options": 224
+     }
+    }
+   },
+   "wild": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 1,
+      "stuckRate": 0.004
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 202,
+      "meanDiff": 12.63,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 202,
+      "meanDiff": 18.47,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.148,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.648,
+      "eff": 38.4,
+      "reached": 42,
+      "options": 42
+     },
+     "culture": {
+      "H": 2.942,
+      "eff": 19,
+      "reached": 22,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.682,
+      "eff": 108,
+      "reached": 123,
+      "options": 145
+     },
+     "age": {
+      "H": 1.585,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.605,
+      "eff": 5,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.738,
+      "eff": 15.5,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 4.469,
+      "eff": 87.3,
+      "reached": 100,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.208,
+      "eff": 24.7,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.706,
+      "eff": 40.7,
+      "reached": 44,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.354,
+      "eff": 28.6,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.602,
+      "eff": 36.7,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.532,
+      "eff": 12.6,
+      "reached": 13,
+      "options": 13
+     },
+     "hairLength": {
+      "H": 1.588,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.985,
+      "eff": 53.8,
+      "reached": 62,
+      "options": 65
+     },
+     "hairTexture": {
+      "H": 2.609,
+      "eff": 13.6,
+      "reached": 15,
+      "options": 15
+     },
+     "fringe": {
+      "H": 1.658,
+      "eff": 5.2,
+      "reached": 9,
+      "options": 9
+     },
+     "hairColor": {
+      "H": 3.754,
+      "eff": 42.7,
+      "reached": 47,
+      "options": 48
+     },
+     "ageCue": {
+      "H": 1.878,
+      "eff": 6.5,
+      "reached": 17,
+      "options": 17
+     },
+     "outfit": {
+      "H": 4.622,
+      "eff": 101.7,
+      "reached": 117,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.513,
+      "eff": 91.2,
+      "reached": 105,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.575,
+      "eff": 97,
+      "reached": 115,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.76,
+      "eff": 43,
+      "reached": 46,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.924,
+      "eff": 6.8,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.925,
+      "eff": 6.9,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.845,
+      "eff": 46.7,
+      "reached": 60,
+      "options": 92
+     },
+     "gaze": {
+      "H": 2.303,
+      "eff": 10,
+      "reached": 11,
+      "options": 12
+     },
+     "headPose": {
+      "H": 2.243,
+      "eff": 9.4,
+      "reached": 10,
+      "options": 10
+     },
+     "scene": {
+      "H": 4.445,
+      "eff": 85.2,
+      "reached": 97,
+      "options": 116
+     },
+     "time": {
+      "H": 2.802,
+      "eff": 16.5,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.078,
+      "eff": 21.7,
+      "reached": 25,
+      "options": 25
+     },
+     "outfitDetail": {
+      "H": 2.438,
+      "eff": 11.4,
+      "reached": 18,
+      "options": 20
+     },
+     "fabric": {
+      "H": 2.197,
+      "eff": 9,
+      "reached": 11,
+      "options": 11
+     },
+     "name": {
+      "H": 4.918,
+      "eff": 136.7,
+      "reached": 154,
+      "options": 224
+     }
+    }
+   }
+  },
+  "allOn": {
+   "coherent": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 505,
+      "meanDiff": 11.57,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 505,
+      "meanDiff": 16.38,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.216,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.505,
+      "eff": 33.3,
+      "reached": 39,
+      "options": 42
+     },
+     "culture": {
+      "H": 1.008,
+      "eff": 2.7,
+      "reached": 15,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.078,
+      "eff": 59,
+      "reached": 75,
+      "options": 145
+     },
+     "age": {
+      "H": 1.534,
+      "eff": 4.6,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.578,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.651,
+      "eff": 14.2,
+      "reached": 15,
+      "options": 16
+     },
+     "occupation": {
+      "H": 3.009,
+      "eff": 20.3,
+      "reached": 53,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.184,
+      "eff": 24.1,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.677,
+      "eff": 39.5,
+      "reached": 42,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.283,
+      "eff": 26.7,
+      "reached": 29,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.483,
+      "eff": 32.6,
+      "reached": 37,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.293,
+      "eff": 9.9,
+      "reached": 13,
+      "options": 13
+     },
+     "marks": {
+      "H": 1.648,
+      "eff": 5.2,
+      "reached": 12,
+      "options": 18
+     },
+     "glasses": {
+      "H": 1.53,
+      "eff": 4.6,
+      "reached": 9,
+      "options": 11
+     },
+     "facialHair": {
+      "H": 2.284,
+      "eff": 9.8,
+      "reached": 11,
+      "options": 11
+     },
+     "hairLength": {
+      "H": 1.54,
+      "eff": 4.7,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.887,
+      "eff": 48.7,
+      "reached": 56,
+      "options": 65
+     },
+     "hairTexture": {
+      "H": 2.534,
+      "eff": 12.6,
+      "reached": 15,
+      "options": 15
+     },
+     "fringe": {
+      "H": 1.405,
+      "eff": 4.1,
+      "reached": 9,
+      "options": 9
+     },
+     "hairColor": {
+      "H": 3.577,
+      "eff": 35.8,
+      "reached": 45,
+      "options": 48
+     },
+     "ageCue": {
+      "H": 1.48,
+      "eff": 4.4,
+      "reached": 15,
+      "options": 17
+     },
+     "outfit": {
+      "H": 4.265,
+      "eff": 71.2,
+      "reached": 94,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.388,
+      "eff": 80.5,
+      "reached": 97,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.447,
+      "eff": 85.4,
+      "reached": 99,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.179,
+      "eff": 24,
+      "reached": 35,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.89,
+      "eff": 6.6,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.737,
+      "eff": 5.7,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.898,
+      "eff": 49.3,
+      "reached": 65,
+      "options": 92
+     },
+     "prop": {
+      "H": 3.036,
+      "eff": 20.8,
+      "reached": 45,
+      "options": 50
+     },
+     "gaze": {
+      "H": 2.265,
+      "eff": 9.6,
+      "reached": 12,
+      "options": 12
+     },
+     "headPose": {
+      "H": 2.177,
+      "eff": 8.8,
+      "reached": 10,
+      "options": 10
+     },
+     "scene": {
+      "H": 4.071,
+      "eff": 58.6,
+      "reached": 75,
+      "options": 116
+     },
+     "time": {
+      "H": 2.743,
+      "eff": 15.5,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.002,
+      "eff": 20.1,
+      "reached": 23,
+      "options": 25
+     },
+     "outfitDetail": {
+      "H": 2.486,
+      "eff": 12,
+      "reached": 19,
+      "options": 20
+     },
+     "fabric": {
+      "H": 1.534,
+      "eff": 4.6,
+      "reached": 11,
+      "options": 11
+     },
+     "name": {
+      "H": 4.7,
+      "eff": 109.9,
+      "reached": 127,
+      "options": 224
+     }
+    }
+   },
+   "balanced": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 405,
+      "meanDiff": 12.46,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 405,
+      "meanDiff": 17.89,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.192,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.593,
+      "eff": 36.3,
+      "reached": 42,
+      "options": 42
+     },
+     "culture": {
+      "H": 0.85,
+      "eff": 2.3,
+      "reached": 16,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.328,
+      "eff": 75.8,
+      "reached": 100,
+      "options": 145
+     },
+     "age": {
+      "H": 1.565,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.581,
+      "eff": 4.9,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.726,
+      "eff": 15.3,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 2.908,
+      "eff": 18.3,
+      "reached": 56,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.204,
+      "eff": 24.6,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.683,
+      "eff": 39.7,
+      "reached": 45,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.32,
+      "eff": 27.7,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.627,
+      "eff": 37.6,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.326,
+      "eff": 10.2,
+      "reached": 13,
+      "options": 13
+     },
+     "marks": {
+      "H": 2.25,
+      "eff": 9.5,
+      "reached": 18,
+      "options": 18
+     },
+     "glasses": {
+      "H": 1.657,
+      "eff": 5.2,
+      "reached": 11,
+      "options": 11
+     },
+     "facialHair": {
+      "H": 2.286,
+      "eff": 9.8,
+      "reached": 11,
+      "options": 11
+     },
+     "hairLength": {
+      "H": 1.51,
+      "eff": 4.5,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 4.031,
+      "eff": 56.3,
+      "reached": 65,
+      "options": 65
+     },
+     "hairTexture": {
+      "H": 2.629,
+      "eff": 13.9,
+      "reached": 15,
+      "options": 15
+     },
+     "fringe": {
+      "H": 1.578,
+      "eff": 4.8,
+      "reached": 9,
+      "options": 9
+     },
+     "hairColor": {
+      "H": 3.757,
+      "eff": 42.8,
+      "reached": 48,
+      "options": 48
+     },
+     "ageCue": {
+      "H": 1.531,
+      "eff": 4.6,
+      "reached": 15,
+      "options": 17
+     },
+     "outfit": {
+      "H": 4.446,
+      "eff": 85.3,
+      "reached": 107,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.545,
+      "eff": 94.2,
+      "reached": 111,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.487,
+      "eff": 88.8,
+      "reached": 103,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.592,
+      "eff": 36.3,
+      "reached": 43,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.855,
+      "eff": 6.4,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.745,
+      "eff": 5.7,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.913,
+      "eff": 50.1,
+      "reached": 67,
+      "options": 92
+     },
+     "prop": {
+      "H": 3.235,
+      "eff": 25.4,
+      "reached": 48,
+      "options": 50
+     },
+     "gaze": {
+      "H": 2.228,
+      "eff": 9.3,
+      "reached": 12,
+      "options": 12
+     },
+     "headPose": {
+      "H": 2.123,
+      "eff": 8.4,
+      "reached": 10,
+      "options": 10
+     },
+     "scene": {
+      "H": 4.154,
+      "eff": 63.7,
+      "reached": 87,
+      "options": 116
+     },
+     "time": {
+      "H": 2.763,
+      "eff": 15.8,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.052,
+      "eff": 21.1,
+      "reached": 25,
+      "options": 25
+     },
+     "outfitDetail": {
+      "H": 2.349,
+      "eff": 10.5,
+      "reached": 19,
+      "options": 20
+     },
+     "fabric": {
+      "H": 1.788,
+      "eff": 6,
+      "reached": 11,
+      "options": 11
+     },
+     "name": {
+      "H": 4.827,
+      "eff": 124.9,
+      "reached": 146,
+      "options": 224
+     }
+    }
+   },
+   "wild": {
+    "lockDepth": [
+     {
+      "depth": 0,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     },
+     {
+      "depth": 5,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 1,
+      "stuckRate": 0.004
+     },
+     {
+      "depth": 10,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 1,
+      "stuckRate": 0.004
+     },
+     {
+      "depth": 15,
+      "draws": 250,
+      "ok": 250,
+      "refused": 0,
+      "stuckDraws": 0,
+      "stuckRate": 0
+     }
+    ],
+    "signature": {
+     "fields": [
+      "age",
+      "presentation",
+      "build",
+      "face",
+      "eyeShape",
+      "hairStyle",
+      "outfit",
+      "pose"
+     ],
+     "draws": 250,
+     "collisions": 0,
+     "collisionRate": 0
+    },
+    "sameArchetype": {
+     "base": {
+      "pairs": 233,
+      "meanDiff": 12.72,
+      "closeRate": 0,
+      "nearRate": 0
+     },
+     "withNew": {
+      "pairs": 233,
+      "meanDiff": 18.6,
+      "closeRate": 0,
+      "nearRate": 0
+     }
+    },
+    "viewerGazeShare": 0.164,
+    "fieldEntropy": {
+     "world": {
+      "H": 3.654,
+      "eff": 38.6,
+      "reached": 42,
+      "options": 42
+     },
+     "culture": {
+      "H": 3.024,
+      "eff": 20.6,
+      "reached": 22,
+      "options": 22
+     },
+     "archetype": {
+      "H": 4.61,
+      "eff": 100.5,
+      "reached": 117,
+      "options": 145
+     },
+     "age": {
+      "H": 1.573,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "presentation": {
+      "H": 1.6,
+      "eff": 5,
+      "reached": 5,
+      "options": 5
+     },
+     "build": {
+      "H": 2.746,
+      "eff": 15.6,
+      "reached": 16,
+      "options": 16
+     },
+     "occupation": {
+      "H": 4.436,
+      "eff": 84.5,
+      "reached": 95,
+      "options": 113
+     },
+     "aura": {
+      "H": 3.212,
+      "eff": 24.8,
+      "reached": 26,
+      "options": 26
+     },
+     "face": {
+      "H": 3.698,
+      "eff": 40.4,
+      "reached": 44,
+      "options": 45
+     },
+     "eyeShape": {
+      "H": 3.349,
+      "eff": 28.5,
+      "reached": 30,
+      "options": 30
+     },
+     "eyeColor": {
+      "H": 3.606,
+      "eff": 36.8,
+      "reached": 40,
+      "options": 40
+     },
+     "skin": {
+      "H": 2.494,
+      "eff": 12.1,
+      "reached": 13,
+      "options": 13
+     },
+     "marks": {
+      "H": 2.799,
+      "eff": 16.4,
+      "reached": 18,
+      "options": 18
+     },
+     "glasses": {
+      "H": 2.295,
+      "eff": 9.9,
+      "reached": 11,
+      "options": 11
+     },
+     "facialHair": {
+      "H": 2.362,
+      "eff": 10.6,
+      "reached": 11,
+      "options": 11
+     },
+     "hairLength": {
+      "H": 1.568,
+      "eff": 4.8,
+      "reached": 5,
+      "options": 5
+     },
+     "hairStyle": {
+      "H": 3.936,
+      "eff": 51.2,
+      "reached": 62,
+      "options": 65
+     },
+     "hairTexture": {
+      "H": 2.601,
+      "eff": 13.5,
+      "reached": 15,
+      "options": 15
+     },
+     "fringe": {
+      "H": 1.653,
+      "eff": 5.2,
+      "reached": 9,
+      "options": 9
+     },
+     "hairColor": {
+      "H": 3.801,
+      "eff": 44.7,
+      "reached": 48,
+      "options": 48
+     },
+     "ageCue": {
+      "H": 1.984,
+      "eff": 7.3,
+      "reached": 17,
+      "options": 17
+     },
+     "outfit": {
+      "H": 4.709,
+      "eff": 111,
+      "reached": 125,
+      "options": 174
+     },
+     "mainColor": {
+      "H": 4.513,
+      "eff": 91.2,
+      "reached": 104,
+      "options": 128
+     },
+     "accentColor": {
+      "H": 4.52,
+      "eff": 91.8,
+      "reached": 105,
+      "options": 128
+     },
+     "expression": {
+      "H": 3.737,
+      "eff": 42,
+      "reached": 46,
+      "options": 55
+     },
+     "shot": {
+      "H": 1.923,
+      "eff": 6.8,
+      "reached": 7,
+      "options": 7
+     },
+     "angle": {
+      "H": 1.922,
+      "eff": 6.8,
+      "reached": 7,
+      "options": 7
+     },
+     "pose": {
+      "H": 3.937,
+      "eff": 51.2,
+      "reached": 63,
+      "options": 92
+     },
+     "prop": {
+      "H": 3.584,
+      "eff": 36,
+      "reached": 49,
+      "options": 50
+     },
+     "gaze": {
+      "H": 2.287,
+      "eff": 9.8,
+      "reached": 11,
+      "options": 12
+     },
+     "headPose": {
+      "H": 2.242,
+      "eff": 9.4,
+      "reached": 10,
+      "options": 10
+     },
+     "scene": {
+      "H": 4.417,
+      "eff": 82.8,
+      "reached": 96,
+      "options": 116
+     },
+     "time": {
+      "H": 2.82,
+      "eff": 16.8,
+      "reached": 19,
+      "options": 19
+     },
+     "light": {
+      "H": 3.088,
+      "eff": 21.9,
+      "reached": 25,
+      "options": 25
+     },
+     "outfitDetail": {
+      "H": 2.522,
+      "eff": 12.5,
+      "reached": 19,
+      "options": 20
+     },
+     "fabric": {
+      "H": 2.218,
+      "eff": 9.2,
+      "reached": 11,
+      "options": 11
+     },
+     "name": {
+      "H": 4.867,
+      "eff": 130,
+      "reached": 147,
+      "options": 224
+     }
+    }
+   }
+  }
+ }
+}

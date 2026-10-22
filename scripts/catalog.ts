@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { FIELDS, DATA_VERSION } from '../src/data/fields';
 import { STYLE_PRESETS } from '../src/data/presets';
 const SRC: Record<string, string> = { new: '新規', caw: '外見工房', cpw: '衣装工房', pcw: 'ポーズ工房', bg: '背景工房', kemono: '獣人工房', oc: 'OCメーカー' };
-const GROUP: Record<string, string> = { basic: '基本', face: '詳細：顔', role: '詳細：役割', pose: '詳細：ポーズ', scene: '詳細：背景', kemono: '任意：獣人', forbidden: '任意：禁断の調合', style: '任意：画風・名前' };
+const GROUP: Record<string, string> = { basic: '基本', face: '詳細：顔', role: '詳細：役割', pose: '詳細：ポーズ', hair: '任意：髪の細部', wear: '任意：衣装の細部・素材', scene: '詳細：背景', kemono: '任意：獣人', forbidden: '任意：禁断の調合', style: '任意：画風・名前' };
 const L: string[] = [`# DATA-CATALOG — 辞書の件数と構成`, '', `辞書の版：\`${DATA_VERSION}\`。件数は \`src/data/fields.ts\` の登録から自動集計（\`npm run report:catalog\` で再生成。下限は \`tests/data.test.ts\` で検査）。`, '',
   '## 指示書の目標との対応', '', '| 分類 | 目標 | 実数 |', '|---|---:|---:|'];
 const n = (id: string, excl = true) => FIELDS.find((f) => f.id === id)!.options.filter((o) => !excl || !['none', 'unspecified'].includes(o.id)).length;
@@ -13,7 +13,8 @@ L.push(`| 美形アーキタイプ | 100種以上 | ${n('archetype')} |`, `| 顔
   `| 世界観・派生舞台 | 20種類以上 | ${n('world')}（＋文化モチーフ${n('culture')}） |`, `| 職業・立場 | 60種以上 | ${n('occupation')} |`, `| 男性キャラ向け衣装セット | 100種以上 | ${n('outfit')}（配色${n('mainColor')}色×差し色） |`,
   `| ポーズ・構図プリセット | 50種以上 | ポーズ${n('pose')}・画角${n('shot')}・アングル${n('angle')}・持ち物${n('prop')} |`,
   `| 背景・照明組み合わせ | 80種以上 | 背景${scene}（空間${FIELDS.find(f=>f.id==='scene')!.options.filter(o=>o.place!=='simple').length}・シンプル/抽象${FIELDS.find(f=>f.id==='scene')!.options.filter(o=>o.place==='simple').length}）× 光${light} × 時間帯・天候${time}（hard 制約で成立しない組み合わせは除外） |`,
-  `| おまかせスタイル | 10〜25種（禁断を除く） | ${STYLE_PRESETS.filter((p) => p.group !== 'forbidden').length}（＋禁断 ${STYLE_PRESETS.filter((p) => p.group === 'forbidden').length}） |`, '');
+  `| おまかせスタイル | 10〜25種（禁断を除く） | ${STYLE_PRESETS.filter((p) => p.group !== 'forbidden').length}（＋禁断 ${STYLE_PRESETS.filter((p) => p.group === 'forbidden').length}） |`,
+  `| 2026-10 増築の任意項目（既定OFF） | 年齢・髪・視線・衣装の細部 | 年齢の表れ${n('ageCue')}・髪質${n('hairTexture')}・前髪${n('fringe')}・視線${n('gaze')}・頭の向き${n('headPose')}・衣装の細部${n('outfitDetail')}・素材${n('fabric')}（「指定しない」を除く） |`, '');
 L.push('## 項目別', '', '| 項目 | ID | 区分 | 件数 | 大分類 | 出典（件数） |', '|---|---|---|---:|---:|---|');
 let total = 0;
 for (const f of FIELDS) {

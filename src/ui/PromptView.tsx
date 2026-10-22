@@ -22,8 +22,8 @@ export function PromptView({ forge, actions, prefs }: { forge: ForgeState; actio
   const pixaiDit = S.outputTarget === 'pixai' && S.pixaiProfile === 'dit';
   const naiV5 = S.outputTarget === 'novelai' && S.novelaiProfile === 'v5';
   const tagMode = S.outputTarget !== 'naturalEnglish' && S.outputTarget !== 'japanese' && !pixaiDit;
-  const note = pixaiDit ? 'Tsubaki などの DiT 系モデル向けに、自然な英文で出力します（PixAI の案内：自然言語のプロンプトに対応。タグも可）。品質タグ・強調は付けません。'
-    : naiV5 ? 'V4.5・V5 向け。品質タグは NovelAI 公式の標準（very aesthetic, masterpiece, no text）を末尾に付けます。'
+  const note = pixaiDit ? 'Tsubaki などの DiT 系モデル向けに、長めの指示を文章で書く形（自然な英文）で出力します。品質タグ・強調は付けません。合わなければ SDXL系（タグ）に戻してください。'
+    : naiV5 ? 'V4.5・V5 向け。品質タグは NovelAI の V5 標準と同じ very aesthetic, masterpiece, no text を末尾に付けます（V4.5 Full の location は背景の指定と重ならないよう付けません）。NovelAI 側の Add Quality Tags がONなら、ここの品質タグはOFFに。'
     : TARGETS.find((t) => t[0] === S.outputTarget)?.[2];
   const count = tagMode ? `${main.split(',').filter((x) => x.trim()).length}タグ・${main.length}文字` : `${main.length}文字`;
 
