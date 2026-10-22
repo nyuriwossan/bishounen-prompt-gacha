@@ -92,4 +92,4 @@ hard ルールから矛盾する候補の組を機械的に列挙し、両方を
 - 開発用依存（vitest・typescript-eslint 配下）に `npm audit` の指摘が残る。配信物には含まれない。
 - 配信する JS が 545 kB（gzip 172 kB）になった（増築前 462 kB／147 kB）。辞書が大半で、起動時にすべて使うため分割していない。1回の抽選は、この環境で約20ms（増築前は約15ms）。iPhone での体感は未確認。
 - 増築の7項目をONにしてカオスで多くの項目を固定すると、まれに（指標の計測で750回に1〜2回）合う候補がなく元の値を保つ項目が出る。結果は hard 制約を満たし、理由を通知する。
-- **公開状況**：GitHub Actions（型検査・lint・テスト185件・ビルド）が成功し、`gh-pages` へ反映。GitHub の deployment status は `success`（`https://nyuriwossan.github.io/bishounen-prompt-gacha/`）。`gh-pages` の配信ファイル5点は、上記ブラウザ検証に使ったビルドとハッシュが一致することを確認した。ただし、この作業環境からは github.io に接続できないため、**公開URLを直接開いての表示確認は未実施**。
+- **公開状況**（2026-10 増築）：PR #1（`expansion-2026-10`）の GitHub Actions（型検査・lint・テスト324件・ビルド）が成功した後に `main` へマージ（`44ea5e2`）。`main` の Actions も成功し、`gh-pages` へ反映（`61800d4`）、「pages build and deployment」も `success`。`gh-pages` の配信ファイル5点（index.html・JS・CSS・sw.js・manifest）は、上記ブラウザ検証に使ったビルドとハッシュが一致することを確認した。ただし、この作業環境からは github.io に接続できないため、**公開URLを直接開いての表示確認は未実施**。
