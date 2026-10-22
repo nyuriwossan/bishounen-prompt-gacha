@@ -1,0 +1,8764 @@
+{
+ "generatedAt": "2026-10-22T07:40:03.170Z",
+ "input": {
+  "count": 394,
+  "uniqueIds": 394,
+  "csvRows": 394,
+  "csvMatchesJson": true,
+  "csvDiffs": [],
+  "byCategory": {
+   "archetype": 24,
+   "face": 26,
+   "eyeShape": 16,
+   "feature": 14,
+   "beard": 8,
+   "build": 12,
+   "hairStyle": 26,
+   "expression": 16,
+   "vibe": 10,
+   "world": 16,
+   "occupation": 24,
+   "outfit": 28,
+   "pose": 24,
+   "prop": 14,
+   "scene": 22,
+   "weather": 6,
+   "lighting": 6,
+   "ageCue": 18,
+   "hairTexture": 14,
+   "fringe": 12,
+   "gaze": 14,
+   "headPose": 12,
+   "outfitDetail": 20,
+   "fabric": 12
+  },
+  "byPhase": {
+   "1": 146,
+   "2": 146,
+   "3": 102
+  },
+  "byPriority": {
+   "high": 146,
+   "medium": 235,
+   "low": 13
+  },
+  "byConfidence": {
+   "B": 133,
+   "A": 251,
+   "C": 10
+  },
+  "existingField": 292,
+  "newField": 102,
+  "allReconstruction": true
+ },
+ "summary": {
+  "exactDuplicateOfExisting": 32,
+  "nearSameField": 51,
+  "japaneseNameClash": 6,
+  "idClash": 9,
+  "candidateTwins": 22,
+  "templateNat": 284,
+  "abstractC": 10
+ },
+ "results": [
+  {
+   "id": "x_archetype_weathered_craftsman",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "年輪を刻んだ職人美",
+   "en": [
+    "rugged handsome craftsman",
+    "weathered elegance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_silver_diplomat",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "銀髪の外交官",
+   "en": [
+    "distinguished silver-haired gentleman",
+    "diplomatic poise"
+   ],
+   "exactDup": [
+    "archetype:silver_gentleman"
+   ],
+   "nearSameField": [
+    "archetype:silver_gentleman(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_world_weary_detective",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "疲れた名探偵",
+   "en": [
+    "world-weary handsome detective",
+    "tired sharp eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_sartorial_dandy",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "洒脱なダンディ",
+   "en": [
+    "dashing mature gentleman",
+    "sartorial elegance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_steppe_falconer",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "草原の鷹匠",
+   "en": [
+    "windswept rugged handsome",
+    "steppe elegance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_solarpunk_engineer",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "ソーラーパンク技師",
+   "en": [
+    "optimistic tech handsome",
+    "natural warmth"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_orbital_diplomat",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "軌道都市の外交官",
+   "en": [
+    "futuristic distinguished handsome",
+    "composed authority"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_art_nouveau_mystic",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "アール・ヌーヴォーの神秘家",
+   "en": [
+    "ornate ethereal handsome",
+    "art nouveau elegance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_gentle_physician",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "穏やかな壮年医師",
+   "en": [
+    "mature handsome physician",
+    "gentle confidence"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_reserved_editor",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "物静かな編集者",
+   "en": [
+    "reserved intellectual handsome",
+    "understated elegance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_urbane_barber",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "都会派クラシック理髪師",
+   "en": [
+    "well-groomed mature handsome",
+    "old-fashioned charm"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_renaissance_inventor",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "ルネサンス工房の発明家",
+   "en": [
+    "inquisitive handsome inventor",
+    "renaissance workshop elegance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_scholarly_astronomer",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "学究肌の星読み",
+   "en": [
+    "scholarly handsome astronomer",
+    "thoughtful eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_introspective_jazzman",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "内省的なジャズ奏者",
+   "en": [
+    "melancholic jazz musician",
+    "effortless charm"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_stoic_firefighter",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "寡黙な消防士",
+   "en": [
+    "stoic heroic handsome",
+    "practical ruggedness"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_coastal_fisherman",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "海辺の漁師",
+   "en": [
+    "weather-beaten handsome fisherman",
+    "sea-worn features"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_thoughtful_architect",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "思索する建築家",
+   "en": [
+    "thoughtful modern architect",
+    "refined handsome features"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_botanical_researcher",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "植物採集家の優しい知性",
+   "en": [
+    "gentle botanical researcher",
+    "quiet curiosity"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_mountain_guide",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "山岳案内人の精悍さ",
+   "en": [
+    "rugged mountain guide",
+    "calm resilience"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_quiet_tailor",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "寡黙な仕立て職人",
+   "en": [
+    "quiet handsome tailor",
+    "meticulous composure"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_enigmatic_curator",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "謎めいた学芸員",
+   "en": [
+    "enigmatic museum curator",
+    "composed elegance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_weathered_captain",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "潮風を受けた船長",
+   "en": [
+    "seasoned handsome sea captain",
+    "weathered dignity"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_vibe_weathered_dignity"
+   ],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_urban_cyclist",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "都市生活の自転車乗り",
+   "en": [
+    "casual athletic handsome",
+    "urban cyclist ease"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_archetype_melancholic_poet",
+   "category": "archetype",
+   "field": "archetype",
+   "fieldExists": true,
+   "ja": "憂いを帯びた詩人",
+   "en": [
+    "wistful androgynous handsome poet",
+    "gentle melancholy"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "One handsome adult man with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_face_diamond_face",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "ダイヤ型の輪郭",
+   "en": [
+    "diamond-shaped face",
+    "defined cheekbones"
+   ],
+   "exactDup": [
+    "face:sharp_jaw"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_rectangular_face",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "長方形の輪郭",
+   "en": [
+    "rectangular face",
+    "defined jawline"
+   ],
+   "exactDup": [
+    "face:straight_nose"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_wide_oval_face",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "幅のある卵型輪郭",
+   "en": [
+    "broad oval face",
+    "soft jawline"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_heart_face_male",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "額が広い逆三角輪郭",
+   "en": [
+    "heart-shaped face",
+    "broader forehead"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_square_soft_edges",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "角が柔らかな四角顔",
+   "en": [
+    "soft square face",
+    "rounded jaw corners"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "face:gentle_long(0.38)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_elongated_face",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "縦長の面長顔",
+   "en": [
+    "elongated face",
+    "long facial proportions"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_prominent_cheekbones",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "際立った頬骨",
+   "en": [
+    "prominent cheekbones"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_high_zygomatic_arch",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "高い頬骨弓",
+   "en": [
+    "high cheekbones",
+    "defined zygomatic arches"
+   ],
+   "exactDup": [
+    "face:high_cheek"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_hollow_cheeks",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "少しこけた頬",
+   "en": [
+    "slightly hollow cheeks"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "face:high_cheek(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_full_cheeks",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "ふっくらした頬",
+   "en": [
+    "full cheeks",
+    "soft facial fullness"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_roman_nose",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "ローマ鼻",
+   "en": [
+    "Roman nose",
+    "strong profile"
+   ],
+   "exactDup": [
+    "face:aquiline"
+   ],
+   "nearSameField": [
+    "face:aquiline(0.60)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_aquiline_nose",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "鷲鼻",
+   "en": [
+    "aquiline nose",
+    "curved bridge"
+   ],
+   "exactDup": [
+    "face:aquiline"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_straight_nose_bridge",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "まっすぐな鼻梁",
+   "en": [
+    "straight nasal bridge"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_broad_nose",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "幅広の鼻",
+   "en": [
+    "broad nose",
+    "natural nasal width"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_rounded_nose_tip",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "丸みのある鼻先",
+   "en": [
+    "rounded nose tip"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_subtly_bent_nose",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "わずかに曲がった鼻筋",
+   "en": [
+    "slightly crooked nose",
+    "subtle asymmetry"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_strong_brow_ridge",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "強い眉骨",
+   "en": [
+    "prominent brow ridge"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_smooth_brow_line",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "なだらかな眉骨",
+   "en": [
+    "soft brow ridge",
+    "smooth forehead profile"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_thick_angled_eyebrows",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "太く角度のある眉",
+   "en": [
+    "thick angled eyebrows"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "face:thick_brows(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_soft_straight_brows",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "柔らかい直線眉",
+   "en": [
+    "soft straight eyebrows"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "face:thick_brows(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_arched_brows",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "高めの弓形眉",
+   "en": [
+    "arched eyebrows",
+    "defined arch"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "face:arched_brows(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "face:arched_brows",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_wide_mouth",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "横幅のある口",
+   "en": [
+    "wide mouth",
+    "broad smile line"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_bow_shaped_lips",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "弓形の唇",
+   "en": [
+    "bow-shaped lips",
+    "defined cupid's bow"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_full_lower_lip",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "ふっくらした下唇",
+   "en": [
+    "full lower lip"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "face:full_lips(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_rounded_chin",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "丸みのある顎先",
+   "en": [
+    "rounded chin"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_face_prominent_chin",
+   "category": "face",
+   "field": "face",
+   "fieldExists": true,
+   "ja": "前に出た顎先",
+   "en": [
+    "prominent chin",
+    "defined chin projection"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult male character has",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_crow_feet_eyes",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "目尻の笑い皺",
+   "en": [
+    "crow's feet",
+    "smiling eyes"
+   ],
+   "exactDup": [
+    "eyeShape:smiling_eyes"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have crow's feet,",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_deep_set_eyes",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "彫りの深い目",
+   "en": [
+    "deep-set eyes"
+   ],
+   "exactDup": [
+    "eyeShape:deep_set_eyes",
+    "face:deep_set"
+   ],
+   "nearSameField": [
+    "eyeShape:deep_set_eyes(1.00)"
+   ],
+   "jaDup": [],
+   "idClash": "eyeShape:deep_set_eyes",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have deep-set eyes.",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_hooded_eyelids",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "被さり気味のまぶた",
+   "en": [
+    "hooded eyelids"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "eyeShape:hooded(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have hooded eyelids.",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_slightly_heavy_eyelids",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "少し重いまぶた",
+   "en": [
+    "slightly heavy eyelids"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_ageCue_slightly_heavy_eyelids"
+   ],
+   "templateNat": false,
+   "natHead": "His eyes have slightly heavy",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_wide_set_eyes",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "離れ気味の目",
+   "en": [
+    "wide-set eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have wide-set eyes.",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_close_set_eyes",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "寄り気味の目",
+   "en": [
+    "close-set eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have close-set eyes.",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_downturned_outer_corners",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "目尻が下がった目",
+   "en": [
+    "downturned outer eye corners"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have downturned outer",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_upturned_outer_corners",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "目尻が上がった目",
+   "en": [
+    "upturned outer eye corners"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have upturned outer",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_narrow_almond_eyes",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "細いアーモンド形の目",
+   "en": [
+    "narrow almond-shaped eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "eyeShape:almond(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have narrow almond-shaped",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_rounded_almond_eyes",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "丸みのあるアーモンド形",
+   "en": [
+    "rounded almond-shaped eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "eyeShape:almond(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have rounded almond-shaped",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_asymmetrical_eyelids",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "左右差のあるまぶた",
+   "en": [
+    "subtle eyelid asymmetry"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have subtle eyelid",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_lower_lid_fullness",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "ふくらみのある下まぶた",
+   "en": [
+    "slight lower eyelid fullness"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have slight lower",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_long_lashes_subtle",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "控えめな長い睫毛",
+   "en": [
+    "long natural eyelashes",
+    "subtle appearance"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "eyeShape:long_lashes(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have long natural",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_short_lower_lashes",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "短い下睫毛",
+   "en": [
+    "short lower eyelashes"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have short lower",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_gentle_eye_bags",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "柔らかな目の下の陰",
+   "en": [
+    "gentle under-eye bags"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have gentle under-eye",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_eyeShape_under_eye_hollows",
+   "category": "eyeShape",
+   "field": "eyeShape",
+   "fieldExists": true,
+   "ja": "目の下のくぼみ",
+   "en": [
+    "subtle under-eye hollows"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His eyes have subtle under-eye",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_subtle_crows_feet",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "控えめな目尻の小皺",
+   "en": [
+    "subtle crow's feet"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_ageCue_subtle_crows_feet"
+   ],
+   "templateNat": false,
+   "natHead": "His portrait shows subtle crow's",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_fine_smile_lines",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "細い笑い皺",
+   "en": [
+    "fine smile lines"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_ageCue_fine_smile_lines"
+   ],
+   "templateNat": false,
+   "natHead": "His portrait shows fine smile",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_temple_gray_streaks",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "こめかみの白髪",
+   "en": [
+    "gray at temples",
+    "salt-and-pepper temples"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_ageCue_gray_at_temples"
+   ],
+   "templateNat": false,
+   "natHead": "His portrait shows gray at",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_forehead_expression_lines",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "額の表情皺",
+   "en": [
+    "fine forehead expression lines"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows fine forehead",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_glabella_lines_subtle",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "眉間のうっすらした皺",
+   "en": [
+    "subtle glabellar lines"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows subtle glabellar",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_weathered_skin_texture",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "風雨を経た肌理",
+   "en": [
+    "weathered but dignified skin texture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows weathered but",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_mature_skin_pores",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "自然な成熟肌の肌理",
+   "en": [
+    "natural mature skin texture",
+    "visible fine pores"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows natural mature",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_light_freckling",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "薄いそばかす",
+   "en": [
+    "light freckles across nose"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows light freckles",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_faint_acne_scars",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "淡いニキビ跡",
+   "en": [
+    "faint healed acne scars"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows faint healed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_healed_cheek_scar",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "治癒した頬の傷跡",
+   "en": [
+    "faint healed cheek scar"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "marks:scar_cheek(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows faint healed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_subtle_facial_asymmetry",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "微細な顔の左右差",
+   "en": [
+    "subtle facial asymmetry"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows subtle facial",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_faint_sunspots",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "日差しによる薄い色斑",
+   "en": [
+    "faint sunspots on skin"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows faint sunspots",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_smile_dimple",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "笑うとできるえくぼ",
+   "en": [
+    "single cheek dimple when smiling"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows single cheek",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_feature_beauty_mark_by_lip",
+   "category": "feature",
+   "field": "marks",
+   "fieldExists": true,
+   "ja": "口元の泣きぼくろ",
+   "en": [
+    "beauty mark beside lips"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His portrait shows beauty mark",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_salt_pepper_stubble",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "白黒混じりの無精ひげ",
+   "en": [
+    "salt-and-pepper stubble"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears salt-and-pepper",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_trimmed_salt_pepper_beard",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "整えた白黒混じりの短いひげ",
+   "en": [
+    "neatly trimmed salt-and-pepper beard"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears neatly",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_neat_goatee",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "整った山羊ひげ",
+   "en": [
+    "neat goatee"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "facialHair:goatee(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears neat",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_short_boxed_beard",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "輪郭を整えた短いひげ",
+   "en": [
+    "short boxed beard"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "facialHair:short_beard(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears short",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_fine_mustache",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "細い口ひげ",
+   "en": [
+    "thin neat mustache"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears thin",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_pencil_mustache",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "ペンシル型の口ひげ",
+   "en": [
+    "pencil mustache"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "facialHair:mustache(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears pencil",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_silver_sideburns",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "銀混じりのもみあげ",
+   "en": [
+    "graying sideburns"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "facialHair:sideburns(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears graying",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_beard_sparse_chin_stubble",
+   "category": "beard",
+   "field": "facialHair",
+   "fieldExists": true,
+   "ja": "まばらな顎の剃り残し",
+   "en": [
+    "sparse chin stubble"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The adult man wears sparse",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_stocky",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "がっしりした中背",
+   "en": [
+    "stocky build",
+    "broad torso"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows stocky build,",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_wiry",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "細く硬い筋肉",
+   "en": [
+    "wiry build",
+    "lean muscle"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows wiry build,",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_lean_tall",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "すらりとした長身",
+   "en": [
+    "tall lean build",
+    "elongated silhouette"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows tall lean",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_broad_shoulders_narrow_waist",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "肩幅が広い逆三角体型",
+   "en": [
+    "broad shoulders",
+    "narrow waist"
+   ],
+   "exactDup": [
+    "build:athletic",
+    "build:muscular"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows broad shoulders,",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_compact_athletic",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "小柄で引き締まった体",
+   "en": [
+    "compact athletic build"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "build:athletic(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows compact athletic",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_long_limbed",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "手足の長い骨格",
+   "en": [
+    "long limbs",
+    "elegant proportions"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows long limbs,",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_barrel_chested",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "厚い胸郭",
+   "en": [
+    "barrel chest",
+    "substantial ribcage"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows barrel chest,",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_thick_neck",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "太く力強い首",
+   "en": [
+    "thick neck",
+    "strong trapezius muscles"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows thick neck,",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_sloped_shoulders",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "なだらかな肩",
+   "en": [
+    "gently sloping shoulders"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows gently sloping",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_sturdy_lower_body",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "下半身がどっしりした体型",
+   "en": [
+    "strong thighs",
+    "sturdy lower body"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows strong thighs,",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_slender_boned",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "華奢な骨格",
+   "en": [
+    "fine-boned slender frame"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows fine-boned slender",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_build_soft_heavyset",
+   "category": "build",
+   "field": "build",
+   "fieldExists": true,
+   "ja": "柔らかく豊かな体格",
+   "en": [
+    "soft heavyset build",
+    "gentle silhouette"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His build shows soft heavyset",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_ivy_league_cut",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "アイビーリーグカット",
+   "en": [
+    "ivy league haircut"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_french_crop",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "フレンチクロップ",
+   "en": [
+    "French crop haircut"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "hairStyle:textured_crop(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_caesar_cut",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "シーザーカット",
+   "en": [
+    "Caesar cut",
+    "short blunt fringe"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_short_quiff",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "短いクイッフ",
+   "en": [
+    "short quiff hairstyle"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_modern_pompadour",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "モダンポンパドール",
+   "en": [
+    "modern pompadour"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "hairStyle:pompadour(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_comma_hair",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "コンマヘア",
+   "en": [
+    "comma hair",
+    "curved front lock"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_curtain_bangs",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "センターパートのカーテン前髪",
+   "en": [
+    "curtain bangs",
+    "center part"
+   ],
+   "exactDup": [
+    "hairStyle:center_part_short",
+    "hairStyle:curtain_bangs"
+   ],
+   "nearSameField": [
+    "hairStyle:curtain_bangs(1.00)",
+    "hairStyle:center_part_short(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "hairStyle:curtain_bangs",
+   "candidateTwins": [
+    "x_fringe_center_part"
+   ],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_bro_flow",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "自然なブローフロー",
+   "en": [
+    "bro flow hairstyle",
+    "swept-back medium hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_shag_cut",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "レイヤーの入ったシャグ",
+   "en": [
+    "shag haircut",
+    "soft layers"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_modern_mullet",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "控えめなモダンマレット",
+   "en": [
+    "modern mullet",
+    "longer nape"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_curly_crop",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "短いカーリークロップ",
+   "en": [
+    "short curly crop"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "hairStyle:curly_short(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_wavy_shoulder",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "肩丈のウェーブ",
+   "en": [
+    "shoulder-length wavy hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_half_up_bun",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "ハーフアップのお団子",
+   "en": [
+    "half-up bun hairstyle"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_undercut_ponytail",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "アンダーカットの一つ結び",
+   "en": [
+    "undercut ponytail"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_coiled_short_hair",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "短いコイル状の髪",
+   "en": [
+    "short coiled hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_locs_tied_back",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "後ろでまとめたロックス",
+   "en": [
+    "locs tied back"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_slick_side_part",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "艶のあるサイドパート",
+   "en": [
+    "slick side part hairstyle"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "hairStyle:side_part(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_textured_crew_cut",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "質感のあるクルーカット",
+   "en": [
+    "textured crew cut"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "hairStyle:crew_cut(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_tapered_afro",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "テーパードアフロ",
+   "en": [
+    "tapered afro hairstyle"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_swept_back_wave",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "流し上げた波打つ髪",
+   "en": [
+    "swept-back wavy hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_low_messy_bun",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "低い位置の無造作お団子",
+   "en": [
+    "loose low bun",
+    "tousled strands"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_middle_part_tucked",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "耳に掛けるセンターパート",
+   "en": [
+    "middle-parted hair tucked behind ears"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "hairStyle:tucked(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_layered_wolf_cut",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "レイヤーのウルフカット",
+   "en": [
+    "layered wolf cut"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "hairStyle:wolf_cut(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_disconnected_undercut",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "段差のあるアンダーカット",
+   "en": [
+    "disconnected undercut"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_collar_length_curls",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "襟足までの巻き髪",
+   "en": [
+    "collar-length natural curls"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_hairStyle_thinning_hair_swept_back",
+   "category": "hairStyle",
+   "field": "hairStyle",
+   "fieldExists": true,
+   "ja": "薄毛を整えたオールバック",
+   "en": [
+    "slightly thinning hair swept back"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "His hair is styled with",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_quiet_pride",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "控えめな誇り",
+   "en": [
+    "subtle proud smile"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys subtle",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_restrained_grief",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "こらえた悲しみ",
+   "en": [
+    "restrained sorrow",
+    "tightened lips"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys restrained",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_sardonic_half_smile",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "皮肉げな片笑み",
+   "en": [
+    "sardonic half-smile"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "expression:provocative(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys sardonic",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_sleepy_half_lidded",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "眠たげな半眼",
+   "en": [
+    "sleepy half-lidded expression"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys sleepy",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_appraising_glance",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "値踏みする視線",
+   "en": [
+    "appraising expression"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys appraising",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_soft_concern",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "柔らかな気遣い",
+   "en": [
+    "gentle concern",
+    "softened eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys gentle",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_earnest_attention",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "真摯に聞き入る顔",
+   "en": [
+    "earnest attentive expression"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys earnest",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_embarrassed_downlook",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "照れ隠しの伏し目",
+   "en": [
+    "shy downward glance",
+    "faint blush"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys shy",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_quiet_resolve",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "静かな決意",
+   "en": [
+    "quiet resolve",
+    "firm mouth"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys quiet",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_relieved_exhale",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "安堵して息を吐く",
+   "en": [
+    "relieved expression",
+    "soft exhale"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys relieved",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_disbelieving_brow",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "信じられないという眉",
+   "en": [
+    "skeptical raised eyebrow"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "expression:teasing(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys skeptical",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_bittersweet_smile",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "ほろ苦い微笑み",
+   "en": [
+    "bittersweet smile"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys bittersweet",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_focused_squint",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "作業に集中した細目",
+   "en": [
+    "focused squint"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys focused",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_affectionate_side_glance",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "親しげな横目",
+   "en": [
+    "fond sideways glance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys fond",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_weary_tenderness",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "疲れと優しさの混じる表情",
+   "en": [
+    "weary but tender expression"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys weary",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_expression_suppressed_laughter",
+   "category": "expression",
+   "field": "expression",
+   "fieldExists": true,
+   "ja": "笑いをこらえる顔",
+   "en": [
+    "suppressed laugh",
+    "restrained grin"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "His facial expression conveys suppressed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_vibe_artisan_confidence",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "職人の自信",
+   "en": [
+    "artisan confidence",
+    "grounded composure"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests artisan",
+   "abstract": true,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_world_weary",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "世慣れた哀愁",
+   "en": [
+    "world-weary atmosphere"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests world-weary",
+   "abstract": true,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_sunlit_optimism",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "陽だまりの楽天性",
+   "en": [
+    "sunlit optimism",
+    "approachable warmth"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests sunlit",
+   "abstract": true,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_diplomatic_gravity",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "外交官の重み",
+   "en": [
+    "diplomatic gravitas",
+    "measured calm"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests diplomatic",
+   "abstract": true,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_understated_luxury",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "控えめな高級感",
+   "en": [
+    "understated luxury",
+    "refined restraint"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests understated",
+   "abstract": true,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_intellectual_solitude",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "知的な孤独",
+   "en": [
+    "intellectual solitude",
+    "quiet contemplation"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests intellectual",
+   "abstract": true,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_weathered_dignity",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "風雪を経た気品",
+   "en": [
+    "weathered dignity",
+    "mature poise"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_archetype_weathered_captain",
+    "x_ageCue_seasoned_gaze"
+   ],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests weathered",
+   "abstract": true,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_urban_ease",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "都会的な自然体",
+   "en": [
+    "urban ease",
+    "unforced confidence"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests urban",
+   "abstract": true,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_old_world_courtesy",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "古風な礼節",
+   "en": [
+    "old-world courtesy",
+    "formal grace"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests old-world",
+   "abstract": true,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "C"
+  },
+  {
+   "id": "x_vibe_playful_irony",
+   "category": "vibe",
+   "field": "aura",
+   "fieldExists": true,
+   "ja": "いたずらな皮肉",
+   "en": [
+    "playful irony",
+    "teasing charm"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The visual atmosphere suggests playful",
+   "abstract": true,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "C"
+  },
+  {
+   "id": "x_world_contemporary_korean_city",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "現代韓国風の都市",
+   "en": [
+    "contemporary Korean-inspired city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_south_asian_metropolis",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "南アジア風の大都市",
+   "en": [
+    "South Asian-inspired metropolis"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_southeast_asian_port",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "東南アジア風の港湾都市",
+   "en": [
+    "Southeast Asian-inspired port city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_central_asian_steppe",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "中央アジア風の草原世界",
+   "en": [
+    "Central Asian-inspired steppe"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_silk_road_trade_city",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "シルクロード風の交易都市",
+   "en": [
+    "Silk Road-inspired trade city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_west_african_fantasy_city",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "西アフリカ意匠の幻想都市",
+   "en": [
+    "West African-inspired fantasy city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_east_african_coast",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "東アフリカ風の沿岸交易都市",
+   "en": [
+    "East African-inspired coastal trade city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_andean_highland",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "アンデス風の高地幻想",
+   "en": [
+    "Andean-inspired highland fantasy"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_mesoamerican_mythic_city",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "メソアメリカ風の神話都市",
+   "en": [
+    "Mesoamerican-inspired mythic city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_medieval_european_city",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "中世ヨーロッパの都市",
+   "en": [
+    "medieval European city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_renaissance_court",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "ルネサンス宮廷",
+   "en": [
+    "Renaissance court"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_belle_epoque",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "ベル・エポックの街",
+   "en": [
+    "Belle Époque city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_art_nouveau",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "アール・ヌーヴォーの都市",
+   "en": [
+    "Art Nouveau city"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_dieselpunk",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "ディーゼルパンク",
+   "en": [
+    "dieselpunk"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_solarpunk",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "ソーラーパンク",
+   "en": [
+    "solarpunk"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_world_oceanic_future",
+   "category": "world",
+   "field": "world",
+   "fieldExists": true,
+   "ja": "海洋・深海SF",
+   "en": [
+    "underwater science fiction city"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "world:near_future(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult male character inhabits",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_occupation_architect",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "建築家",
+   "en": [
+    "architect"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_carpenter",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "木工職人",
+   "en": [
+    "carpenter"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_chef",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "料理人",
+   "en": [
+    "professional chef"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "occupation:chef(0.50)"
+   ],
+   "jaDup": [],
+   "idClash": "occupation:chef",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_baker",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "パン職人",
+   "en": [
+    "artisan baker"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_photographer",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "写真家",
+   "en": [
+    "photographer"
+   ],
+   "exactDup": [
+    "occupation:photographer"
+   ],
+   "nearSameField": [
+    "occupation:photographer(1.00)"
+   ],
+   "jaDup": [
+    "occupation:photographer"
+   ],
+   "idClash": "occupation:photographer",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_curator",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "学芸員",
+   "en": [
+    "museum curator"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_barber",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "理髪師",
+   "en": [
+    "barber"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_tailor",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "仕立て屋",
+   "en": [
+    "tailor"
+   ],
+   "exactDup": [
+    "occupation:tailor"
+   ],
+   "nearSameField": [
+    "occupation:tailor(1.00)"
+   ],
+   "jaDup": [
+    "occupation:tailor"
+   ],
+   "idClash": "occupation:tailor",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_jeweler",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "宝飾職人",
+   "en": [
+    "jeweler"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_potter",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "陶芸家",
+   "en": [
+    "potter"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_fisherman",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "漁師",
+   "en": [
+    "fisherman"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_vineyard_keeper",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "葡萄農園主",
+   "en": [
+    "vineyard owner"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_journalist",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "記者",
+   "en": [
+    "journalist"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_editor",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "編集者",
+   "en": [
+    "book editor"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_translator",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "翻訳家",
+   "en": [
+    "literary translator"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_diplomat",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "外交官",
+   "en": [
+    "diplomat"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_firefighter",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "消防士",
+   "en": [
+    "firefighter"
+   ],
+   "exactDup": [
+    "occupation:firefighter"
+   ],
+   "nearSameField": [
+    "occupation:firefighter(1.00)"
+   ],
+   "jaDup": [
+    "occupation:firefighter"
+   ],
+   "idClash": "occupation:firefighter",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_paramedic",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "救急救命士",
+   "en": [
+    "paramedic"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_mechanic",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "整備士",
+   "en": [
+    "mechanic"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_pilot",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "操縦士",
+   "en": [
+    "pilot"
+   ],
+   "exactDup": [
+    "occupation:pilot"
+   ],
+   "nearSameField": [
+    "occupation:pilot(1.00)"
+   ],
+   "jaDup": [],
+   "idClash": "occupation:pilot",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_ship_captain",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "船長",
+   "en": [
+    "ship captain"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [
+    "occupation:sea_captain"
+   ],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_mountain_guide",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "山岳ガイド",
+   "en": [
+    "mountain guide"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_falconer",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "鷹匠",
+   "en": [
+    "falconer"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_occupation_botanist",
+   "category": "occupation",
+   "field": "occupation",
+   "fieldExists": true,
+   "ja": "植物学者",
+   "en": [
+    "botanist"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man is portrayed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_workwear_chore",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "チョアジャケットのワークウェア",
+   "en": [
+    "chore jacket",
+    "work shirt"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears chore",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_fine_knit_polo",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "上質なニットポロ",
+   "en": [
+    "fine-knit polo shirt",
+    "tailored trousers"
+   ],
+   "exactDup": [
+    "outfit:three_piece"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears fine-knit",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_minimalist_architect",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "建築家風ミニマル服",
+   "en": [
+    "minimalist blazer",
+    "straight-cut trousers"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears minimalist",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_relaxed_three_piece",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "くつろいだ三つ揃いスーツ",
+   "en": [
+    "relaxed three-piece suit",
+    "open collar"
+   ],
+   "exactDup": [
+    "outfit:open_collar_suit",
+    "outfit:linen_shirt",
+    "outfit:loose_kimono"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears relaxed",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_linen_overshirt",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "リネンのオーバーシャツ",
+   "en": [
+    "linen overshirt",
+    "tapered pants"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears linen",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_vintage_barber_vest",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "理髪師のクラシックベスト",
+   "en": [
+    "vintage waistcoat",
+    "rolled sleeves"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_outfit_work_apron_canvas"
+   ],
+   "templateNat": false,
+   "natHead": "An adult man wears vintage",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_modern_utility_vest",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "都会派ユーティリティベスト",
+   "en": [
+    "modern utility vest",
+    "neat shirt"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears modern",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_long_wool_overcoat",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "長いウールコート",
+   "en": [
+    "long wool overcoat",
+    "wool scarf"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears long",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_tweed_sports_coat",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "ツイードのスポーツコート",
+   "en": [
+    "tweed sports coat",
+    "fine-knit sweater"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears tweed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_soft_cardigan",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "柔らかなカーディガン",
+   "en": [
+    "soft cardigan",
+    "collared shirt"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "outfit:cardigan(0.43)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears soft",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_work_apron_canvas",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "厚手エプロンと作業服",
+   "en": [
+    "heavy canvas apron",
+    "rolled sleeves"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_outfit_vintage_barber_vest"
+   ],
+   "templateNat": false,
+   "natHead": "An adult man wears heavy",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_rolled_sleeve_oxford",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "袖をまくったオックスフォードシャツ",
+   "en": [
+    "Oxford shirt",
+    "rolled-up sleeves"
+   ],
+   "exactDup": [
+    "outfit:waistcoat_shirt"
+   ],
+   "nearSameField": [
+    "outfit:white_shirt(0.38)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears Oxford",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_bespoke_double_breasted",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "仕立てのよいダブルスーツ",
+   "en": [
+    "bespoke double-breasted suit"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears bespoke",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_bandhgala_inspired",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "バンドガラ風の礼装",
+   "en": [
+    "bandhgala-inspired tailored suit"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears bandhgala-inspired",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfit_lightweight_tunic",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "軽やかなロングチュニック",
+   "en": [
+    "long tailored tunic",
+    "loose trousers"
+   ],
+   "exactDup": [
+    "outfit:desert_prince",
+    "outfit:persian_prince",
+    "outfit:burnous",
+    "outfit:dancer"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears long",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_embroidered_trade_coat",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "刺繍入りの交易商コート",
+   "en": [
+    "embroidered long trading coat"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears embroidered",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_steppe_riding_coat",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "草原の乗馬コート",
+   "en": [
+    "long steppe riding coat",
+    "leather belt"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears long",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_woven_coastal_cloak",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "沿岸都市の織りマント",
+   "en": [
+    "woven coastal cloak",
+    "layered tunic"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears woven",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_andes_wool_layers",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "高地のウール重ね着",
+   "en": [
+    "highland wool layers",
+    "woven outer garment"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears highland",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_renaissance_doublet",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "ルネサンスのダブレット",
+   "en": [
+    "Renaissance doublet",
+    "fitted sleeves"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears Renaissance",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_belle_epoque_suit",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "ベル・エポックのスーツ",
+   "en": [
+    "Belle Époque tailored suit",
+    "waistcoat"
+   ],
+   "exactDup": [
+    "outfit:three_piece",
+    "outfit:rococo",
+    "outfit:regency",
+    "outfit:victorian_frock",
+    "outfit:ringleader"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears Belle",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_art_nouveau_formal",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "曲線意匠の礼服",
+   "en": [
+    "art nouveau formal jacket",
+    "curved embroidery"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears art",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_dieselpunk_flight",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "ディーゼルパンクの飛行服",
+   "en": [
+    "dieselpunk flight jacket",
+    "aviator trousers"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "outfit:pilot_jacket(0.44)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears dieselpunk",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_solarpunk_utility",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "ソーラーパンクの作業服",
+   "en": [
+    "solarpunk utility jacket",
+    "eco-fabric panels"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears solarpunk",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_oceanic_expedition",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "深海探査隊の制服",
+   "en": [
+    "futuristic deep-sea expedition suit"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears futuristic",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_orbital_diplomat_uniform",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "軌道都市の外交官礼装",
+   "en": [
+    "futuristic diplomatic uniform",
+    "clean tailoring"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears futuristic",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_relaxed_mature_resort",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "大人の上品なリゾート服",
+   "en": [
+    "relaxed mature resort wear",
+    "linen trousers"
+   ],
+   "exactDup": [
+    "outfit:linen_shirt"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears relaxed",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_outfit_ceremonial_guard",
+   "category": "outfit",
+   "field": "outfit",
+   "fieldExists": true,
+   "ja": "宮廷の儀仗官制服",
+   "en": [
+    "ceremonial guard uniform",
+    "formal sash"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "An adult man wears ceremonial",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_eyes_only_side",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "顔は正面・目だけ横へ",
+   "en": [
+    "facing viewer",
+    "eyes looking to side"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "pose:standing_relaxed(0.40)",
+    "pose:beckoning(0.40)",
+    "pose:looking_down(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_seated_forward_elbows",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "前傾して肘を膝へ",
+   "en": [
+    "sitting",
+    "leaning forward",
+    "elbows on knees"
+   ],
+   "exactDup": [
+    "pose:leaning_forward",
+    "pose:sitting_chair",
+    "pose:crossed_legs",
+    "pose:chin_on_hand_table",
+    "pose:meditating",
+    "pose:bound_chair"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_arms_folded_looking_away",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "腕組みで視線を外す",
+   "en": [
+    "arms crossed",
+    "looking away"
+   ],
+   "exactDup": [
+    "expression:flustered",
+    "expression:wistful",
+    "pose:hand_on_neck"
+   ],
+   "nearSameField": [
+    "pose:arms_crossed(0.60)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_lean_wall_profile",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "壁にもたれる横顔",
+   "en": [
+    "leaning against wall",
+    "side profile"
+   ],
+   "exactDup": [
+    "pose:leaning_wall"
+   ],
+   "nearSameField": [
+    "pose:leaning_wall(0.43)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_hand_in_pocket_backward",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "片手をポケットに入れ振り向く",
+   "en": [
+    "one hand in pocket",
+    "looking over shoulder"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "pose:hand_in_pocket(0.38)",
+    "pose:looking_back(0.38)",
+    "pose:blade_shoulder(0.38)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_gaze_over_shoulder"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_reading_while_seated",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "座って読書に没頭",
+   "en": [
+    "seated",
+    "reading a book"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_pose_resting_chin_in_hand",
+    "x_pose_turning_page"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_adjusting_cuff",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "袖口を整える",
+   "en": [
+    "adjusting shirt cuff"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "pose:adjust_cuffs(0.67)"
+   ],
+   "jaDup": [
+    "pose:adjust_cuffs"
+   ],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_hands_behind_back",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "後ろで手を組んで立つ",
+   "en": [
+    "standing",
+    "hands clasped behind back"
+   ],
+   "exactDup": [
+    "pose:standing_relaxed",
+    "pose:three_quarter",
+    "pose:hand_in_pocket",
+    "pose:hands_in_pockets",
+    "pose:hands_behind_back",
+    "pose:wind_coat",
+    "pose:bound_front_stand",
+    "pose:bound_overhead_stand",
+    "pose:chain_torso_stand"
+   ],
+   "nearSameField": [
+    "pose:hands_behind_back(0.80)"
+   ],
+   "jaDup": [],
+   "idClash": "pose:hands_behind_back",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_resting_chin_in_hand",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "頬杖をついて考える",
+   "en": [
+    "seated",
+    "chin resting on hand"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_pose_reading_while_seated",
+    "x_pose_turning_page"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_looking_out_window",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "窓外に視線を向ける",
+   "en": [
+    "standing by window",
+    "looking outside"
+   ],
+   "exactDup": [
+    "pose:sitting_window"
+   ],
+   "nearSameField": [
+    "pose:standing_relaxed(0.40)",
+    "pose:bound_front_stand(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_seated_sideways_chair",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "椅子へ横向きに座る",
+   "en": [
+    "sitting sideways on chair"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "pose:bound_chair(0.67)",
+    "pose:sitting_chair(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_slight_head_bow",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "軽く会釈する",
+   "en": [
+    "slight bow of head"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_turning_page",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "ページをめくる",
+   "en": [
+    "turning a page",
+    "seated"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_pose_reading_while_seated",
+    "x_pose_resting_chin_in_hand"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_checking_wristwatch",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "腕時計を確認する",
+   "en": [
+    "checking wristwatch"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_hand_brushing_hair",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "髪をかき上げる",
+   "en": [
+    "brushing hair back with one hand"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [
+    "pose:hair_brush"
+   ],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_coat_over_shoulder",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "上着を肩に掛ける",
+   "en": [
+    "jacket draped over shoulder"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_walking_mid_stride",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "歩く途中の一瞬",
+   "en": [
+    "walking mid-stride"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_kneeling_work",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "片膝をついて作業",
+   "en": [
+    "kneeling on one knee",
+    "working"
+   ],
+   "exactDup": [
+    "pose:kneel_one_knee",
+    "pose:kneel_offer"
+   ],
+   "nearSameField": [
+    "pose:kneel_one_knee(0.50)",
+    "pose:kneel_offer(0.43)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_sleeves_rolled_work",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "袖をまくって作業する",
+   "en": [
+    "working with rolled-up sleeves"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_leaning_balustrade",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "手すりに寄りかかる",
+   "en": [
+    "leaning on railing"
+   ],
+   "exactDup": [
+    "pose:leaning_railing"
+   ],
+   "nearSameField": [
+    "pose:leaning_railing(1.00)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_looking_down_at_table",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "机上を覗き込む",
+   "en": [
+    "leaning over table",
+    "looking downward"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_gaze_downward"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_gentle_wave",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "控えめに手を振る",
+   "en": [
+    "raising one hand in a gentle wave"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_hands_in_coat_pockets",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "コートの両ポケットに手",
+   "en": [
+    "both hands in coat pockets"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "pose:hands_in_pockets(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_pose_half_turn_distant_gaze",
+   "category": "pose",
+   "field": "pose",
+   "fieldExists": true,
+   "ja": "体を半回転して遠くを見る",
+   "en": [
+    "half-turned body",
+    "gazing into distance"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is depicted",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_architect_blueprints",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "建築図面",
+   "en": [
+    "architectural blueprints"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_folding_ruler",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "折尺",
+   "en": [
+    "folding wooden ruler"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_vintage_camera",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "クラシックカメラ",
+   "en": [
+    "vintage camera"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_sketchbook",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "スケッチブック",
+   "en": [
+    "sketchbook"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_botanical_specimen",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "植物標本",
+   "en": [
+    "botanical specimen"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_leather_tool_roll",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "革製工具巻き",
+   "en": [
+    "leather tool roll"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_ceramic_cup",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "陶器のカップ",
+   "en": [
+    "handmade ceramic cup"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_silver_pocket_watch",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "銀の懐中時計",
+   "en": [
+    "silver pocket watch"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "prop:pocket_watch(0.67)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_jazz_saxophone",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "サックス",
+   "en": [
+    "saxophone"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_falconry_glove",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "鷹匠用の革手袋",
+   "en": [
+    "falconry glove"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_field_binoculars",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "双眼鏡",
+   "en": [
+    "field binoculars"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_old_map",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "古い地図",
+   "en": [
+    "folded antique map"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_fountain_pen",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "万年筆",
+   "en": [
+    "fountain pen"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_prop_sea_navigation_chart",
+   "category": "prop",
+   "field": "prop",
+   "fieldExists": true,
+   "ja": "海図",
+   "en": [
+    "nautical chart"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "An adult man carries or",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_architecture_studio",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "建築設計事務所",
+   "en": [
+    "architecture studio",
+    "drafting table"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_carpenter_workshop",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "木工房",
+   "en": [
+    "carpentry workshop",
+    "wood shavings"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_old_barbershop",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "古い理髪店",
+   "en": [
+    "classic barbershop",
+    "vintage mirrors"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_museum_gallery",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "静かな美術館",
+   "en": [
+    "quiet museum gallery"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_editorial_office",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "出版社の編集室",
+   "en": [
+    "book editorial office",
+    "paper stacks"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_vinery_morning",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "朝の葡萄農園",
+   "en": [
+    "sunlit vineyard rows",
+    "early morning"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_jazz_club_corner",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "薄暗いジャズクラブ",
+   "en": [
+    "intimate jazz club",
+    "small stage"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_rainy_detective_office",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "雨の日の探偵事務所",
+   "en": [
+    "rainy detective office",
+    "window blinds"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_steppe_camp",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "草原の野営地",
+   "en": [
+    "open steppe camp",
+    "felt tent"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_silk_road_inn",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "隊商宿",
+   "en": [
+    "Silk Road caravanserai courtyard"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_south_asian_civic_hall",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "南アジア風の市庁舎",
+   "en": [
+    "South Asian-inspired civic hall"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_scene_southeast_asian_wharf",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "東南アジア風の埠頭",
+   "en": [
+    "Southeast Asian-inspired waterfront wharf"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_scene_west_african_courtyard",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "西アフリカ意匠の中庭",
+   "en": [
+    "West African-inspired courtyard architecture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_scene_andean_mountain_path",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "アンデス風の高地道",
+   "en": [
+    "Andean-inspired mountain pathway"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_scene_renaissance_workshop",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "ルネサンス工房",
+   "en": [
+    "Renaissance inventor's workshop"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_art_nouveau_atrium",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "アール・ヌーヴォーの吹抜け",
+   "en": [
+    "Art Nouveau atrium",
+    "stained glass"
+   ],
+   "exactDup": [
+    "scene:cathedral"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_belle_epoque_studio",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "ベル・エポックの写真館",
+   "en": [
+    "Belle Époque portrait studio"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_dieselpunk_hangar",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "ディーゼルパンク格納庫",
+   "en": [
+    "dieselpunk airship hangar"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_solarpunk_greenhouse",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "ソーラーパンクの温室",
+   "en": [
+    "solarpunk greenhouse",
+    "living architecture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_orbital_diplomatic_hall",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "軌道都市の外交ホール",
+   "en": [
+    "orbital diplomatic hall",
+    "panoramic windows"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_undersea_observatory",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "深海観測室",
+   "en": [
+    "undersea observatory",
+    "panoramic ocean window"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_scene_mountain_rescue_station",
+   "category": "scene",
+   "field": "scene",
+   "fieldExists": true,
+   "ja": "山岳救助基地",
+   "en": [
+    "mountain rescue station",
+    "equipment racks"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man is shown",
+   "abstract": false,
+   "phase": 2,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_weather_blue_hour_after_rain",
+   "category": "weather",
+   "field": "time",
+   "fieldExists": true,
+   "ja": "雨上がりのブルーアワー",
+   "en": [
+    "blue hour after rain"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The outdoor atmosphere includes blue",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_weather_misty_clear_morning",
+   "category": "weather",
+   "field": "time",
+   "fieldExists": true,
+   "ja": "霧が晴れ始める朝",
+   "en": [
+    "morning mist lifting"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The outdoor atmosphere includes morning",
+   "abstract": false,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "A"
+  },
+  {
+   "id": "x_weather_sunny_winter_afternoon",
+   "category": "weather",
+   "field": "time",
+   "fieldExists": true,
+   "ja": "冬の晴れた午後",
+   "en": [
+    "clear winter afternoon"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The outdoor atmosphere includes clear",
+   "abstract": false,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "A"
+  },
+  {
+   "id": "x_weather_humid_harbor_evening",
+   "category": "weather",
+   "field": "time",
+   "fieldExists": true,
+   "ja": "湿った港の夕暮れ",
+   "en": [
+    "humid harbor evening"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The outdoor atmosphere includes humid",
+   "abstract": false,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "A"
+  },
+  {
+   "id": "x_weather_highland_crisp_dawn",
+   "category": "weather",
+   "field": "time",
+   "fieldExists": true,
+   "ja": "高地の澄んだ夜明け",
+   "en": [
+    "crisp highland dawn"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The outdoor atmosphere includes crisp",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_weather_passing_cloud_shadows",
+   "category": "weather",
+   "field": "time",
+   "fieldExists": true,
+   "ja": "流れる雲影",
+   "en": [
+    "passing cloud shadows"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": false,
+   "natHead": "The outdoor atmosphere includes passing",
+   "abstract": false,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "A"
+  },
+  {
+   "id": "x_lighting_soft_skylight",
+   "category": "lighting",
+   "field": "light",
+   "fieldExists": true,
+   "ja": "天窓の柔らかな光",
+   "en": [
+    "soft skylight illumination"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The scene is lit using",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_lighting_warm_lamp_pool",
+   "category": "lighting",
+   "field": "light",
+   "fieldExists": true,
+   "ja": "卓上灯の暖かな光",
+   "en": [
+    "warm pool of desk lamp light"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The scene is lit using",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_lighting_reflected_water_light",
+   "category": "lighting",
+   "field": "light",
+   "fieldExists": true,
+   "ja": "水面反射光",
+   "en": [
+    "subtle reflected light from water"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The scene is lit using",
+   "abstract": false,
+   "phase": 1,
+   "priority": "high",
+   "confidence": "A"
+  },
+  {
+   "id": "x_lighting_window_rimlight",
+   "category": "lighting",
+   "field": "light",
+   "fieldExists": true,
+   "ja": "窓からの逆光",
+   "en": [
+    "gentle rim light from window"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The scene is lit using",
+   "abstract": false,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "A"
+  },
+  {
+   "id": "x_lighting_cloud_filtered_sunlight",
+   "category": "lighting",
+   "field": "light",
+   "fieldExists": true,
+   "ja": "薄雲越しの日光",
+   "en": [
+    "cloud-filtered sunlight"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The scene is lit using",
+   "abstract": false,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "A"
+  },
+  {
+   "id": "x_lighting_museum_track_lighting",
+   "category": "lighting",
+   "field": "light",
+   "fieldExists": true,
+   "ja": "美術館のスポット光",
+   "en": [
+    "soft museum track lighting"
+   ],
+   "exactDup": [],
+   "nearSameField": [
+    "light:studio_soft(0.40)"
+   ],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The scene is lit using",
+   "abstract": false,
+   "phase": 2,
+   "priority": "low",
+   "confidence": "A"
+  },
+  {
+   "id": "x_ageCue_very_subtle_eye_lines",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "ごく薄い目元の線",
+   "en": [
+    "very subtle expression lines near the eyes"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_mature_defined_jaw",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "成熟した輪郭",
+   "en": [
+    "mature defined jaw"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_subtle_crows_feet",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "浅い目尻の皺",
+   "en": [
+    "subtle crow's feet"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_feature_subtle_crows_feet"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_fine_smile_lines",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "薄い笑い皺",
+   "en": [
+    "fine smile lines"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_feature_fine_smile_lines"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_gray_at_temples",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "こめかみの白髪",
+   "en": [
+    "gray at temples"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_feature_temple_gray_streaks"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_mature_skin_texture",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "成熟した肌理",
+   "en": [
+    "mature skin texture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_slightly_heavy_eyelids",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "年齢を感じる重いまぶた",
+   "en": [
+    "slightly heavy eyelids"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_eyeShape_slightly_heavy_eyelids"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_silver_temples",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "銀色のこめかみ",
+   "en": [
+    "silver temples"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_fine_forehead_lines",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "額の細い皺",
+   "en": [
+    "fine forehead lines"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_deep_smile_lines",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "深く刻まれた笑い皺",
+   "en": [
+    "deep smile lines"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_weathered_dignified_features",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "風雪を経た品格",
+   "en": [
+    "weathered but dignified mature features"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_gray_eyebrows",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "白髪の混じる眉",
+   "en": [
+    "gray eyebrows"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_slightly_thinning_hair",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "薄くなり始めた頭髪",
+   "en": [
+    "slightly thinning but neatly styled hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_mostly_silver_hair",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "銀髪の中に残る地毛",
+   "en": [
+    "predominantly silver hair with darker strands"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_fine_neck_lines",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "首元の浅い皺",
+   "en": [
+    "fine lines on mature neck"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_subtle_nasolabial_folds",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "控えめなほうれい線",
+   "en": [
+    "subtle nasolabial folds"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_softened_cheek_volume",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "年齢とともに変わる頬",
+   "en": [
+    "slightly softened mature cheeks"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_ageCue_seasoned_gaze",
+   "category": "ageCue",
+   "field": "ageCue",
+   "fieldExists": false,
+   "ja": "年輪を感じるまなざし",
+   "en": [
+    "experienced thoughtful gaze",
+    "mature poise"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_vibe_weathered_dignity"
+   ],
+   "templateNat": true,
+   "natHead": "The adult man has an",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_silky_straight",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "絹のような直毛",
+   "en": [
+    "silky straight hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_coarse_straight",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "硬めの直毛",
+   "en": [
+    "coarse straight hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_loose_wave",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "ゆるいうねり",
+   "en": [
+    "loose wavy hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_deep_wave",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "深いウェーブ",
+   "en": [
+    "deep wavy hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_soft_ringlets",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "柔らかな巻き毛",
+   "en": [
+    "soft ringlet curls"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_tight_curls",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "細かい巻き毛",
+   "en": [
+    "tight curly hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_springy_coils",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "弾むコイル状毛",
+   "en": [
+    "springy coiled hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_loose_coils",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "ゆるいコイル状毛",
+   "en": [
+    "loose coiled hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_slightly_frizzy",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "やや広がる髪",
+   "en": [
+    "slightly frizzy hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_fine_hair",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "細い髪質",
+   "en": [
+    "fine hair strands"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_thick_hair",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "毛量の多い太い髪",
+   "en": [
+    "thick voluminous hair"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_matte_texture",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "艶を抑えた髪",
+   "en": [
+    "matte hair texture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_wet_look",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "濡れ感のある髪",
+   "en": [
+    "wet-look hair texture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_hairTexture_windswept_texture",
+   "category": "hairTexture",
+   "field": "hairTexture",
+   "fieldExists": false,
+   "ja": "風になびいた毛束",
+   "en": [
+    "windswept hair texture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The texture of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_center_part",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "中央分け",
+   "en": [
+    "center part"
+   ],
+   "exactDup": [
+    "hairStyle:center_part_short",
+    "hairStyle:curtain_bangs"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_hairStyle_curtain_bangs"
+   ],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_side_part_left",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "左側分け",
+   "en": [
+    "left side part"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_side_part_right",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "右側分け",
+   "en": [
+    "right side part"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_soft_curtain_fringe",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "柔らかなカーテン前髪",
+   "en": [
+    "soft curtain fringe"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_long_side_swept",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "長い斜め前髪",
+   "en": [
+    "long side-swept bangs"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_short_textured_fringe",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "短い質感前髪",
+   "en": [
+    "short textured fringe"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_blunt_micro_fringe",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "短い切り揃え前髪",
+   "en": [
+    "blunt micro fringe"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_wispy_forehead_strands",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "額に落ちる細い毛束",
+   "en": [
+    "wispy strands over forehead"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_swept_back_no_fringe",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "前髪を上げて額を出す",
+   "en": [
+    "swept-back hair",
+    "exposed forehead"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_one_eye_partly_covered",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "片目に少し掛かる前髪",
+   "en": [
+    "fringe partly covering one eye"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_curved_comma_lock",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "カーブしたコンマ前髪",
+   "en": [
+    "curved comma-shaped front lock"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fringe_tucked_behind_ears",
+   "category": "fringe",
+   "field": "fringe",
+   "fieldExists": false,
+   "ja": "耳掛け前髪",
+   "en": [
+    "front strands tucked behind ears"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The front of the man’s",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_gaze_at_viewer",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "観客を見る",
+   "en": [
+    "looking at viewer"
+   ],
+   "exactDup": [
+    "pose:standing_relaxed",
+    "pose:three_quarter",
+    "pose:hand_in_pocket",
+    "pose:arms_crossed",
+    "pose:hand_on_hip",
+    "pose:hand_on_chest",
+    "pose:offer_hand",
+    "pose:chin_rest",
+    "pose:hair_brush",
+    "pose:finger_lips",
+    "pose:adjust_glasses",
+    "pose:over_glasses",
+    "pose:loosen_tie",
+    "pose:glove_bite",
+    "pose:beckoning",
+    "pose:waving",
+    "pose:leaning_wall",
+    "pose:leaning_forward",
+    "pose:sitting_chair",
+    "pose:crossed_legs",
+    "pose:throne_lounge",
+    "pose:chin_on_hand_table",
+    "pose:sitting_stairs",
+    "pose:crouching",
+    "pose:lying_down",
+    "pose:fighting_stance",
+    "pose:kneel_one_knee",
+    "pose:draw_sword",
+    "pose:blade_shoulder",
+    "pose:toasting",
+    "pose:under_umbrella",
+    "pose:bound_front_stand",
+    "pose:kneel_behind",
+    "pose:kneel_look_up"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_side_left",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "左へ視線",
+   "en": [
+    "eyes looking left"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_side_right",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "右へ視線",
+   "en": [
+    "eyes looking right"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_downward",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "伏し目で下を見る",
+   "en": [
+    "looking downward"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_pose_looking_down_at_table"
+   ],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_upward",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "上を見る",
+   "en": [
+    "looking upward"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_to_horizon",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "水平線・遠景を見る",
+   "en": [
+    "gazing toward horizon"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_over_shoulder",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "肩越しの視線",
+   "en": [
+    "looking over shoulder"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [
+    "x_pose_hand_in_pocket_backward"
+   ],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_to_hands",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "手元を見る",
+   "en": [
+    "looking at his hands"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_to_book",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "本を見る",
+   "en": [
+    "looking at book"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_to_companion_offscreen",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "画面外の相手を見る",
+   "en": [
+    "looking toward someone offscreen"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_closed_eyes",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "閉じた目",
+   "en": [
+    "eyes closed"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_soft_unfocused",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "焦点を外した視線",
+   "en": [
+    "soft unfocused gaze"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_down_and_side",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "斜め下を見る",
+   "en": [
+    "gazing down and to the side"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_gaze_up_and_side",
+   "category": "gaze",
+   "field": "gaze",
+   "fieldExists": false,
+   "ja": "斜め上を見る",
+   "en": [
+    "gazing up and to the side"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The direction of the adult",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "A"
+  },
+  {
+   "id": "x_headPose_front_neutral",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "正面の自然な頭位",
+   "en": [
+    "head facing forward"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_three_quarter_left",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "左斜めの顔",
+   "en": [
+    "head turned three-quarter view to left"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_three_quarter_right",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "右斜めの顔",
+   "en": [
+    "head turned three-quarter view to right"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_profile_left",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "左横顔",
+   "en": [
+    "left-facing profile"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_profile_right",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "右横顔",
+   "en": [
+    "right-facing profile"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_slight_tilt_left",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "左へ首を傾ける",
+   "en": [
+    "head tilted slightly left"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_slight_tilt_right",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "右へ首を傾ける",
+   "en": [
+    "head tilted slightly right"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_chin_raised",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "顎を少し上げる",
+   "en": [
+    "chin slightly raised"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_chin_lowered",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "顎を少し引く",
+   "en": [
+    "chin slightly lowered"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_looking_over_shoulder",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "振り返った頭部",
+   "en": [
+    "head turned over shoulder"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_head_bowed",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "頭を軽く下げる",
+   "en": [
+    "head gently bowed"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_headPose_head_turned_away",
+   "category": "headPose",
+   "field": "headPose",
+   "fieldExists": false,
+   "ja": "顔を背ける",
+   "en": [
+    "head turned away from viewer"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s head is positioned",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_pocket_square",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "ポケットチーフ",
+   "en": [
+    "pocket square"
+   ],
+   "exactDup": [
+    "outfit:double_breasted"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_lapel_pin",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "ラペルピン",
+   "en": [
+    "lapel pin"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_tie_bar",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "ネクタイピン",
+   "en": [
+    "tie bar"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_silk_neck_scarf",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "シルクのネックスカーフ",
+   "en": [
+    "silk neck scarf"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_signet_ring",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "シグネットリング",
+   "en": [
+    "signet ring"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_rolled_cuffs",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "折り返した袖口",
+   "en": [
+    "rolled shirt cuffs"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_contrast_stitching",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "コントラストステッチ",
+   "en": [
+    "contrast stitching"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_embroidered_collar",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "刺繍入りの襟",
+   "en": [
+    "embroidered collar"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_leather_elbow_patches",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "革の肘当て",
+   "en": [
+    "leather elbow patches"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_waistcoat_chain",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "ベストのチェーン",
+   "en": [
+    "waistcoat chain"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_asymmetric_closure",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "左右非対称の前留め",
+   "en": [
+    "asymmetric garment closure"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_brass_buttons",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "真鍮のボタン",
+   "en": [
+    "brass buttons"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_woven_belt",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "織りのベルト",
+   "en": [
+    "woven sash belt"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_pleated_trousers",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "タック入りのスラックス",
+   "en": [
+    "pleated trousers"
+   ],
+   "exactDup": [
+    "outfit:double_breasted"
+   ],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_high_waist_trousers",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "ハイウエストのズボン",
+   "en": [
+    "high-waisted trousers"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_shirt_sleeve_garters",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "シャツ用アームバンド",
+   "en": [
+    "shirt sleeve garters"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_stitched_leather_strap",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "縫い目のある革ストラップ",
+   "en": [
+    "stitched leather strap"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_ceremonial_braid",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "礼装の飾り紐",
+   "en": [
+    "ceremonial braided trim"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_minimalist_cufflinks",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "小さなカフリンクス",
+   "en": [
+    "minimalist cufflinks"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_outfitDetail_scarf_knot",
+   "category": "outfitDetail",
+   "field": "outfitDetail",
+   "fieldExists": false,
+   "ja": "きれいに結んだスカーフ",
+   "en": [
+    "neatly knotted scarf"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The man’s outfit includes the",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_fine_wool",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "上質なウール",
+   "en": [
+    "fine wool fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_tweed",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "ツイード",
+   "en": [
+    "tweed fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_velvet",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "ベルベット",
+   "en": [
+    "velvet fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_raw_silk",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "生糸風シルク",
+   "en": [
+    "raw silk fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_washed_linen",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "洗いざらしリネン",
+   "en": [
+    "washed linen fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_brushed_cotton",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "起毛コットン",
+   "en": [
+    "brushed cotton fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_heavy_canvas",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "厚手キャンバス",
+   "en": [
+    "heavy canvas fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_supple_leather",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "しなやかな革",
+   "en": [
+    "supple leather"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_suede",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "スエード",
+   "en": [
+    "suede texture"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_brocade",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "織り柄のブロケード",
+   "en": [
+    "brocade fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_technical_mesh",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "機能性メッシュ",
+   "en": [
+    "technical mesh fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  },
+  {
+   "id": "x_fabric_recycled_textile",
+   "category": "fabric",
+   "field": "fabric",
+   "fieldExists": false,
+   "ja": "再生繊維の風合い",
+   "en": [
+    "recycled textile fabric"
+   ],
+   "exactDup": [],
+   "nearSameField": [],
+   "jaDup": [],
+   "idClash": "",
+   "candidateTwins": [],
+   "templateNat": true,
+   "natHead": "The adult man’s clothing is",
+   "abstract": false,
+   "phase": 3,
+   "priority": "medium",
+   "confidence": "B"
+  }
+ ]
+}
