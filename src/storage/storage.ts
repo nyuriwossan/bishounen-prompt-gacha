@@ -6,8 +6,8 @@
 import { DATA_VERSION, optionOf } from '../data/fields';
 import { isCosplay } from '../data/outfits';
 import { emptyPrefs, OFFABLE_FIELDS, PREFS_VERSION, type DrawPrefs } from '../engine/prefs';
-import { cloneState, DEFAULT_MODULES, DEFAULT_SETTINGS, emptyState, SCHEMA_VERSION } from '../engine/state';
-import { FIELD_IDS, type FieldId, type ForgeState } from '../types';
+import { cloneState, DEFAULT_MODULES, DEFAULT_SETTINGS, emptyState, EXPANSION_FIELDS, SCHEMA_VERSION } from '../engine/state';
+import { FIELD_IDS, type FieldId, type ForgeModules, type ForgeState } from '../types';
 
 export const APP_ID = 'bishounen-prompt-gacha';
 export const KEYS = {
@@ -19,6 +19,14 @@ export const KEYS = {
 } as const;
 /** 辞書・抽選設定（個人の好み）。「保存データをすべて削除」の対象外にするため KEYS とは分ける */
 export const PREFS_KEY = 'bpg:v1:drawPrefs';
+/** 辞書の更新のお知らせを確認した版（2026-10-22 追加）。「保存データをすべて削除」の対象外 */
+export const DICT_SEEN_KEY = 'bpg:v1:dictSeen';
+export function loadDictSeen(): string | null {
+  try { const v = store()?.getItem(DICT_SEEN_KEY); return typeof v === 'string' ? v.slice(0, 40) : null; } catch { return null; }
+}
+export function saveDictSeen(version: string): boolean {
+  try { store()?.setItem(DICT_SEEN_KEY, version); return true; } catch { return false; }
+}
 export const MAX_FAVORITES = 300;
 /** 通常の履歴は直近50件（2026-10-22 に一度10件にしたが、ユーザーの判断で50件に戻した） */
 export const MAX_HISTORY = 50;
@@ -71,8 +79,17 @@ export const uid = () => globalThis.crypto?.randomUUID?.() ?? `id-${Date.now().t
 const isObj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 'object' && !Array.isArray(x);
 const str = (x: unknown, max = 200) => (typeof x === 'string' ? x.slice(0, max) : '');
 
-/** 眼鏡・特徴・持ち物のスイッチ（2026-10 追加）。これより前のデータにはキーがない */
-const ITEM_MODULES = [['glassesEnabled', 'glasses'], ['marksEnabled', 'marks'], ['propEnabled', 'prop']] as const;
+/** 眼鏡・特徴・持ち物のスイッチ（2026-10 追加）と、2026-10-22 増築の任意項目。これより前のデータにはキーがない。
+ * 増築の項目は旧データでは値も「なし」なので、どちらの移行方針でもOFFになる（開いただけで顔・髪・衣装が変わらない） */
+const ITEM_MODULES = [['glassesEnabled', 'glasses'], ['marksEnabled', 'marks'], ['propEnabled', 'prop'],
+  ['ageCueEnabled', 'ageCue'], ['hairTextureEnabled', 'hairTexture'], ['fringeEnabled', 'fringe'], ['gazeEnabled', 'gaze'], ['headPoseEnabled', 'headPose'],
+  ['outfitDetailEnabled', 'outfitDetail'], ['fabricEnabled', 'fabric']] as const;
+/** 共有URLの任意スイッチの文字（v=2）。増築の項目は a/t/r/z/e/d/q。文字が無ければOFF（旧いURLはすべてOFF） */
+const SHARE_FLAGS: Array<[keyof ForgeModules, string]> = [
+  ['kemonoEnabled', 'k'], ['backgroundEnabled', 'b'], ['poseEnabled', 'p'], ['facialHairEnabled', 'f'], ['hairAccentEnabled', 'h'], ['nameEnabled', 'n'],
+  ['glassesEnabled', 'g'], ['marksEnabled', 'x'], ['propEnabled', 'o'], ['unlimitedEnabled', 'u'], ['cosplayEnabled', 'y'],
+  ['ageCueEnabled', 'a'], ['hairTextureEnabled', 't'], ['fringeEnabled', 'r'], ['gazeEnabled', 'z'], ['headPoseEnabled', 'e'], ['outfitDetailEnabled', 'd'], ['fabricEnabled', 'q']
+];
 /**
  * 旧データの移行方針：
  * - preserve（お気に入り・履歴・JSON・共有URL）：値が「なし」以外ならONにして、保存時の見た目を保つ
@@ -117,6 +134,8 @@ export function normalizeState(raw: unknown, report: MigrationReport = { lostFie
   s.freeTags = str(st.freeTags, 4000);
   s.loraText = str(st.loraText, 1000);
   if (st.boyTag === 'none' || st.boyTag === '1boy') s.boyTag = st.boyTag;
+  if (st.pixaiProfile === 'sdxl' || st.pixaiProfile === 'dit') s.pixaiProfile = st.pixaiProfile;
+  if (st.novelaiProfile === 'v4' || st.novelaiProfile === 'v5') s.novelaiProfile = st.novelaiProfile;
   const mods = isObj(raw.optionalModules) ? raw.optionalModules : {};
   for (const k of Object.keys(DEFAULT_MODULES) as Array<keyof typeof DEFAULT_MODULES>) if (typeof mods[k] === 'boolean') base.optionalModules[k] = mods[k] as boolean;
   migrateItemModules(base, mods, legacy);
@@ -521,11 +540,12 @@ export function importBackup(text: string, opts: { restoreHistory?: boolean } = 
 export function encodeShare(state: ForgeState): string {
   const pairs = FIELD_IDS.map((f) => {
     const sel = state.fields[f];
+    // 増築の任意項目が「なし」（既定値）で固定もしていなければ省く（URLを短く保つ。読み込み側の既定も「なし」）
+    if (EXPANSION_FIELDS.includes(f) && sel.id === 'none' && !sel.locked) return '';
     return sel.id ? `${f}=${sel.id}${sel.locked ? '!' : ''}` : '';
   }).filter(Boolean);
   const m = state.optionalModules;
-  const flags = [m.kemonoEnabled ? 'k' : '', m.backgroundEnabled ? 'b' : '', m.poseEnabled ? 'p' : '', m.facialHairEnabled ? 'f' : '', m.hairAccentEnabled ? 'h' : '', m.nameEnabled ? 'n' : '',
-    m.glassesEnabled ? 'g' : '', m.marksEnabled ? 'x' : '', m.propEnabled ? 'o' : '', m.unlimitedEnabled ? 'u' : '', m.cosplayEnabled ? 'y' : ''].join('');
+  const flags = SHARE_FLAGS.map(([k, c]) => (m[k] ? c : '')).join('');
   // v=2：眼鏡(g)・特徴(x)・持ち物(o) のスイッチを含む。v=1 は値から推定する。コスプレ(y) は無ければOFF
   const s = [`v=2`, `d=${DATA_VERSION}`, `m=${flags}`, `c=${state.settings.coherence}`, `seed=${state.lastSeed}`, ...pairs].join('&');
   return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -549,11 +569,7 @@ export function decodeShare(code: string): { state: ForgeState | null; report: M
       s.fields[f] = { id, source: 'manual', locked };
     }
     const flags = params.get('m') ?? '';
-    s.optionalModules = {
-      kemonoEnabled: flags.includes('k'), backgroundEnabled: flags.includes('b'), poseEnabled: flags.includes('p'), facialHairEnabled: flags.includes('f'), hairAccentEnabled: flags.includes('h'), nameEnabled: flags.includes('n'),
-      glassesEnabled: flags.includes('g'), marksEnabled: flags.includes('x'), propEnabled: flags.includes('o'), unlimitedEnabled: flags.includes('u'),
-      cosplayEnabled: flags.includes('y')
-    };
+    s.optionalModules = Object.fromEntries(SHARE_FLAGS.map(([k, c]) => [k, flags.includes(c)])) as unknown as ForgeModules;
     if (ver === '1') migrateItemModules(s, {}, 'preserve');
     if (!flags.includes('y') && isCosplay(optionOf('outfit', s.fields.outfit.id))) s.optionalModules.cosplayEnabled = true;
     const c = params.get('c');

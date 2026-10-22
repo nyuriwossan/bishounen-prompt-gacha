@@ -15,7 +15,9 @@ export const DEFAULT_SETTINGS: ForgeSettings = {
   emphasis: false,
   freeTags: '',
   loraText: '',
-  boyTag: '1boy'
+  boyTag: '1boy',
+  pixaiProfile: 'sdxl',
+  novelaiProfile: 'v4'
 };
 
 export const DEFAULT_MODULES: ForgeModules = {
@@ -29,7 +31,15 @@ export const DEFAULT_MODULES: ForgeModules = {
   marksEnabled: false,
   propEnabled: false,
   unlimitedEnabled: false,
-  cosplayEnabled: false
+  cosplayEnabled: false,
+  // 2026-10 増築の任意項目（既定OFF）
+  ageCueEnabled: false,
+  hairTextureEnabled: false,
+  fringeEnabled: false,
+  gazeEnabled: false,
+  headPoseEnabled: false,
+  outfitDetailEnabled: false,
+  fabricEnabled: false
 };
 
 export function emptyState(): ForgeState {
@@ -53,12 +63,15 @@ export function cloneState(s: ForgeState): ForgeState {
 const MODULE_KEY: Record<ModuleId, keyof ForgeModules> = {
   pose: 'poseEnabled', background: 'backgroundEnabled', kemono: 'kemonoEnabled',
   facialHair: 'facialHairEnabled', hairAccent: 'hairAccentEnabled', name: 'nameEnabled',
-  glasses: 'glassesEnabled', marks: 'marksEnabled', prop: 'propEnabled', unlimited: 'unlimitedEnabled', cosplay: 'cosplayEnabled'
+  glasses: 'glassesEnabled', marks: 'marksEnabled', prop: 'propEnabled', unlimited: 'unlimitedEnabled', cosplay: 'cosplayEnabled',
+  ageCue: 'ageCueEnabled', hairTexture: 'hairTextureEnabled', fringe: 'fringeEnabled', gaze: 'gazeEnabled', headPose: 'headPoseEnabled', outfitDetail: 'outfitDetailEnabled', fabric: 'fabricEnabled'
 };
-/** 親モジュール：持ち物はポーズを出力するときだけ意味を持つ */
-const MODULE_PARENT: Partial<Record<ModuleId, ModuleId>> = { prop: 'pose' };
+/** 親モジュール：持ち物・視線・頭の向きはポーズを出力するときだけ意味を持つ */
+const MODULE_PARENT: Partial<Record<ModuleId, ModuleId>> = { prop: 'pose', gaze: 'pose', headPose: 'pose' };
+/** 2026-10 増築の任意項目（どれも「なし」を持ち、OFFなら「なし」として扱う） */
+export const EXPANSION_FIELDS: FieldId[] = ['ageCue', 'hairTexture', 'fringe', 'gaze', 'headPose', 'outfitDetail', 'fabric'];
 /** OFFのとき「なし」として扱う項目（判定・出力とも）。眼鏡OFFなら「眼鏡を押し上げる」も出ない */
-export const OFF_AS_NONE: FieldId[] = ['glasses', 'marks', 'prop', 'role', 'restraint', 'bindPos', 'anchor', 'blindfold', 'disarray', 'wear1', 'wear2'];
+export const OFF_AS_NONE: FieldId[] = ['glasses', 'marks', 'prop', 'role', 'restraint', 'bindPos', 'anchor', 'blindfold', 'disarray', 'wear1', 'wear2', ...EXPANSION_FIELDS];
 /** 禁断の調合の項目 */
 export const FORBIDDEN_FIELDS: FieldId[] = ['role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2'];
 export const moduleKey = (m: ModuleId) => MODULE_KEY[m];

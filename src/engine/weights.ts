@@ -37,8 +37,10 @@ const SHARE: Record<string, Record<Mode, number>> = {
   forbidden: { coherent: 0.75, balanced: 0.55, wild: 0.3 }
 };
 
-const WORLD_FIT_FIELDS = new Set<FieldId>(['outfit', 'scene', 'occupation', 'prop', 'pose', 'culture', 'light', 'restraint']);
+const WORLD_FIT_FIELDS = new Set<FieldId>(['outfit', 'scene', 'occupation', 'prop', 'pose', 'culture', 'light', 'restraint', 'fabric']);
 const GENERIC_WORLD_TAGS = new Set(['western', 'historical', 'fantasy', 'modern', 'eastern', 'urban', 'dark', 'retro', 'night', 'street']);
+/** 文化モチーフと結び付く舞台のタグ（regional は 2026-10 増築の地域の世界観） */
+const CULTURE_TIED = ['japan', 'china', 'desert', 'north', 'regional'];
 const REALISTIC_WORLDS = new Set(['modern', 'business', 'noir', 'urban_night', 'taisho', 'japanese_historical', 'chinese_court', 'european_court', 'victorian', 'military']);
 
 /** 世界観との一致度：null=中立 / -1=不一致 / 0.5=大まかな一致 / 1=固有タグ一致 / 1.2=世界観そのもの */
@@ -71,6 +73,19 @@ const AURA_EXPR: Record<string, string[]> = {
   mysterious: ['mystic', 'alluring'], ethereal: ['sacred', 'mystic'], sacred: ['sacred'], melancholy: ['fragile', 'melancholy'], decadent: ['decadent', 'alluring'],
   alluring: ['alluring'], dangerous: ['danger'], sinister: ['danger', 'cold'], playful: ['playful'], rugged: ['warrior', 'wild'], wild: ['wild'], warm_mature: ['warm']
 };
+/** 年齢の表れ：年齢層ごとの「指定しない」の重み（若いほど付けない。60歳以上でも付けない回を残す） */
+const AGE_CUE_NONE: Record<string, number> = { a18_24: 1, a25_34: 3, a35_44: 4, a45_59: 3, a60p: 2 };
+/** 表情・雰囲気のタグ → 合う視線・頭の向き */
+const EXPR_GAZE: Record<string, string[]> = {
+  shy: ['downward', 'side', 'down_side'], soft: ['downward', 'at_viewer'], fragile: ['downward', 'afar', 'unfocused'], melancholy: ['afar', 'downward', 'unfocused', 'down_side'],
+  alluring: ['at_viewer', 'down_side'], danger: ['at_viewer'], cold: ['at_viewer', 'side'], playful: ['at_viewer', 'side'], mystic: ['afar', 'closed', 'unfocused'],
+  sacred: ['closed', 'upward', 'afar'], sunny: ['at_viewer', 'upward'], warm: ['at_viewer', 'downward'], noble: ['at_viewer', 'afar'], aloof: ['side', 'afar']
+};
+const EXPR_HEAD: Record<string, string[]> = {
+  shy: ['head_bowed', 'head_tilt', 'chin_down'], cold: ['chin_up', 'facing_front'], noble: ['chin_up', 'facing_front'], danger: ['chin_down', 'chin_up'],
+  playful: ['head_tilt', 'head_turned'], melancholy: ['head_turned', 'chin_down', 'profile'], fragile: ['head_bowed', 'head_tilt'], warm: ['head_tilt', 'facing_front'],
+  alluring: ['head_tilt', 'over_shoulder', 'chin_down'], aloof: ['turned_away', 'profile', 'head_turned'], sunny: ['head_tilt', 'facing_front']
+};
 const NEEDS_SET = new Set(['leaning_wall', 'leaning_railing', 'sitting_stairs', 'sitting_window', 'throne_lounge', 'chin_on_hand_table']);
 const intersects = (a: string[] | undefined, b: string[] | undefined) => !!a && !!b && a.some((x) => b.includes(x));
 const outfitColorTags = (outfit: Option | undefined): string[] =>
@@ -90,7 +105,7 @@ export function softWeight(field: FieldId, opt: Option, v: Values, mode: Mode): 
     const ws = worldStrength(opt, v.world);
     if (ws !== null) { if (ws > 0) pref(ws); else miss(field === 'light' || field === 'pose' || field === 'prop' ? 0.6 : 1); }
   }
-  if (field === 'culture' && opt.id === 'none' && v.world && ['japan', 'china', 'desert', 'north'].some((t) => v.world!.tags?.includes(t))) w *= mode === 'coherent' ? 0.5 : 0.8;
+  if (field === 'culture' && opt.id === 'none' && v.world && CULTURE_TIED.some((t) => v.world!.tags?.includes(t))) w *= mode === 'coherent' ? 0.5 : 0.8;
 
   // 美形タイプ：自分（archetype）を選ぶときの、決定済み項目との相性
   if (field === 'archetype' && opt.prefs) {
@@ -179,6 +194,49 @@ export function softWeight(field: FieldId, opt: Option, v: Values, mode: Mode): 
   }
   if (field === 'aura' && v.world?.tags?.includes('dark') && opt.tags?.includes('dark')) pref(0.5);
 
+  // 新しい光（2026-10 増築）：水面の反射は水辺・水中、展示室の光は美術館、卓上灯は屋外以外
+  if (field === 'light' && opt.since) {
+    const sceneText = v.scene ? `${v.scene.cat ?? ''} ${v.scene.en.join(' ')}` : '';
+    if (opt.tags?.includes('water') && !/\b(water|underwater|ocean|lake|harbor|wharf|shore|beach|pond|river|ship)\b/.test(sceneText)) miss();
+    if (opt.tags?.includes('gallery') && !/\b(museum|gallery|studio|theater)\b/.test(sceneText)) miss(0.8);
+  }
+
+  // ---- 2026-10 増築の任意項目 ----
+  if (field === 'ageCue') {
+    const ageMin = v.age?.ageMin ?? 25;
+    if (opt.id === 'none') w *= AGE_CUE_NONE[v.age?.id ?? 'a25_34'] ?? 1;
+    else if (opt.ageMin && ageMin < opt.ageMin) w *= mode === 'wild' ? 0.6 : 0.3;
+    else if (opt.ageMin) pref(0.5);
+    // 白髪の表れは、髪が既に銀・白・灰なら重ねにくい。薄毛は長い髪と合いにくい
+    if (opt.id !== 'none' && /\b(gray|graying|silver)\b/.test(opt.en.join(' ')) && v.hairColor?.cat === 'silver') miss(0.8);
+    if (opt.id === 'thinning_hair' && ['long', 'very_long'].includes(v.hairLength?.id ?? '')) miss(0.8);
+    if (opt.id === 'weathered_features' && v.face?.id === 'weathered') miss();
+  }
+  if (field === 'gaze' || field === 'headPose') {
+    const ctx = [...(v.expression?.tags ?? []), ...(v.aura?.tags ?? [])];
+    const fit = (field === 'gaze' ? EXPR_GAZE : EXPR_HEAD);
+    if (ctx.some((t) => fit[t]?.includes(opt.id))) pref(0.5);
+    // 上から撮るなら上目遣い、下から撮るなら見下ろす視線が映える
+    if (field === 'gaze' && v.angle?.id === 'from_above' && opt.cat === 'up') pref(0.5);
+    if (field === 'gaze' && ['from_below', 'slightly_below'].includes(v.angle?.id ?? '') && (opt.cat === 'down' || opt.id === 'at_viewer')) pref(0.3);
+    // ポーズがこちらを見ているなら、視線の指定は控えめに変化をつける（「ポーズに任せる」を少し増やす）
+    if (field === 'gaze' && opt.id === 'none' && v.pose?.gazeViewer) w *= 1.2;
+    if (field === 'headPose' && v.gaze?.id === 'side' && opt.id === 'facing_front') pref(0.5);
+  }
+  if (field === 'hairTexture') {
+    if (opt.id === 'windswept' && v.scene?.place === 'indoor') miss(0.8);
+    if (opt.id === 'windswept' && /wind|storm|petal|leaves/.test(v.time?.id ?? '')) pref(0.5);
+    if (opt.tags && v.hairStyle?.tags && intersects(opt.tags, v.hairStyle.tags)) pref(0.4);
+  }
+  if ((field === 'outfitDetail' || field === 'fabric') && opt.id !== 'none' && v.outfit) {
+    if (intersects(opt.tags, v.outfit.tags)) pref(0.6);
+    if (field === 'fabric') {
+      const o = v.outfit.tags ?? [];
+      if (['heavy_canvas', 'brushed_cotton'].includes(opt.id) && intersects(o, ['formal', 'luxury', 'royal'])) miss(0.8);
+      if (['velvet', 'raw_silk', 'brocade'].includes(opt.id) && intersects(o, ['work', 'sporty', 'rugged', 'street'])) miss(0.8);
+    }
+  }
+
   return Math.max(w, P.floor * Math.pow(opt.w ?? 1, P.flatten) * 0.2);
 }
 
@@ -221,7 +279,7 @@ export function shareBoosts(field: FieldId, v: Values, mode: Mode): ShareBoost[]
   }
   // 文化モチーフ：舞台に結び付く文化がなければ「指定なし」を基本にする
   if (field === 'culture' && v.world) {
-    const tied = ['japan', 'china', 'desert', 'north'].some((t) => v.world!.tags?.includes(t));
+    const tied = CULTURE_TIED.some((t) => v.world!.tags?.includes(t));
     if (tied) add('cultureTied', 'cultureTied', (o) => (worldStrength(o, v.world) ?? 0) >= 1);
     else add('cultureNone', 'cultureNone', (o) => o.id === 'none');
   }

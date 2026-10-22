@@ -180,7 +180,8 @@ describe('衣装3案', () => {
     expect(r.state.drawCount).toBe(s.drawCount + 1);
     expect(r.changed).toContain('outfit');
     // 結果が変わった後
-    const moved = draw(s, { targets: ['hairColor'], seed: 'mv' }).state;
+    // （髪の色を別の色へ確実に変える。抽選で同じ色が出ると前提が崩れるため）
+    const moved = cloneState(s); moved.fields.hairColor = { ...moved.fields.hairColor, id: s.fields.hairColor.id === 'black' ? 'silver' : 'black' };
     expect(canAdoptCard(moved, p, card).ok).toBe(false);
     // 鍵だけ変わった後・辞書・抽選設定が変わった後も古い案として扱う
     const locked = cloneState(s); locked.fields.age.locked = !locked.fields.age.locked;

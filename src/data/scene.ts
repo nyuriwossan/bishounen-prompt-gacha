@@ -4,7 +4,7 @@
  * 「空間背景／シンプル背景」の切替は place:'simple' で表現する（シンプル背景では時間・天候を出力しない）。
  */
 import type { Category, Option } from '../types';
-import { o } from './helpers';
+import { added, o } from './helpers';
 import bg from './imported/bg.json';
 
 type BgOpt = { id: string; label: string; en: string };
@@ -117,13 +117,38 @@ export const SCENE: Option[] = [
   s('studio', 'スタジオ背景', 'studio background', 'simple', 'simple', [], [], { nat: 'a clean photo studio backdrop' }),
   s('petals_simple', '舞う花びらの単色背景', 'simple background, falling petals', 'simple', 'simple', [], ['soft'], { nat: 'a plain background with drifting petals' }),
   s('ink_abstract', '墨流しの抽象背景', 'abstract background, ink wash', 'simple', 'simple', ['japan', 'china'], ['eastern'], { nat: 'an abstract ink-wash background' }),
-  s('sparkle_dark', '光の粒が舞う暗背景', 'simple background, dark background, light particles', 'simple', 'simple', [], ['mystic'], { nat: 'a dark background scattered with light particles' })
+  s('sparkle_dark', '光の粒が舞う暗背景', 'simple background, dark background, light particles', 'simple', 'simple', [], ['mystic'], { nat: 'a dark background scattered with light particles' }),
+  // ---- 2026-10 増築：生活職の仕事場・地域の都市・明るいSF（時間・天気・光の語は背景に入れない）----
+  ...[
+    s('architecture_studio', '建築設計事務所', 'architecture studio, drafting table, architectural models', 'indoor', 'work', ['modern', 'business', 'urban'], ['intellect', 'work'], { nat: 'a bright architecture studio with drafting tables and models' }),
+    s('woodworking_shop', '木工房', 'carpentry workshop, workbench, wood shavings', 'indoor', 'work', ['modern', 'fantasy', 'western', 'japan'], ['craft', 'warm'], { nat: 'a woodworking shop with a sturdy workbench and wood shavings' }),
+    s('barbershop', '古い理髪店', 'barbershop, barber chair, vintage mirrors', 'indoor', 'work', ['modern', 'retro', 'victorian', 'belle_epoque', 'noir'], ['retro', 'service'], { nat: 'a classic barbershop with vintage mirrors and a leather barber chair' }),
+    s('museum_gallery', '静かな美術館', 'museum, art gallery, paintings on wall', 'indoor', 'work', ['modern', 'urban', 'belle_epoque', 'art_nouveau', 'korean_city'], ['intellect', 'calm'], { nat: 'a quiet museum gallery lined with framed paintings' }),
+    s('editorial_office', '出版社の編集室', 'office, desk, stacks of paper, manuscripts', 'indoor', 'work', ['modern', 'business', 'taisho', 'retro'], ['intellect', 'calm'], { nat: 'an editorial office piled with manuscripts' }),
+    s('jazz_club', '薄暗いジャズクラブ', 'jazz club, small stage, bar', 'indoor', 'urban', ['noir', 'urban', 'modern', 'retro', 'belle_epoque'], ['night', 'alluring', 'stage'], { nat: 'an intimate jazz club with a small stage' }),
+    s('detective_office_rain', '雨の日の探偵事務所', 'detective office, window blinds, rain on window', 'indoor', 'interior', ['noir', 'victorian', 'modern', 'taisho', 'dieselpunk'], ['noir', 'melancholy'], { nat: 'a detective office with window blinds and rain streaking down the glass' }),
+    s('vineyard', '葡萄農園', 'vineyard, grapevines, rolling hills', 'outdoor', 'nature', ['modern', 'western', 'renaissance_court'], ['nature', 'bright', 'warm'], { nat: 'sunlit rows of grapevines across rolling hills' }),
+    s('mountain_rescue_hut', '山岳救助小屋', 'mountain hut, wooden interior, rescue equipment', 'indoor', 'nature', ['modern', 'north', 'andean_highland'], ['warm', 'travel'], { nat: 'a wooden mountain rescue hut hung with ropes and gear' }),
+    s('steppe_camp', '草原の野営地', 'grassland, steppe, yurt', 'outdoor', 'exotic', ['central_asian_steppe', 'north', 'fantasy'], ['wild', 'travel', 'nature'], { nat: 'an open steppe camp with felt yurts' }),
+    s('caravanserai', '隊商宿の中庭', 'caravanserai, courtyard, arches', 'semi', 'exotic', ['silk_road_city', 'desert', 'fantasy'], ['travel', 'lively'], { nat: 'the arched courtyard of a Silk Road caravanserai' }),
+    s('civic_hall_south_asia', '南アジア風の市庁舎', 'grand hall, carved arches, south asian-inspired architecture', 'indoor', 'exotic', ['south_asian_metropolis'], ['royal', 'elegant'], { nat: 'a grand civic hall with carved South Asian-inspired arches' }),
+    s('tropical_wharf', '南国の港の埠頭', 'wharf, harbor, tropical waterfront, boats', 'outdoor', 'water', ['southeast_asian_port', 'east_african_coast', 'modern'], ['travel', 'bright'], { nat: 'a busy tropical wharf lined with boats' }),
+    s('west_african_courtyard', '西アフリカ意匠の中庭', 'courtyard, earthen architecture, west african-inspired', 'semi', 'exotic', ['west_african_city'], ['elegant', 'warm'], { nat: 'a courtyard of earthen, West African-inspired architecture' }),
+    s('andean_path', '高地の山道', 'mountain path, highlands, terraced slopes', 'outdoor', 'nature', ['andean_highland', 'fantasy'], ['wild', 'nature', 'travel'], { nat: 'a high mountain path above terraced slopes' }),
+    s('renaissance_workshop', 'ルネサンスの工房', 'renaissance workshop, wooden gears, sketches on wall', 'indoor', 'interior', ['renaissance_court', 'historical'], ['intellect', 'craft'], { nat: 'a Renaissance inventor’s workshop of wooden gears and sketches' }),
+    s('art_nouveau_atrium', 'アール・ヌーヴォーの吹き抜け', 'art nouveau, atrium, ironwork, glass ceiling', 'indoor', 'palace', ['art_nouveau', 'belle_epoque'], ['elegant', 'bright'], { nat: 'an Art Nouveau atrium of curving ironwork beneath a glass ceiling' }),
+    s('belle_epoque_studio', 'ベル・エポックの写真館', 'photo studio, vintage, draped backdrop', 'indoor', 'interior', ['belle_epoque', 'victorian', 'retro'], ['retro', 'elegant'], { nat: 'a Belle Époque portrait studio with a draped backdrop' }),
+    s('airship_hangar', '飛行船の格納庫', 'hangar, airship, dieselpunk', 'indoor', 'sf', ['dieselpunk', 'steampunk', 'military'], ['tech', 'retro'], { nat: 'a cavernous dieselpunk airship hangar' }),
+    s('solarpunk_greenhouse', 'ソーラーパンクの温室', 'greenhouse, solar panels, living architecture, plants', 'indoor', 'sf', ['solarpunk', 'near_future'], ['nature', 'bright', 'tech'], { nat: 'a bright solarpunk greenhouse of living architecture and solar panels' }),
+    s('orbital_hall', '軌道都市の外交ホール', 'space station, grand hall, panoramic window, planet', 'indoor', 'sf', ['space_opera', 'near_future', 'sf'], ['tech', 'royal'], { nat: 'an orbital diplomatic hall with a panoramic view of a planet' }),
+    s('undersea_observatory', '深海観測室', 'underwater, observatory, panoramic window, ocean', 'indoor', 'sf', ['deep_sea_future', 'sf'], ['tech', 'mystic'], { nat: 'an undersea observatory looking out through a vast window' })
+  ].map(added)
 ];
 export const SCENE_CATS: Category[] = [
   { id: 'interior', ja: '室内' }, { id: 'palace', ja: '宮殿・庭園' }, { id: 'sacred', ja: '神殿・聖堂' }, { id: 'gothic', ja: 'ゴシック' },
   { id: 'japan', ja: '和の景色' }, { id: 'china', ja: '中華の景色' }, { id: 'nature', ja: '自然' }, { id: 'water', ja: '水辺・海' },
   { id: 'urban', ja: '都市・夜の街' }, { id: 'terrace', ja: 'テラス・回廊' }, { id: 'fantasy', ja: '幻想景観' }, { id: 'exotic', ja: '砂漠・神話' },
-  { id: 'sf', ja: 'SF' }, { id: 'surreal', ja: '夢・宇宙' }, { id: 'simple', ja: 'シンプル背景' }, { id: 'captivity', ja: '囚われの場所（禁断の調合）' }
+  { id: 'sf', ja: 'SF' }, { id: 'surreal', ja: '夢・宇宙' }, { id: 'simple', ja: 'シンプル背景' }, { id: 'work', ja: '仕事場' }, { id: 'captivity', ja: '囚われの場所（禁断の調合）' }
 ];
 
 // ---------------- 時間帯・天候 ----------------
@@ -144,7 +169,13 @@ export const TIME: Option[] = [
   t('foggy', '霧の朝', 'fog, morning', 'day', { outdoorOnly: true, src: 'bg:phenomena', nat: 'in rolling morning fog' }),
   t('storm', '嵐', 'storm, dark clouds', 'twilight', { outdoorOnly: true, src: 'bg:weather', nat: 'during a gathering storm', w: 0.6 }),
   t('petal_wind', '花びらの舞う日', 'falling petals, wind', 'day', { outdoorOnly: true, src: 'bg:phenomena', nat: 'as petals drift on the wind' }),
-  t('autumn_leaves', '落ち葉の舞う夕べ', 'autumn leaves, falling leaves', 'twilight', { outdoorOnly: true, src: 'bg:phenomena', nat: 'as autumn leaves swirl down' })
+  t('autumn_leaves', '落ち葉の舞う夕べ', 'autumn leaves, falling leaves', 'twilight', { outdoorOnly: true, src: 'bg:phenomena', nat: 'as autumn leaves swirl down' }),
+  // ---- 2026-10 増築：中間の天気・時刻（屋内でも窓の外として成り立つものは outdoorOnly にしない）----
+  ...[
+    t('blue_hour_after_rain', '雨上がりのブルーアワー', 'blue hour, after rain', 'twilight', { nat: 'in the blue hour just after the rain' }),
+    t('clear_winter_day', '冬の晴れた午後', 'winter, clear sky, afternoon', 'day', { outdoorOnly: true, nat: 'on a clear winter afternoon' }),
+    t('partly_cloudy', '流れる雲の影', 'partly cloudy, cloud shadows', 'day', { outdoorOnly: true, nat: 'under drifting clouds and passing shadows', w: 0.7 })
+  ].map(added)
 ];
 
 // ---------------- 光 ----------------
@@ -172,5 +203,12 @@ export const LIGHT: Option[] = [
   l('bioluminescence', '発光する花と光の粒', 'bioluminescence, glowing flowers', ['night', 'twilight'], ['mystic', 'nature'], { worlds: ['fantasy', 'myth', 'supernatural'] }),
   l('holographic', 'ホログラムの光', 'holographic light, blue glow', undefined, ['tech', 'night'], { worlds: ['sf'] }),
   l('lightning', '稲光', 'lightning, dramatic lighting', ['night', 'twilight'], ['dark', 'dramatic'], { w: 0.5 }),
-  l('overcast_soft', '曇り空の拡散光', 'overcast, diffused light', ['day', 'twilight'], ['soft', 'melancholy'], { src: 'bg:qualities' })
+  l('overcast_soft', '曇り空の拡散光', 'overcast, diffused light', ['day', 'twilight'], ['soft', 'melancholy'], { src: 'bg:qualities' }),
+  // ---- 2026-10 増築：生活の光源 ----
+  ...[
+    l('skylight', '天窓の柔らかな光', 'skylight, soft overhead light', DAY, ['bright', 'soft', 'indoor', 'indoor_only']),
+    l('desk_lamp', '卓上灯の暖かな光', 'desk lamp, warm lighting, pool of light', undefined, ['warm', 'indoor', 'night', 'indoor_only']),
+    l('water_caustics', '水面の反射光', 'water reflections, caustics', undefined, ['water', 'mystic']),
+    l('track_lighting', '展示室のスポット光', 'gallery lighting, track lighting', undefined, ['indoor', 'gallery', 'indoor_only'], { w: 0.6 })
+  ].map(added)
 ];

@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { advise } from '../advisor/advisor';
-import { DRAW_ORDER, fieldDef } from '../data/fields';
+import { DATA_VERSION, DRAW_ORDER, fieldDef } from '../data/fields';
 import { STYLE_PRESETS } from '../data/presets';
 import { adopt, draw, drawWithin, fillModule, GROUPS, relatedTargets, repairAfterModuleOff, toggleLock, unlockAll, type DrawOutcome, type RecentMap } from '../engine/draw';
-import { getDrawPrefs, setDrawPrefs, type DrawPrefs } from '../engine/prefs';
+import { addedIntoExcluded, getDrawPrefs, setDrawPrefs, type DrawPrefs } from '../engine/prefs';
 import { cloneState, emptyState } from '../engine/state';
 import { titleOf } from '../prompts/build';
 import { lockPerson, PERSON_FIELDS } from '../engine/person';
 import { applyCard, canAdoptCard, wardrobePreview, type WardrobePreview } from '../engine/wardrobe';
 import {
-  decodeShare, loadCurrent, loadPrefs, loadRecent, loadWardrobeSession, migrateHistory, missingFields, recordHistory, savePrefs, saveCurrent, saveRecent,
+  decodeShare, loadCurrent, loadDictSeen, loadPrefs, loadRecent, loadWardrobeSession, migrateHistory, missingFields, recordHistory, savePrefs, saveCurrent, saveDictSeen, saveRecent,
   saveWardrobeSession, type WardrobeSession
 } from '../storage/storage';
 import type { FieldId, ForgeModules, ForgeState, StylePreset } from '../types';
@@ -28,7 +28,8 @@ import { WardrobeSheet } from './WardrobeSheet';
 
 const MODULE_OF: Record<keyof ForgeModules, Parameters<typeof fillModule>[1]> = {
   kemonoEnabled: 'kemono', backgroundEnabled: 'background', poseEnabled: 'pose', facialHairEnabled: 'facialHair', hairAccentEnabled: 'hairAccent', nameEnabled: 'name',
-  glassesEnabled: 'glasses', marksEnabled: 'marks', propEnabled: 'prop', unlimitedEnabled: 'unlimited', cosplayEnabled: 'cosplay'
+  glassesEnabled: 'glasses', marksEnabled: 'marks', propEnabled: 'prop', unlimitedEnabled: 'unlimited', cosplayEnabled: 'cosplay',
+  ageCueEnabled: 'ageCue', hairTextureEnabled: 'hairTexture', fringeEnabled: 'fringe', gazeEnabled: 'gaze', headPoseEnabled: 'headPose', outfitDetailEnabled: 'outfitDetail', fabricEnabled: 'fabric'
 };
 
 /** 共有URL・お気に入り・履歴の結果に、個人のOFF設定が掛かっているときの一言 */
@@ -37,11 +38,21 @@ export function prefsAppliedNote(): string {
   return off.length ? `現在の好み設定を適用しています（個人の抽選・出力設定：${off.map((f) => fieldDef(f).short ?? fieldDef(f).ja).join('・')}はOFFのため出力しません。値と保存元の内容は変えていません）。` : '';
 }
 
-function initialState(): { state: ForgeState; notes: string[] } {
+export type DictUpdate = ReturnType<typeof addedIntoExcluded>;
+function initialState(): { state: ForgeState; notes: string[]; dictUpdate: DictUpdate | null } {
   // 辞書・抽選設定は、最初の抽選より前に読み込んでエンジンへ渡す
   const prefs = loadPrefs();
   setDrawPrefs(prefs.prefs);
   const notes: string[] = [...prefs.notes];
+  // 辞書の更新：除外の設定がある項目に新しい候補が加わったら知らせる（除外の設定そのものは変えない）。それ以外の人には何も出さない
+  let dictUpdate: DictUpdate | null = null;
+  if (loadDictSeen() !== DATA_VERSION) {
+    const affected = addedIntoExcluded(prefs.prefs);
+    if (affected.length) {
+      dictUpdate = affected;
+      notes.push(`辞書を更新しました（${DATA_VERSION}）。除外の設定をしている${affected.map((x) => `「${fieldDef(x.field).short ?? fieldDef(x.field).ja}」`).join('')}に新しい候補が計${affected.reduce((n, x) => n + x.allowed, 0)}件加わり、抽選対象になっています（除外の設定は変えていません）。`);
+    } else saveDictSeen(DATA_VERSION);
+  }
   // 履歴の整理：一時的に「以前の履歴」へ移っていた分を通常の履歴（50件）へ戻す。50件を超える分は「以前の履歴」へ
   const hist = migrateHistory();
   if (hist.restored) notes.push(`履歴の表示を50件に戻しました。一時的に「以前の履歴」へ移っていた${hist.restored}件も、通常の履歴に戻してあります。`);
@@ -63,20 +74,22 @@ function initialState(): { state: ForgeState; notes: string[] } {
     const r = draw(emptyState());
     // 辞書・抽選設定のせいで最初の錬成が成立しないときは、除外した候補を使わずに、理由を伝える
     if (!r.ok) notes.push(...r.notices);
-    return { state: r.state, notes };
+    return { state: r.state, notes, dictUpdate };
   }
   const missing = missingFields(state).filter((f) => fieldDef(f).randomizable !== false);
   if (missing.length) {
     const r = draw(state, { targets: missing });
     if (r.ok) state = r.state;
   }
-  return { state, notes };
+  return { state, notes, dictUpdate };
 }
 
 export function App() {
   const boot = useMemo(initialState, []);
   const [forge, setForge] = useState<ForgeState>(boot.state);
   const [tab, setTab] = useState<Tab>('forge');
+  const [dictUpdate, setDictUpdate] = useState<DictUpdate | null>(boot.dictUpdate);
+  const dictSeen = useCallback(() => { setDictUpdate(null); saveDictSeen(DATA_VERSION); }, []);
   const [toast, setToast] = useState<Toast | null>(boot.notes.length ? { text: boot.notes.join(' ') } : null);
   const [picker, setPicker] = useState<FieldId | null>(null);
   const [conflict, setConflict] = useState<ConflictView | null>(null);
@@ -212,6 +225,8 @@ export function App() {
     },
     redrawRelated: (fields: FieldId[]) => { setConflict(null); handleOutcome(draw(forge, { targets: relatedTargets(forge, fields), recent: recent.current })); },
     openDict: (f?: FieldId) => {
+      // 辞書・抽選設定を開いたら、辞書の更新のお知らせは確認済みにする（設定画面に今回の追加分の一覧と一括の操作がある）
+      if (dictUpdate) dictSeen();
       setConflict(null); setPicker(null);
       if (tab !== 'dict') setDictBack(tab);
       setDictField(f ?? null); setTab('dict'); window.scrollTo({ top: 0 });
@@ -290,7 +305,7 @@ export function App() {
 
       <main>
         {tab === 'forge' && (
-          <ForgeView forge={forge} title={title} issues={issues} changed={changed} sweep={sweep} actions={actions} prefs={prefs}
+          <ForgeView forge={forge} title={title} issues={issues} changed={changed} sweep={sweep} actions={actions} prefs={prefs} dictUpdate={dictUpdate} onDictSeen={dictSeen}
             canUndo={undo.current.length > 0} canRedo={redo.current.length > 0} presets={STYLE_PRESETS} pendingPreset={pendingPreset} />
         )}
         {tab === 'prompt' && <PromptView forge={forge} actions={actions} prefs={prefs} />}

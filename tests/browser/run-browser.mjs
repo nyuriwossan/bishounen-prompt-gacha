@@ -182,7 +182,7 @@ try {
     await page.click('.preset-groups .chip:has-text("現代・日常")');
     const shown = await page.$$eval('.presets .chip', (els) => els.map((e) => e.textContent.trim()));
     check('分類「現代・日常」で、完全ランダムと現代系のスタイルだけに絞られる',
-      shown.length === 5 && shown[0].includes('完全ランダム') && shown.some((x) => x.includes('ダウナー・気だるい')) && !shown.some((x) => x.includes('銀髪特集')), shown.join('/'));
+      shown.length === 6 && shown.some((x) => x.includes("働く大人・職人")) && shown[0].includes('完全ランダム') && shown.some((x) => x.includes('ダウナー・気だるい')) && !shown.some((x) => x.includes('銀髪特集')), shown.join('/'));
     check('分類を切り替えても錬成せず、別分類の選択中スタイルを表示し続ける', (await title(page)) === tGroup && (await page.textContent('.preset-pending')).includes('銀髪特集'));
     await page.click('.preset-pending >> text=やめる');
     await page.click('.presets .chip:has-text("現代・日常のイケメン")');
@@ -285,6 +285,108 @@ try {
     await ctx.close();
   }
 
+  // ---- 2c. 2026-10 増築の任意項目（年齢の表れ・髪質・前髪・視線・頭の向き・衣装の細部・素材）----
+  for (const w of [320, 390]) {
+    const { ctx, page, errors } = await newPage({ width: w, height: 760 });
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    const NEW = [['年齢の表れを抽選に含める', '年齢の表れ'], ['髪質を抽選に含める', '髪質'], ['前髪・分け目を抽選に含める', '前髪・分け目'], ['視線を個別に引く', '視線'], ['頭の向きを個別に引く', '頭の向き'], ['衣装の細部を抽選に含める', '衣装の細部'], ['素材を抽選に含める', '素材']];
+    await page.$$eval('details.group', (ds) => ds.forEach((d) => (d.open = true)));
+    const rowOf = (ja) => page.locator('.frow').filter({ has: page.locator(`.fmain[aria-label^="${ja}："]`) }).first();
+    const offAll = [];
+    for (const [, ja] of NEW) offAll.push(((await rowOf(ja).count()) === 0) || (await rowOf(ja).textContent()).includes('出力しない'));
+    check(`${w}px：増築の7項目は既定でOFF（出力しない）`, offAll.every(Boolean), offAll.join(','));
+    for (const [label] of NEW) { await page.click(`label.toggle:has-text("${label}") input`); await page.waitForTimeout(60); }
+    await page.$$eval('details.group', (ds) => ds.forEach((d) => (d.open = true)));
+    const vals = [];
+    for (const [, ja] of NEW) vals.push((await rowOf(ja).count()) ? (await rowOf(ja).locator('.fval').textContent()).trim() : '(行なし)');
+    check(`${w}px：ONにすると7項目の行が有効になる`, vals.every((v) => v && v !== '(行なし)'), vals.join(' / '));
+    check(`${w}px：7項目をONにして詳細をすべて開いても横スクロールなし`, (await overflow(page)) <= 0, `overflow=${await overflow(page)}`);
+    const tapOk = await page.$$eval('.frow .fbtn', (els) => els.every((e) => { const r = e.getBoundingClientRect(); return r.width >= 40 && r.height >= 40; }));
+    check(`${w}px：増築の行を含めてタップ領域が40px以上`, tapOk);
+    if (w === 390) {
+      await page.screenshot({ path: path.join(SHOTS, 'expansion-forge-390.jpg'), type: 'jpeg', quality: 70, fullPage: true });
+      // 視線：固定・個別の引き直し・手で選ぶ
+      const gaze = rowOf('視線');
+      await gaze.locator('.fbtn').first().click();
+      check('視線を固定できる', (await gaze.locator('.fbtn').first().getAttribute('aria-pressed')) === 'true');
+      const gv = (await gaze.locator('.fval').textContent()).trim();
+      await page.click('.forge-btn'); await page.waitForTimeout(120);
+      check('固定した視線は錬成しても変わらない', (await gaze.locator('.fval').textContent()).trim() === gv);
+      await gaze.locator('.fbtn').first().click();
+      await gaze.locator('.fmain').click();
+      await page.waitForSelector('dialog.sheet[open]');
+      await page.click('dialog.sheet[open] .opt:has-text("伏し目")');
+      await page.waitForTimeout(150);
+      if (await page.isVisible('dialog.sheet[open]')) await page.click('dialog.sheet[open] button:has-text("採用")').catch(() => undefined);
+      await page.waitForTimeout(150);
+      check('視線を手で選べる（伏し目）', (await gaze.locator('.fval').textContent()).includes('伏し目'), (await gaze.locator('.fval').textContent()));
+      // 出力：視線のタグは1つだけ
+      await page.click('.tabbar button >> nth=1');
+      await page.click('.target-row button:has-text("PixAI")');
+      const p = await page.inputValue('#prompt-main');
+      check('視線を指定すると looking at viewer を出さず、looking down を出す', !/looking at viewer/.test(p) && /looking down/.test(p));
+      // PixAI の系統・NovelAI の版
+      await page.click('.profile-seg button:has-text("Tsubaki")');
+      const dit = await page.inputValue('#prompt-main');
+      check('PixAI の Tsubaki等（自然文）で、自然な英文になる', /\. /.test(dit) && !/1boy, solo/.test(dit), dit.slice(0, 80));
+      await page.click('.profile-seg button:has-text("SDXL")');
+      await page.click('.target-row button:has-text("NovelAI")');
+      await page.click('.profile-seg button:has-text("V4.5")');
+      const nai = await page.inputValue('#prompt-main');
+      check('NovelAI V4.5・V5 で品質タグを末尾に付ける', /very aesthetic, masterpiece, no text$/.test(nai.trim()), nai.slice(-60));
+      check(`${w}px：プロンプト画面の切り替えで横スクロールなし`, (await overflow(page)) <= 0);
+      await page.screenshot({ path: path.join(SHOTS, 'expansion-prompt-390.jpg'), type: 'jpeg', quality: 70 });
+      await page.click('.profile-seg button:has-text("V4（従来）")');
+      await page.click('.target-row button:has-text("PixAI")');
+      await page.click('.tabbar button >> nth=0');
+    }
+    check(`${w}px：増築の操作で実行時エラーなし`, errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+
+  // ---- 2d. 辞書の更新のお知らせ（除外の設定がある人だけ。設定は書き換えない）----
+  {
+    const prefs = JSON.stringify({ version: 1, excluded: { outfit: ['school_uniform'] }, disabled: [] });
+    const { ctx, page, errors } = await newPage({ width: 375, height: 812 }, { init: `if (!sessionStorage.getItem('seeded')) { localStorage.setItem('bpg:v1:drawPrefs', ${JSON.stringify(prefs)}); sessionStorage.setItem('seeded', '1'); }` });
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    check('除外の設定がある項目に候補が増えたら、錬成画面でお知らせする', await page.isVisible('.dict-update'));
+    check('お知らせで除外の設定は書き換えない', (await page.evaluate(() => window.localStorage.getItem('bpg:v1:drawPrefs'))) === prefs);
+    check('お知らせを出しても横スクロールなし', (await overflow(page)) <= 0);
+    await page.screenshot({ path: path.join(SHOTS, 'expansion-dict-notice-375.jpg'), type: 'jpeg', quality: 70 });
+    await page.click('.dict-update button:has-text("確認する")');
+    await page.waitForSelector('.dict-new');
+    check('辞書・抽選設定に「この版で追加した候補」の欄が出る', (await page.textContent('.dict-new')).includes('この版で追加した候補'));
+    await page.click('.dict-new button:has-text("今回の追加分をすべて除外")');
+    await page.waitForTimeout(100);
+    const saved = JSON.parse(await page.evaluate(() => window.localStorage.getItem('bpg:v1:drawPrefs')));
+    check('追加分をまとめて除外しても、元の除外は残る', saved.excluded.outfit.includes('school_uniform') && saved.excluded.outfit.length > 5 && Array.isArray(saved.excluded.scene));
+    await page.click('.dict-new button:has-text("すべて抽選対象に戻す")');
+    await page.waitForTimeout(100);
+    const back = JSON.parse(await page.evaluate(() => window.localStorage.getItem('bpg:v1:drawPrefs')));
+    check('追加分を戻すと、元の除外の設定に戻る', JSON.stringify(back.excluded) === JSON.stringify({ outfit: ['school_uniform'] }), JSON.stringify(back.excluded));
+    await page.click('.dict-list button:has-text("衣装") >> nth=0');
+    check('項目の一覧に「新」の印と「新規」の表示切り替えが出る', await page.isVisible('.seg button:has-text("新規")'));
+    await page.click('.seg button:has-text("新規")');
+    const newCount = await page.locator('.dopt .dbadge.new').count();
+    const allCount = await page.locator('.dopt').count();
+    check('「新規」で、この版で追加した候補だけを表示する', newCount > 5 && newCount === allCount, `${newCount}/${allCount}`);
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    check('確認したあとは、再読込してもお知らせを出さない', !(await page.isVisible('.dict-update')));
+    check('辞書の更新の操作で実行時エラーなし', errors.length === 0, errors.join(' / '));
+    await ctx.close();
+  }
+  {
+    // 除外の設定がない人には何も出さない
+    const { ctx, page } = await newPage({ width: 375, height: 812 });
+    await page.goto(URL_, { waitUntil: 'load' });
+    await page.waitForSelector('.label-title');
+    check('除外の設定がなければ、辞書の更新のお知らせは出さない', !(await page.isVisible('.dict-update')) && !(await page.isVisible('.toast')));
+    await ctx.close();
+  }
+
   // ---- 2b. 候補選択シート（iPhone の表示領域を想定：アドレスバー分だけ低い画面） ----
   for (const [w, h] of [[390, 664], [320, 520]]) {
     const { ctx, page, errors } = await newPage({ width: w, height: h });
@@ -343,7 +445,7 @@ try {
     await page.click('.prefs-bar button:has-text("辞書・抽選設定")');
     await page.waitForSelector('#dict-title');
     const rows = page.locator('.dict-list .drow');
-    check('辞書・抽選設定：全44項目の一覧を出す（ヘルプとの二重の一覧なし）', (await rows.count()) === 44, String(await rows.count()));
+    check('辞書・抽選設定：全51項目の一覧を出す（ヘルプとの二重の一覧なし）', (await rows.count()) === 51, String(await rows.count()));
     const hairRowText = await page.locator('.drow:has(.dname:text-is("髪型"))').textContent();
     const m = hairRowText.match(/登録 (\d+)件・抽選許可 (\d+)件/);
     check('辞書・抽選設定：登録数と抽選許可数を表示（未設定では同数）', !!m && m[1] === m[2], hairRowText);

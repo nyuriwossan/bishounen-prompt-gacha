@@ -6,6 +6,7 @@
  * culture を持つ衣装は伝統衣装として扱い、別の文化モチーフとは同時に採用しない（hard）。
  */
 import type { Category, Option } from '../types';
+import { added, o } from './helpers';
 
 const fit = (
   id: string, ja: string, cat: string, worlds: string[], upper: string, lower: string, tags: string[], extra: Partial<Option> = {}
@@ -188,7 +189,27 @@ const OUTFIT_BASE: Option[] = [
   fit('santa_mini', 'ミニスカサンタ', 'cosplay', [], '{c1} santa costume, santa hat, white fur trim, {c2} belt', 'miniskirt, white thighhighs, boots', ['cosplay', 'winter', 'miniskirt'], { neg: ['long skirt'] }),
   fit('cheerleader', 'チアリーダー', 'cosplay', [], '{c1} cheerleader uniform, sleeveless crop top, {c2} stripes', 'short shorts, sneakers', ['cosplay', 'sporty', 'exposed']),
   fit('harness_shirt', 'ハーネスと開襟シャツ', 'cosplay', [], 'open {c1} shirt, {c2} leather chest harness', 'fitted trousers, boots', ['cosplay', 'alluring', 'danger']),
-  fit('ringleader', 'サーカス団長', 'cosplay', [], '{c1} ringleader tailcoat, gold trim, {c2} waistcoat, top hat', 'white breeches, thighhigh boots', ['cosplay', 'stage', 'hat'])
+  fit('ringleader', 'サーカス団長', 'cosplay', [], '{c1} ringleader tailcoat, gold trim, {c2} waistcoat, top hat', 'white breeches, thighhigh boots', ['cosplay', 'stage', 'hat']),
+  // ---- 2026-10 増築：生活職・成熟した現代服・地域と時代の世界観（衣装は既に多いので、抜けている所だけ）----
+  ...[
+    fit('chore_workwear', 'チョアジャケットのワークウェア', 'work', ['modern', 'urban', 'dieselpunk'], '{c1} chore jacket, {c2} work shirt', 'work trousers, work boots', ['work', 'casual', 'rugged', 'craft']),
+    fit('canvas_apron', '厚手のエプロンと作業着', 'work', ['modern', 'fantasy', 'western', 'renaissance_court'], '{c1} heavy canvas work apron over a {c2} shirt, rolled-up sleeves', 'work trousers, boots', ['work', 'craft', 'rugged']),
+    fit('utility_vest', '都会派ユーティリティベスト', 'casual', ['modern', 'urban', 'wasteland'], '{c1} utility vest over a {c2} button-up shirt', 'cargo trousers, boots', ['casual', 'work', 'street']),
+    fit('knit_polo', '上質なニットポロ', 'daily', ['modern', 'business', 'urban'], '{c1} fine-knit polo shirt', '{c2} tailored trousers, loafers', ['casual', 'smart', 'clean', 'mature']),
+    fit('minimal_blazer', 'ミニマルなジャケットの装い', 'daily', ['modern', 'business', 'urban', 'korean_city'], '{c1} minimalist blazer, {c2} crew-neck top', 'straight-cut trousers, leather shoes', ['smart', 'clean', 'mode']),
+    fit('tweed_sports_coat', 'ツイードのジャケット', 'casual', ['modern', 'retro', 'victorian', 'belle_epoque'], '{c1} tweed sports coat, {c2} fine-knit sweater', 'flannel trousers, brogues', ['smart', 'scholar', 'retro']),
+    fit('open_three_piece', 'ノーネクタイの三つ揃い', 'suit', ['modern', 'noir', 'urban', 'retro'], '{c1} three-piece suit, waistcoat, open-collar {c2} shirt', 'tailored trousers, leather shoes', ['formal', 'suit', 'alluring']),
+    fit('wool_overcoat_scarf', '長いウールコートとマフラー', 'suit', ['modern', 'noir', 'urban', 'business', 'belle_epoque'], '{c1} long wool overcoat, {c2} wool scarf', 'dark trousers, leather boots', ['formal', 'coat', 'winter', 'detective']),
+    fit('belle_epoque_suit', 'ベル・エポックのスーツ', 'suit', ['belle_epoque', 'victorian', 'retro'], '{c1} belle epoque tailored suit, {c2} waistcoat, high collar', 'striped trousers, spats', ['formal', 'retro', 'suit']),
+    fit('renaissance_doublet', 'ルネサンスのダブレット', 'court', ['renaissance_court', 'historical', 'western'], '{c1} renaissance doublet, {c2} slashed sleeves', 'hose, low boots', ['noble', 'elegant', 'historical']),
+    fit('art_nouveau_formal', '曲線意匠の礼服', 'court', ['art_nouveau', 'belle_epoque'], '{c1} art nouveau formal jacket, {c2} curving floral embroidery', 'slim trousers', ['elegant', 'retro', 'noble']),
+    fit('bandhgala', 'バンドガラ', 'world', ['south_asian_metropolis', 'modern', 'court'], '{c1} bandhgala jacket with a high mandarin collar, {c2} buttons', 'slim trousers, leather shoes', ['formal', 'traditional', 'suit'], { culture: 'south_asia', w: 0.6 }),
+    fit('woven_coastal_cloak', '織りのマントと重ねたチュニック', 'world', ['west_african_city', 'east_african_coast', 'fantasy'], '{c1} woven cloak, {c2} layered tunic', 'loose trousers, sandals', ['traditional', 'formal', 'travel'], { w: 0.5, desc: '架空の沿岸都市の装い。特定の民族衣装ではありません。' }),
+    fit('dieselpunk_flight', 'ディーゼルパンクの飛行服', 'military', ['dieselpunk', 'military'], '{c1} dieselpunk flight jacket, brass buckles, {c2} aviator scarf', 'aviator trousers, tall boots', ['military', 'retro', 'casual']),
+    fit('solarpunk_utility', 'ソーラーパンクの作業服', 'sf', ['solarpunk', 'near_future'], '{c1} solarpunk utility jacket, {c2} eco-fabric panels', 'cargo trousers, sneakers', ['tech', 'casual', 'nature']),
+    fit('deep_sea_suit', '深海探査隊の制服', 'sf', ['deep_sea_future', 'sf'], '{c1} futuristic deep-sea expedition suit, {c2} accents', 'expedition suit legs, boots', ['tech', 'sleek', 'travel']),
+    fit('orbital_diplomat', '軌道都市の外交官礼装', 'sf', ['space_opera', 'near_future', 'sf'], '{c1} futuristic diplomatic uniform, {c2} sash, clean tailoring', 'uniform trousers, polished boots', ['formal', 'tech', 'officer'])
+  ].map(added)
 ];
 
 /* 衣装の特徴タグ（f_*）。禁断の調合の「衣装の乱れ」が、その衣装に実在する部位だけを選ぶために使う。
@@ -227,3 +248,53 @@ export const OUTFIT_CATS: Category[] = [
 ];
 /** コスプレ衣装か（専用スイッチがONのときだけ抽選・選択できる） */
 export const isCosplay = (o: { cat?: string } | undefined) => o?.cat === 'cosplay';
+
+// ---------------- 2026-10 増築：衣装の細部（任意・既定OFF）----------------
+/* 衣装一式を増やさずに、襟・袖口・装身具で見分ける。親の衣装に必要な部位がないとき（ネクタイのない衣装のネクタイピンなど）は使わない（hard）。
+ * 画角で見えない細部（ズボンのタック・ベルト）は、その部位が入る構図だけ（minShot）。コスプレ衣装・禁断演出とは重ねない。 */
+const SHIRT = 'shirt|blouse';
+const TROUSERS = '\\b(trousers|slacks|pants|chinos|jeans)\\b';
+const d = (id: string, ja: string, en: string, nat: string, extra: Partial<Option>) => added(o(id, ja, en, { nat, ...extra }));
+export const OUTFIT_DETAIL: Option[] = [
+  added(o('none', '指定しない', [], { w: 2.5, desc: '衣装の語だけに任せます。' })),
+  d('pocket_square', 'ポケットチーフ', 'pocket square', 'a folded pocket square', { parentTags: ['suit', 'f_jacket'], minShot: 1, cat: 'chest', tags: ['formal', 'luxury'] }),
+  d('lapel_pin', 'ラペルピン', 'lapel pin', 'a small lapel pin', { parentTags: ['suit', 'f_jacket'], minShot: 1, cat: 'chest', tags: ['formal', 'luxury'] }),
+  d('tie_clip', 'ネクタイピン', 'tie clip', 'a slim tie clip', { needsText: 'necktie', minShot: 1, cat: 'chest', tags: ['formal'] }),
+  d('aiguillette', '礼装の飾り緒', 'aiguillette, braided cord', 'a braided ceremonial aiguillette', { parentTags: ['military', 'royal', 'officer', 'formal'], clashText: 'aiguillette|braid', minShot: 1, cat: 'chest', tags: ['formal', 'military', 'royal'], w: 0.7 }),
+  d('silk_neck_scarf', 'シルクのネックスカーフ', 'silk neck scarf', 'a silk neck scarf', { clashText: 'necktie|bow ?tie|cravat|ascot|scarf|neckerchief|jabot|turtleneck|stole|headphones|roman collar|high collar|high-collared|mandarin collar|detached collar|fur|mantle', minShot: 0, cat: 'neck', tags: ['elegant', 'mature'] }),
+  d('knotted_scarf', 'きれいに結んだスカーフ', 'neatly knotted scarf', 'a neatly knotted scarf', { needsText: 'scarf|neckerchief', minShot: 0, cat: 'neck', tags: ['elegant'] }),
+  d('embroidered_collar', '刺繍入りの襟', 'embroidered collar', 'an embroidered collar', { parentTags: ['f_collar'], clashText: 'embroider', minShot: 0, cat: 'neck', tags: ['elegant', 'traditional'] }),
+  d('contrast_stitching', 'コントラストステッチ', 'contrast stitching', 'contrasting stitching', { parentTags: ['f_jacket', 'f_coat', 'f_shirt'], minShot: 1, cat: 'make', tags: ['casual', 'modern'], w: 0.6 }),
+  d('brass_buttons', '真鍮のボタン', 'brass buttons', 'brass buttons', { needsText: 'coat|jacket|uniform|waistcoat|vest|cardigan|doublet', clashText: 'buttons', minShot: 1, cat: 'make', tags: ['retro', 'military'] }),
+  d('asymmetric_closure', '左右非対称の前合わせ', 'asymmetrical buttoning', 'an asymmetrical front closure', { parentTags: ['f_jacket', 'f_coat'], clashText: 'asymmetric', minShot: 1, cat: 'make', tags: ['mode', 'tech'], w: 0.7 }),
+  d('elbow_patches', '革の肘当て', 'elbow patches', 'leather elbow patches', { needsText: 'jacket|blazer|cardigan|sweater|coat', minShot: 2, cat: 'sleeve', tags: ['scholar', 'retro'] }),
+  d('rolled_cuffs', '袖をまくる', 'rolled-up sleeves', 'sleeves rolled up', { parentTags: ['f_shirt', 'f_jacket', 'f_top'], clashText: 'rolled|sleeveless|tank top|bare arms|t-shirt|robe|cloak|cape', minShot: 2, cat: 'sleeve', tags: ['casual', 'work'] }),
+  d('sleeve_garters', 'シャツのアームバンド', 'sleeve garters', 'sleeve garters on his shirt', { needsText: SHIRT, clashText: 'garter|sleeveless|t-shirt|tank top', minShot: 2, cat: 'sleeve', tags: ['retro', 'service'] }),
+  d('cufflinks', 'カフリンクス', 'cufflinks', 'polished cufflinks', { parentTags: ['formal', 'suit', 'smart'], needsText: SHIRT, minShot: 2, cat: 'sleeve', tags: ['formal', 'luxury'] }),
+  d('signet_ring', 'シグネットリング', 'signet ring', 'a signet ring', { minShot: 2, cat: 'hand', tags: ['noble', 'luxury'] }),
+  d('watch_chain', 'ベストの懐中時計の鎖', 'watch chain', 'a pocket-watch chain across his waistcoat', { needsText: 'waistcoat|vest', minShot: 2, cat: 'hand', tags: ['retro', 'elegant'] }),
+  d('woven_belt', '織りのベルト', 'woven belt', 'a woven belt', { clashText: 'belt|sash|obi|robe|cassock|bodysuit|dress|apron|kimono|tunic', minShot: 3, cat: 'waist', tags: ['casual', 'travel'] }),
+  d('high_waist_trousers', 'ハイウエストのズボン', 'high-waisted trousers', 'high-waisted trousers', { needsText: TROUSERS, clashText: 'high-waisted|robe|apron', minShot: 3, cat: 'waist', tags: ['retro', 'mode'] }),
+  d('pleated_trousers', 'タック入りのスラックス', 'pleated trousers', 'pleated trousers', { needsText: TROUSERS, clashText: 'pleated|cargo|jeans', minShot: 4, cat: 'waist', tags: ['formal', 'retro'] })
+];
+export const OUTFIT_DETAIL_CATS: Category[] = [
+  { id: 'chest', ja: '胸元' }, { id: 'neck', ja: '首元・襟' }, { id: 'make', ja: '仕立て・ボタン' }, { id: 'sleeve', ja: '袖・袖口' }, { id: 'hand', ja: '手元・装身具' }, { id: 'waist', ja: '腰・ズボン' }
+];
+
+// ---------------- 2026-10 増築：素材（任意・既定OFF）----------------
+/* 同じ衣装を質感で見分ける。主な服（衣装の最初の語）が素材を決めているとき（レザージャケット・リネンシャツなど）は、その素材と合うものだけ。
+ * 鎧・ボディスーツ・コスプレ衣装・禁断演出とは重ねない。世界観・衣装の雰囲気との相性は重み（soft）。 */
+const fb = (id: string, ja: string, en: string, mat: string, nat: string, worlds: string[], tags: string[], extra: Partial<Option> = {}) => added(o(id, ja, en, { mat, nat, worlds, tags, ...extra }));
+export const FABRIC: Option[] = [
+  added(o('none', '指定しない', [], { w: 2.5, desc: '衣装の語だけに任せます。' })),
+  fb('fine_wool', '上質なウール', 'fine wool fabric', 'wool', 'fine wool', ['modern', 'business', 'urban', 'north', 'retro', 'historical', 'medieval'], ['formal', 'winter', 'smart']),
+  fb('tweed', 'ツイード', 'tweed fabric', 'tweed', 'tweed', ['modern', 'retro', 'victorian', 'western', 'belle_epoque'], ['retro', 'scholar', 'smart']),
+  fb('velvet', 'ベルベット', 'velvet fabric', 'velvet', 'rich velvet', ['court', 'gothic', 'victorian', 'noir', 'urban', 'art_nouveau', 'renaissance_court'], ['luxury', 'elegant', 'noble', 'dark']),
+  fb('raw_silk', '生糸風のシルク', 'raw silk fabric', 'silk', 'raw silk', ['eastern', 'court', 'desert', 'south_asian_metropolis', 'silk_road_city'], ['luxury', 'elegant', 'traditional']),
+  fb('washed_linen', '洗いざらしのリネン', 'washed linen fabric', 'linen', 'washed linen', ['modern', 'desert', 'southeast_asian_port', 'east_african_coast', 'medieval', 'fantasy'], ['casual', 'light']),
+  fb('brushed_cotton', '起毛コットン', 'brushed cotton fabric', 'cotton', 'soft brushed cotton', ['modern', 'urban'], ['casual', 'soft', 'daily'], { w: 0.8 }),
+  fb('heavy_canvas', '厚手のキャンバス地', 'heavy canvas fabric', 'canvas', 'heavy canvas', ['modern', 'wasteland', 'dieselpunk', 'western'], ['work', 'rugged', 'craft']),
+  fb('supple_leather', 'しなやかな革', 'supple leather', 'leather', 'supple leather', ['modern', 'urban', 'noir', 'military', 'dieselpunk', 'fantasy'], ['street', 'danger', 'rugged', 'military']),
+  fb('suede', 'スエード', 'suede', 'suede', 'soft suede', ['modern', 'western', 'retro'], ['casual', 'retro', 'smart'], { w: 0.8 }),
+  fb('brocade', 'ブロケード', 'brocade fabric', 'brocade', 'ornate brocade', ['court', 'china', 'eastern', 'desert', 'european_court', 'renaissance_court'], ['luxury', 'royal', 'traditional'], { w: 0.8 })
+];

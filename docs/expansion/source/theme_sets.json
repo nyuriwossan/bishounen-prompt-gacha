@@ -1,0 +1,748 @@
+[
+  {
+    "id": "theme_01_quiet_architect",
+    "title_ja": "静謐な現代建築家",
+    "age_band": "35–44",
+    "existing_system_feasibility": "一部可",
+    "selected_option_ids": [
+      "x_archetype_thoughtful_architect",
+      "x_occupation_architect",
+      "x_outfit_minimalist_architect",
+      "x_prop_architect_blueprints",
+      "x_scene_architecture_studio",
+      "x_pose_looking_down_at_table",
+      "x_lighting_soft_skylight"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_archetype_thoughtful_architect",
+      "x_occupation_architect",
+      "x_outfit_minimalist_architect",
+      "x_prop_architect_blueprints",
+      "x_scene_architecture_studio",
+      "x_pose_looking_down_at_table",
+      "x_lighting_soft_skylight"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, thoughtful modern architect, refined handsome features, architect, minimalist blazer, straight-cut trousers, architectural blueprints, architecture studio, drafting table, leaning over table, looking downward, soft skylight illumination",
+    "example_natural_english_prompt": "In a quiet architecture studio, a thoughtful adult male architect in a minimalist blazer leans over drawings. The soft skylight defines his facial proportions.",
+    "compatibility_note": "設計図、作業場所、見下ろす角度を連動",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_02_weathered_carpenter",
+    "title_ja": "年輪を刻んだ木工職人",
+    "age_band": "45–59",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_archetype_weathered_craftsman",
+      "x_occupation_carpenter",
+      "x_outfit_workwear_chore",
+      "x_prop_folding_ruler",
+      "x_scene_carpenter_workshop",
+      "x_pose_sleeves_rolled_work",
+      "x_feature_fine_smile_lines"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_archetype_weathered_craftsman",
+      "x_occupation_carpenter",
+      "x_outfit_workwear_chore",
+      "x_prop_folding_ruler",
+      "x_scene_carpenter_workshop",
+      "x_pose_sleeves_rolled_work",
+      "x_feature_fine_smile_lines"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, rugged handsome craftsman, weathered elegance, carpenter, chore jacket, work shirt, folding wooden ruler, carpentry workshop, wood shavings, working with rolled-up sleeves, fine smile lines",
+    "example_natural_english_prompt": "A handsome middle-aged carpenter wearing a chore jacket works at a timber bench. Subtle smile lines and a warm workshop give his face lived-in maturity.",
+    "compatibility_note": "職人の表情、手の動作、木工道具",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_03_silver_diplomat",
+    "title_ja": "銀髪の老外交官",
+    "age_band": "60+",
+    "existing_system_feasibility": "一部可",
+    "selected_option_ids": [
+      "x_archetype_silver_diplomat",
+      "x_occupation_diplomat",
+      "x_ageCue_silver_temples",
+      "x_outfit_bespoke_double_breasted",
+      "x_pose_hands_behind_back",
+      "x_scene_orbital_diplomatic_hall",
+      "x_headPose_three_quarter_left"
+    ],
+    "new_field_option_ids": [
+      "x_ageCue_silver_temples",
+      "x_headPose_three_quarter_left"
+    ],
+    "existing_field_option_ids": [
+      "x_archetype_silver_diplomat",
+      "x_occupation_diplomat",
+      "x_outfit_bespoke_double_breasted",
+      "x_pose_hands_behind_back",
+      "x_scene_orbital_diplomatic_hall"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, distinguished silver-haired gentleman, diplomatic poise, diplomat, silver temples, bespoke double-breasted suit, standing, hands clasped behind back, orbital diplomatic hall, panoramic windows, head turned three-quarter view to left",
+    "example_natural_english_prompt": "A distinguished silver-haired elderly gentleman in a sharply tailored diplomatic suit stands calmly in a formal hall, shown at a three-quarter angle.",
+    "compatibility_note": "60+でも一律に深い皺を強制しない",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_04_midnight_jazz",
+    "title_ja": "夜更けのジャズマン",
+    "age_band": "35–44",
+    "existing_system_feasibility": "かなり可",
+    "selected_option_ids": [
+      "x_archetype_introspective_jazzman",
+      "x_outfit_relaxed_three_piece",
+      "x_prop_jazz_saxophone",
+      "x_scene_jazz_club_corner",
+      "x_expression_bittersweet_smile",
+      "x_pose_seated_sideways_chair",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_archetype_introspective_jazzman",
+      "x_outfit_relaxed_three_piece",
+      "x_prop_jazz_saxophone",
+      "x_scene_jazz_club_corner",
+      "x_expression_bittersweet_smile",
+      "x_pose_seated_sideways_chair",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, melancholic jazz musician, effortless charm, relaxed three-piece suit, open collar, saxophone, intimate jazz club, small stage, bittersweet smile, sitting sideways on chair, warm pool of desk lamp light",
+    "example_natural_english_prompt": "A handsome adult jazz musician sits sideways on a stool after his performance. His saxophone catches a warm lamp glow, while a bittersweet half-smile softens his face.",
+    "compatibility_note": "楽器位置と画角の相性を確認",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_05_rainy_detective",
+    "title_ja": "雨夜の疲れた探偵",
+    "age_band": "45–59",
+    "existing_system_feasibility": "かなり可",
+    "selected_option_ids": [
+      "x_archetype_world_weary_detective",
+      "x_feature_weathered_skin_texture",
+      "x_outfit_long_wool_overcoat",
+      "x_scene_rainy_detective_office",
+      "x_weather_blue_hour_after_rain",
+      "x_gaze_downward",
+      "x_expression_weary_tenderness"
+    ],
+    "new_field_option_ids": [
+      "x_gaze_downward"
+    ],
+    "existing_field_option_ids": [
+      "x_archetype_world_weary_detective",
+      "x_feature_weathered_skin_texture",
+      "x_outfit_long_wool_overcoat",
+      "x_scene_rainy_detective_office",
+      "x_weather_blue_hour_after_rain",
+      "x_expression_weary_tenderness"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, world-weary handsome detective, tired sharp eyes, weathered but dignified skin texture, long wool overcoat, wool scarf, rainy detective office, window blinds, blue hour after rain, looking downward, weary but tender expression",
+    "example_natural_english_prompt": "In a detective office overlooking a rain-damp city, a mature handsome investigator looks down thoughtfully. Blue-hour light accentuates restrained fatigue.",
+    "compatibility_note": "雨は窓外に描き、室内降雨を避ける",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_06_steppe_falconer",
+    "title_ja": "草原の鷹匠",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_archetype_steppe_falconer",
+      "x_world_central_asian_steppe",
+      "x_occupation_falconer",
+      "x_outfit_steppe_riding_coat",
+      "x_prop_falconry_glove",
+      "x_scene_steppe_camp",
+      "x_weather_highland_crisp_dawn"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_archetype_steppe_falconer",
+      "x_world_central_asian_steppe",
+      "x_occupation_falconer",
+      "x_outfit_steppe_riding_coat",
+      "x_prop_falconry_glove",
+      "x_scene_steppe_camp",
+      "x_weather_highland_crisp_dawn"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, windswept rugged handsome, steppe elegance, Central Asian-inspired steppe, falconer, long steppe riding coat, leather belt, falconry glove, open steppe camp, felt tent, crisp highland dawn",
+    "example_natural_english_prompt": "A rugged adult falconer stands in a windswept steppe camp at dawn, wearing a long riding coat and a protective falconry glove.",
+    "compatibility_note": "地域意匠を顔立ちや肌色と自動結合しない",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_07_silk_road_astronomer",
+    "title_ja": "シルクロードの星読み学者",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_archetype_scholarly_astronomer",
+      "x_world_silk_road_trade_city",
+      "x_outfit_embroidered_trade_coat",
+      "x_prop_old_map",
+      "x_scene_silk_road_inn",
+      "x_pose_reading_while_seated",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_archetype_scholarly_astronomer",
+      "x_world_silk_road_trade_city",
+      "x_outfit_embroidered_trade_coat",
+      "x_prop_old_map",
+      "x_scene_silk_road_inn",
+      "x_pose_reading_while_seated",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, scholarly handsome astronomer, thoughtful eyes, Silk Road-inspired trade city, embroidered long trading coat, folded antique map, Silk Road caravanserai courtyard, seated, reading a book, warm pool of desk lamp light",
+    "example_natural_english_prompt": "At a caravanserai, a scholarly adult astronomer studies an old map under lamplight. A richly embroidered trading coat hints at the crossroads setting.",
+    "compatibility_note": "読書ポーズの持ち物を星図へ変更してもよい",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_08_south_asian_diplomat",
+    "title_ja": "南アジア風都市の外交官",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_south_asian_metropolis",
+      "x_occupation_diplomat",
+      "x_outfit_bandhgala_inspired",
+      "x_scene_south_asian_civic_hall",
+      "x_pose_adjusting_cuff",
+      "x_archetype_orbital_diplomat"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_world_south_asian_metropolis",
+      "x_occupation_diplomat",
+      "x_outfit_bandhgala_inspired",
+      "x_scene_south_asian_civic_hall",
+      "x_pose_adjusting_cuff",
+      "x_archetype_orbital_diplomat"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, South Asian-inspired metropolis, diplomat, bandhgala-inspired tailored suit, South Asian-inspired civic hall, adjusting shirt cuff, futuristic distinguished handsome, composed authority",
+    "example_natural_english_prompt": "A composed adult male diplomat adjusts his cuff in a South Asian-inspired civic hall, wearing a bandhgala-inspired tailored suit.",
+    "compatibility_note": "衣服・建築の意匠のみ参照し外見民族を固定しない",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_09_southeast_asian_curator",
+    "title_ja": "東南アジア風港湾都市の学芸員",
+    "age_band": "25–34",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_southeast_asian_port",
+      "x_occupation_curator",
+      "x_outfit_linen_overshirt",
+      "x_scene_southeast_asian_wharf",
+      "x_prop_sketchbook",
+      "x_gaze_to_horizon"
+    ],
+    "new_field_option_ids": [
+      "x_gaze_to_horizon"
+    ],
+    "existing_field_option_ids": [
+      "x_world_southeast_asian_port",
+      "x_occupation_curator",
+      "x_outfit_linen_overshirt",
+      "x_scene_southeast_asian_wharf",
+      "x_prop_sketchbook"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, Southeast Asian-inspired port city, museum curator, linen overshirt, tapered pants, Southeast Asian-inspired waterfront wharf, sketchbook, gazing toward horizon",
+    "example_natural_english_prompt": "A handsome adult museum curator in a light linen overshirt surveys a Southeast Asian-inspired port, sketchbook in hand.",
+    "compatibility_note": "職業ラベルを持ち物・シーンで可視化",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_10_west_african_officiant",
+    "title_ja": "西アフリカ意匠の幻想都市の儀礼官",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_west_african_fantasy_city",
+      "x_outfit_woven_coastal_cloak",
+      "x_scene_west_african_courtyard",
+      "x_outfitDetail_ceremonial_braid",
+      "x_pose_hands_behind_back",
+      "x_archetype_art_nouveau_mystic"
+    ],
+    "new_field_option_ids": [
+      "x_outfitDetail_ceremonial_braid"
+    ],
+    "existing_field_option_ids": [
+      "x_world_west_african_fantasy_city",
+      "x_outfit_woven_coastal_cloak",
+      "x_scene_west_african_courtyard",
+      "x_pose_hands_behind_back",
+      "x_archetype_art_nouveau_mystic"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, West African-inspired fantasy city, woven coastal cloak, layered tunic, West African-inspired courtyard architecture, ceremonial braided trim, standing, hands clasped behind back, ornate ethereal handsome, art nouveau elegance",
+    "example_natural_english_prompt": "An elegant adult ceremonial official stands in a fictional West African-inspired courtyard wearing layered woven formal garments. His specific heritage remains unspecified.",
+    "compatibility_note": "実在民族を一括りにしたステレオタイプを避ける",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_11_andean_guide",
+    "title_ja": "アンデス高地の山岳ガイド",
+    "age_band": "45–59",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_andean_highland",
+      "x_occupation_mountain_guide",
+      "x_outfit_andes_wool_layers",
+      "x_scene_andean_mountain_path",
+      "x_weather_highland_crisp_dawn",
+      "x_archetype_mountain_guide"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_world_andean_highland",
+      "x_occupation_mountain_guide",
+      "x_outfit_andes_wool_layers",
+      "x_scene_andean_mountain_path",
+      "x_weather_highland_crisp_dawn",
+      "x_archetype_mountain_guide"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, Andean-inspired highland fantasy, mountain guide, highland wool layers, woven outer garment, Andean-inspired mountain pathway, crisp highland dawn, rugged mountain guide, calm resilience",
+    "example_natural_english_prompt": "A seasoned adult mountain guide walks a high-altitude Andean-inspired trail at dawn, wearing practical layered wool and carrying essential equipment.",
+    "compatibility_note": "高地環境に相応しい作業着",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_12_renaissance_inventor",
+    "title_ja": "ルネサンス工房の発明家",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_renaissance_court",
+      "x_archetype_renaissance_inventor",
+      "x_outfit_renaissance_doublet",
+      "x_scene_renaissance_workshop",
+      "x_prop_folding_ruler",
+      "x_pose_looking_down_at_table"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_world_renaissance_court",
+      "x_archetype_renaissance_inventor",
+      "x_outfit_renaissance_doublet",
+      "x_scene_renaissance_workshop",
+      "x_prop_folding_ruler",
+      "x_pose_looking_down_at_table"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, Renaissance court, inquisitive handsome inventor, renaissance workshop elegance, Renaissance doublet, fitted sleeves, Renaissance inventor's workshop, folding wooden ruler, leaning over table, looking downward",
+    "example_natural_english_prompt": "A handsome Renaissance inventor bends over a mechanical drawing in a workshop. His tailored doublet and worn measuring tool signal his era and practice.",
+    "compatibility_note": "時代・道具の考証は追加で確認",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_13_art_nouveau_mystic",
+    "title_ja": "アール・ヌーヴォーの神秘家",
+    "age_band": "25–34",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_art_nouveau",
+      "x_archetype_art_nouveau_mystic",
+      "x_outfit_art_nouveau_formal",
+      "x_scene_art_nouveau_atrium",
+      "x_gaze_to_horizon",
+      "x_lighting_window_rimlight"
+    ],
+    "new_field_option_ids": [
+      "x_gaze_to_horizon"
+    ],
+    "existing_field_option_ids": [
+      "x_world_art_nouveau",
+      "x_archetype_art_nouveau_mystic",
+      "x_outfit_art_nouveau_formal",
+      "x_scene_art_nouveau_atrium",
+      "x_lighting_window_rimlight"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, Art Nouveau city, ornate ethereal handsome, art nouveau elegance, art nouveau formal jacket, curved embroidery, Art Nouveau atrium, stained glass, gazing toward horizon, gentle rim light from window",
+    "example_natural_english_prompt": "An ethereal but clearly adult handsome male mystic stands beneath flowing Art Nouveau ironwork and stained glass, his face softly rim-lit.",
+    "compatibility_note": "曲線意匠と顔の性別アンカーを分離",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_14_belle_epoque_photographer",
+    "title_ja": "ベル・エポックの写真家",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_belle_epoque",
+      "x_occupation_photographer",
+      "x_outfit_belle_epoque_suit",
+      "x_prop_vintage_camera",
+      "x_scene_belle_epoque_studio",
+      "x_pose_adjusting_cuff"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_world_belle_epoque",
+      "x_occupation_photographer",
+      "x_outfit_belle_epoque_suit",
+      "x_prop_vintage_camera",
+      "x_scene_belle_epoque_studio",
+      "x_pose_adjusting_cuff"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, Belle Époque city, photographer, Belle Époque tailored suit, waistcoat, vintage camera, Belle Époque portrait studio, adjusting shirt cuff",
+    "example_natural_english_prompt": "A Belle Époque photographer in a fitted waistcoat tends to his vintage camera in a softly lit portrait studio.",
+    "compatibility_note": "年代に合う撮影器材",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_15_dieselpunk_airship_captain",
+    "title_ja": "ディーゼルパンクの飛行船長",
+    "age_band": "45–59",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_dieselpunk",
+      "x_archetype_weathered_captain",
+      "x_occupation_ship_captain",
+      "x_outfit_dieselpunk_flight",
+      "x_scene_dieselpunk_hangar",
+      "x_headPose_profile_right"
+    ],
+    "new_field_option_ids": [
+      "x_headPose_profile_right"
+    ],
+    "existing_field_option_ids": [
+      "x_world_dieselpunk",
+      "x_archetype_weathered_captain",
+      "x_occupation_ship_captain",
+      "x_outfit_dieselpunk_flight",
+      "x_scene_dieselpunk_hangar"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, dieselpunk, seasoned handsome sea captain, weathered dignity, ship captain, dieselpunk flight jacket, aviator trousers, dieselpunk airship hangar, right-facing profile",
+    "example_natural_english_prompt": "A mature handsome airship captain in a weathered flight jacket stands in an industrial dieselpunk hangar, shown in right-side profile.",
+    "compatibility_note": "ship captainの語をairshipに置換する微調整が必要",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_16_solarpunk_botanist",
+    "title_ja": "ソーラーパンクの植物学者",
+    "age_band": "25–34",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_solarpunk",
+      "x_occupation_botanist",
+      "x_archetype_solarpunk_engineer",
+      "x_outfit_solarpunk_utility",
+      "x_scene_solarpunk_greenhouse",
+      "x_prop_botanical_specimen"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_world_solarpunk",
+      "x_occupation_botanist",
+      "x_archetype_solarpunk_engineer",
+      "x_outfit_solarpunk_utility",
+      "x_scene_solarpunk_greenhouse",
+      "x_prop_botanical_specimen"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, solarpunk, botanist, optimistic tech handsome, natural warmth, solarpunk utility jacket, eco-fabric panels, solarpunk greenhouse, living architecture, botanical specimen",
+    "example_natural_english_prompt": "An optimistic adult botanist in a clean utility jacket studies a plant sample inside a bright solarpunk greenhouse.",
+    "compatibility_note": "明るい未来都市、日常生活、植物",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_17_orbital_diplomat",
+    "title_ja": "軌道都市の壮年外交官",
+    "age_band": "45–59",
+    "existing_system_feasibility": "一部可",
+    "selected_option_ids": [
+      "x_archetype_orbital_diplomat",
+      "x_occupation_diplomat",
+      "x_outfit_orbital_diplomat_uniform",
+      "x_scene_orbital_diplomatic_hall",
+      "x_headPose_three_quarter_right"
+    ],
+    "new_field_option_ids": [
+      "x_headPose_three_quarter_right"
+    ],
+    "existing_field_option_ids": [
+      "x_archetype_orbital_diplomat",
+      "x_occupation_diplomat",
+      "x_outfit_orbital_diplomat_uniform",
+      "x_scene_orbital_diplomatic_hall"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, futuristic distinguished handsome, composed authority, diplomat, futuristic diplomatic uniform, clean tailoring, orbital diplomatic hall, panoramic windows, head turned three-quarter view to right",
+    "example_natural_english_prompt": "A distinguished middle-aged diplomat stands inside an orbital diplomatic hall with a curved planetary view, dressed in sharply designed futuristic formalwear.",
+    "compatibility_note": "worldは海洋SFではなく既存宇宙worldまたは新規軌道設定が望ましい",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_18_deep_sea_explorer",
+    "title_ja": "深海探査員",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_world_oceanic_future",
+      "x_outfit_oceanic_expedition",
+      "x_scene_undersea_observatory",
+      "x_lighting_reflected_water_light",
+      "x_pose_looking_out_window"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_world_oceanic_future",
+      "x_outfit_oceanic_expedition",
+      "x_scene_undersea_observatory",
+      "x_lighting_reflected_water_light",
+      "x_pose_looking_out_window"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, underwater science fiction city, futuristic deep-sea expedition suit, undersea observatory, panoramic ocean window, subtle reflected light from water, standing by window, looking outside",
+    "example_natural_english_prompt": "A handsome adult deep-sea explorer looks through a vast underwater observation window. Soft blue reflections play across his expedition suit.",
+    "compatibility_note": "水中観測室と陸上用双眼鏡の相性要確認",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_19_gentle_fifty_physician",
+    "title_ja": "50代の穏やかな名医",
+    "age_band": "45–59",
+    "existing_system_feasibility": "かなり可",
+    "selected_option_ids": [
+      "x_archetype_gentle_physician",
+      "x_ageCue_fine_smile_lines",
+      "x_ageCue_slightly_heavy_eyelids",
+      "x_expression_soft_concern",
+      "x_outfit_fine_knit_polo",
+      "x_gaze_at_viewer"
+    ],
+    "new_field_option_ids": [
+      "x_ageCue_fine_smile_lines",
+      "x_ageCue_slightly_heavy_eyelids",
+      "x_gaze_at_viewer"
+    ],
+    "existing_field_option_ids": [
+      "x_archetype_gentle_physician",
+      "x_expression_soft_concern",
+      "x_outfit_fine_knit_polo"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, mature handsome physician, gentle confidence, fine smile lines, slightly heavy eyelids, gentle concern, softened eyes, fine-knit polo shirt, tailored trousers, looking at viewer",
+    "example_natural_english_prompt": "A handsome physician in his fifties looks toward the viewer with calm concern. Fine smile lines, heavy eyelids and a refined knit shirt show gentle maturity.",
+    "compatibility_note": "年齢cueは1〜2個に制限する",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_20_dandy_sixties",
+    "title_ja": "60代の洒脱なダンディ",
+    "age_band": "60+",
+    "existing_system_feasibility": "かなり可",
+    "selected_option_ids": [
+      "x_archetype_sartorial_dandy",
+      "x_ageCue_subtle_crows_feet",
+      "x_outfit_fine_knit_polo",
+      "x_outfitDetail_silk_neck_scarf",
+      "x_pose_seated_sideways_chair",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "new_field_option_ids": [
+      "x_ageCue_subtle_crows_feet",
+      "x_outfitDetail_silk_neck_scarf"
+    ],
+    "existing_field_option_ids": [
+      "x_archetype_sartorial_dandy",
+      "x_outfit_fine_knit_polo",
+      "x_pose_seated_sideways_chair",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, dashing mature gentleman, sartorial elegance, subtle crow's feet, fine-knit polo shirt, tailored trousers, silk neck scarf, sitting sideways on chair, warm pool of desk lamp light",
+    "example_natural_english_prompt": "A stylish gentleman in his sixties sits sideways in a quiet lounge, wearing a fine-knit polo with an elegant silk neck scarf. Fine crow’s-feet add natural maturity.",
+    "compatibility_note": "年齢=老け具合の強制ではない",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_21_warm_vineyard_owner",
+    "title_ja": "陽だまりの壮年農園主",
+    "age_band": "45–59",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_occupation_vineyard_keeper",
+      "x_scene_vinery_morning",
+      "x_outfit_linen_overshirt",
+      "x_weather_sunny_winter_afternoon",
+      "x_expression_soft_concern"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_occupation_vineyard_keeper",
+      "x_scene_vinery_morning",
+      "x_outfit_linen_overshirt",
+      "x_weather_sunny_winter_afternoon",
+      "x_expression_soft_concern"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, vineyard owner, sunlit vineyard rows, early morning, linen overshirt, tapered pants, clear winter afternoon, gentle concern, softened eyes",
+    "example_natural_english_prompt": "A warm, mature vineyard owner strolls between sunlit vines, dressed in a relaxed linen overshirt. His calm, kind expression conveys a life spent outdoors.",
+    "compatibility_note": "人物像は漁師ではなく農園主へprefsで補正する",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_22_classic_barber",
+    "title_ja": "クラシック理髪師",
+    "age_band": "35–44",
+    "existing_system_feasibility": "不十分",
+    "selected_option_ids": [
+      "x_occupation_barber",
+      "x_archetype_urbane_barber",
+      "x_outfit_vintage_barber_vest",
+      "x_scene_old_barbershop",
+      "x_prop_silver_pocket_watch",
+      "x_headPose_slight_tilt_left"
+    ],
+    "new_field_option_ids": [
+      "x_headPose_slight_tilt_left"
+    ],
+    "existing_field_option_ids": [
+      "x_occupation_barber",
+      "x_archetype_urbane_barber",
+      "x_outfit_vintage_barber_vest",
+      "x_scene_old_barbershop",
+      "x_prop_silver_pocket_watch"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, barber, well-groomed mature handsome, old-fashioned charm, vintage waistcoat, rolled sleeves, classic barbershop, vintage mirrors, silver pocket watch, head tilted slightly left",
+    "example_natural_english_prompt": "A polished adult barber in a vintage waistcoat stands among mirrors and grooming tools, his head tilted gently to one side.",
+    "compatibility_note": "懐中時計より理髪道具を今後優先",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_23_rainy_editor",
+    "title_ja": "雨の日の物静かな編集者",
+    "age_band": "35–44",
+    "existing_system_feasibility": "かなり可",
+    "selected_option_ids": [
+      "x_archetype_reserved_editor",
+      "x_occupation_editor",
+      "x_scene_editorial_office",
+      "x_outfit_soft_cardigan",
+      "x_pose_turning_page",
+      "x_weather_blue_hour_after_rain",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_archetype_reserved_editor",
+      "x_occupation_editor",
+      "x_scene_editorial_office",
+      "x_outfit_soft_cardigan",
+      "x_pose_turning_page",
+      "x_weather_blue_hour_after_rain",
+      "x_lighting_warm_lamp_pool"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, reserved intellectual handsome, understated elegance, book editor, book editorial office, paper stacks, soft cardigan, collared shirt, turning a page, seated, blue hour after rain, warm pool of desk lamp light",
+    "example_natural_english_prompt": "A reserved adult editor in a soft cardigan turns a manuscript page at his desk as rain glitters outside the office window.",
+    "compatibility_note": "室内では雨を窓外のみ描写する",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_24_fantasy_ceremonial_guard",
+    "title_ja": "幻想宮廷の儀礼護衛官",
+    "age_band": "25–34",
+    "existing_system_feasibility": "かなり可",
+    "selected_option_ids": [
+      "x_world_renaissance_court",
+      "x_outfit_ceremonial_guard",
+      "x_outfitDetail_ceremonial_braid",
+      "x_pose_hands_behind_back",
+      "x_archetype_orbital_diplomat",
+      "x_gaze_to_horizon"
+    ],
+    "new_field_option_ids": [
+      "x_outfitDetail_ceremonial_braid",
+      "x_gaze_to_horizon"
+    ],
+    "existing_field_option_ids": [
+      "x_world_renaissance_court",
+      "x_outfit_ceremonial_guard",
+      "x_pose_hands_behind_back",
+      "x_archetype_orbital_diplomat"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, Renaissance court, ceremonial guard uniform, formal sash, ceremonial braided trim, standing, hands clasped behind back, futuristic distinguished handsome, composed authority, gazing toward horizon",
+    "example_natural_english_prompt": "A striking adult male ceremonial guard stands at attention in a fantastical court, wearing embroidered formal uniform and an elegant sash.",
+    "compatibility_note": "武器を追加する場合は手の可用性制約を確認",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  },
+  {
+    "id": "theme_25_korean_fashion_model",
+    "title_ja": "現代韓国風都市のモードモデル",
+    "age_band": "25–34",
+    "existing_system_feasibility": "一部可",
+    "selected_option_ids": [
+      "x_world_contemporary_korean_city",
+      "x_outfit_minimalist_architect",
+      "x_hairStyle_comma_hair",
+      "x_expression_appraising_glance",
+      "x_pose_lean_wall_profile",
+      "x_scene_museum_gallery"
+    ],
+    "new_field_option_ids": [],
+    "existing_field_option_ids": [
+      "x_world_contemporary_korean_city",
+      "x_outfit_minimalist_architect",
+      "x_hairStyle_comma_hair",
+      "x_expression_appraising_glance",
+      "x_pose_lean_wall_profile",
+      "x_scene_museum_gallery"
+    ],
+    "example_pixai_sdxl_tag_prompt": "1man, adult male, handsome, contemporary Korean-inspired city, minimalist blazer, straight-cut trousers, comma hair, curved front lock, appraising expression, leaning against wall, side profile, quiet museum gallery",
+    "example_natural_english_prompt": "A handsome adult male fashion model with a modern comma hairstyle poses against a minimalist gallery wall in a contemporary Korean-inspired city.",
+    "compatibility_note": "「韓国風」は衣装・都市トレンドへの意匠参照",
+    "usage_note": "Example only: check per-model renderings and current app field constraints; do not combine two incompatible items in a single-choice field.",
+    "source": "Reconstructed from the 25 theme titles and rationale in Deep Research report dated 2026-10-22.",
+    "reconstruction": true
+  }
+]

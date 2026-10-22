@@ -1,5 +1,5 @@
 /* 大量抽選テスト
- * - 4,200回の抽選を「3モード × おまかせスタイル（なし含む）× ロック条件・任意モジュール・禁断の調合・コスプレ」に分散
+ * - 5,400回の抽選を「3モード × おまかせスタイル（なし含む）× ロック条件・任意モジュール・禁断の調合・コスプレ・増築の任意項目」に分散
  * - hard 違反・例外・美形アンカー欠落・男性1名指定・成人・ロック不変を集計
  * - 100件以上のロック競合ケース（hard ルールから機械的に列挙）
  * - 全美形タイプが抽選で到達可能か（眼鏡を前提にするタイプは眼鏡ONで確認）、手動で全候補を採用できるか
@@ -13,14 +13,16 @@ import { DATA_VERSION, DRAW_ORDER, fieldDef, FIELDS, optionOf } from '../src/dat
 import { STYLE_PRESETS } from '../src/data/presets';
 import { adopt, draw, valuesOf } from '../src/engine/draw';
 import { seededRandom } from '../src/engine/rng';
-import { cloneState, emptyState, FORBIDDEN_FIELDS, isActive } from '../src/engine/state';
+import { cloneState, emptyState, EXPANSION_FIELDS, FORBIDDEN_FIELDS, isActive } from '../src/engine/state';
 import { buildPrompt } from '../src/prompts/build';
 import type { FieldId, ForgeState, Mode } from '../src/types';
 
 const MODES: Mode[] = ['coherent', 'balanced', 'wild'];
 const PRESETS = [undefined, ...STYLE_PRESETS];
-const LOCK_PATTERNS = ['none', 'lock3', 'lock8', 'manualLocked', 'modulesOn', 'modulesOff', 'unlimited', 'cosplay'] as const;
-const DRAWS = 4200;
+const LOCK_PATTERNS = ['none', 'lock3', 'lock8', 'manualLocked', 'modulesOn', 'modulesOff', 'unlimited', 'cosplay', 'expansion'] as const;
+/** 2026-10 増築の任意項目のスイッチ */
+const EXPANSION_ON = { ageCueEnabled: true, hairTextureEnabled: true, fringeEnabled: true, gazeEnabled: true, headPoseEnabled: true, outfitDetailEnabled: true, fabricEnabled: true };
+const DRAWS = 5400;
 /** 画像生成サービスで弾かれやすい語・性的／露出を直接示す語（禁断の調合でも出さない） */
 const BLOCKED = /\b(nsfw|bondage|bdsm|nude|naked|nudity|sex|sexual|erotic|shirtless|topless|lewd)\b/i;
 const FEMALE = /\b(1girl|female|woman|girl|breasts)\b/i;
@@ -35,6 +37,8 @@ function base(rng: () => number, mode: Mode, pattern: (typeof LOCK_PATTERNS)[num
   if (pattern === 'modulesOff') Object.assign(s.optionalModules, { backgroundEnabled: false, poseEnabled: false, nameEnabled: false });
   if (pattern === 'unlimited') Object.assign(s.optionalModules, { unlimitedEnabled: true, glassesEnabled: rng() < 0.5, propEnabled: rng() < 0.5, marksEnabled: rng() < 0.5 });
   if (pattern === 'cosplay') Object.assign(s.optionalModules, { cosplayEnabled: true, unlimitedEnabled: rng() < 0.5, kemonoEnabled: rng() < 0.3, propEnabled: rng() < 0.5 });
+  // 増築の任意項目をすべてON。禁断・コスプレ・持ち物・眼鏡なども混ぜて、相互の約束を確かめる
+  if (pattern === 'expansion') Object.assign(s.optionalModules, EXPANSION_ON, { unlimitedEnabled: rng() < 0.3, cosplayEnabled: rng() < 0.15, propEnabled: rng() < 0.6, glassesEnabled: rng() < 0.4, facialHairEnabled: rng() < 0.5, kemonoEnabled: rng() < 0.15 });
   s = draw(s, { seed: seed + ':init' }).state;
   const candidates = DRAW_ORDER.filter((f) => isActive(s, f) && fieldDef(f).randomizable !== false);
   const pick = (n: number) => { const c = [...candidates]; const out: FieldId[] = []; while (out.length < n && c.length) out.push(c.splice(Math.floor(rng() * c.length), 1)[0]); return out; };
@@ -50,7 +54,7 @@ function base(rng: () => number, mode: Mode, pattern: (typeof LOCK_PATTERNS)[num
   return s;
 }
 
-describe('大量抽選（4,200回）', () => {
+describe('大量抽選（5,400回）', () => {
   it('hard 違反・例外・アンカー欠落ゼロ、ロック不変、偏りなし', { timeout: 600000 }, async () => {
     const rng = seededRandom('mass');
     const anomalies: Anomaly[] = [];
@@ -58,6 +62,7 @@ describe('大量抽選（4,200回）', () => {
     const modeWorldOutfit: Record<Mode, [number, number]> = { coherent: [0, 0], balanced: [0, 0], wild: [0, 0] };
     const modeArchetypeHit: Record<Mode, [number, number]> = { coherent: [0, 0], balanced: [0, 0], wild: [0, 0] };
     let ok = 0, refused = 0, exceptions = 0, stuckCount = 0;
+    const expansionCounts: Record<string, Record<string, number>> = Object.fromEntries(EXPANSION_FIELDS.map((f) => [f, {}]));
     const signatures = new Map<string, number>();
     const t0 = Date.now();
 
@@ -103,6 +108,18 @@ describe('大量抽選（4,200回）', () => {
         if (s.optionalModules.cosplayEnabled && s.optionalModules.kemonoEnabled && outfitOpt?.tags?.includes('f_ears')) anomalies.push({ kind: 'cosplay-ears', ...ctx, detail: outfitOpt.id });
         if (s.optionalModules.unlimitedEnabled && outfitOpt?.tags?.includes('no_forbidden')) anomalies.push({ kind: 'cosplay-forbidden', ...ctx, detail: outfitOpt.id });
         if ((age.ageMin ?? 0) < 18) anomalies.push({ kind: 'minor-age', ...ctx, detail: age.id });
+        // 増築の任意項目：OFFなら「なし」、ONでも18〜24歳に年齢の表れを付けない、視線を2つ出さない
+        const vv2 = valuesOf(s);
+        for (const f of EXPANSION_FIELDS) if (!isActive(s, f) && vv2[f]?.id !== 'none') anomalies.push({ kind: 'expansion-leak', ...ctx, detail: `${f}=${vv2[f]?.id}` });
+        if (age.id === 'a18_24' && vv2.ageCue && vv2.ageCue.id !== 'none') anomalies.push({ kind: 'young-age-cue', ...ctx, detail: vv2.ageCue.id });
+        const px = buildPrompt(s, 'pixai').positive.split(', ');
+        if (px.includes('closed eyes') && px.includes('looking at viewer')) anomalies.push({ kind: 'closed-eyes-viewer', ...ctx, detail: `${vv2.expression?.id}/${vv2.pose?.id}/${vv2.gaze?.id}` });
+        // 視線を指定したら、視線の語は視線の項目のものだけ（視線を決めるポーズの語を除く）
+        if (vv2.gaze && vv2.gaze.id !== 'none' && !vv2.pose?.gazeFit) {
+          const extra = px.filter((t) => /^(looking (at viewer|away|down|up|afar|outside|to the side)|eye contact)$/.test(t) && !vv2.gaze!.en.includes(t));
+          if (extra.length) anomalies.push({ kind: 'double-gaze', ...ctx, detail: `${vv2.pose?.id}/${vv2.expression?.id}/${vv2.gaze.id}:${extra.join('+')}` });
+        }
+        for (const f of EXPANSION_FIELDS) if (isActive(s, f)) { const id = vv2[f]?.id ?? '-'; expansionCounts[f][id] = (expansionCounts[f][id] ?? 0) + 1; }
         for (const t of ['pixai', 'novelai', 'genericTags', 'naturalEnglish', 'japanese'] as const) {
           const p = buildPrompt(s, t).positive;
           if (t !== 'naturalEnglish' && t !== 'japanese') {
@@ -148,7 +165,9 @@ describe('大量抽選（4,200回）', () => {
       anomalyKinds: anomalies.reduce<Record<string, number>>((m, a) => { m[a.kind] = (m[a.kind] || 0) + 1; return m; }, {}),
       duplicateFullResults: duplicates,
       reachedArchetypes, totalArchetypes: fieldDef('archetype').options.length,
-      categoryCoverage: Object.fromEntries(Object.keys(counts).map((k) => [k, `${Object.keys(counts[k]).length}/${fieldDef(k as FieldId).options.length}`])),
+      // 未設定（'-'）は数えない
+      categoryCoverage: Object.fromEntries(Object.keys(counts).map((k) => [k, `${Object.keys(counts[k]).filter((id) => fieldDef(k as FieldId).options.some((o) => o.id === id)).length}/${fieldDef(k as FieldId).options.length}`])),
+      expansionCoverage: Object.fromEntries(EXPANSION_FIELDS.map((f) => [f, `${Object.keys(expansionCounts[f]).length}/${fieldDef(f).options.length}`])),
       topShares: Object.fromEntries(Object.keys(counts).map((k) => [k, top(k)])),
       modeComparison: Object.fromEntries(MODES.map((m) => [m, {
         worldOutfitMatchRate: +(modeWorldOutfit[m][0] / modeWorldOutfit[m][1]).toFixed(3), samples: modeWorldOutfit[m][1],
@@ -163,6 +182,18 @@ describe('大量抽選（4,200回）', () => {
     expect(anomalies).toEqual([]);
     expect(ok).toBeGreaterThan(DRAWS * 0.9);
     expect(duplicates).toBe(0);
+    // 増築の任意項目：ONの抽選で、どの候補にも到達する。通常の抽選で出なかった珍しい候補（重みの低い薄毛など）は、
+    // その候補を条件にしたおまかせスタイルで引いて、条件の組み合わせ次第で必ず出られることを確かめる
+    for (const f of EXPANSION_FIELDS) {
+      for (const id of fieldDef(f).options.map((o) => o.id).filter((x) => !expansionCounts[f][x])) {
+        let hit = false;
+        for (let i = 0; i < 300 && !hit; i++) {
+          const s = emptyState(); Object.assign(s.optionalModules, EXPANSION_ON, { propEnabled: true });
+          hit = draw(s, { seed: `need-new:${f}:${id}:${i}`, preset: { id: 'need', ja: '', desc: '', icon: '', filters: { [f]: [id] } } }).state.fields[f].id === id;
+        }
+        expect(hit, `${f}:${id}`).toBe(true);
+      }
+    }
     // 装身具を前提にするタイプ（眼鏡の知性派）は既定OFFでは出ない。それ以外は全種到達し、前提のタイプはONで到達することを別に確かめる
     const needsItem = fieldDef('archetype').options.filter((o) => o.requires?.some((r) => /^(glasses|marks|prop):/.test(r))).map((o) => o.id);
     const unreached = fieldDef('archetype').options.map((o) => o.id).filter((id) => !counts.archetype[id] && !needsItem.includes(id));
@@ -188,7 +219,7 @@ describe('大量抽選（4,200回）', () => {
 });
 
 describe('ロック競合（hard ルールから列挙した100件以上）', () => {
-  it('固定どうしの矛盾は抽選せず、衝突項目・理由・解除候補を返す', { timeout: 300000 }, () => {
+  it('固定どうしの矛盾は抽選せず、衝突項目・理由・解除候補を返す', { timeout: 300000 }, async () => {
     const cases: Array<{ a: [FieldId, string]; b: [FieldId, string]; rule: string }> = [];
     for (const rule of PAIR_RULES) {
       const [fa, fb] = rule.fields;
@@ -212,7 +243,9 @@ describe('ロック競合（hard ルールから列挙した100件以上）', ()
     expect(cases.length).toBeGreaterThanOrEqual(100);
     const failures: string[] = [];
     for (const [i, c] of cases.entries()) {
-      const s0 = emptyState(); Object.assign(s0.optionalModules, { glassesEnabled: true, marksEnabled: true, propEnabled: true, unlimitedEnabled: true });
+      // 長い同期処理でテストランナーとの通信が途切れないよう、ときどき制御を返す
+      if (i % 50 === 0) await new Promise((r) => setImmediate(r));
+      const s0 = emptyState(); Object.assign(s0.optionalModules, { glassesEnabled: true, marksEnabled: true, propEnabled: true, unlimitedEnabled: true }, EXPANSION_ON);
       let s = draw(s0, { seed: 'lc' + i }).state;
       s = cloneState(s);
       if (c.rule === 'hair_accent_duplicate') { s.optionalModules.hairAccentEnabled = true; s.fields.hairAccent = { id: 'streaks', source: 'manual', locked: true }; }
@@ -238,15 +271,17 @@ describe('ロック競合（hard ルールから列挙した100件以上）', ()
 });
 
 describe('到達可能性', () => {
-  it('全項目の全候補を手動で採用できる（必要なら未固定の関連項目を合わせて引き直す）', { timeout: 300000 }, () => {
+  it('全項目の全候補を手動で採用できる（必要なら未固定の関連項目を合わせて引き直す）', { timeout: 300000 }, async () => {
     const failures: string[] = [];
     let s = emptyState();
-    Object.assign(s.optionalModules, { kemonoEnabled: true, facialHairEnabled: true, hairAccentEnabled: true, glassesEnabled: true, marksEnabled: true, propEnabled: true, unlimitedEnabled: true, cosplayEnabled: true });
+    Object.assign(s.optionalModules, { kemonoEnabled: true, facialHairEnabled: true, hairAccentEnabled: true, glassesEnabled: true, marksEnabled: true, propEnabled: true, unlimitedEnabled: true, cosplayEnabled: true }, EXPANSION_ON);
     s = draw(s, { seed: 'reach' }).state;
     // 獣人モード中は「尖った人の耳」は獣の耳と両立しない（hard）。モードOFFの状態で確認する。
     const humanEars = cloneState(s); humanEars.optionalModules.kemonoEnabled = false;
+    let n = 0;
     for (const f of FIELDS) {
       for (const o of f.options) {
+        if (n++ % 100 === 0) await new Promise((r) => setImmediate(r));
         // 衣装の兎耳も獣の耳と両立しないので、同じく獣人OFFで確認する
         const from = (f.id === 'marks' && o.id === 'pointy_ears') || (f.id === 'outfit' && o.tags?.includes('f_ears')) ? humanEars : s;
         const r = adopt(from, f.id, o.id, false, { seed: `${f.id}:${o.id}` });

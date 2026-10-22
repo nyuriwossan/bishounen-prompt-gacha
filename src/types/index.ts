@@ -85,6 +85,27 @@ export interface Option {
    * 例：眼鏡を押し上げるポーズ → ['glasses:!none']
    */
   requires?: string[];
+
+  // ---- 2026-10 増築（docs/EXPANSION-IMPLEMENTATION.md）----
+  /** この候補を追加した辞書の版。新しい候補の通知・一括除外に使う（増築前からの候補には無い） */
+  since?: string;
+  /** ポーズ：視線そのものを決めるポーズで、組み合わせてよい「視線」の候補（空なら「ポーズに任せる」だけ）。
+   * 未指定のポーズは、「視線」を指定すると、ポーズの looking at viewer などを視線の指定で置き換える */
+  gazeFit?: string[];
+  /** ポーズ：頭の向きを決めるポーズで、組み合わせてよい「頭の向き」の候補（空なら「ポーズに任せる」だけ） */
+  headFit?: string[];
+  /** 髪型・髪質：髪の質感の系統。系統が異なる髪型と髪質は同時に使わない */
+  curl?: 'straight' | 'wavy' | 'curly' | 'coily';
+  /** 髪型：前髪・分け目まで決まっている髪型（「前髪・分け目」は「ポーズに任せる」＝なしにする） */
+  fringeFixed?: boolean;
+  /** 衣装の細部：親の衣装に必要なタグ（どれか1つ） */
+  parentTags?: string[];
+  /** 衣装の細部：親の衣装の本文（upper/lower）に必要な語（正規表現の文字列） */
+  needsText?: string;
+  /** 衣装の細部：親の衣装の本文にあると両立しない語（正規表現の文字列。同じ部位が既にある・重複する） */
+  clashText?: string;
+  /** 素材：素材の系統（衣装の主な服の素材語と比べる） */
+  mat?: string;
 }
 
 export interface KemonoSpecies {
@@ -101,8 +122,9 @@ export interface Category {
   subs?: Array<{ id: string; ja: string }>;
 }
 
-export type FieldGroup = 'basic' | 'face' | 'role' | 'pose' | 'scene' | 'kemono' | 'cosplay' | 'forbidden' | 'style';
-export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name' | 'glasses' | 'marks' | 'prop' | 'unlimited' | 'cosplay';
+export type FieldGroup = 'basic' | 'face' | 'hair' | 'role' | 'wear' | 'pose' | 'scene' | 'kemono' | 'cosplay' | 'forbidden' | 'style';
+export type ModuleId = 'pose' | 'background' | 'kemono' | 'facialHair' | 'hairAccent' | 'name' | 'glasses' | 'marks' | 'prop' | 'unlimited' | 'cosplay'
+  | 'ageCue' | 'hairTexture' | 'fringe' | 'gaze' | 'headPose' | 'outfitDetail' | 'fabric';
 
 export const FIELD_IDS = [
   'age', 'archetype', 'presentation', 'build', 'world', 'culture',
@@ -114,7 +136,9 @@ export const FIELD_IDS = [
   'kemonoSpecies', 'kemonoLevel',
   'artStyle', 'name',
   // 禁断の調合（アンリミテッドモード）
-  'role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2'
+  'role', 'restraint', 'bindPos', 'anchor', 'tightness', 'blindfold', 'disarray', 'wear1', 'wear2',
+  // 2026-10 増築：年齢の表れ・髪質・前髪と分け目・視線・頭の向き・衣装の細部・素材（どれも任意。既定OFF）
+  'ageCue', 'hairTexture', 'fringe', 'gaze', 'headPose', 'outfitDetail', 'fabric'
 ] as const;
 export type FieldId = (typeof FIELD_IDS)[number];
 
@@ -152,6 +176,10 @@ export interface ForgeSettings {
   freeTags: string;
   loraText: string;
   boyTag: '1boy' | 'none';
+  /** PixAI の出力方式：SDXL系（タグ・従来）／Tsubaki などの DiT 系（自然な英文） */
+  pixaiProfile: 'sdxl' | 'dit';
+  /** NovelAI の品質タグ：V4（従来の best quality, very aesthetic, absurdres）／V4.5・V5（very aesthetic, masterpiece, no text を末尾に） */
+  novelaiProfile: 'v4' | 'v5';
 }
 
 export interface ForgeModules {
@@ -169,6 +197,15 @@ export interface ForgeModules {
   unlimitedEnabled: boolean;
   /** コスプレ衣装（メイド服・ビキニ・ミニスカなど）。既定OFF。ONの間、衣装の抽選はコスプレ枠だけから行う */
   cosplayEnabled: boolean;
+  /** 2026-10 増築の任意項目。既定OFF。OFFのときは「なし」として扱い、抽選・出力しない（旧データの見た目を変えない） */
+  ageCueEnabled: boolean;
+  hairTextureEnabled: boolean;
+  fringeEnabled: boolean;
+  /** 視線・頭の向きは、ポーズ・アングルを出力するときだけ使う */
+  gazeEnabled: boolean;
+  headPoseEnabled: boolean;
+  outfitDetailEnabled: boolean;
+  fabricEnabled: boolean;
 }
 
 /** おまかせスタイル（抽選の方向性。選ぶだけでは結果を変えない） */

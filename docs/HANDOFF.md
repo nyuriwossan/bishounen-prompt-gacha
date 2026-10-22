@@ -1,4 +1,4 @@
-# 引き継ぎ資料（2026-10-22 更新）
+# 引き継ぎ資料（2026-10-22 更新・大規模増築）
 
 新しい会話では、このファイルを最初に読んでから作業を始めてください。
 
@@ -11,7 +11,7 @@
 | 公開URL | https://nyuriwossan.github.io/bishounen-prompt-gacha/ |
 | 構成 | Vite 6 + TypeScript 5.8 + Preact 10.29.8／Vitest 3.2／playwright-core 1.56（`/opt/pw-browsers` の Chromium） |
 | 公開方式 | `main` に push すると GitHub Actions が型検査・lint・テスト・ビルドを行い、`dist/` を `gh-pages` へ force-push する。Pages API はこの環境から使えないため、この方式にしている |
-| 最新の変更 | 履歴の上限を50件に戻した（§7.7 末尾、2026-10-22）。その前に人物の一括固定・衣装3案・元キャラ／派生の保存・履歴の整備（§7.7、2026-10-22）。その前に辞書・抽選設定（§7.6、2026-10-22）。その前にサービスワーカーのキャッシュ削除範囲の修正（§7.5、2026-10-21）。その前にコスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
+| 最新の変更 | **2026-10 の大規模増築**（§7.8、辞書の版 `2026.10.13`）：任意の新項目7つ（年齢の表れ・髪質・前髪・視線・頭の向き・衣装の細部・素材、既定OFF）、Deep Research 394候補の監査と既存項目への267件の追加、PixAI・NovelAI のモデル別出力、辞書の更新のお知らせ。その前に履歴の上限を50件に戻した（§7.7 末尾、2026-10-22）。その前に人物の一括固定・衣装3案・元キャラ／派生の保存・履歴の整備（§7.7、2026-10-22）。その前に辞書・抽選設定（§7.6、2026-10-22）。その前にサービスワーカーのキャッシュ削除範囲の修正（§7.5、2026-10-21）。その前にコスプレ衣装（§7）。その前に禁断の調合（§6）、眼鏡・特徴・持ち物の既定OFFと現代・日常の系統（§5）。コスプレは PixAI アプリ版での確認がまだ |
 | git の作者 | `user.name nyuriwossan` / `user.email nyuriwo@gmail.com`（リポジトリのローカル設定） |
 
 コミットメッセージの末尾には、次の2行を付けています。
@@ -26,14 +26,14 @@ Claude-Session: https://claude.ai/code/session_012Yhr42sTTTR7JgwykFvQRm
 ## 2. 作業の流れ（変更するたびに実施）
 
 ```bash
-npm run typecheck && npm run lint && npm test   # 266件、約150〜180秒
+npm run typecheck && npm run lint && npm test   # 324件、約10分（大量抽選5,400回が約6分）
 npm run build
-npm run test:browser                            # 202項目。docs/screenshots と browser-report.json も更新される
+npm run test:browser                            # 230項目。docs/screenshots と browser-report.json も更新される
 git add -A && git commit && git push origin main  # 公開は CI が自動で行う
 ```
 
 - 作業用のデバッグスクリプトは `.dbg/` に置く（gitignore 済み）。
-- 大量抽選テストは約75秒の同期処理なので、100回ごとに `setImmediate` で制御を返している。外すと CI で vitest の RPC タイムアウト（`Timeout calling "onTaskUpdate"`）になる。CI のログはこの環境から取れないので、失敗したら新しい clone で `CI=true npx vitest run` を試す。
+- 大量抽選テストは長い同期処理なので、100回ごとに `setImmediate` で制御を返している。外すと CI で vitest の RPC タイムアウト（`Timeout calling "onTaskUpdate"`）になる。CI のログはこの環境から取れないので、失敗したら新しい clone で `CI=true npx vitest run` を試す。
 - 文書の再生成：`npm run report:examples`（EXAMPLES.md）、`npm run report:catalog`（DATA-CATALOG.md）、`npm run report:verify`（禁断の実機確認セット）、`npm run report:verify-cosplay`（コスプレの実機確認セット）。
 - 公開確認：この環境からは github.io を開けない。`gh run list` と、`gh-pages` の配信ファイルのハッシュで確認する。
 
@@ -43,20 +43,20 @@ git add -A && git commit && git push origin main  # 公開は CI が自動で行
 
 | 項目 | 件数 |
 |---|---:|
-| 美形タイプ | 124（11分類） |
-| 衣装 | 157（うちコスプレ15） |
+| 美形タイプ | 145（13分類） |
+| 衣装 | 174（うちコスプレ15） |
 | 色 | 128 |
-| 職業 | 96 |
-| ポーズ | 65 |
-| 背景 | 94（うち囚われの場所8） |
+| 職業 | 113 |
+| ポーズ | 92 |
+| 背景 | 116（うち囚われの場所8） |
 | 呼び名 | 224 |
-| 世界観 | 26 |
+| 世界観 | 42 |
 | 文化 | 22 |
-| おまかせスタイル | 22（4分類＋完全ランダム）＋禁断5 |
+| おまかせスタイル | 25（4分類＋完全ランダム）＋禁断5 |
 | 獣人（種族） | 29 |
 
-- 項目は全44（`FIELD_IDS`。うち9つが禁断の調合）。
-- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.12`）は `fields.ts` にある。
+- 項目は全51（`FIELD_IDS`。うち9つが禁断の調合、7つが 2026-10 増築の任意項目）。辞書の候補は全2,002件。
+- 項目の定義、抽選順、`DATA_VERSION`（`2026.10.13`）は `fields.ts` にある。2026-10 増築で足した候補には `since: '2026.10.13'`（`helpers.ts` の `added()`）。
 - 衣装のテンプレートでは `{c1}` をメインカラー、`{c2}` を差し色として扱う。
 
 ### 抽選（`src/engine/`）
@@ -226,6 +226,21 @@ ChatGPT の指示書（立場・拘束具・拘束位置・固定先・締め方
   - 10件版（9f47267）を開いた利用者は、11〜50件目が以前の履歴へ移っている。`migrateHistory()` を「通常と以前の履歴を新しい順に並べ直し、通常に50件・残りを以前の履歴へ」に変え、起動時に通常の履歴へ戻すようにした。戻した件数を `restored` として返し、通知も出す。
   - 書き込みは増える側を先に行うので、途中で失敗しても消えない。以前の履歴は、50件を超えた分（JSON読込のはみ出しなど）の置き場として残している。
 - 未確認：iPhone/Safari 実機。開いた案が古くなる状況は、シートが開いている間は画面操作できないため、ブラウザではなく単体テスト（`canAdoptCard`）で確かめた。
+
+## 7.8 2026-10 の大規模増築（辞書の版 `2026.10.13`）
+
+詳しくは [EXPANSION-IMPLEMENTATION.md](EXPANSION-IMPLEMENTATION.md)（実装）と [EXPANSION-AUDIT.md](EXPANSION-AUDIT.md)（394候補の採否・テーマ25件）。ここには、次に触る人が知っておくべきことだけを書く。
+
+- **保存互換のゴールデン**：`tests/fixtures/legacy-2026.10.12.json.gz`（増築前のコードで作った180通りの状態と5形式の出力）。`tests/legacy-compat.test.ts` がこれと1文字でも違えば落ちる。既存の候補の `en`・`nat`・出力の組み立てを変えるときは、旧データの見え方が変わることを意味するので、変える理由をはっきりさせてから fixture を作り直す（`scripts/expansion/legacy-fixtures.ts` は**増築前のコード**で実行する前提。作り直すなら、変更前のコミットを worktree に出して実行する）。
+- **辞書IDの一覧**：`tests/fixtures/dictionary-ids-2026.10.12.json`（増築前の全ID）。`tests/expansion.test.ts` が「IDの削除なし」「`since` は新しい候補だけ」「台帳にない追加なし」を検査する。次に候補を足すときは `since` に新しい版を付け、この一覧を新しい版の分も作る。
+- **台帳**：`scripts/expansion/ledger.ts`。`npx vite-node scripts/expansion/audit.ts && npx vite-node scripts/expansion/report.ts` で EXPANSION-AUDIT.md を作り直す（手で書き足さない）。
+- **新しい7項目**はモジュール（`ageCueEnabled` など）で既定OFF。OFF・「なし」のときは hard 制約もすべて成立したまま・出力も増築前と同じ、を崩さない。抽選順の最後寄りに置いて、既存の項目の乱数の消費を変えていない。
+- **視線の置き換え**：`build.ts` の `POSE_GAZE_WORDS`／`EXPR_GAZE_WORDS`。視線が「なし」以外のときだけ、ポーズ・表情から視線の語を外す。視線を決めるポーズは `Option.gazeFit`（`pose.ts` の `POSE_FIT`）。
+- **先読み**（`draw.ts` の `leavesRoom`）：候補の `requires` が名指しする未抽選の項目、髪の長さ→髪型、ポーズ→持ち物、特徴→獣人の種族。固定した新項目（前髪・ごま塩のひげ・本を見る視線）と食い違う候補を先に選ぶ行き詰まりを防ぐ。
+- **辞書の更新のお知らせ**：`bpg:v1:dictSeen`（確認した版）。除外の設定がある項目に `since === DATA_VERSION` の候補があるときだけ出す。除外の設定は書き換えない（`prefs.ts` の `addedIntoExcluded`／`excludeAdded`／`includeAdded`）。
+- **出力の系統**：`settings.pixaiProfile`（`sdxl`／`dit`）・`settings.novelaiProfile`（`v4`／`v5`）。既定は従来の出力。
+- **指標**：`npx vite-node scripts/expansion/metrics.ts -- <出力JSON>`（3モード×固定0〜15項目×250回。行き詰まり率・同じ美形タイプの似通い・「こちらを見る」の割合・項目ごとのエントロピー）。増築前後は `docs/test-artifacts/expansion-metrics-{before,after}.json`。
+- 未確認：PixAI・NovelAI の実機（年齢の表れの強さ・視線・小さな細部・自然文の出力）、iPhone Safari 実機。テーマ5件は「要調整」、候補の保留6件・不採用3件。
 
 ## 8. 次にやること（2026-10-15 時点の未着手）
 

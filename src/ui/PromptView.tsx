@@ -19,7 +19,12 @@ export function PromptView({ forge, actions, prefs }: { forge: ForgeState; actio
   // 出力は辞書・抽選設定のOFFにも依存する（設定を変えたら作り直す）
   const out = useMemo(() => buildPrompt(forge, S.outputTarget), [forge, S.outputTarget, prefs]);
   const main = S.compact ? out.compact : out.positive;
-  const tagMode = S.outputTarget !== 'naturalEnglish' && S.outputTarget !== 'japanese';
+  const pixaiDit = S.outputTarget === 'pixai' && S.pixaiProfile === 'dit';
+  const naiV5 = S.outputTarget === 'novelai' && S.novelaiProfile === 'v5';
+  const tagMode = S.outputTarget !== 'naturalEnglish' && S.outputTarget !== 'japanese' && !pixaiDit;
+  const note = pixaiDit ? 'Tsubaki などの DiT 系モデル向けに、長めの指示を文章で書く形（自然な英文）で出力します。品質タグ・強調は付けません。合わなければ SDXL系（タグ）に戻してください。'
+    : naiV5 ? 'V4.5・V5 向け。品質タグは NovelAI の V5 標準と同じ very aesthetic, masterpiece, no text を末尾に付けます（V4.5 Full の location は背景の指定と重ならないよう付けません）。NovelAI 側の Add Quality Tags がONなら、ここの品質タグはOFFに。'
+    : TARGETS.find((t) => t[0] === S.outputTarget)?.[2];
   const count = tagMode ? `${main.split(',').filter((x) => x.trim()).length}タグ・${main.length}文字` : `${main.length}文字`;
 
   return (
@@ -35,7 +40,19 @@ export function PromptView({ forge, actions, prefs }: { forge: ForgeState; actio
           <button key={id} type="button" class="chip" aria-pressed={S.outputTarget === id} onClick={() => actions.setSettings({ outputTarget: id })}>{label}</button>
         ))}
       </div>
-      <p class="mode-note" style={{ marginTop: '6px' }}>{TARGETS.find((t) => t[0] === S.outputTarget)?.[2]}</p>
+      {S.outputTarget === 'pixai' && (
+        <div class="seg profile-seg" role="group" aria-label="PixAIのモデルの系統">
+          <button type="button" aria-pressed={S.pixaiProfile !== 'dit'} onClick={() => actions.setSettings({ pixaiProfile: 'sdxl' })}>SDXL系（タグ）</button>
+          <button type="button" aria-pressed={S.pixaiProfile === 'dit'} onClick={() => actions.setSettings({ pixaiProfile: 'dit' })}>Tsubaki等（自然文）</button>
+        </div>
+      )}
+      {S.outputTarget === 'novelai' && (
+        <div class="seg profile-seg" role="group" aria-label="NovelAIのモデルの版">
+          <button type="button" aria-pressed={S.novelaiProfile !== 'v5'} onClick={() => actions.setSettings({ novelaiProfile: 'v4' })}>V4（従来）</button>
+          <button type="button" aria-pressed={S.novelaiProfile === 'v5'} onClick={() => actions.setSettings({ novelaiProfile: 'v5' })}>V4.5・V5</button>
+        </div>
+      )}
+      <p class="mode-note" style={{ marginTop: '6px' }}>{note}</p>
 
       <div class="panel">
         <div class="seg" role="group" aria-label="長さ" style={{ marginBottom: '10px' }}>
@@ -62,7 +79,9 @@ export function PromptView({ forge, actions, prefs }: { forge: ForgeState; actio
         )}
         {tagMode && S.outputTarget !== 'genericTags' && (
           <>
-            <label class="toggle"><span>品質タグを先頭に付ける<small>{S.outputTarget === 'pixai' ? 'masterpiece, best quality' : 'best quality, very aesthetic, absurdres'}（よく使われる例。公式の最適化ではありません）</small></span>
+            <label class="toggle"><span>{naiV5 ? '品質タグを末尾に付ける' : '品質タグを先頭に付ける'}<small>{S.outputTarget === 'pixai' ? 'masterpiece, best quality（よく使われる例。公式の最適化ではありません）'
+              : naiV5 ? 'very aesthetic, masterpiece, no text（NovelAI 公式の V4.5 Full・V5 の標準）。NovelAI 側の「品質タグを追加」がONなら重複するので、こちらはOFFに'
+              : 'best quality, very aesthetic, absurdres（NovelAI 公式の V4 Full の品質タグと同じ語。公式は末尾に付けます）'}</small></span>
               <input type="checkbox" checked={S.quality} onChange={(e) => actions.setSettings({ quality: (e.target as HTMLInputElement).checked })} /></label>
             <label class="toggle"><span>美形アンカーを強調する<small>{S.outputTarget === 'pixai' ? '(handsome:1.15) の形' : '{handsome} の形'}</small></span>
               <input type="checkbox" checked={S.emphasis} onChange={(e) => actions.setSettings({ emphasis: (e.target as HTMLInputElement).checked })} /></label>
