@@ -188,7 +188,7 @@ describe('大量抽選（4,200回）', () => {
 });
 
 describe('ロック競合（hard ルールから列挙した100件以上）', () => {
-  it('固定どうしの矛盾は抽選せず、衝突項目・理由・解除候補を返す', { timeout: 300000 }, () => {
+  it('固定どうしの矛盾は抽選せず、衝突項目・理由・解除候補を返す', { timeout: 300000 }, async () => {
     const cases: Array<{ a: [FieldId, string]; b: [FieldId, string]; rule: string }> = [];
     for (const rule of PAIR_RULES) {
       const [fa, fb] = rule.fields;
@@ -212,6 +212,8 @@ describe('ロック競合（hard ルールから列挙した100件以上）', ()
     expect(cases.length).toBeGreaterThanOrEqual(100);
     const failures: string[] = [];
     for (const [i, c] of cases.entries()) {
+      // 長い同期処理でテストランナーとの通信が途切れないよう、ときどき制御を返す
+      if (i % 50 === 0) await new Promise((r) => setImmediate(r));
       const s0 = emptyState(); Object.assign(s0.optionalModules, { glassesEnabled: true, marksEnabled: true, propEnabled: true, unlimitedEnabled: true });
       let s = draw(s0, { seed: 'lc' + i }).state;
       s = cloneState(s);
@@ -238,15 +240,17 @@ describe('ロック競合（hard ルールから列挙した100件以上）', ()
 });
 
 describe('到達可能性', () => {
-  it('全項目の全候補を手動で採用できる（必要なら未固定の関連項目を合わせて引き直す）', { timeout: 300000 }, () => {
+  it('全項目の全候補を手動で採用できる（必要なら未固定の関連項目を合わせて引き直す）', { timeout: 300000 }, async () => {
     const failures: string[] = [];
     let s = emptyState();
     Object.assign(s.optionalModules, { kemonoEnabled: true, facialHairEnabled: true, hairAccentEnabled: true, glassesEnabled: true, marksEnabled: true, propEnabled: true, unlimitedEnabled: true, cosplayEnabled: true });
     s = draw(s, { seed: 'reach' }).state;
     // 獣人モード中は「尖った人の耳」は獣の耳と両立しない（hard）。モードOFFの状態で確認する。
     const humanEars = cloneState(s); humanEars.optionalModules.kemonoEnabled = false;
+    let n = 0;
     for (const f of FIELDS) {
       for (const o of f.options) {
+        if (n++ % 100 === 0) await new Promise((r) => setImmediate(r));
         // 衣装の兎耳も獣の耳と両立しないので、同じく獣人OFFで確認する
         const from = (f.id === 'marks' && o.id === 'pointy_ears') || (f.id === 'outfit' && o.tags?.includes('f_ears')) ? humanEars : s;
         const r = adopt(from, f.id, o.id, false, { seed: `${f.id}:${o.id}` });
